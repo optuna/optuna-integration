@@ -1,0 +1,6 @@
+[run]
+concurrency = multiprocessing,thread
+source = optuna
+
+[report]
+include_namespace_packages = true
