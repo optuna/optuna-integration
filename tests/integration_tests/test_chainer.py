@@ -10,7 +10,7 @@ from optuna.testing.pruners import DeterministicPruner
 import pytest
 
 import optuna
-from optuna.integration.chainer import ChainerPruningExtension
+from optuna.integration import ChainerPruningExtension
 
 
 with try_import() as _imports:
