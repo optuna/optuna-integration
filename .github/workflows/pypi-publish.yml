@@ -24,10 +24,10 @@ jobs:
       with:
         python-version: 3.8
 
-    - name: Install twine
+    - name: Install twine and build
       run: |
         python -m pip install -U pip
-        python -m pip install -U twine wheel
+        python -m pip install -U twine build
 
     # TODO(gen740): Syncronize optuna-integration version with publish.
     # - name: Change the version file for scheduled TestPyPI upload
@@ -39,8 +39,7 @@ jobs:
 
     - name: Build a tar ball
       run: |
-        python setup.py sdist
-        python setup.py bdist_wheel
+        python -m build --sdist
 
     - name: Verify the distributions
       run: twine check dist/*
@@ -50,7 +49,7 @@ jobs:
       if: (github.event_name == 'schedule') || (github.event_name == 'release')
       uses: pypa/gh-action-pypi-publish@v1.1.0
       with:
-        user: __token__
+        user: ${{ secrets.test_pypi_username }}
         password: ${{ secrets.test_pypi_password }}
         repository_url: https://test.pypi.org/legacy/
 
