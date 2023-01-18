@@ -27,10 +27,17 @@ classifiers = [
   "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dynamic = ["version"]
+dependencies = [
+  "chainer>=5.0.0",
+  # TODO(gen740): Add optuna dependencies.
+  # "optuna",
+]
+
+[project.optional-dependencies]
+test = ["pytest"]
 
 [tool.setuptools.packages.find]
 where = ["."]
-exclude = ["tests", "tests.*", "benchmarks"]
 
 [tool.black]
 line-length = 99
