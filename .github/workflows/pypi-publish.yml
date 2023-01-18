@@ -39,7 +39,7 @@ jobs:
 
     - name: Build a tar ball
       run: |
-        python -m build --sdist
+        python -m build
 
     - name: Verify the distributions
       run: twine check dist/*
