@@ -1,0 +1,64 @@
+name: Publish distributions to PyPI or TestPyPI
+
+# TestPyPI upload is scheduled in each weekday.
+# PyPI upload is only activated if the release is published.
+on:
+  schedule:
+    - cron: '0 15 * * *'
+  release:
+    types:
+      - published
+
+jobs:
+  build-n-publish:
+    name: Build and publish Python distributions to PyPI or TestPyPI
+    runs-on: ubuntu-18.04
+
+    # Not intended for forks.
+    if: github.repository == 'gen740/optuna-integration'
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Install twine
+      run: |
+        python -m pip install -U pip
+        python -m pip install -U twine wheel
+
+    # TODO(gen740): Syncronize optuna-integration version with publish.
+    # - name: Change the version file for scheduled TestPyPI upload
+    #   if: github.event_name == 'schedule'
+    #   run: |
+    #     OPTUNA_VERSION=$(cut -d '"' -f 2 optuna/version.py)
+    #     DATE=`date +"%Y%m%d"`
+    #     echo "__version__ = \"${OPTUNA_VERSION}${DATE}\"" > optuna/version.py
+
+    - name: Build a tar ball
+      run: |
+        python setup.py sdist
+        python setup.py bdist_wheel
+
+    - name: Verify the distributions
+      run: twine check dist/*
+
+    - name: Publish distribution to TestPyPI
+      # The following upload action cannot be executed in the forked repository.
+      if: (github.event_name == 'schedule') || (github.event_name == 'release')
+      uses: pypa/gh-action-pypi-publish@v1.1.0
+      with:
+        user: __token__
+        password: ${{ secrets.test_pypi_password }}
+        repository_url: https://test.pypi.org/legacy/
+
+    # TODO(gen740): Uncomment
+    # - name: Publish distribution to PyPI
+    #   # The following upload action cannot be executed in the forked repository.
+    #   if: github.event_name == 'release'
+    #   uses: pypa/gh-action-pypi-publish@v1.1.0
+    #   with:
+    #     user: __token__
+    #     password: ${{ secrets.pypi_password }}
