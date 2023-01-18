@@ -47,6 +47,7 @@ checking = [
   "types-setuptools",
   "typing_extensions>=3.10.0.0",
 ]
+integration = ["chainer>=5.0.0"]
 
 [tool.setuptools.packages.find]
 where = ["."]
