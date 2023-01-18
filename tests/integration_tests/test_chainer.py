@@ -5,12 +5,12 @@ from unittest.mock import Mock
 from unittest.mock import patch
 
 import numpy as np
+from optuna._imports import try_import
+from optuna.testing.pruners import DeterministicPruner
 import pytest
 
 import optuna
-from optuna._imports import try_import
 from optuna.integration.chainer import ChainerPruningExtension
-from optuna.testing.pruners import DeterministicPruner
 
 
 with try_import() as _imports:

@@ -30,11 +30,23 @@ dynamic = ["version"]
 dependencies = [
   "chainer>=5.0.0",
   # TODO(gen740): Add optuna dependencies.
-  # "optuna",
+  "optuna @ git+https://github.com/gen740/optuna.git@optuna_integration_master"
 ]
+
 
 [project.optional-dependencies]
 test = ["pytest"]
+checking = [
+  "black",
+  "blackdoc",
+  "hacking",
+  "isort",
+  "mypy",
+  "types-PyYAML",
+  "types-redis",
+  "types-setuptools",
+  "typing_extensions>=3.10.0.0",
+]
 
 [tool.setuptools.packages.find]
 where = ["."]
