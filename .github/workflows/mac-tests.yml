@@ -42,41 +42,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-3.8-${{ env.cache-name }}-${{ hashFiles('**/setup.py') }}
 
-    - name: Install
-      run: |
-        python -m pip install --upgrade pip
-        pip install --progress-bar off -U setuptools
-        pip install --progress-bar off .
-        pip install --progress-bar off .[test]
-
-    - name: Tests
-      run: |
-        pytest tests -m "not integration"
-
-  tests-integration-mac:
-    runs-on: macos-latest
-
-    # Not intended for forks.
-    if: github.repository == 'gen740/optuna-integration'
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-
-    - name: Setup Python3.8
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.8
-
-    - name: Setup cache
-      uses: actions/cache@v2
-      env:
-        cache-name: test-integration
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-3.8-${{ env.cache-name }}-${{ hashFiles('**/setup.py') }}-v1
-        restore-keys: |
-          ${{ runner.os }}-3.8-${{ env.cache-name }}-${{ hashFiles('**/setup.py') }}
-
     - name: Setup mac environment
       run: |
         brew install libomp
@@ -95,15 +60,7 @@ jobs:
 
     - name: Tests
       run: |
-        pytest tests -m "integration" --ignore tests/integration_tests/test_pytorch_lightning.py
+        pytest tests -m "integration"
 
-      env:
-        OMP_NUM_THREADS: 1
-
-    - name: Tests MPI
-      run: |
-        export OMPI_MCA_rmaps_base_oversubscribe=yes
-        mpirun -n 2 -- pytest tests/integration_tests/test_chainermn.py
-        mpirun -n 2 -- pytest tests/integration_tests/test_pytorch_distributed.py
       env:
         OMP_NUM_THREADS: 1
