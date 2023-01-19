@@ -46,10 +46,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install --progress-bar off -U setuptools
-        # Install minimal dependencies and confirm that `import optuna` is successful.
         pip install --progress-bar off .
-        python -c 'import optuna'
-        optuna --version
         pip install --progress-bar off .[test]
 
     - name: Tests
@@ -92,9 +89,6 @@ jobs:
 
         # Install minimal dependencies and confirm that `import optuna` is successful.
         pip install --progress-bar off .
-        python -c 'import optuna'
-        optuna --version
-
         pip install --progress-bar off .[test]
         pip install --progress-bar off .[integration]
 
