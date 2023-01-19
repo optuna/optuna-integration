@@ -27,15 +27,13 @@ classifiers = [
   "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dynamic = ["version"]
-dependencies = [
-  # "chainer>=5.0.0",
-  # TODO(gen740): Add optuna dependencies.
-]
+dependencies = []
 
 
 [project.optional-dependencies]
-test = ["pytest", "codecov"]
-optional = [
+test = [
+  "pytest",
+  "codecov",
   "optuna @ git+https://github.com/gen740/optuna.git@optuna_integration_master",
 ]
 checking = [

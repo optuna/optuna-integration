@@ -1,4 +1,4 @@
-name: Tests (Integration)
+name: Tests
 
 on:
   push:
@@ -14,8 +14,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  tests-integration:
-    if: (github.event_name == 'schedule' && github.repository == 'optuna/optuna') || (github.event_name != 'schedule')
+  tests:
+    if: (github.event_name == 'schedule' && github.repository == 'gen740/optuna-integration') || (github.event_name != 'schedule')
     runs-on: ubuntu-latest
 
     strategy:
@@ -34,7 +34,7 @@ jobs:
     - name: Setup cache
       uses: actions/cache@v3
       env:
-        cache-name: test-integration
+        cache-name: test
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-${{ matrix.python-version }}-${{ env.cache-name }}-${{ hashFiles('**/setup.py') }}-v1
@@ -51,7 +51,6 @@ jobs:
         python -m pip install --upgrade pip
 
         pip install --progress-bar off .[test]
-        pip install --progress-bar off .[optional]
         pip install --progress-bar off .[integration] --extra-index-url https://download.pytorch.org/whl/cpu
 
     - name: Scheduled tests
