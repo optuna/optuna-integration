@@ -44,8 +44,7 @@ jobs:
       run: flake8 .
     - name: isort
       run: isort . --check --diff
-    # TODO(gen740): Uncomment this check after checking workflows.
-    # - name: mypy
-      # run: mypy . --warn-unused-ignores
+    - name: mypy
+      run: mypy . --warn-unused-ignores
     - name: blackdoc
       run: blackdoc . --check --diff
