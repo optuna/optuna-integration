@@ -29,13 +29,12 @@ jobs:
         python -m pip install -U pip
         python -m pip install -U twine build
 
-    # TODO(gen740): Syncronize optuna-integration version with publish.
-    # - name: Change the version file for scheduled TestPyPI upload
-    #   if: github.event_name == 'schedule'
-    #   run: |
-    #     OPTUNA_VERSION=$(cut -d '"' -f 2 optuna/version.py)
-    #     DATE=`date +"%Y%m%d"`
-    #     echo "__version__ = \"${OPTUNA_VERSION}${DATE}\"" > optuna/version.py
+    - name: Change the version file for scheduled TestPyPI upload
+      if: github.event_name == 'schedule'
+      run: |
+        OPTUNA_VERSION=$(cut -d '"' -f 2 optuna/integration/version.py)
+        DATE=`date +"%Y%m%d"`
+        echo "__version__ = \"${OPTUNA_VERSION}${DATE}\"" > optuna/version.py
 
     - name: Build a tar ball
       run: |
