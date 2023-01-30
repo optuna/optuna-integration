@@ -5,7 +5,7 @@
 [![conda](https://img.shields.io/conda/vn/conda-forge/optuna.svg)](https://anaconda.org/conda-forge/optuna-integration)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/optuna/optuna-integration)
 [![Read the Docs](https://readthedocs.org/projects/optuna/badge/?version=stable)](https://optuna.readthedocs.io/en/stable/)
-[![Codecov](https://codecov.io/gh/optuna/optuna-integration/branch/master/graph/badge.svg)](https://codecov.io/gh/gen740/optuna-integration/branch/master)
+[![Codecov](https://codecov.io/gh/optuna/optuna-integration/branch/master/graph/badge.svg)](https://codecov.io/gh/optuna/optuna-integration/branch/master)
 
 *Optuna-Integration* is an integration module of [Optuna](https://github.com/optuna/optuna).
 

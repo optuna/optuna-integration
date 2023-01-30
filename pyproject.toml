@@ -34,7 +34,7 @@ dynamic = ["version"]
 test = [
   "pytest",
   "codecov",
-  "optuna @ git+https://github.com/gen740/optuna.git@optuna_integration_master",
+  "optuna",
 ]
 checking = [
   "black",
