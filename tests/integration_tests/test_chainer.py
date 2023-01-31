@@ -22,8 +22,6 @@ with try_import() as _imports:
 if not _imports.is_successful():
     DatasetMixin = object  # NOQA
 
-pytestmark = pytest.mark.integration
-
 
 class FixedValueDataset(DatasetMixin):
 
