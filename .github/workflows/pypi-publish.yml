@@ -34,7 +34,7 @@ jobs:
       run: |
         OPTUNA_VERSION=$(cut -d '"' -f 2 optuna/integration/version.py)
         DATE=`date +"%Y%m%d"`
-        echo "__version__ = \"${OPTUNA_VERSION}${DATE}\"" > optuna/version.py
+        echo "__version__ = \"${OPTUNA_VERSION}${DATE}\"" > optuna/integration/version.py
 
     - name: Build a tar ball
       run: |
@@ -46,17 +46,16 @@ jobs:
     - name: Publish distribution to TestPyPI
       # The following upload action cannot be executed in the forked repository.
       if: (github.event_name == 'schedule') || (github.event_name == 'release')
-      uses: pypa/gh-action-pypi-publish@v1.1.0
+      uses: pypa/gh-action-pypi-publish@release/v1
       with:
         user: __token__
         password: ${{ secrets.test_pypi_password }}
         repository_url: https://test.pypi.org/legacy/
 
-    # TODO(gen740): Uncomment
-    # - name: Publish distribution to PyPI
-    #   # The following upload action cannot be executed in the forked repository.
-    #   if: github.event_name == 'release'
-    #   uses: pypa/gh-action-pypi-publish@v1.1.0
-    #   with:
-    #     user: __token__
-    #     password: ${{ secrets.pypi_password }}
+    - name: Publish distribution to PyPI
+      # The following upload action cannot be executed in the forked repository.
+      if: github.event_name == 'release'
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        user: __token__
+        password: ${{ secrets.pypi_password }}
