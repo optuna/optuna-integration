@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   tests:
-    if: (github.event_name == 'schedule' && github.repository == 'optuna/optuna-integration') || (github.event_name != 'schedule')
+    if: (github.event_name == 'schedule' && github.repository == 'gen740/optuna-integration') || (github.event_name != 'schedule')
     runs-on: ubuntu-latest
 
     strategy:
