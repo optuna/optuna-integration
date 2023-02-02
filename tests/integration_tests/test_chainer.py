@@ -24,20 +24,16 @@ if not _imports.is_successful():
 
 
 class FixedValueDataset(DatasetMixin):
-
     size = 16
 
     def __len__(self) -> int:
-
         return self.size
 
     def get_example(self, i: int) -> typing.Tuple[np.ndarray, np.signedinteger]:
-
         return np.array([1.0], np.float32), np.intc(0)
 
 
 def test_chainer_pruning_extension_trigger() -> None:
-
     study = optuna.create_study()
     trial = study.ask()
 
@@ -69,7 +65,6 @@ def test_chainer_pruning_extension_trigger() -> None:
 def test_chainer_pruning_extension() -> None:
     @typing.no_type_check
     def objective(trial: optuna.trial.Trial) -> float:
-
         model = L.Classifier(chainer.Sequential(L.Linear(None, 2)))
         optimizer = chainer.optimizers.Adam()
         optimizer.setup(model)
@@ -95,7 +90,6 @@ def test_chainer_pruning_extension() -> None:
 
 
 def test_chainer_pruning_extension_observation_nan() -> None:
-
     study = optuna.create_study(pruner=DeterministicPruner(True))
     trial = study.ask()
     extension = ChainerPruningExtension(trial, "main/loss", (1, "epoch"))
@@ -111,7 +105,6 @@ def test_chainer_pruning_extension_observation_nan() -> None:
 
 
 def test_observation_exists() -> None:
-
     study = optuna.create_study()
     trial = study.ask()
     MockTrainer = namedtuple("MockTrainer", ("observation",))
@@ -141,7 +134,6 @@ def test_observation_exists() -> None:
 
 
 def test_get_float_value() -> None:
-
     assert 1.0 == ChainerPruningExtension._get_float_value(1.0)
     assert 1.0 == ChainerPruningExtension._get_float_value(
         chainer.Variable(np.array([1.0]))  # type: ignore[attr-defined]
