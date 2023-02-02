@@ -51,7 +51,7 @@ jobs:
         python -m pip install --upgrade pip
 
         pip install --progress-bar off .[test]
-        pip install --progress-bar off .[integration] --extra-index-url https://download.pytorch.org/whl/cpu
+        pip install --progress-bar off .[integration]
 
     - name: Scheduled tests
       if:  ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
