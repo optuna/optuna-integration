@@ -1,5 +1,5 @@
 name: "\U0001F4A1Feature request"
-description: Suggest an idea for Optuna.
+description: Suggest an idea for Optuna Integration.
 labels: ["feature"]
 body:
   - type: markdown

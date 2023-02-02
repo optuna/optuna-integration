@@ -1,5 +1,5 @@
 name: "\U0001F41BBug report"
-description: Create a report to help us improve Optuna.
+description: Create a report to help us improve Optuna Integration.
 labels: ["bug"]
 body:
   - type: markdown
@@ -21,11 +21,13 @@ body:
         Please give us your environment information. You can get this information by typing the following.
         ```
         python3 -c 'import optuna; print(f"- Optuna version:{optuna.__version__}")'
+        python3 -c 'import optuna.integration.version; print(f"- Optuna Integration version:{optuna.integration.version.__version__}")'
         python3 -c 'import platform; print(f"- Python version:{platform.python_version()}")'
         python3 -c 'import platform; print(f"- OS:{platform.platform()}")'
         ```
       value: |
         - Optuna version:
+        - Optuna Integration version:
         - Python version:
         - OS:
         - (Optional) Other libraries and their versions:
