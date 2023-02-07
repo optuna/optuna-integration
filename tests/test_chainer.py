@@ -20,7 +20,7 @@ with try_import() as _imports:
     from chainer.training import triggers
 
 if not _imports.is_successful():
-    DatasetMixin = object  # NOQA
+    DatasetMixin = object  # type: ignore[misc, assignment] # NOQA
 
 
 class FixedValueDataset(DatasetMixin):
