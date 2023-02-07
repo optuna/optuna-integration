@@ -30,8 +30,21 @@ Optuna supports Python 3.7 or newer.
 
 Also, we also provide Optuna docker images on [DockerHub](https://hub.docker.com/r/optuna/optuna).
 
+## Communication
+
+- [GitHub Discussions] for questions.
+- [GitHub Issues] for bug reports and feature requests.
+
+[GitHub Discussions]: https://github.com/optuna/optuna-integration/discussions
+[GitHub issues]: https://github.com/optuna/optuna-integration/issues
+
 ## Contribution
 
 Any contributions to Optuna-Integration are more than welcome!
 
 For general guidelines how to contribute to the project, take a look at [CONTRIBUTING.md](./CONTRIBUTING.md).
+
+## Reference
+
+Takuya Akiba, Shotaro Sano, Toshihiko Yanase, Takeru Ohta, and Masanori Koyama. 2019.
+Optuna: A Next-generation Hyperparameter Optimization Framework. In KDD ([arXiv](https://arxiv.org/abs/1907.10902)).
