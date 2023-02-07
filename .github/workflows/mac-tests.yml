@@ -55,7 +55,7 @@ jobs:
         # Install minimal dependencies and confirm that `import optuna` is successful.
         pip install --progress-bar off .
         pip install --progress-bar off .[test]
-        pip install --progress-bar off .[integration]
+        pip install --progress-bar off .[all]
 
 
     - name: Tests

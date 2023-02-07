@@ -51,7 +51,7 @@ jobs:
         python -m pip install --upgrade pip
 
         pip install --progress-bar off .[test]
-        pip install --progress-bar off .[integration]
+        pip install --progress-bar off .[all]
 
     - name: Scheduled tests
       if:  ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}

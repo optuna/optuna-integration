@@ -47,7 +47,7 @@ jobs:
         python -m pip install --upgrade pip
 
         pip install --progress-bar off .[test]
-        pip install --progress-bar off .[integration]
+        pip install --progress-bar off .[all]
 
         echo 'import coverage; coverage.process_startup()' > sitecustomize.py
 
