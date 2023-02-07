@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools", "setuptools_scm"]
+requires = ["setuptools >= 61.1.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -51,6 +51,7 @@ all = ["chainer>=5.0.0"]
 
 [tool.setuptools.packages.find]
 where = ["."]
+include = ["optuna.*"]
 
 [tool.setuptools.dynamic]
 version = {attr = "optuna.integration.version.__version__"}
