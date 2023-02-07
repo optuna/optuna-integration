@@ -1,5 +1,5 @@
 # Run tests and integration tests on Mac, which are triggered by each master push.
-# Currently, Python3.8 is only used as an environment.
+# Currently, Python3.10 is only used as an environment.
 # This is mainly for the sake of speed.
 name: mac-tests
 
@@ -27,10 +27,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Setup Python3.8
+    - name: Setup Python3.10
       uses: actions/setup-python@v4
       with:
-        python-version: 3.8
+        python-version: "3.10"
 
     - name: Setup cache
       uses: actions/cache@v2
@@ -38,9 +38,9 @@ jobs:
         cache-name: test
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-3.8-${{ env.cache-name }}-${{ hashFiles('**/pyproject.toml') }}-v1
+        key: ${{ runner.os }}-3.10-${{ env.cache-name }}-${{ hashFiles('**/pyproject.toml') }}-v1
         restore-keys: |
-          ${{ runner.os }}-3.8-${{ env.cache-name }}-${{ hashFiles('**/pyproject.toml') }}
+          ${{ runner.os }}-3.10-${{ env.cache-name }}-${{ hashFiles('**/pyproject.toml') }}
 
     - name: Setup mac environment
       run: |
