@@ -10,7 +10,7 @@
 *Optuna-Integration* is an integration module of [Optuna](https://github.com/optuna/optuna).
 
 ## Integrations
-* [Chainer](https://github.com/optuna/optuna-examples/tree/main/chainer/chainer_integration.py)
+* [Chainer](https://optuna.readthedocs.io/en/stable/reference/integration.html#chainer)  ([example](https://github.com/optuna/optuna-examples/tree/main/chainer/chainer_integration.py))
 
 ## Installation
 
