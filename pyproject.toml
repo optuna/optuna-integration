@@ -27,13 +27,11 @@ classifiers = [
 ]
 dynamic = ["version"]
 
-
-
 [project.optional-dependencies]
 test = [
   "pytest",
   "codecov",
-  "optuna",
+  "optuna_integration",
 ]
 checking = [
   "black",
@@ -49,11 +47,11 @@ checking = [
 all = ["chainer>=5.0.0"]
 
 [tool.setuptools.packages.find]
-where = ["."]
-include = ["optuna.*"]
+# where = ["."]
+include = ["optuna_integration*"]
 
 [tool.setuptools.dynamic]
-version = {attr = "optuna.integration.version.__version__"}
+version = {attr = "optuna_integration.version.__version__"}
 
 [tool.black]
 line-length = 99
@@ -75,7 +73,7 @@ exclude = '''
 
 [tool.isort]
 profile = 'black'
-src_paths = ['optuna', 'tests']
+src_paths = ['optuna_integration', 'tests']
 line_length = 99
 lines_after_imports = 2
 force_single_line = 'True'
@@ -84,7 +82,6 @@ order_by_type = 'False'
 
 [tool.pytest.ini_options]
 addopts = "--color=yes"
-filterwarnings = 'ignore::optuna.exceptions.ExperimentalWarning'
 markers = [
   "skip_coverage: marks tests are skipped when calculating the coverage",
   "slow: marks tests as slow (deselect with '-m \"not slow\"')",
