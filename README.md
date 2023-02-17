@@ -26,7 +26,7 @@ $ pip install optuna-integration
 $ conda install -c conda-forge optuna-integration
 ```
 
-Optuna supports Python 3.7 or newer.
+Optuna-Integration supports Python 3.7 or newer.
 
 Also, we also provide Optuna docker images on [DockerHub](https://hub.docker.com/r/optuna/optuna).
 

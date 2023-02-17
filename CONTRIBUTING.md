@@ -31,7 +31,7 @@ If you feel like giving a hand, here are some ways:
 
 If you make a pull request, please follow the guidelines below:
 
-- [Setup Optuna Integration](#setup-optuna-integration)
+- [Setup Optuna-Integration](#setup-optuna-integration)
 - [Checking the Format, Coding Style, and Type Hints](#checking-the-format-coding-style-and-type-hints)
 - [Documentation](#documentation)
 - [Unit Tests](#unit-tests)
@@ -114,7 +114,7 @@ See also the [Optuna Test Policy](https://github.com/optuna/optuna/wiki/Test-Pol
 
 ### Continuous Integration and Local Verification
 
-Optuna Integration repository uses GitHub Actions.
+Optuna-Integration repository uses GitHub Actions.
 
 ### Creating a Pull Request
 
