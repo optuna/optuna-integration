@@ -114,7 +114,7 @@ See also the [Optuna Test Policy](https://github.com/optuna/optuna/wiki/Test-Pol
 
 ### Continuous Integration and Local Verification
 
-Optuna repository uses GitHub Actions.
+Optuna Integration repository uses GitHub Actions.
 
 ### Creating a Pull Request
 
