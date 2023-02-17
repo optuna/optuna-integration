@@ -46,12 +46,10 @@ Detailed conventions and policies to write, test, and maintain Optuna code are d
 
 ### Setup Optuna-Integration
 
-Currently, optuna-integration does not work with editable installation.
-
 ```bash
 git clone git@github.com:YOUR_NAME/optuna-integration.git
 cd optuna-integration
-pip install .
+pip install -e .
 ```
 
 ### Checking the Format, Coding Style, and Type Hints
