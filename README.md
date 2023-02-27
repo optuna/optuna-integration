@@ -1,10 +1,10 @@
 # Optuna-Integration: Integration module of [Optuna](https://github.com/optuna/optuna)
 
-[![Python](https://img.shields.io/badge/python-3.7%20%7C%203.8%20%7C%203.9%20%7C%203.10%20%7C%203.11-blue)](https://www.python.org)
-[![pypi](https://img.shields.io/pypi/v/optuna.svg)](https://pypi.python.org/pypi/optuna-integration)
-[![conda](https://img.shields.io/conda/vn/conda-forge/optuna.svg)](https://anaconda.org/conda-forge/optuna-integration)
+[![Python](https://img.shields.io/badge/python-3.7%20%7C%203.8%20%7C%203.9%20%7C%203.10)](https://www.python.org)
+<!-- [![pypi](https://img.shields.io/pypi/v/optuna.svg)](https://pypi.python.org/pypi/optuna-integration) -->
+<!-- [![conda](https://img.shields.io/conda/vn/conda-forge/optuna.svg)](https://anaconda.org/conda-forge/optuna-integration) -->
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/optuna/optuna-integration)
-[![Read the Docs](https://readthedocs.org/projects/optuna/badge/?version=stable)](https://optuna.readthedocs.io/en/stable/)
+<!-- [![Read the Docs](https://readthedocs.org/projects/optuna/badge/?version=stable)](https://optuna.readthedocs.io/en/stable/) -->
 [![Codecov](https://codecov.io/gh/optuna/optuna-integration/branch/master/graph/badge.svg)](https://codecov.io/gh/optuna/optuna-integration/branch/master)
 
 *Optuna-Integration* is an integration module of [Optuna](https://github.com/optuna/optuna).
@@ -13,7 +13,7 @@ integrated with many useful tools like PyTorch, sklearn, TensorFlow, etc.
 
 ## Integrations
 
-Optuna-Integration API reference isl [here](https://optuna.readthedocs.io/en/stable/reference/integration.html).
+Optuna-Integration API reference is [here](https://optuna.readthedocs.io/en/stable/reference/integration.html).
 
 * [Chainer](https://optuna.readthedocs.io/en/stable/reference/integration.html#chainer)  ([example](https://github.com/optuna/optuna-examples/tree/main/chainer/chainer_integration.py))
 
