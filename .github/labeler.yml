@@ -1,2 +1,2 @@
 optuna.integration.chainer:
-  - optuna/integration/chainer.py
+  - optuna_integration/chainer.py
