@@ -9,7 +9,7 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    if: github.repository == 'gen740/optuna-integration'
+    if: github.repository == 'optuna/optuna-integration'
     steps:
     - uses: actions/stale@v6
       with:
