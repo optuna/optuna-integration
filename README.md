@@ -8,8 +8,13 @@
 [![Codecov](https://codecov.io/gh/optuna/optuna-integration/branch/master/graph/badge.svg)](https://codecov.io/gh/optuna/optuna-integration/branch/master)
 
 *Optuna-Integration* is an integration module of [Optuna](https://github.com/optuna/optuna).
+You can use Optuna, an automatic Hyperparameter optimization software framework,
+integrated with many useful tools like PyTorch, sklearn, TensorFlow, etc.
 
 ## Integrations
+
+Optuna-Integration API reference isl [here](https://optuna.readthedocs.io/en/stable/reference/integration.html).
+
 * [Chainer](https://optuna.readthedocs.io/en/stable/reference/integration.html#chainer)  ([example](https://github.com/optuna/optuna-examples/tree/main/chainer/chainer_integration.py))
 
 ## Installation

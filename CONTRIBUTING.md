@@ -130,7 +130,7 @@ First, the **title** of your pull request should:
 
 For example:
 
-- Introduces Tree-structured Parzen Estimator to `optuna.samplers`
+- Support multi-objective optimization in MLflowCallback.
 
 Second, the **description** of your pull request should:
 
