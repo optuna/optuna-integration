@@ -1,14 +1,14 @@
-# Optuna-Integration: Integration module of [Optuna](https://github.com/optuna/optuna)
+# Optuna-Integration
 
-[![Python](https://img.shields.io/badge/python-3.7%20%7C%203.8%20%7C%203.9%20%7C%203.10)](https://www.python.org)
+[![Python](https://img.shields.io/badge/python-3.7%20%7C%203.8%20%7C%203.9%20%7C%203.10-blue)](https://www.python.org)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/optuna/optuna-integration)
+[![Codecov](https://codecov.io/gh/optuna/optuna-integration/branch/master/graph/badge.svg)](https://codecov.io/gh/optuna/optuna-integration/branch/master)
 <!-- [![pypi](https://img.shields.io/pypi/v/optuna.svg)](https://pypi.python.org/pypi/optuna-integration) -->
 <!-- [![conda](https://img.shields.io/conda/vn/conda-forge/optuna.svg)](https://anaconda.org/conda-forge/optuna-integration) -->
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/optuna/optuna-integration)
 <!-- [![Read the Docs](https://readthedocs.org/projects/optuna/badge/?version=stable)](https://optuna.readthedocs.io/en/stable/) -->
-[![Codecov](https://codecov.io/gh/optuna/optuna-integration/branch/master/graph/badge.svg)](https://codecov.io/gh/optuna/optuna-integration/branch/master)
 
 *Optuna-Integration* is an integration module of [Optuna](https://github.com/optuna/optuna).
-You can use Optuna, an automatic Hyperparameter optimization software framework,
+This package allows us to use Optuna, an automatic Hyperparameter optimization software framework,
 integrated with many useful tools like PyTorch, sklearn, TensorFlow, etc.
 
 ## Integrations
@@ -31,7 +31,7 @@ $ pip install optuna-integration
 $ conda install -c conda-forge optuna-integration
 ```
 
-Optuna-Integration supports Python 3.7 or newer.
+Optuna-Integration supports from Python 3.7 to Python 3.10.
 
 Also, we also provide Optuna docker images on [DockerHub](https://hub.docker.com/r/optuna/optuna).
 
