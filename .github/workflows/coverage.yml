@@ -16,7 +16,8 @@ jobs:
     runs-on: ubuntu-latest
 
     # Not intended for forks.
-    if: github.repository == 'optuna/optuna-integration'
+    # TODO(gen740): revert
+    if: github.repository == 'gen740/optuna-integration'
 
     steps:
     - name: Checkout
