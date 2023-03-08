@@ -6,8 +6,6 @@ from typing import Dict
 from typing import Optional
 from typing import Type
 
-import pytest
-
 from optuna import create_study
 from optuna import distributions
 from optuna import integration
@@ -23,6 +21,7 @@ from optuna.storages import RDBStorage
 from optuna.testing.pruners import DeterministicPruner
 from optuna.testing.storages import StorageSupplier
 from optuna.trial import TrialState
+import pytest
 
 
 try:
