@@ -44,6 +44,10 @@ checking = [
   "types-setuptools",
   "typing_extensions>=3.10.0.0",
 ]
+document = [
+    "sphinx",
+    "sphinx_rtd_theme",
+]
 all = ["chainer>=5.0.0"]
 
 [tool.setuptools.packages.find]
