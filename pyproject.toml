@@ -31,6 +31,7 @@ dynamic = ["version"]
 test = [
   "pytest",
   "codecov",
+  "fakeredis[lua]",
   "optuna",
 ]
 checking = [
@@ -44,7 +45,10 @@ checking = [
   "types-setuptools",
   "typing_extensions>=3.10.0.0",
 ]
-all = ["chainer>=5.0.0"]
+all = [
+  "chainer>=5.0.0",
+  "mpi4py",
+]
 
 [tool.setuptools.packages.find]
 # where = ["."]
