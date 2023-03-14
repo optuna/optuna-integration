@@ -12,8 +12,6 @@ from optuna import integration
 from optuna import pruners
 from optuna import Study
 from optuna import TrialPruned
-from optuna.integration.chainermn import ChainerMNStudy
-from optuna.integration.chainermn import ChainerMNTrial
 from optuna.pruners import BasePruner
 from optuna.storages import BaseStorage
 from optuna.storages import InMemoryStorage
@@ -22,6 +20,9 @@ from optuna.testing.pruners import DeterministicPruner
 from optuna.testing.storages import StorageSupplier
 from optuna.trial import TrialState
 import pytest
+
+from optuna_integration.chainermn import ChainerMNStudy
+from optuna_integration.chainermn import ChainerMNTrial
 
 
 try:
