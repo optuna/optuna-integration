@@ -19,10 +19,6 @@
 import pkg_resources
 import warnings
 
-import plotly.io as pio
-from sklearn.exceptions import ConvergenceWarning
-from sphinx_gallery.sorting import FileNameSortKey
-
 __version__ = pkg_resources.get_distribution("optuna").version
 
 # -- Project information -----------------------------------------------------
