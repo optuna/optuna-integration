@@ -25,13 +25,15 @@ classifiers = [
   "Topic :: Software Development :: Libraries",
   "Topic :: Software Development :: Libraries :: Python Modules",
 ]
+dependencies = [
+  "optuna",
+]
 dynamic = ["version"]
 
 [project.optional-dependencies]
 test = [
   "pytest",
   "codecov",
-  "optuna",
 ]
 checking = [
   "black",
