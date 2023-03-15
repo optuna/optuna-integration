@@ -19,7 +19,7 @@
 import pkg_resources
 import warnings
 
-__version__ = pkg_resources.get_distribution("optuna_integration").version
+__version__ = pkg_resources.get_distribution("optuna-integration").version
 
 # -- Project information -----------------------------------------------------
 
@@ -186,4 +186,3 @@ autodoc_default_options = {
 
 # sphinx_copybutton option to not copy prompt.
 copybutton_prompt_text = "$ "
-
