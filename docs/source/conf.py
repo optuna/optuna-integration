@@ -51,10 +51,6 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
     "sphinx.ext.githubpages",
-    "sphinx_copybutton",
-    "sphinx_gallery.gen_gallery",
-    "matplotlib.sphinxext.plot_directive",
-    "sphinx_plotly_directive",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -183,6 +179,3 @@ autodoc_default_options = {
     "inherited-members": True,
     "exclude-members": "with_traceback",
 }
-
-# sphinx_copybutton option to not copy prompt.
-copybutton_prompt_text = "$ "
