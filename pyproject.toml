@@ -34,11 +34,7 @@ dynamic = ["version"]
 test = [
   "pytest",
   "codecov",
-<<<<<<< HEAD
-=======
   "fakeredis[lua]",
-  "optuna",
->>>>>>> 48904d4b356ba4016e8bb0cd8806da6b6dcafa70
 ]
 checking = [
   "black",
@@ -51,18 +47,14 @@ checking = [
   "types-setuptools",
   "typing_extensions>=3.10.0.0",
 ]
-<<<<<<< HEAD
 document = [
     "sphinx",
     "sphinx_rtd_theme",
 ]
-all = ["chainer>=5.0.0"]
-=======
 all = [
   "chainer>=5.0.0",
   "mpi4py",
 ]
->>>>>>> 48904d4b356ba4016e8bb0cd8806da6b6dcafa70
 
 [tool.setuptools.packages.find]
 # where = ["."]
