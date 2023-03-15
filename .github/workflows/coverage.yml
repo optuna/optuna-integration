@@ -61,6 +61,18 @@ jobs:
         coverage run --source=optuna -m pytest tests -m "not skip_coverage and not slow"
         coverage combine
         coverage xml
+    
+     - name: Multi-node tests
+      env:
+        OMP_NUM_THREADS: 1
+        PYTHONPATH: .
+        COVERAGE_PROCESS_START: .coveragerc
+        COVERAGE_COVERAGE: yes
+      run: |
+        export OMPI_MCA_rmaps_base_oversubscribe=yes
+        mpirun -n 2 -- coverage run -m pytest tests/test_chainermn.py
+        coverage combine --append
+        coverage xml
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
