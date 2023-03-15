@@ -19,11 +19,11 @@
 import pkg_resources
 import warnings
 
-__version__ = pkg_resources.get_distribution("optuna").version
+__version__ = pkg_resources.get_distribution("optuna-integration").version
 
 # -- Project information -----------------------------------------------------
 
-project = "Optuna"
+project = "Optuna-Integration"
 copyright = "2018, Optuna Contributors"
 author = "Optuna Contributors."
 
