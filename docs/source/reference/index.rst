@@ -1,5 +1,5 @@
 API Reference for Optuna-Integration
-=============
+====================================
 
 
 The Optuna-Integration package contains classes used to integrate Optuna with external machine learning frameworks.

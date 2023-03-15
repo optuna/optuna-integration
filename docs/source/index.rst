@@ -1,7 +1,7 @@
 |optunalogo|
 
 Optuna-Integration: The integration modules of Optuna
-===============================================
+=====================================================
 
 Optuna-Integration is a package of the integration modules of `Optuna <https://optuna.org>`__. 
 This package allows us to use Optuna, an automatic Hyperparameter optimization 
