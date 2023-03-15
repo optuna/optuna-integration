@@ -3,7 +3,7 @@
 Optuna-Integration: The integration modules of Optuna
 ===============================================
 
-Optuna-Integration is a package of the integration modules of Optuna. 
+Optuna-Integration is a package of the integration modules of `Optuna <https://optuna.org>`__. 
 This package allows us to use Optuna, an automatic Hyperparameter optimization 
 software framework, integrated with many useful tools like PyTorch, sklearn, 
 TensorFlow, etc.
