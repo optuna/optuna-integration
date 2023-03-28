@@ -250,7 +250,7 @@ class ChainerMNTrial(BaseTrial):
             self.delegate.set_user_attr(key, value)
         self.comm.mpi_comm.barrier()
 
-    @deprecated_func("3.1.0", "6.0.0")
+    @deprecated_func("3.1.0", "5.0.0")
     def set_system_attr(self, key: str, value: Any) -> None:
         if self.comm.rank == 0:
             assert self.delegate is not None
@@ -298,7 +298,7 @@ class ChainerMNTrial(BaseTrial):
         return self._call_with_mpi(func)
 
     @property
-    @deprecated_func("3.1.0", "6.0.0")
+    @deprecated_func("3.1.0", "5.0.0")
     def system_attrs(self) -> Dict[str, Any]:
         def func() -> Dict[str, Any]:
             assert self.delegate is not None
