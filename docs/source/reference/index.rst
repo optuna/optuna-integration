@@ -4,7 +4,7 @@ API Reference for Optuna-Integration
 
 The Optuna-Integration package contains classes used to integrate Optuna with external machine learning frameworks.
 
-All of these classes can be imported in two ways One is "`from optuna.integration import xxx`" like a module in Optuna, 
+All of these classes can be imported in two ways. One is "`from optuna.integration import xxx`" like a module in Optuna, 
 and the other is "`from optuna_integration import xxx`" as an Optuna-Integration specific module. 
 The former is provided for backward compatibility.
 
