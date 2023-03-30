@@ -54,6 +54,7 @@ document = [
 all = [
   "chainer>=5.0.0",
   "mpi4py",
+  "tensorflow; python_version<'3.11'",
 ]
 
 [tool.setuptools.packages.find]
