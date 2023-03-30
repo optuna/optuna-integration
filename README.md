@@ -17,6 +17,7 @@ Optuna-Integration API reference is [here](https://optuna.readthedocs.io/en/stab
 
 * [Chainer](https://optuna.readthedocs.io/en/stable/reference/integration.html#chainer)  ([example](https://github.com/optuna/optuna-examples/tree/main/chainer/chainer_integration.py))
 * [ChainerMN](https://optuna.readthedocs.io/en/stable/reference/integration.html#chainermn)  ([example](https://github.com/optuna/optuna-examples/tree/main/chainer/chainermn_simple.py))
+* [Keras](https://optuna.readthedocs.io/en/stable/reference/integration.html#keras)  ([example](https://github.com/optuna/optuna-examples/tree/main/keras))
 
 ## Installation
 

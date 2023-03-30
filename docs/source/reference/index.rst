@@ -25,3 +25,4 @@ Chainer
 
    optuna.integration.ChainerPruningExtension 
    optuna.integration.ChainerMNStudy
+   optuna.integration.KerasPruningCallback
