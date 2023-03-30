@@ -1,10 +1,10 @@
 import numpy as np
-import pytest
-
 import optuna
 from optuna._imports import try_import
-from optuna.integration import KerasPruningCallback
 from optuna.testing.pruners import DeterministicPruner
+import pytest
+
+from optuna_integration.keras import KerasPruningCallback
 
 
 with try_import():
