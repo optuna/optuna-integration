@@ -56,9 +56,19 @@ jobs:
     - name: Scheduled tests
       if:  ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
       run: |
-        pytest tests
+        if [ ${{ matrix.python-version }} == 3.11 ]; then
+          pytest tests\
+            --ignore tests/integration_tests/test_keras.py
+        else
+          pytest tests
+        fi
 
     - name: Tests
       if:  ${{ github.event_name != 'schedule' }}
       run: |
-        pytest tests
+        if [ ${{ matrix.python-version }} == 3.11 ]; then
+          pytest tests\
+            --ignore tests/integration_tests/test_keras.py
+        else
+          pytest tests
+        fi
