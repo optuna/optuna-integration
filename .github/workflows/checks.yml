@@ -36,6 +36,10 @@ jobs:
         pip install --progress-bar off -U .[test]
         pip install --progress-bar off -U .[all]
 
+    - name: Output installed packages
+      run: |
+        pip freeze --all
+
     - name: black
       run: black . --check --diff
     - name: flake8

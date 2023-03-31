@@ -28,6 +28,10 @@ jobs:
       run: |
         python -m pip install -U pip
         python -m pip install -U twine build
+        
+    - name: Output installed packages
+      run: |
+        pip freeze --all
 
     - name: Change the version file for scheduled TestPyPI upload
       if: github.event_name == 'schedule'

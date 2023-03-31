@@ -57,6 +57,10 @@ jobs:
         pip install --progress-bar off .[test]
         pip install --progress-bar off .[all]
 
+    - name: Output installed packages
+      run: |
+        pip freeze --all
+
     - name: Tests
       run: |
         pytest tests
