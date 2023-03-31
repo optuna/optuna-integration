@@ -4,8 +4,6 @@ from typing import Callable
 from typing import Dict
 from typing import Optional
 
-from packaging import version
-
 from optuna import load_study
 from optuna import pruners
 from optuna import Trial
@@ -14,6 +12,7 @@ from optuna._experimental import experimental_class
 from optuna._imports import try_import
 from optuna.integration.allennlp._variables import _VariableManager
 from optuna.integration.allennlp._variables import OPTUNA_ALLENNLP_DISTRIBUTED_FLAG
+from packaging import version
 
 
 with try_import() as _imports:
@@ -23,9 +22,10 @@ with try_import() as _imports:
     import allennlp.common.util
 
 if _imports.is_successful():
+    import psutil
+
     from allennlp.training import GradientDescentTrainer  # type: ignore[attr-defined]
     from allennlp.training import TrainerCallback  # type: ignore[attr-defined]
-    import psutil
 
 else:
     # I disable mypy here since `allennlp.training.TrainerCallback` is a subclass of `Registrable`
