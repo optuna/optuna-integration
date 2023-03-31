@@ -52,9 +52,10 @@ document = [
     "sphinx_rtd_theme",
 ]
 all = [
+  "allennlp>=2.2.0; python_version<'3.11'",
   "chainer>=5.0.0",
   "mpi4py",
-  "tensorflow; python_version<'3.11'",
+  #"tensorflow; python_version<'3.11'",
 ]
 
 [tool.setuptools.packages.find]
