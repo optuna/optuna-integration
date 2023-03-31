@@ -53,6 +53,11 @@ jobs:
         pip install --progress-bar off .[test]
         pip install --progress-bar off .[all]
 
+    - name: Output dependency tree
+      run: |
+        pip install pipdeptree
+        pipdeptree
+
     - name: Scheduled tests
       if:  ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
       run: |
