@@ -42,11 +42,15 @@ jobs:
 
     - name: black
       run: black . --check --diff
+
     - name: flake8
       run: flake8 .
+
     - name: isort
       run: isort . --check --diff
+
     - name: mypy
       run: mypy .
+
     - name: blackdoc
       run: blackdoc . --check --diff
