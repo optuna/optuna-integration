@@ -23,6 +23,9 @@ Chainer
    :toctree: generated/
    :nosignatures:
 
+   optuna.integration.AllenNLPExecutor
+   optuna.integration.allennlp.dump_best_config
+   optuna.integration.AllenNLPPruningCallback
    optuna.integration.ChainerPruningExtension 
    optuna.integration.ChainerMNStudy
    optuna.integration.KerasPruningCallback
