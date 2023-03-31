@@ -63,9 +63,7 @@ def test_build_params_overwriting_environment_variable() -> None:
     os.environ.pop("TRAIN_PATH")
     os.environ.pop("VALID_PATH")
     assert params["train_data_path"] == "tests/allennlp_tests/sentences.train"
-    assert (
-        params["validation_data_path"] == "tests/allennlp_tests/sentences.valid"
-    )
+    assert params["validation_data_path"] == "tests/allennlp_tests/sentences.valid"
 
 
 def test_build_params_when_optuna_and_environment_variable_both_exist() -> None:
@@ -323,9 +321,7 @@ def test_allennlp_pruning_callback() -> None:
 
 
 def test_allennlp_pruning_callback_with_invalid_storage() -> None:
-    input_config_file = (
-        "tests/allennlp_tests/example_with_executor_and_pruner.jsonnet"
-    )
+    input_config_file = "tests/allennlp_tests/example_with_executor_and_pruner.jsonnet"
 
     with tempfile.TemporaryDirectory() as tmp_dir:
 
@@ -418,9 +414,7 @@ def test_allennlp_pruning_callback_with_invalid_executor() -> None:
         def prune(self, study: optuna.study.Study, trial: optuna.trial.FrozenTrial) -> bool:
             return False
 
-    input_config_file = (
-        "tests/allennlp_tests/example_with_executor_and_pruner.jsonnet"
-    )
+    input_config_file = "tests/allennlp_tests/example_with_executor_and_pruner.jsonnet"
 
     with tempfile.TemporaryDirectory() as tmp_dir:
         storage = "sqlite:///" + os.path.join(tmp_dir, "result.db")
