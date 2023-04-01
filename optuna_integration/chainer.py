@@ -1,5 +1,4 @@
-from typing import Tuple
-from typing import Union
+from __future__ import annotations
 
 import optuna
 
@@ -47,7 +46,7 @@ class ChainerPruningExtension(Extension):
         self,
         trial: optuna.trial.Trial,
         observation_key: str,
-        pruner_trigger: Union[Tuple[(int, str)], "IntervalTrigger", "ManualScheduleTrigger"],
+        pruner_trigger: tuple[(int, str)] | "IntervalTrigger" | "ManualScheduleTrigger",
     ) -> None:
         _imports.check()
 
@@ -66,7 +65,7 @@ class ChainerPruningExtension(Extension):
 
     @staticmethod
     def _get_float_value(
-        observation_value: Union[float, "chainer.Variable"]  # type: ignore[name-defined]
+        observation_value: float | "chainer.Variable",  # type: ignore[name-defined]
     ) -> float:
         _imports.check()
 
