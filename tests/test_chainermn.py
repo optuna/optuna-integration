@@ -1,10 +1,9 @@
+from __future__ import annotations
+
 import gc
 from types import TracebackType
 from typing import Any
 from typing import Callable
-from typing import Dict
-from typing import Optional
-from typing import Type
 
 from optuna import create_study
 from optuna import distributions
@@ -41,7 +40,7 @@ pytestmark = pytest.mark.integration
 
 class Func:
     def __init__(self) -> None:
-        self.suggested_values: Dict[int, Dict[str, Any]] = {}
+        self.suggested_values: dict[int, dict[str, Any]] = {}
 
     def __call__(self, trial: ChainerMNTrial, comm: "CommunicatorBase") -> float:
         x = trial.suggest_float("x", -10, 10)
@@ -60,7 +59,7 @@ class MultiNodeStorageSupplier(StorageSupplier):
     def __init__(self, storage_specifier: str, comm: "CommunicatorBase") -> None:
         super().__init__(storage_specifier)
         self.comm = comm
-        self.storage: Optional[RDBStorage] = None
+        self.storage: RDBStorage | None = None
 
     def __enter__(self) -> RDBStorage:
         if self.comm.rank == 0:
@@ -75,7 +74,7 @@ class MultiNodeStorageSupplier(StorageSupplier):
         return self.storage
 
     def __exit__(
-        self, exc_type: Type[BaseException], exc_val: BaseException, exc_tb: TracebackType
+        self, exc_type: type[BaseException], exc_val: BaseException, exc_tb: TracebackType
     ) -> None:
         # Explicitly call storage's __del__ before sqlite tempfile is deleted.
         del self.storage
@@ -207,7 +206,7 @@ class TestChainerMNStudy:
     def _create_shared_study(
         storage: BaseStorage,
         comm: "CommunicatorBase",
-        pruner: Optional[BasePruner] = None,
+        pruner: BasePruner | None = None,
     ) -> Study:
         name_local = create_study(storage=storage).study_name if comm.rank == 0 else None
         name_bcast = comm.mpi_comm.bcast(name_local)
