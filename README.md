@@ -20,7 +20,6 @@ Optuna-Integration API reference is [here](https://optuna.readthedocs.io/en/stab
 * [ChainerMN](https://optuna.readthedocs.io/en/stable/reference/integration.html#chainermn)  ([example](https://github.com/optuna/optuna-examples/tree/main/chainer/chainermn_simple.py))
 * [Keras](https://optuna.readthedocs.io/en/stable/reference/integration.html#keras)  ([example](https://github.com/optuna/optuna-examples/tree/main/keras))
 
-
 ## Installation
 
 Optuna-Integration is available at [the Python Package Index](https://pypi.org/project/optuna-integration/) and on [Anaconda Cloud](https://anaconda.org/conda-forge/optuna-integration).
