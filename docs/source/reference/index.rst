@@ -32,4 +32,5 @@ Keras
 .. autosummary::
    :toctree: generated/
    :nosignatures:
+
    optuna.integration.KerasPruningCallback
