@@ -36,4 +36,11 @@ Chainer
 
    optuna.integration.ChainerPruningExtension 
    optuna.integration.ChainerMNStudy
+
+Keras
+-----
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
    optuna.integration.KerasPruningCallback
