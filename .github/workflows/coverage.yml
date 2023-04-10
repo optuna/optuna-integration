@@ -61,8 +61,8 @@ jobs:
         coverage run --source=optuna -m pytest tests -m "not skip_coverage and not slow"
         coverage combine
         coverage xml
-    
-     - name: Multi-node tests
+
+    - name: Multi-node tests
       env:
         OMP_NUM_THREADS: 1
         PYTHONPATH: .
