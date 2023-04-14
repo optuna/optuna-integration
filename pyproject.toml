@@ -33,7 +33,7 @@ dynamic = ["version"]
 [project.optional-dependencies]
 test = [
   "pytest",
-  "codecov",
+  "coverage",
   "fakeredis[lua]",
 ]
 checking = [
