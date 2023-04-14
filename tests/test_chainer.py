@@ -73,7 +73,7 @@ def test_chainer_pruning_extension() -> None:
         updater = chainer.training.StandardUpdater(train_iter, optimizer)
         trainer = chainer.training.Trainer(updater, (1, "epoch"))
         trainer.extend(
-            optuna.integration.chainer.ChainerPruningExtension(trial, "main/loss", (1, "epoch"))
+            optuna_integration.chainer.ChainerPruningExtension(trial, "main/loss", (1, "epoch"))
         )
 
         trainer.run(show_loop_exception_msg=False)
