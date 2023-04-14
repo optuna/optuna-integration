@@ -5,7 +5,6 @@ from typing import Any
 from typing import Callable
 from typing import overload
 from typing import Sequence
-from typing import Type
 import warnings
 
 from optuna import TrialPruned
