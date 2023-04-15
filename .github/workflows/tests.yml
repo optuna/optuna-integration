@@ -63,6 +63,7 @@ jobs:
       run: |
         if [ ${{ matrix.python-version }} == 3.11 ]; then
           pytest tests\
+            --ignore tests/allennlp_tests \
             --ignore tests/test_keras.py
         else
           pytest tests
@@ -73,6 +74,7 @@ jobs:
       run: |
         if [ ${{ matrix.python-version }} == 3.11 ]; then
           pytest tests\
+            --ignore tests/allennlp_tests \
             --ignore tests/test_keras.py
         else
           pytest tests
