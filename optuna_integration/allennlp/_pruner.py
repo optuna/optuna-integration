@@ -1,8 +1,8 @@
+from __future__ import annotations
+
 import os
 from typing import Any
 from typing import Callable
-from typing import Dict
-from typing import Optional
 
 from optuna import load_study
 from optuna import pruners
@@ -52,8 +52,8 @@ else:
 
 def _create_pruner(
     pruner_class: str,
-    pruner_kwargs: Dict[str, Any],
-) -> Optional[pruners.BasePruner]:
+    pruner_kwargs: dict[str, Any],
+) -> pruners.BasePruner | None:
     """Restore a pruner which is defined in `create_study`.
 
     `AllenNLPPruningCallback` is launched as a sub-process of
@@ -110,8 +110,8 @@ class AllenNLPPruningCallback(TrainerCallback):
 
     def __init__(
         self,
-        trial: Optional[Trial] = None,
-        monitor: Optional[str] = None,
+        trial: Trial | None = None,
+        monitor: str | None = None,
     ):
         _imports.check()
 
@@ -187,7 +187,7 @@ class AllenNLPPruningCallback(TrainerCallback):
     def on_epoch(
         self,
         trainer: "GradientDescentTrainer",
-        metrics: Dict[str, Any],
+        metrics: dict[str, Any],
         epoch: int,
         is_primary: bool = True,
         **_: Any,
