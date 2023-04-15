@@ -15,6 +15,7 @@ integrated with many useful tools like PyTorch, sklearn, TensorFlow, etc.
 
 Optuna-Integration API reference is [here](https://optuna.readthedocs.io/en/stable/reference/integration.html).
 
+* [AllenNLP](https://optuna.readthedocs.io/en/stable/reference/integration.html#allennlp)  ([example](https://github.com/optuna/optuna-examples/tree/main/allennlp))
 * [Chainer](https://optuna.readthedocs.io/en/stable/reference/integration.html#chainer)  ([example](https://github.com/optuna/optuna-examples/tree/main/chainer/chainer_integration.py))
 * [ChainerMN](https://optuna.readthedocs.io/en/stable/reference/integration.html#chainermn)  ([example](https://github.com/optuna/optuna-examples/tree/main/chainer/chainermn_simple.py))
 * [Keras](https://optuna.readthedocs.io/en/stable/reference/integration.html#keras)  ([example](https://github.com/optuna/optuna-examples/tree/main/keras))
