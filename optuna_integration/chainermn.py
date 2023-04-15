@@ -5,7 +5,6 @@ from typing import Any
 from typing import Callable
 from typing import overload
 from typing import Sequence
-from typing import Type
 import warnings
 
 from optuna import TrialPruned
@@ -99,7 +98,7 @@ class ChainerMNStudy:
         func: Callable[["ChainerMNTrial", "CommunicatorBase"], float],
         n_trials: int | None = None,
         timeout: float | None = None,
-        catch: tuple[Type[Exception], ...] = (),
+        catch: tuple[type[Exception], ...] = (),
     ) -> None:
         """Optimize an objective function.
 
