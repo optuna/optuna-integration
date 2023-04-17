@@ -11,6 +11,8 @@ from optuna._imports import try_import
 from optuna.testing.pruners import DeterministicPruner
 import pytest
 
+import optuna_integration
+from optuna_integration.allennlp import AllenNLPExecutor
 from optuna_integration.allennlp import AllenNLPPruningCallback
 from optuna_integration.allennlp._pruner import _create_pruner
 from optuna_integration.allennlp._variables import _VariableManager
@@ -38,9 +40,7 @@ def test_build_params() -> None:
     trial = optuna.trial.Trial(study, study._storage.create_new_trial(study._study_id))
     trial.suggest_float("LEARNING_RATE", 1e-2, 1e-1)
     trial.suggest_float("DROPOUT", 0.0, 0.5)
-    executor = optuna.integration.AllenNLPExecutor(
-        trial, "tests/allennlp_tests/test.jsonnet", "test"
-    )
+    executor = AllenNLPExecutor(trial, "tests/allennlp_tests/test.jsonnet", "test")
     params = executor._build_params()
 
     assert params["model"]["dropout"] == 0.1
@@ -55,7 +55,7 @@ def test_build_params_overwriting_environment_variable() -> None:
     trial.suggest_float("DROPOUT", 0.0, 0.5)
     os.environ["TRAIN_PATH"] = "tests/allennlp_tests/sentences.train"
     os.environ["VALID_PATH"] = "tests/allennlp_tests/sentences.valid"
-    executor = optuna.integration.AllenNLPExecutor(
+    executor = AllenNLPExecutor(
         trial,
         "tests/allennlp_tests/example_with_environment_variables.jsonnet",
         "test",
@@ -75,7 +75,7 @@ def test_build_params_when_optuna_and_environment_variable_both_exist() -> None:
     os.environ["VALID_PATH"] = "tests/allennlp_tests/sentences.valid"
     os.environ["LEARNING_RATE"] = "1e-3"
     os.environ["DROPOUT"] = "0.0"
-    executor = optuna.integration.AllenNLPExecutor(
+    executor = AllenNLPExecutor(
         trial,
         "tests/allennlp_tests/example_with_environment_variables.jsonnet",
         "test",
@@ -102,7 +102,7 @@ def test_missing_config_file() -> None:
     trial.suggest_int("NUM_OUTPUT_LAYERS", 1, 3)
     trial.suggest_int("HIDDEN_SIZE", 16, 128)
 
-    executor = optuna.integration.AllenNLPExecutor(trial, "undefined.jsonnet", "test")
+    executor = AllenNLPExecutor(trial, "undefined.jsonnet", "test")
     with pytest.raises(RuntimeError):
         executor.run()
 
@@ -117,9 +117,7 @@ def test_invalid_config_file() -> None:
     trial.suggest_int("NUM_OUTPUT_LAYERS", 1, 3)
     trial.suggest_int("HIDDEN_SIZE", 16, 128)
 
-    executor = optuna.integration.AllenNLPExecutor(
-        trial, "tests/allennlp_tests/invalid.jsonnet", "test"
-    )
+    executor = AllenNLPExecutor(trial, "tests/allennlp_tests/invalid.jsonnet", "test")
     with pytest.raises(RuntimeError):
         executor.run()
 
@@ -129,9 +127,7 @@ def test_invalid_param_name() -> None:
     trial = optuna.trial.Trial(study, study._storage.create_new_trial(study._study_id))
     trial.suggest_float("_____DROPOUT", 0.0, 0.5)
 
-    executor = optuna.integration.AllenNLPExecutor(
-        trial, "tests/allennlp_tests/example.jsonnet", "test"
-    )
+    executor = AllenNLPExecutor(trial, "tests/allennlp_tests/example.jsonnet", "test")
     with pytest.raises(RuntimeError):
         executor.run()
 
@@ -142,9 +138,7 @@ def test_allennlp_executor() -> None:
     trial.suggest_float("DROPOUT", 0.0, 0.5)
 
     with tempfile.TemporaryDirectory() as tmp_dir:
-        executor = optuna.integration.AllenNLPExecutor(
-            trial, "tests/allennlp_tests/example.jsonnet", tmp_dir
-        )
+        executor = AllenNLPExecutor(trial, "tests/allennlp_tests/example.jsonnet", tmp_dir)
         result = executor.run()
         assert isinstance(result, float)
 
@@ -155,7 +149,7 @@ def test_allennlp_executor_with_include_package() -> None:
     trial.suggest_float("DROPOUT", 0.0, 0.5)
 
     with tempfile.TemporaryDirectory() as tmp_dir:
-        executor = optuna.integration.AllenNLPExecutor(
+        executor = AllenNLPExecutor(
             trial,
             "tests/allennlp_tests/example_with_include_package.jsonnet",
             tmp_dir,
@@ -171,7 +165,7 @@ def test_allennlp_executor_with_include_package_arr() -> None:
     trial.suggest_float("DROPOUT", 0.0, 0.5)
 
     with tempfile.TemporaryDirectory() as tmp_dir:
-        executor = optuna.integration.AllenNLPExecutor(
+        executor = AllenNLPExecutor(
             trial,
             "tests/allennlp_tests/example_with_include_package.jsonnet",
             tmp_dir,
@@ -188,7 +182,7 @@ def test_allennlp_executor_with_options() -> None:
     package_name = "tests.allennlp_tests.tiny_single_id"
 
     with tempfile.TemporaryDirectory() as tmp_dir:
-        executor = optuna.integration.AllenNLPExecutor(
+        executor = AllenNLPExecutor(
             trial,
             "tests/allennlp_tests/example_with_include_package.jsonnet",
             tmp_dir,
@@ -202,7 +196,7 @@ def test_allennlp_executor_with_options() -> None:
         with open(os.path.join(executor._serialization_dir, "metrics.json"), "w") as fout:
             json.dump({executor._metrics: 1.0}, fout)
 
-        expected_include_packages = [package_name, "optuna.integration.allennlp"]
+        expected_include_packages = [package_name, "optuna_integration.allennlp"]
         with mock.patch("allennlp.commands.train.train_model", return_value=None) as mock_obj:
             executor.run()
             assert mock_obj.call_args[1]["force"]
@@ -215,7 +209,7 @@ def test_dump_best_config() -> None:
 
         def objective(trial: optuna.Trial) -> float:
             trial.suggest_float("DROPOUT", dropout, dropout)
-            executor = optuna.integration.AllenNLPExecutor(trial, input_config_file, tmp_dir)
+            executor = AllenNLPExecutor(trial, input_config_file, tmp_dir)
             return executor.run()
 
         dropout = 0.5
@@ -227,7 +221,7 @@ def test_dump_best_config() -> None:
         study = optuna.create_study(direction="maximize")
         study.optimize(objective, n_trials=1)
 
-        optuna.integration.allennlp.dump_best_config(input_config_file, output_config_file, study)
+        optuna_integration.allennlp.dump_best_config(input_config_file, output_config_file, study)
         best_config = json.loads(_jsonnet.evaluate_file(output_config_file))
         model_config = best_config["model"]
         target_config = model_config["text_field_embedder"]["token_embedders"]["token_characters"]
@@ -240,7 +234,7 @@ def test_dump_best_config_with_environment_variables() -> None:
         def objective(trial: optuna.Trial) -> float:
             trial.suggest_float("DROPOUT", dropout, dropout)
             trial.suggest_float("LEARNING_RATE", 1e-2, 1e-1)
-            executor = optuna.integration.AllenNLPExecutor(
+            executor = AllenNLPExecutor(
                 trial,
                 input_config_file,
                 tmp_dir,
@@ -261,7 +255,7 @@ def test_dump_best_config_with_environment_variables() -> None:
         study = optuna.create_study(direction="maximize")
         study.optimize(objective, n_trials=1)
 
-        optuna.integration.allennlp.dump_best_config(input_config_file, output_config_file, study)
+        optuna_integration.allennlp.dump_best_config(input_config_file, output_config_file, study)
         best_config = json.loads(_jsonnet.evaluate_file(output_config_file))
         assert os.getenv("TRAIN_PATH") == best_config["train_data_path"]
         assert os.getenv("VALID_PATH") == best_config["validation_data_path"]
@@ -329,7 +323,7 @@ def test_allennlp_pruning_callback_with_invalid_storage() -> None:
         def objective(trial: optuna.Trial) -> float:
             trial = optuna.trial.Trial(study, study._storage.create_new_trial(study._study_id))
             trial.suggest_float("DROPOUT", 0.0, 0.5)
-            executor = optuna.integration.AllenNLPExecutor(trial, input_config_file, tmp_dir)
+            executor = AllenNLPExecutor(trial, input_config_file, tmp_dir)
             return executor.run()
 
         study = optuna.create_study(
@@ -384,7 +378,7 @@ def test_allennlp_pruning_callback_with_executor(
         study = optuna.create_study(direction="maximize", pruner=pruner, storage=storage)
         trial = optuna.trial.Trial(study, study._storage.create_new_trial(study._study_id))
         trial.suggest_float("DROPOUT", 0.0, 0.5)
-        executor = optuna.integration.AllenNLPExecutor(trial, input_config_file, serialization_dir)
+        executor = AllenNLPExecutor(trial, input_config_file, serialization_dir)
         executor.run()
 
     with tempfile.TemporaryDirectory() as tmp_dir:
@@ -427,4 +421,4 @@ def test_allennlp_pruning_callback_with_invalid_executor() -> None:
         trial.suggest_float("DROPOUT", 0.0, 0.5)
 
         with pytest.raises(ValueError):
-            optuna.integration.AllenNLPExecutor(trial, input_config_file, serialization_dir)
+            AllenNLPExecutor(trial, input_config_file, serialization_dir)
