@@ -72,9 +72,7 @@ def test_chainer_pruning_extension() -> None:
         train_iter = chainer.iterators.SerialIterator(FixedValueDataset(), 16)
         updater = chainer.training.StandardUpdater(train_iter, optimizer)
         trainer = chainer.training.Trainer(updater, (1, "epoch"))
-        trainer.extend(
-            ChainerPruningExtension(trial, "main/loss", (1, "epoch"))
-        )
+        trainer.extend(ChainerPruningExtension(trial, "main/loss", (1, "epoch")))
 
         trainer.run(show_loop_exception_msg=False)
         return 1.0
