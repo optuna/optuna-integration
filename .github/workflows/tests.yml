@@ -67,19 +67,7 @@ jobs:
           && pip install git+https://github.com/${{ inputs.repository_name }}@${{ inputs.baranch_name }} \
           || pip install git+https://github.com/optuna/optuna@master
 
-    - name: Scheduled tests
-      if:  ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
-      run: |
-        if [ ${{ matrix.python-version }} == 3.11 ]; then
-          pytest tests\
-            --ignore tests/allennlp_tests \
-            --ignore tests/test_keras.py
-        else
-          pytest tests
-        fi
-
     - name: Tests
-      if:  ${{ github.event_name != 'schedule' }}
       run: |
         if [ ${{ matrix.python-version }} == 3.11 ]; then
           pytest tests\
