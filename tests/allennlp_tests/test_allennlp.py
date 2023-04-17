@@ -8,11 +8,12 @@ from unittest import mock
 
 import optuna
 from optuna._imports import try_import
-from optuna.integration.allennlp import AllenNLPPruningCallback
-from optuna.integration.allennlp._pruner import _create_pruner
-from optuna.integration.allennlp._variables import _VariableManager
 from optuna.testing.pruners import DeterministicPruner
 import pytest
+
+from optuna_integration.allennlp import AllenNLPPruningCallback
+from optuna_integration.allennlp._pruner import _create_pruner
+from optuna_integration.allennlp._variables import _VariableManager
 
 
 with try_import():

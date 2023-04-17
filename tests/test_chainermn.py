@@ -420,12 +420,12 @@ class TestChainerMNTrial:
 
 def _create_new_chainermn_trial(
     study: Study, comm: "CommunicatorBase"
-) -> integration.chainermn.ChainerMNTrial:
+) -> ChainerMNTrial:
     if comm.rank == 0:
         trial = study.ask()
-        mn_trial = integration.chainermn.ChainerMNTrial(trial, comm)
+        mn_trial = ChainerMNTrial(trial, comm)
     else:
-        mn_trial = integration.chainermn.ChainerMNTrial(None, comm)
+        mn_trial = ChainerMNTrial(None, comm)
 
     comm.mpi_comm.barrier()
     return mn_trial
