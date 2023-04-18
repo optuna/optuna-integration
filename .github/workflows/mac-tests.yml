@@ -69,7 +69,7 @@ jobs:
 
         # Install optuna from specified repository, otherwise from optuna/optuna.
         $( test ${{ inputs.repository_name }} && test ${{ inputs.branch_name }} ) \
-          && pip install git+https://github.com/${{ inputs.repository_name }}@${{ inputs.baranch_name }} \
+          && pip install git+https://github.com/${{ inputs.repository_name }}@${{ inputs.branch_name }} \
           || pip install git+https://github.com/optuna/optuna@master
 
     - name: Tests

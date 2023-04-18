@@ -8,7 +8,6 @@ from typing import Type
 
 from optuna import create_study
 from optuna import distributions
-from optuna import integration
 from optuna import pruners
 from optuna import Study
 from optuna import TrialPruned
@@ -418,9 +417,7 @@ class TestChainerMNTrial:
             assert mn_trial.datetime_start is not None
 
 
-def _create_new_chainermn_trial(
-    study: Study, comm: "CommunicatorBase"
-) -> ChainerMNTrial:
+def _create_new_chainermn_trial(study: Study, comm: "CommunicatorBase") -> ChainerMNTrial:
     if comm.rank == 0:
         trial = study.ask()
         mn_trial = ChainerMNTrial(trial, comm)
