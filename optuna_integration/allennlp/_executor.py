@@ -1,10 +1,8 @@
+from __future__ import annotations
+
 import json
 import os
 from typing import Any
-from typing import Dict
-from typing import List
-from typing import Optional
-from typing import Union
 import warnings
 
 import optuna
@@ -30,9 +28,9 @@ if _imports.is_successful():
     from torch.multiprocessing.spawn import ProcessRaisedException
 
 
-def _fetch_pruner_config(trial: optuna.Trial) -> Dict[str, Any]:
+def _fetch_pruner_config(trial: optuna.Trial) -> dict[str, Any]:
     pruner = trial.study.pruner
-    kwargs: Dict[str, Any] = {}
+    kwargs: dict[str, Any] = {}
 
     if isinstance(pruner, optuna.pruners.HyperbandPruner):
         kwargs["min_resource"] = pruner._min_resource
@@ -126,7 +124,7 @@ class AllenNLPExecutor:
         serialization_dir: str,
         metrics: str = "best_validation_accuracy",
         *,
-        include_package: Optional[Union[str, List[str]]] = None,
+        include_package: str | list[str] | None = None,
         force: bool = False,
         file_friendly_logging: bool = False,
     ):
@@ -171,7 +169,7 @@ class AllenNLPExecutor:
             variable_manager.set_value("pruner_class", type(trial.study.pruner).__name__)
             variable_manager.set_value("pruner_kwargs", pruner_kwargs)
 
-    def _build_params(self) -> Dict[str, Any]:
+    def _build_params(self) -> dict[str, Any]:
         """Create a dict of params for AllenNLP.
 
         _build_params is based on allentune's ``train_func``.

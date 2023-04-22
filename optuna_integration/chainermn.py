@@ -1,12 +1,10 @@
+from __future__ import annotations
+
 from datetime import datetime
 from typing import Any
 from typing import Callable
-from typing import Dict
-from typing import Optional
 from typing import overload
 from typing import Sequence
-from typing import Tuple
-from typing import Type
 import warnings
 
 from optuna import TrialPruned
@@ -98,9 +96,9 @@ class ChainerMNStudy:
     def optimize(
         self,
         func: Callable[["ChainerMNTrial", "CommunicatorBase"], float],
-        n_trials: Optional[int] = None,
-        timeout: Optional[float] = None,
-        catch: Tuple[Type[Exception], ...] = (),
+        n_trials: int | None = None,
+        timeout: float | None = None,
+        catch: tuple[type[Exception], ...] = (),
     ) -> None:
         """Optimize an objective function.
 
@@ -158,7 +156,7 @@ class ChainerMNTrial(BaseTrial):
             index.html#communicators>`_.
     """
 
-    def __init__(self, trial: Optional[Trial], comm: "CommunicatorBase") -> None:
+    def __init__(self, trial: Trial | None, comm: "CommunicatorBase") -> None:
         self.delegate = trial
         self.comm = comm
 
@@ -168,7 +166,7 @@ class ChainerMNTrial(BaseTrial):
         low: float,
         high: float,
         *,
-        step: Optional[float] = None,
+        step: float | None = None,
         log: bool = False,
     ) -> float:
         def func() -> float:
@@ -274,24 +272,24 @@ class ChainerMNTrial(BaseTrial):
         return self._call_with_mpi(func)
 
     @property
-    def params(self) -> Dict[str, Any]:
-        def func() -> Dict[str, Any]:
+    def params(self) -> dict[str, Any]:
+        def func() -> dict[str, Any]:
             assert self.delegate is not None
             return self.delegate.params
 
         return self._call_with_mpi(func)
 
     @property
-    def distributions(self) -> Dict[str, BaseDistribution]:
-        def func() -> Dict[str, BaseDistribution]:
+    def distributions(self) -> dict[str, BaseDistribution]:
+        def func() -> dict[str, BaseDistribution]:
             assert self.delegate is not None
             return self.delegate.distributions
 
         return self._call_with_mpi(func)
 
     @property
-    def user_attrs(self) -> Dict[str, Any]:
-        def func() -> Dict[str, Any]:
+    def user_attrs(self) -> dict[str, Any]:
+        def func() -> dict[str, Any]:
             assert self.delegate is not None
             return self.delegate.user_attrs
 
@@ -299,16 +297,16 @@ class ChainerMNTrial(BaseTrial):
 
     @property
     @deprecated_func("3.1.0", "5.0.0")
-    def system_attrs(self) -> Dict[str, Any]:
-        def func() -> Dict[str, Any]:
+    def system_attrs(self) -> dict[str, Any]:
+        def func() -> dict[str, Any]:
             assert self.delegate is not None
             return self.delegate.system_attrs
 
         return self._call_with_mpi(func)
 
     @property
-    def datetime_start(self) -> Optional[datetime]:
-        def func() -> Optional[datetime]:
+    def datetime_start(self) -> datetime | None:
+        def func() -> datetime | None:
             assert self.delegate is not None
             return self.delegate.datetime_start
 

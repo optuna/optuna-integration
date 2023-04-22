@@ -1,9 +1,8 @@
+from __future__ import annotations
+
 import json
 import os
 import tempfile
-from typing import Dict
-from typing import Type
-from typing import Union
 from unittest import mock
 
 import optuna
@@ -375,8 +374,8 @@ def test_allennlp_pruning_callback_with_invalid_storage() -> None:
     ],
 )
 def test_allennlp_pruning_callback_with_executor(
-    pruner_class: Type[optuna.pruners.BasePruner],
-    pruner_kwargs: Dict[str, Union[int, float]],
+    pruner_class: type[optuna.pruners.BasePruner],
+    pruner_kwargs: dict[str, int | float],
     input_config_file: str,
 ) -> None:
     def run_allennlp_executor(pruner: optuna.pruners.BasePruner) -> None:
