@@ -1,5 +1,5 @@
-from typing import Dict
-from typing import Optional
+from __future__ import annotations
+
 import warnings
 
 import optuna
@@ -55,7 +55,7 @@ class KerasPruningCallback(Callback):
         self._monitor = monitor
         self._interval = interval
 
-    def on_epoch_end(self, epoch: int, logs: Optional[Dict[str, float]] = None) -> None:
+    def on_epoch_end(self, epoch: int, logs: dict[str, float] | None = None) -> None:
         if (epoch + 1) % self._interval != 0:
             return
 

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from collections import namedtuple
 import math
 import typing
@@ -29,7 +31,7 @@ class FixedValueDataset(DatasetMixin):
     def __len__(self) -> int:
         return self.size
 
-    def get_example(self, i: int) -> typing.Tuple[np.ndarray, np.signedinteger]:
+    def get_example(self, i: int) -> tuple[np.ndarray, np.signedinteger]:
         return np.array([1.0], np.float32), np.intc(0)
 
 
