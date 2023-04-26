@@ -9,7 +9,7 @@ from optuna_integration._imports import try_import
 from optuna_integration.keras import KerasPruningCallback
 
 
-with try_import() as _imports:
+with try_import():
     from keras import Sequential
     from keras.layers import Dense
 

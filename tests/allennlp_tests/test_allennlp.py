@@ -15,7 +15,7 @@ import pytest
 from optuna_integration._imports import try_import
 
 
-with try_import() as _imports:
+with try_import():
     import _jsonnet
     import psutil
     import torch.optim
