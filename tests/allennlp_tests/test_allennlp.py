@@ -6,15 +6,16 @@ import tempfile
 from unittest import mock
 
 import optuna
-from optuna._imports import try_import
 from optuna.integration.allennlp import AllenNLPPruningCallback
 from optuna.integration.allennlp._pruner import _create_pruner
 from optuna.integration.allennlp._variables import _VariableManager
 from optuna.testing.pruners import DeterministicPruner
 import pytest
 
+from optuna_integration._imports import try_import
 
-with try_import():
+
+with try_import() as _imports:
     import _jsonnet
     import psutil
     import torch.optim

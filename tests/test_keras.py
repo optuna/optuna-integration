@@ -2,14 +2,14 @@ from __future__ import annotations
 
 import numpy as np
 import optuna
-from optuna._imports import try_import
 from optuna.testing.pruners import DeterministicPruner
 import pytest
 
+from optuna_integration._imports import try_import
 from optuna_integration.keras import KerasPruningCallback
 
 
-with try_import():
+with try_import() as _imports:
     from keras import Sequential
     from keras.layers import Dense
 

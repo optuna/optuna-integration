@@ -5,8 +5,10 @@ import warnings
 import optuna
 from optuna._deprecated import deprecated_class
 
+from optuna_integration._imports import try_import
 
-with optuna._imports.try_import() as _imports:
+
+with try_import() as _imports:
     from keras.callbacks import Callback
 
 if not _imports.is_successful():
