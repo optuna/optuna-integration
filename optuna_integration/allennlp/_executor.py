@@ -9,9 +9,10 @@ import optuna
 from optuna import TrialPruned
 from optuna._experimental import experimental_class
 from optuna._imports import try_import
-from optuna.integration.allennlp._environment import _environment_variables
-from optuna.integration.allennlp._variables import _VariableManager
-from optuna.integration.allennlp._variables import OPTUNA_ALLENNLP_DISTRIBUTED_FLAG
+
+from optuna_integration.allennlp._environment import _environment_variables
+from optuna_integration.allennlp._variables import _VariableManager
+from optuna_integration.allennlp._variables import OPTUNA_ALLENNLP_DISTRIBUTED_FLAG
 
 
 with try_import() as _imports:
@@ -83,7 +84,7 @@ class AllenNLPExecutor:
         allennlp/classifier.jsonnet>`_.
 
     .. note::
-        In :class:`~optuna.integration.AllenNLPExecutor`,
+        In :class:`~optuna_integration.AllenNLPExecutor`,
         you can pass parameters to AllenNLP by either defining a search space using
         Optuna suggest methods or setting environment variables just like AllenNLP CLI.
         If a value is set in both a search space in Optuna and the environment variables,
@@ -104,7 +105,7 @@ class AllenNLPExecutor:
             An evaluation metric. `GradientDescrentTrainer.train() <https://docs.allennlp.org/
             main/api/training/gradient_descent_trainer/#train>`_ of AllenNLP
             returns a dictionary containing metrics after training.
-            :class:`~optuna.integration.AllenNLPExecutor` accesses the dictionary
+            :class:`~optuna_integration.AllenNLPExecutor` accesses the dictionary
             by the key ``metrics`` you specify and use it as a objective value.
         force:
             If :obj:`True`, an executor overwrites the output directory if it exists.
@@ -142,7 +143,7 @@ class AllenNLPExecutor:
         if isinstance(include_package, str):
             include_package = [include_package]
 
-        self._include_package = include_package + ["optuna.integration.allennlp"]
+        self._include_package = include_package + ["optuna_integration.allennlp"]
 
         storage = trial.study._storage
 

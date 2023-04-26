@@ -10,9 +10,10 @@ from optuna import Trial
 from optuna import TrialPruned
 from optuna._experimental import experimental_class
 from optuna._imports import try_import
-from optuna.integration.allennlp._variables import _VariableManager
-from optuna.integration.allennlp._variables import OPTUNA_ALLENNLP_DISTRIBUTED_FLAG
 from packaging import version
+
+from optuna_integration.allennlp._variables import _VariableManager
+from optuna_integration.allennlp._variables import OPTUNA_ALLENNLP_DISTRIBUTED_FLAG
 
 
 with try_import() as _imports:
@@ -84,14 +85,14 @@ class AllenNLPPruningCallback(TrainerCallback):
     `AllenNLP Guide <https://guide.allennlp.org/hyperparameter-optimization>`_.
 
     .. note::
-        When :class:`~optuna.integration.AllenNLPPruningCallback` is instantiated in Python script,
+        When :class:`~optuna_integration.AllenNLPPruningCallback` is instantiated in Python script,
         trial and monitor are mandatory.
 
-        On the other hand, when :class:`~optuna.integration.AllenNLPPruningCallback` is used with
-        :class:`~optuna.integration.AllenNLPExecutor`, ``trial`` and ``monitor``
-        would be :obj:`None`. :class:`~optuna.integration.AllenNLPExecutor` sets
+        On the other hand, when :class:`~optuna_integration.AllenNLPPruningCallback` is used with
+        :class:`~optuna_integration.AllenNLPExecutor`, ``trial`` and ``monitor``
+        would be :obj:`None`. :class:`~optuna_integration.AllenNLPExecutor` sets
         environment variables for a study name, trial id, monitor, and storage.
-        Then :class:`~optuna.integration.AllenNLPPruningCallback`
+        Then :class:`~optuna_integration.AllenNLPPruningCallback`
         loads them to restore ``trial`` and ``monitor``.
 
     .. note::

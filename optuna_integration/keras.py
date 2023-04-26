@@ -20,7 +20,7 @@ _keras_pruning_callback_deprecated_msg = (
     "Test before upgrading. "
     "REF: https://github.com/keras-team/keras/releases/tag/2.4.0. "
     "There is an alternative callback function that can be used instead: "
-    ":class:`~optuna.integration.TFKerasPruningCallback`"
+    ":class:`~optuna_integration.TFKerasPruningCallback`"
 )
 
 
