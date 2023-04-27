@@ -51,6 +51,9 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
     "sphinx.ext.githubpages",
+    # TODO(toshihikoyanase) remove jQuery extension after
+    # https://github.com/readthedocs/sphinx_rtd_theme/issues/1452 is resolved.
+    "sphinxcontrib.jquery",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
