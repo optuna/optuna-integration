@@ -1,7 +1,6 @@
-from packaging import version
-
 from optuna._deprecated import deprecated_class
 from optuna._imports import try_import
+from packaging import version
 
 
 with try_import() as _imports:

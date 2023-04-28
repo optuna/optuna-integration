@@ -1,6 +1,5 @@
-import pytest
-
 import optuna
+import pytest
 
 
 pytestmark = pytest.mark.integration
