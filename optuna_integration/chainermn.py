@@ -24,7 +24,7 @@ with try_import() as _imports:
     from chainermn.communicators.communicator_base import CommunicatorBase  # NOQA
 
 
-_suggest_deprecated_msg = "Use :func:`~optuna.integration.ChainerMNTrial.suggest_float` instead."
+_suggest_deprecated_msg = "Use :func:`~optuna_integration.ChainerMNTrial.suggest_float` instead."
 
 
 class _ChainerMNObjectiveFunc:
@@ -57,7 +57,7 @@ class ChainerMNStudy:
     """A wrapper of :class:`~optuna.study.Study` to incorporate Optuna with ChainerMN.
 
     .. seealso::
-        :class:`~optuna.integration.chainermn.ChainerMNStudy` provides the same interface as
+        :class:`~optuna_integration.chainermn.ChainerMNStudy` provides the same interface as
         :class:`~optuna.study.Study`. Please refer to :class:`optuna.study.Study` for further
         details.
 
@@ -144,7 +144,7 @@ class ChainerMNTrial(BaseTrial):
     """A wrapper of :class:`~optuna.trial.Trial` to incorporate Optuna with ChainerMN.
 
     .. seealso::
-        :class:`~optuna.integration.chainermn.ChainerMNTrial` provides the same interface as
+        :class:`~optuna_integration.chainermn.ChainerMNTrial` provides the same interface as
         :class:`~optuna.trial.Trial`. Please refer to :class:`optuna.trial.Trial` for further
         details.
 
