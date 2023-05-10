@@ -34,7 +34,7 @@ Chainer
    :toctree: generated/
    :nosignatures:
 
-   optuna.integration.ChainerPruningExtension 
+   optuna.integration.ChainerPruningExtension
    optuna.integration.ChainerMNStudy
 
 Keras
@@ -45,3 +45,12 @@ Keras
    :nosignatures:
 
    optuna.integration.KerasPruningCallback
+
+TensorFlow
+----------
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   optuna.integration.TFKerasPruningCallback
