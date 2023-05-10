@@ -9,9 +9,9 @@ from optuna import pruners
 from optuna import Trial
 from optuna import TrialPruned
 from optuna._experimental import experimental_class
-from optuna._imports import try_import
 from packaging import version
 
+from optuna_integration._imports import try_import
 from optuna_integration.allennlp._variables import _VariableManager
 from optuna_integration.allennlp._variables import OPTUNA_ALLENNLP_DISTRIBUTED_FLAG
 
