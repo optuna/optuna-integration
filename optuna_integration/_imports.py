@@ -103,7 +103,7 @@ class _LazyImport(types.ModuleType):
     """Module wrapper for lazy import.
 
     This class wraps the specified modules and lazily imports them only when accessed.
-    Otherwise, `import optuna` is slowed down by importing all submodules and
+    Otherwise, `import optuna-integration` is slowed down by importing all submodules and
     dependencies even if not required.
     Within this project's usage, importlib override this module's attribute on the first
     access and the imported submodule is directly accessed from the second access.
