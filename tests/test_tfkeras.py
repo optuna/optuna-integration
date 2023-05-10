@@ -1,11 +1,11 @@
 import numpy as np
+import optuna
+from optuna._imports import try_import
+from optuna.testing.pruners import DeterministicPruner
 from packaging import version
 import pytest
 
-import optuna
-from optuna._imports import try_import
-from optuna.integration import TFKerasPruningCallback
-from optuna.testing.pruners import DeterministicPruner
+from optuna_integration.tfkeras import TFKerasPruningCallback
 
 
 with try_import():
