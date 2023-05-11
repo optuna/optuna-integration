@@ -45,3 +45,12 @@ Keras
    :nosignatures:
 
    optuna.integration.KerasPruningCallback
+
+skorch
+------
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+    optuna.integration.SkorchPruningCallback
