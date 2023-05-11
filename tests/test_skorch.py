@@ -4,7 +4,7 @@ import optuna
 from optuna.testing.pruners import DeterministicPruner
 import pytest
 
-from optuna_integration import SkorchPruningCallback
+from optuna_integration.skorch import SkorchPruningCallback
 from optuna_integration._imports import try_import
 
 
