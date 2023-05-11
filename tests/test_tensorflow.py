@@ -8,7 +8,7 @@ import pytest
 
 import optuna
 from optuna._imports import try_import
-from optuna_integration import TensorFlowPruningHook
+from optuna_integration.tensorflow import TensorFlowPruningHook
 from optuna.testing.pruners import DeterministicPruner
 
 
