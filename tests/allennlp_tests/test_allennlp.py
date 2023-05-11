@@ -6,11 +6,11 @@ import tempfile
 from unittest import mock
 
 import optuna
-from optuna._imports import try_import
 from optuna.testing.pruners import DeterministicPruner
 import pytest
 
 import optuna_integration
+from optuna_integration._imports import try_import
 from optuna_integration.allennlp import AllenNLPExecutor
 from optuna_integration.allennlp import AllenNLPPruningCallback
 from optuna_integration.allennlp._pruner import _create_pruner

@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import optuna
 
+from optuna_integration._imports import try_import
 
-with optuna._imports.try_import() as _imports:
+
+with try_import() as _imports:
     import chainer
     from chainer.training.extension import Extension
     from chainer.training.triggers import IntervalTrigger  # type: ignore[attr-defined]
