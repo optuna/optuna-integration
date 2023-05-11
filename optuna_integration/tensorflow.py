@@ -3,9 +3,10 @@ from optuna._imports import try_import
 
 
 with try_import() as _imports:
+    from tensorflow_estimator.python.estimator.early_stopping import read_eval_metrics
+
     import tensorflow as tf
     from tensorflow.estimator import SessionRunHook
-    from tensorflow_estimator.python.estimator.early_stopping import read_eval_metrics
 
 if not _imports.is_successful():
     SessionRunHook = object  # NOQA

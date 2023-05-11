@@ -4,12 +4,12 @@ import typing
 from unittest.mock import patch
 
 import numpy as np
-import pytest
-
 import optuna
 from optuna._imports import try_import
-from optuna_integration.tensorflow import TensorFlowPruningHook
 from optuna.testing.pruners import DeterministicPruner
+import pytest
+
+from optuna_integration.tensorflow import TensorFlowPruningHook
 
 
 with try_import():
