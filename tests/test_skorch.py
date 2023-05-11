@@ -1,19 +1,19 @@
 from typing import Any
 
-import pytest
-
 import optuna
 from optuna.testing.pruners import DeterministicPruner
+import pytest
 
 from optuna_integration import SkorchPruningCallback
 from optuna_integration._imports import try_import
 
 
 with try_import() as _imports:
-    import skorch
     import torch
     from torch import nn
     from torch.nn import Module
+
+    import skorch
 
 if not _imports.is_successful():
     Module = object  # type: ignore # NOQA
