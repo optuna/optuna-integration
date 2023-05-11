@@ -22,7 +22,8 @@ Optuna-Integration API reference is [here](https://optuna-integration.readthedoc
 * [ChainerMN](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#chainermn)  ([example](https://github.com/optuna/optuna-examples/tree/main/chainer/chainermn_simple.py))
 * [Keras](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#keras)  ([example](https://github.com/optuna/optuna-examples/tree/main/keras))
 * [skorch](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#skorch)
-* 
+* [tf.keras](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#tensorflow)  ([example](https://github.com/optuna/optuna-examples/tree/main/tfkeras/tfkeras_integration.py))
+
 ## Installation
 
 Optuna-Integration is available at [the Python Package Index](https://pypi.org/project/optuna-integration/) and on [Anaconda Cloud](https://anaconda.org/conda-forge/optuna-integration).
