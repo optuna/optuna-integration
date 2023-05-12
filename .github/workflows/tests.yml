@@ -72,6 +72,7 @@ jobs:
         if [ ${{ matrix.python-version }} == 3.11 ]; then
           pytest tests\
             --ignore tests/allennlp_tests \
+            --ignore tests/test_catalyst.py \
             --ignore tests/test_keras.py \
             --ignore tests/test_tfkeras.py
         else

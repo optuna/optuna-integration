@@ -53,6 +53,7 @@ document = [
 ]
 all = [
   "allennlp>=2.2.0; python_version<'3.11'",
+  "catalyst>=21.3; python_version<'3.11'",
   "chainer>=5.0.0",
   "mpi4py",
   "tensorflow; python_version<'3.11'",

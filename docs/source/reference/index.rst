@@ -27,6 +27,15 @@ AllenNLP
    optuna.integration.allennlp.dump_best_config
    optuna.integration.AllenNLPPruningCallback
 
+Catalyst
+--------
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   optuna.integration.CatalystPruningCallback
+
 Chainer
 -------
 
