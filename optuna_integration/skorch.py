@@ -3,7 +3,7 @@ from typing import Any
 import optuna
 
 
-with optuna._imports.try_import() as _imports:
+with optuna_integration._imports.try_import() as _imports:
     from skorch.callbacks import Callback
     from skorch.net import NeuralNet
 
