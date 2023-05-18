@@ -75,6 +75,7 @@ jobs:
             --ignore tests/test_catalyst.py \
             --ignore tests/test_keras.py \
             --ignore tests/test_skorch.py \
+            --ignore tests/test_tensorflow.py \
             --ignore tests/test_tfkeras.py
         else
           pytest tests
