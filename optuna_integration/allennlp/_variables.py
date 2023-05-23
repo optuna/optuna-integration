@@ -35,7 +35,7 @@ class _VariableManager:
         "study_name": "{}_STUDY_NAME",
         "trial_id": "{}_TRIAL_ID",
     }
-    NAME_OF_PATH = "optuna.integration.allennlp._variables._VariableManager.NAME_OF_KEY"
+    NAME_OF_PATH = "optuna_integration.allennlp._variables._VariableManager.NAME_OF_KEY"
 
     def __init__(self, target_pid: int) -> None:
         self.target_pid = target_pid
@@ -53,7 +53,7 @@ class _VariableManager:
     def set_value(self, name: str, value: Any) -> None:
         """Set values to environment variables.
 
-        `set_value` is only invoked in `optuna.integration.allennlp.AllenNLPExecutor`.
+        `set_value` is only invoked in `optuna_integration.allennlp.AllenNLPExecutor`.
 
         """
         key = self._get_key(name).format(self.target_pid)
@@ -62,7 +62,7 @@ class _VariableManager:
     def get_value(self, name: str) -> Any:
         """Fetch parameters from environment variables.
 
-        `get_value` is only called in `optuna.integration.allennlp.AllenNLPPruningCallback`.
+        `get_value` is only called in `optuna_integration.allennlp.AllenNLPPruningCallback`.
 
         """
         key = self._get_key(name).format(self.target_pid)

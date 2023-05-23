@@ -1,8 +1,9 @@
 import json
 
 import optuna
-from optuna._imports import try_import
-from optuna.integration.allennlp._environment import _environment_variables
+
+from optuna_integration._imports import try_import
+from optuna_integration.allennlp._environment import _environment_variables
 
 
 with try_import() as _imports:
@@ -15,7 +16,7 @@ def dump_best_config(input_config_file: str, output_config_file: str, study: opt
     Args:
         input_config_file:
             Input Jsonnet config file used with
-            :class:`~optuna.integration.AllenNLPExecutor`.
+            :class:`~optuna_integration.AllenNLPExecutor`.
         output_config_file:
             Output JSON config file.
         study:

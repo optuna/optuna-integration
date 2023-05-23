@@ -8,6 +8,15 @@ on:
   schedule:
     - cron: '0 23 * * SUN-THU'
   workflow_dispatch:
+    inputs:
+      repository_name:
+        description: 'Repository for optuna package (username/optuna)'
+        required: false
+        type: string
+      branch_name:
+        description: 'Branch name'
+        required: false
+        type: string
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref == 'refs/heads/master' && github.run_number || github.ref }}
@@ -53,29 +62,21 @@ jobs:
         pip install --progress-bar off .[test]
         pip install --progress-bar off .[all]
 
-    - name: Output dependency tree
-      run: |
-        pip install pipdeptree
-        pipdeptree
-
-    - name: Scheduled tests
-      if:  ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
-      run: |
-        if [ ${{ matrix.python-version }} == 3.11 ]; then
-          pytest tests\
-            --ignore tests/allennlp_tests \
-            --ignore tests/test_keras.py
-        else
-          pytest tests
-        fi
+        # Install optuna from specified repository, otherwise from optuna/optuna.
+        $( test ${{ inputs.repository_name }} && test ${{ inputs.branch_name }} ) \
+          && pip install git+https://github.com/${{ inputs.repository_name }}@${{ inputs.branch_name }} \
+          || pip install git+https://github.com/optuna/optuna@master
 
     - name: Tests
-      if:  ${{ github.event_name != 'schedule' }}
       run: |
         if [ ${{ matrix.python-version }} == 3.11 ]; then
           pytest tests\
             --ignore tests/allennlp_tests \
-            --ignore tests/test_keras.py
+            --ignore tests/test_catalyst.py \
+            --ignore tests/test_keras.py \
+            --ignore tests/test_skorch.py \
+            --ignore tests/test_tensorflow.py \
+            --ignore tests/test_tfkeras.py
         else
           pytest tests
         fi

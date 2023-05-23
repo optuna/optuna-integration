@@ -27,6 +27,15 @@ AllenNLP
    optuna.integration.allennlp.dump_best_config
    optuna.integration.AllenNLPPruningCallback
 
+Catalyst
+--------
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   optuna.integration.CatalystPruningCallback
+
 Chainer
 -------
 
@@ -34,7 +43,7 @@ Chainer
    :toctree: generated/
    :nosignatures:
 
-   optuna.integration.ChainerPruningExtension 
+   optuna.integration.ChainerPruningExtension
    optuna.integration.ChainerMNStudy
 
 Keras
@@ -45,3 +54,22 @@ Keras
    :nosignatures:
 
    optuna.integration.KerasPruningCallback
+
+
+skorch
+------
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+    optuna.integration.SkorchPruningCallback
+
+TensorFlow
+----------
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   optuna.integration.TFKerasPruningCallback

@@ -5,8 +5,10 @@ import warnings
 import optuna
 from optuna._deprecated import deprecated_class
 
+from optuna_integration._imports import try_import
 
-with optuna._imports.try_import() as _imports:
+
+with try_import() as _imports:
     from keras.callbacks import Callback
 
 if not _imports.is_successful():
@@ -20,7 +22,7 @@ _keras_pruning_callback_deprecated_msg = (
     "Test before upgrading. "
     "REF: https://github.com/keras-team/keras/releases/tag/2.4.0. "
     "There is an alternative callback function that can be used instead: "
-    ":class:`~optuna.integration.TFKerasPruningCallback`"
+    ":class:`~optuna_integration.TFKerasPruningCallback`"
 )
 
 
