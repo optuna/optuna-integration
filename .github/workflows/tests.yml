@@ -72,6 +72,11 @@ jobs:
           && pip install git+https://github.com/${{ inputs.repository_name }}@${{ inputs.branch_name }} \
           || pip install git+https://github.com/optuna/optuna@master
 
+    - name: Output dependency tree
+      run: |
+        pip install pipdeptree
+        pipdeptree
+
     - name: Tests
       run: |
         if [ ${{ matrix.python-version }} == 3.11 ]; then
