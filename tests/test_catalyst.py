@@ -4,8 +4,6 @@ import pytest
 from optuna_integration.catalyst import CatalystPruningCallback
 
 
-pytestmark = pytest.mark.integration
-
 
 def test_warning() -> None:
     study = optuna.create_study()

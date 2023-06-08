@@ -15,8 +15,6 @@ from optuna_integration.tensorflow import TensorFlowPruningHook
 with try_import():
     import tensorflow as tf
 
-pytestmark = pytest.mark.integration
-
 
 def fixed_value_input_fn() -> typing.Tuple[typing.Dict[str, "tf.Tensor"], "tf.Tensor"]:
     x_train = np.zeros([16, 20])

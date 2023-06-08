@@ -18,8 +18,6 @@ with try_import() as _imports:
 if not _imports.is_successful():
     Module = object  # type: ignore # NOQA
 
-pytestmark = pytest.mark.integration
-
 
 class ClassifierModule(Module):
     def __init__(self) -> None:
