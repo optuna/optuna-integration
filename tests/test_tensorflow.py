@@ -6,7 +6,6 @@ from unittest.mock import patch
 import numpy as np
 import optuna
 from optuna.testing.pruners import DeterministicPruner
-import pytest
 
 from optuna_integration._imports import try_import
 from optuna_integration.tensorflow import TensorFlowPruningHook
@@ -14,8 +13,6 @@ from optuna_integration.tensorflow import TensorFlowPruningHook
 
 with try_import():
     import tensorflow as tf
-
-pytestmark = pytest.mark.integration
 
 
 def fixed_value_input_fn() -> typing.Tuple[typing.Dict[str, "tf.Tensor"], "tf.Tensor"]:

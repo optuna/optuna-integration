@@ -13,8 +13,6 @@ with try_import():
     from keras import Sequential
     from keras.layers import Dense
 
-pytestmark = pytest.mark.integration
-
 
 @pytest.mark.parametrize("interval, epochs", [(1, 1), (2, 1), (2, 2)])
 def test_keras_pruning_callback(interval: int, epochs: int) -> None:

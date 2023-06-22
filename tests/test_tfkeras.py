@@ -11,8 +11,6 @@ from optuna_integration.tfkeras import TFKerasPruningCallback
 with try_import():
     import tensorflow as tf
 
-pytestmark = pytest.mark.integration
-
 
 def test_tfkeras_pruning_callback() -> None:
     def objective(trial: optuna.trial.Trial) -> float:

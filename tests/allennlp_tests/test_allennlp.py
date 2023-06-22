@@ -31,8 +31,6 @@ with try_import():
     import allennlp.modules.text_field_embedders
     import allennlp.training
 
-pytestmark = pytest.mark.integration
-
 
 def test_build_params() -> None:
     study = optuna.create_study(direction="maximize")

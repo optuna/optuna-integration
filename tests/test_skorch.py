@@ -2,7 +2,6 @@ from typing import Any
 
 import optuna
 from optuna.testing.pruners import DeterministicPruner
-import pytest
 
 from optuna_integration._imports import try_import
 from optuna_integration.skorch import SkorchPruningCallback
@@ -17,8 +16,6 @@ with try_import() as _imports:
 
 if not _imports.is_successful():
     Module = object  # type: ignore # NOQA
-
-pytestmark = pytest.mark.integration
 
 
 class ClassifierModule(Module):

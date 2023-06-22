@@ -34,8 +34,6 @@ except ImportError:
 STORAGE_MODES = ["sqlite"]
 PRUNER_INIT_FUNCS = [lambda: pruners.MedianPruner(), lambda: pruners.SuccessiveHalvingPruner()]
 
-pytestmark = pytest.mark.integration
-
 
 class Func:
     def __init__(self) -> None:
