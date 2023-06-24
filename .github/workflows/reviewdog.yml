@@ -24,6 +24,15 @@ jobs:
         python -m pip install -U pip
         pip install --progress-bar off -U .[checking]
 
+    - name: Output installed packages
+      run: |
+        pip freeze --all
+    
+    - name: Output dependency tree
+      run: |
+        pip install pipdeptree
+        pipdeptree
+
     - name: Apply formatters
       run: |
         black .
