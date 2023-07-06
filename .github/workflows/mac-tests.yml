@@ -83,6 +83,7 @@ jobs:
     - name: Tests
       run: |
         pytest tests
+
       env:
         OMP_NUM_THREADS: 1
 
@@ -92,3 +93,8 @@ jobs:
         mpirun -n 2 -- pytest tests/test_chainermn.py
       env:
         OMP_NUM_THREADS: 1
+
+    - name: Tests(Deprecated)
+      run: |
+        pip install "numpy<1.24"
+        pytest tests
