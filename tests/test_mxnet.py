@@ -1,12 +1,12 @@
 from typing import Union
 
 import numpy as np
+import optuna
+from optuna.testing.pruners import DeterministicPruner
 import pytest
 
-import optuna
-from optuna._imports import try_import
-from optuna.integration.mxnet import MXNetPruningCallback
-from optuna.testing.pruners import DeterministicPruner
+from optuna_integration._imports import try_import
+from optuna_integration.mxnet import MXNetPruningCallback
 
 
 with try_import():
