@@ -1,4 +1,4 @@
-from typing import Union
+from __future__ import annotations
 
 import numpy as np
 import optuna
@@ -12,11 +12,9 @@ from optuna_integration.mxnet import MXNetPruningCallback
 with try_import():
     import mxnet as mx
 
-pytestmark = pytest.mark.integration
-
 
 def test_mxnet_pruning_callback() -> None:
-    def objective(trial: optuna.trial.Trial, eval_metric: Union[list, str]) -> float:
+    def objective(trial: optuna.trial.Trial, eval_metric: list | str) -> float:
         # Symbol.
         data = mx.symbol.Variable("data")
         data = mx.symbol.FullyConnected(data=data, num_hidden=1)

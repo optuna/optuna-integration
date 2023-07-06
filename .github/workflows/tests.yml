@@ -84,13 +84,20 @@ jobs:
     - name: Tests
       run: |
         if [ ${{ matrix.python-version }} == 3.11 ]; then
-          pytest tests\
+          pytest tests "\
             --ignore tests/allennlp_tests \
             --ignore tests/test_catalyst.py \
             --ignore tests/test_keras.py \
             --ignore tests/test_skorch.py \
             --ignore tests/test_tensorflow.py \
-            --ignore tests/test_tfkeras.py
+            --ignore tests/test_tfkeras.py 
         else
           pytest tests
         fi
+
+    - name: Tests(Deprecated)
+      run: |
+        pip install "numpy<1.24"
+        if [ ${{ matrix.python-version }} != 3.11 ]; then
+          pytest tests
+        fi 
