@@ -55,6 +55,14 @@ Keras
 
    optuna.integration.KerasPruningCallback
 
+MXNet
+-----
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   optuna.integration.MXNetPruningCallback
 
 skorch
 ------
