@@ -91,7 +91,7 @@ jobs:
             --ignore tests/test_mxnet.py \
             --ignore tests/test_skorch.py \
             --ignore tests/test_tensorflow.py \
-            --ignore tests/test_tfkeras.py 
+            --ignore tests/test_tfkeras.py
         else
           pytest tests \
           --ignore tests/allennlp_tests \
@@ -104,4 +104,4 @@ jobs:
         if [ ${{ matrix.python-version }} != 3.11 ]; then
           pytest tests/allennlp_tests
           pytest tests/test_mxnet.py
-        fi 
+        fi
