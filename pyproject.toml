@@ -56,6 +56,7 @@ all = [
   "catalyst>=21.3; python_version<'3.11'",
   "chainer>=5.0.0",
   "mpi4py",
+  "mxnet; python_version<'3.11'",
   "skorch; python_version<'3.11'",
   "tensorflow; python_version<'3.11'",
 ]
