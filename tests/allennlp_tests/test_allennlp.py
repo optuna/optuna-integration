@@ -9,14 +9,6 @@ import optuna
 from optuna.testing.pruners import DeterministicPruner
 import pytest
 
-import allennlp.data
-import allennlp.data.dataset_readers
-import allennlp.data.tokenizers
-import allennlp.models
-import allennlp.modules
-import allennlp.modules.seq2vec_encoders
-import allennlp.modules.text_field_embedders
-import allennlp.training
 import optuna_integration
 from optuna_integration._imports import try_import
 from optuna_integration.allennlp import AllenNLPExecutor
@@ -29,6 +21,15 @@ with try_import():
     import _jsonnet
     import psutil
     import torch.optim
+
+    import allennlp.data
+    import allennlp.data.dataset_readers
+    import allennlp.data.tokenizers
+    import allennlp.models
+    import allennlp.modules
+    import allennlp.modules.seq2vec_encoders
+    import allennlp.modules.text_field_embedders
+    import allennlp.training
 
 
 def test_build_params() -> None:
