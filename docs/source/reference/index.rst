@@ -64,6 +64,15 @@ MXNet
 
    optuna.integration.MXNetPruningCallback
 
+SHAP
+----
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   optuna.integration.ShapleyImportanceEvaluator
+
 skorch
 ------
 
