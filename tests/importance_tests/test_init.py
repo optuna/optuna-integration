@@ -1,6 +1,6 @@
+from __future__ import annotations
+
 from collections import OrderedDict
-from typing import List
-from typing import Tuple
 
 import numpy as np
 import optuna
@@ -20,7 +20,7 @@ from optuna_integration.shap import ShapleyImportanceEvaluator
 
 @pytest.mark.parametrize("storage_mode", STORAGE_MODES)
 def test_get_param_importance_target_is_none_and_study_is_multi_obj(storage_mode: str) -> None:
-    def objective(trial: Trial) -> Tuple[float, float]:
+    def objective(trial: Trial) -> tuple[float, float]:
         x1 = trial.suggest_float("x1", 0.1, 3)
         x2 = trial.suggest_float("x2", 0.1, 3, log=True)
         x3 = trial.suggest_float("x3", 0, 3, step=1)
@@ -92,7 +92,9 @@ def test_get_param_importances(storage_mode: str, normalize: bool) -> None:
 @pytest.mark.parametrize("storage_mode", STORAGE_MODES)
 @pytest.mark.parametrize("params", [[], ["x1"], ["x1", "x3"], ["x1", "x4"]])
 @pytest.mark.parametrize("normalize", [True, False])
-def test_get_param_importances_with_params(storage_mode: str,params: List[str],normalize: bool) -> None:
+def test_get_param_importances_with_params(
+    storage_mode: str, params: list[str], normalize: bool
+) -> None:
     def objective(trial: Trial) -> float:
         x1 = trial.suggest_float("x1", 0.1, 3)
         x2 = trial.suggest_float("x2", 0.1, 3, log=True)
@@ -126,10 +128,9 @@ def test_get_param_importances_with_params(storage_mode: str,params: List[str],n
             assert len(param_importance) == 0 or np.isclose(sum(param_importance.values()), 1.0)
 
 
-
 @pytest.mark.parametrize("storage_mode", STORAGE_MODES)
 @pytest.mark.parametrize("normalize", [True, False])
-def test_get_param_importances_with_target(storage_mode: str,  normalize: bool) -> None:
+def test_get_param_importances_with_target(storage_mode: str, normalize: bool) -> None:
     def objective(trial: Trial) -> float:
         x1 = trial.suggest_float("x1", 0.1, 3)
         x2 = trial.suggest_float("x2", 0.1, 3, log=True)

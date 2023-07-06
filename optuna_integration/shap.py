@@ -47,9 +47,7 @@ class ShapleyImportanceEvaluator(BaseImportanceEvaluator):
             Seed for the random forest.
     """
 
-    def __init__(
-        self, *, n_trees: int = 64, max_depth: int = 64, seed: int | None = None
-    ) -> None:
+    def __init__(self, *, n_trees: int = 64, max_depth: int = 64, seed: int | None = None) -> None:
         _imports.check()
 
         # Use the RandomForest as the surrogate model to evaluate the feature importances.
