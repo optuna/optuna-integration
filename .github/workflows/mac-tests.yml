@@ -82,7 +82,9 @@ jobs:
 
     - name: Tests
       run: |
-        pytest tests
+        pytest tests \
+        --ignore tests/allennlp_tests \
+        --ignore tests/test_mxnet.py
 
       env:
         OMP_NUM_THREADS: 1
@@ -97,4 +99,5 @@ jobs:
     - name: Tests(Deprecated)
       run: |
         pip install "numpy<1.24"
-        pytest tests
+        pytest tests/allennlp_tests
+        pytest tests/test_mxnet.py
