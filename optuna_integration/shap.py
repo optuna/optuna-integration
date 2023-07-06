@@ -1,11 +1,8 @@
-from collections import OrderedDict
-from typing import Callable
-from typing import Dict
-from typing import List
-from typing import Optional
+from __future__ import annotations
+
+from collections.abc import Callable
 
 import numpy as np
-
 from optuna._experimental import experimental_class
 from optuna._imports import try_import
 from optuna._transform import _SearchSpaceTransform
@@ -21,8 +18,9 @@ from optuna.trial import FrozenTrial
 
 
 with try_import() as _imports:
-    from shap import TreeExplainer
     from sklearn.ensemble import RandomForestRegressor
+
+    from shap import TreeExplainer
 
 
 @experimental_class("3.0.0")
@@ -50,7 +48,7 @@ class ShapleyImportanceEvaluator(BaseImportanceEvaluator):
     """
 
     def __init__(
-        self, *, n_trees: int = 64, max_depth: int = 64, seed: Optional[int] = None
+        self, *, n_trees: int = 64, max_depth: int = 64, seed: int | None = None
     ) -> None:
         _imports.check()
 
@@ -66,10 +64,10 @@ class ShapleyImportanceEvaluator(BaseImportanceEvaluator):
     def evaluate(
         self,
         study: Study,
-        params: Optional[List[str]] = None,
+        params: list[str] | None = None,
         *,
-        target: Optional[Callable[[FrozenTrial], float]] = None,
-    ) -> Dict[str, float]:
+        target: Callable[[FrozenTrial], float] | None = None,
+    ) -> dict[str, float]:
         if target is None and study._is_multi_objective():
             raise ValueError(
                 "If the `study` is being used for multi-objective optimization, "
@@ -82,9 +80,9 @@ class ShapleyImportanceEvaluator(BaseImportanceEvaluator):
             params = list(distributions.keys())
         assert params is not None
         if len(params) == 0:
-            return OrderedDict()
+            return {}
 
-        trials: List[FrozenTrial] = _get_filtered_trials(study, params=params, target=target)
+        trials: list[FrozenTrial] = _get_filtered_trials(study, params=params, target=target)
         trans = _SearchSpaceTransform(distributions, transform_log=False, transform_step=False)
         trans_params: np.ndarray = _get_trans_params(trials, trans)
         target_values: np.ndarray = _get_target_values(trials, target)

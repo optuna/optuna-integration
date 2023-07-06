@@ -1,15 +1,15 @@
-from typing import Tuple
-
-import pytest
+from __future__ import annotations
 
 from optuna import create_study
 from optuna import Trial
 from optuna.distributions import CategoricalDistribution
 from optuna.distributions import FloatDistribution
 from optuna.distributions import IntDistribution
-from optuna_integration.shap import ShapleyImportanceEvaluator
 from optuna.samplers import RandomSampler
 from optuna.trial import create_trial
+import pytest
+
+from optuna_integration.shap import ShapleyImportanceEvaluator
 
 
 pytestmark = pytest.mark.integration
@@ -92,7 +92,7 @@ def test_shap_importance_evaluator_with_infinite(inf_value: float) -> None:
 def test_multi_objective_shap_importance_evaluator_with_infinite(
     target_idx: int, inf_value: float
 ) -> None:
-    def multi_objective_function(trial: Trial) -> Tuple[float, float]:
+    def multi_objective_function(trial: Trial) -> tuple[float, float]:
         x1: float = trial.suggest_float("x1", 0.1, 3)
         x2: float = trial.suggest_float("x2", 0.1, 3, log=True)
         x3: int = trial.suggest_int("x3", 2, 4, log=True)
