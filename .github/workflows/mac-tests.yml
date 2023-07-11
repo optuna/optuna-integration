@@ -86,7 +86,7 @@ jobs:
         --ignore tests/allennlp_tests \
         --ignore tests/test_mxnet.py
         --ignore tests/test_shap.py \
-        --ignore tests/imoportance/test_init.py
+        --ignore tests/importance_tests/test_init.py
       env:
         OMP_NUM_THREADS: 1
 
@@ -103,4 +103,5 @@ jobs:
         pytest tests/allennlp_tests
         pytest tests/test_mxnet.py
         pytest tests/test_shap.py
-        pytest tests/imoportance/test_init.py
+        pytest tests/importance_tests/test_init.py
+
