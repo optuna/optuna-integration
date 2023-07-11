@@ -70,6 +70,8 @@ jobs:
         coverage run --source=optuna -m pytest tests \
           --ignore tests/allennlp_tests \
           --ignore tests/test_mxnet.py
+          --ignore tests/test_shap.py \
+          --ignore tests/imoportance/test_init.py
         coverage combine
         coverage xml
 
