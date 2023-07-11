@@ -109,5 +109,6 @@ jobs:
           pytest tests/allennlp_tests
           pytest tests/test_mxnet.py
           pytest tests/test_shap.py
+          pip install distributed
           pytest tests/importance_tests/test_init.py
         fi
