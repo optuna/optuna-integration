@@ -49,6 +49,9 @@ jobs:
         pip install --progress-bar off .[test]
         pip install --progress-bar off .[all]
 
+        # Install distributed to run importance_tests/test_init tests.
+        pip install distributed
+
         echo 'import coverage; coverage.process_startup()' > sitecustomize.py
     
     - name: Output installed packages
@@ -70,8 +73,6 @@ jobs:
         coverage run --source=optuna -m pytest tests \
           --ignore tests/allennlp_tests \
           --ignore tests/test_mxnet.py
-          --ignore tests/test_shap.py \
-          --ignore tests/imoportance/test_init.py
         coverage combine
         coverage xml
 
