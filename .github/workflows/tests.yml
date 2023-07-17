@@ -99,7 +99,7 @@ jobs:
           pytest tests \
             --ignore tests/allennlp_tests \
             --ignore tests/test_mxnet.py
-          fi
+        fi
 
     - name: Tests(Deprecated)
       run: |
