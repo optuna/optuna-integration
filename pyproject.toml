@@ -53,13 +53,12 @@ document = [
 ]
 all = [
   "allennlp>=2.2.0; python_version<'3.11'",
-  "catalyst>=21.3; python_version<'3.11'",
+  "catalyst",
   "chainer>=5.0.0",
   "mpi4py",
-  "mxnet; python_version<'3.11'",
-  "shap",
-  "skorch; python_version<'3.11'",
-  "tensorflow; python_version<'3.11'",
+  "mxnet",
+  "skorch",
+  "tensorflow",
 ]
 
 [tool.setuptools.packages.find]
