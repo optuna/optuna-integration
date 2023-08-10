@@ -49,6 +49,9 @@ jobs:
         pip install --progress-bar off .[test]
         pip install --progress-bar off .[all]
 
+        # Install distributed to run importance_tests/test_init tests.
+        pip install distributed
+
         echo 'import coverage; coverage.process_startup()' > sitecustomize.py
     
     - name: Output installed packages

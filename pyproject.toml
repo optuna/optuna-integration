@@ -57,6 +57,7 @@ all = [
   "chainer>=5.0.0",
   "mpi4py",
   "mxnet",
+  "shap",
   "skorch",
   "tensorflow",
 ]

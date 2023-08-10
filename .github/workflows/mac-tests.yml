@@ -71,6 +71,9 @@ jobs:
           && pip install git+https://github.com/${{ inputs.repository_name }}@${{ inputs.branch_name }} \
           || pip install git+https://github.com/optuna/optuna@master
 
+        # Install distributed to run importance_tests/test_init tests.
+        pip install distributed
+
     - name: Output installed packages
       run: |
         pip freeze --all
@@ -85,7 +88,6 @@ jobs:
         pytest tests \
         --ignore tests/allennlp_tests \
         --ignore tests/test_mxnet.py
-
       env:
         OMP_NUM_THREADS: 1
 
