@@ -8,58 +8,59 @@ description = "Integration libraries of Optuna."
 readme = "README.md"
 license = { file = "LICENSE" }
 classifiers = [
-  "Development Status :: 5 - Production/Stable",
-  "Intended Audience :: Science/Research",
-  "Intended Audience :: Developers",
-  "License :: OSI Approved :: MIT License",
-  "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.7",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3 :: Only",
-  "Topic :: Scientific/Engineering",
-  "Topic :: Scientific/Engineering :: Mathematics",
-  "Topic :: Scientific/Engineering :: Artificial Intelligence",
-  "Topic :: Software Development",
-  "Topic :: Software Development :: Libraries",
-  "Topic :: Software Development :: Libraries :: Python Modules",
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = [
-  "optuna",
+    "optuna",
+    "fastai"
 ]
 dynamic = ["version"]
 
 [project.optional-dependencies]
 test = [
-  "pytest",
-  "coverage",
-  "fakeredis[lua]",
+    "pytest",
+    "coverage",
+    "fakeredis[lua]",
 ]
 checking = [
-  "black",
-  "blackdoc",
-  "hacking",
-  "isort",
-  "mypy",
-  "types-PyYAML",
-  "types-redis",
-  "types-setuptools",
-  "typing_extensions>=3.10.0.0",
+    "black",
+    "blackdoc",
+    "hacking",
+    "isort",
+    "mypy",
+    "types-PyYAML",
+    "types-redis",
+    "types-setuptools",
+    "typing_extensions>=3.10.0.0",
 ]
 document = [
     "sphinx",
     "sphinx_rtd_theme",
 ]
 all = [
-  "allennlp>=2.2.0; python_version<'3.11'",
-  "catalyst",
-  "chainer>=5.0.0",
-  "mpi4py",
-  "mxnet",
-  "shap",
-  "skorch",
-  "tensorflow",
+    "allennlp>=2.2.0; python_version<'3.11'",
+    "catalyst",
+    "chainer>=5.0.0",
+    "mpi4py",
+    "mxnet",
+    "shap",
+    "skorch",
+    "tensorflow",
 ]
 
 [tool.setuptools.packages.find]
@@ -67,7 +68,7 @@ all = [
 include = ["optuna_integration*"]
 
 [tool.setuptools.dynamic]
-version = {attr = "optuna_integration.version.__version__"}
+version = { attr = "optuna_integration.version.__version__" }
 
 [tool.black]
 line-length = 99

@@ -26,10 +26,13 @@ Optuna-Integration API reference is [here](https://optuna-integration.readthedoc
 * [SHAP](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#shap)
 * [skorch](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#skorch)  ([example](https://github.com/optuna/optuna-examples/tree/main/pytorch/skorch_simple.py))
 * [tf.keras](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#tensorflow)  ([example](https://github.com/optuna/optuna-examples/tree/main/tfkeras/tfkeras_integration.py))
+* [fast.ai](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#fastai)  ([example](https://github.com/optuna/optuna-examples/tree/main/fastai/fastaiv2_simple.py))
+
 
 ## Installation
 
-Optuna-Integration is available at [the Python Package Index](https://pypi.org/project/optuna-integration/) and on [Anaconda Cloud](https://anaconda.org/conda-forge/optuna-integration).
+Optuna-Integration is available at [the Python Package Index](https://pypi.org/project/optuna-integration/) and
+on [Anaconda Cloud](https://anaconda.org/conda-forge/optuna-integration).
 
 ```bash
 # PyPI
@@ -51,6 +54,7 @@ Also, we also provide Optuna docker images on [DockerHub](https://hub.docker.com
 - [GitHub Issues] for bug reports and feature requests.
 
 [GitHub Discussions]: https://github.com/optuna/optuna-integration/discussions
+
 [GitHub issues]: https://github.com/optuna/optuna-integration/issues
 
 ## Contribution

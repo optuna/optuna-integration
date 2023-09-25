@@ -90,3 +90,13 @@ TensorFlow
    :nosignatures:
 
    optuna.integration.TFKerasPruningCallback
+
+fast.ai V2
+----------
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   optuna.integration.FastAIV2PruningCallback
+   optuna.integration.FastAIPruningCallback
