@@ -3,7 +3,7 @@ from typing import Any
 import pytest
 
 import optuna
-from optuna._imports import try_import
+from optuna_integration._imports import try_import
 from optuna.integration import FastAIV2PruningCallback
 from optuna.testing.pruners import DeterministicPruner
 

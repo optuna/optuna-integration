@@ -4,7 +4,7 @@ from packaging import version
 
 import optuna
 from optuna._deprecated import deprecated_class
-from optuna._imports import try_import
+from optuna_integration._imports import try_import
 
 with try_import() as _imports:
     import fastai
