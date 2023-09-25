@@ -27,7 +27,6 @@ classifiers = [
 ]
 dependencies = [
     "optuna",
-    "fastai"
 ]
 dynamic = ["version"]
 
@@ -61,6 +60,7 @@ all = [
     "shap",
     "skorch",
     "tensorflow",
+    'fastai'
 ]
 
 [tool.setuptools.packages.find]
