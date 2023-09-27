@@ -1,6 +1,6 @@
 name: "\U0001F4A1Feature request"
 description: Suggest an idea for Optuna Integration.
-labels: ["feature"]
+labels: [ "feature" ]
 body:
   - type: markdown
     attributes:
@@ -33,6 +33,6 @@ body:
     id: additional-context
     attributes:
       label: Additional context (optional)
-      description:  Please add any other context or screenshots about the feature request here.
+      description: Please add any other context or screenshots about the feature request here.
     validations:
       required: false

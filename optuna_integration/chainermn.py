@@ -23,7 +23,6 @@ from optuna_integration._imports import try_import
 with try_import() as _imports:
     from chainermn.communicators.communicator_base import CommunicatorBase  # NOQA
 
-
 _suggest_deprecated_msg = "Use :func:`~optuna_integration.ChainerMNTrial.suggest_float` instead."
 
 

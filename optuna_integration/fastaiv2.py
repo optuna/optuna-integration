@@ -1,7 +1,8 @@
+import optuna
 from packaging import version
 
-import optuna
 from optuna_integration._imports import try_import
+
 
 with try_import() as _imports:
     import fastai
@@ -57,7 +58,7 @@ class FastAIV2PruningCallback(TrackerCallback):
     # Implementation notes: it's a subclass of TrackerCallback to benefit from it. For example,
     # when to run (after the Recorder callback), when not to (like with lr_find), etc.
 
-    def __init__(self, trial: optuna.Trial, monitor: str = "valid_loss"):
+    def __init__(self, trial: optuna.trial.Trial, monitor: str = "valid_loss"):
         super().__init__(monitor=monitor)
         _imports.check()
         self.trial = trial

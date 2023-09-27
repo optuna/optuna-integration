@@ -34,72 +34,72 @@ jobs:
     # Not intended for forks.
     if: (github.event_name == 'schedule' && github.repository == 'optuna/optuna-integration') || (github.event_name != 'schedule')
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    - name: Setup Python3.10
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.10"
+      - name: Setup Python3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
 
-    - name: Setup cache
-      uses: actions/cache@v2
-      env:
-        cache-name: test
-      with:
-        path: ~/Library/Caches/pip
-        key: ${{ runner.os }}-3.10-${{ env.cache-name }}-${{ hashFiles('**/pyproject.toml') }}-v1
-        restore-keys: |
-          ${{ runner.os }}-3.10-${{ env.cache-name }}-${{ hashFiles('**/pyproject.toml') }}
+      - name: Setup cache
+        uses: actions/cache@v2
+        env:
+          cache-name: test
+        with:
+          path: ~/Library/Caches/pip
+          key: ${{ runner.os }}-3.10-${{ env.cache-name }}-${{ hashFiles('**/pyproject.toml') }}-v1
+          restore-keys: |
+            ${{ runner.os }}-3.10-${{ env.cache-name }}-${{ hashFiles('**/pyproject.toml') }}
 
-    - name: Setup mac environment
-      run: |
-        brew install libomp
-        brew install open-mpi
-        brew install openblas
+      - name: Setup mac environment
+        run: |
+          brew install libomp
+          brew install open-mpi
+          brew install openblas
 
-    - name: Install
-      run: |
-        python -m pip install --upgrade pip
-        # Install minimal dependencies and confirm that `import optuna` is successful.
-        pip install --progress-bar off .
-        pip install --progress-bar off .[test]
-        pip install --progress-bar off .[all]
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          # Install minimal dependencies and confirm that `import optuna` is successful.
+          pip install --progress-bar off .
+          pip install --progress-bar off .[test]
+          pip install --progress-bar off .[all]
+          
+          # Install optuna from specified repository, otherwise from optuna/optuna.
+          $( test ${{ inputs.repository_name }} && test ${{ inputs.branch_name }} ) \
+            && pip install git+https://github.com/${{ inputs.repository_name }}@${{ inputs.branch_name }} \
+            || pip install git+https://github.com/optuna/optuna@master
+          
+          # Install distributed to run importance_tests/test_init tests.
+          pip install distributed
 
-        # Install optuna from specified repository, otherwise from optuna/optuna.
-        $( test ${{ inputs.repository_name }} && test ${{ inputs.branch_name }} ) \
-          && pip install git+https://github.com/${{ inputs.repository_name }}@${{ inputs.branch_name }} \
-          || pip install git+https://github.com/optuna/optuna@master
+      - name: Output installed packages
+        run: |
+          pip freeze --all
 
-        # Install distributed to run importance_tests/test_init tests.
-        pip install distributed
+      - name: Output dependency tree
+        run: |
+          pip install pipdeptree
+          pipdeptree
 
-    - name: Output installed packages
-      run: |
-        pip freeze --all
+      - name: Tests
+        run: |
+          pytest tests \
+          --ignore tests/allennlp_tests \
+          --ignore tests/test_mxnet.py
+        env:
+          OMP_NUM_THREADS: 1
 
-    - name: Output dependency tree
-      run: |
-        pip install pipdeptree
-        pipdeptree
+      - name: Tests MPI
+        run: |
+          export OMPI_MCA_rmaps_base_oversubscribe=yes
+          mpirun -n 2 -- pytest tests/test_chainermn.py
+        env:
+          OMP_NUM_THREADS: 1
 
-    - name: Tests
-      run: |
-        pytest tests \
-        --ignore tests/allennlp_tests \
-        --ignore tests/test_mxnet.py
-      env:
-        OMP_NUM_THREADS: 1
-
-    - name: Tests MPI
-      run: |
-        export OMPI_MCA_rmaps_base_oversubscribe=yes
-        mpirun -n 2 -- pytest tests/test_chainermn.py
-      env:
-        OMP_NUM_THREADS: 1
-
-    - name: Tests(Deprecated)
-      run: |
-        pip install "numpy<1.24"
-        pytest tests/allennlp_tests
-        pytest tests/test_mxnet.py
+      - name: Tests(Deprecated)
+        run: |
+          pip install "numpy<1.24"
+          pytest tests/allennlp_tests
+          pytest tests/test_mxnet.py

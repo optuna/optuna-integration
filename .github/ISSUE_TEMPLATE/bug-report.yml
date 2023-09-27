@@ -1,6 +1,6 @@
 name: "\U0001F41BBug report"
 description: Create a report to help us improve Optuna Integration.
-labels: ["bug"]
+labels: [ "bug" ]
 body:
   - type: markdown
     attributes:
@@ -40,7 +40,7 @@ body:
       description: Please copy and paste any relevant error messages, stack traces, or log output.
       render: shell
     validations:
-       required: true
+      required: true
   - type: textarea
     id: steps-to-reproduce
     attributes:

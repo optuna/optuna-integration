@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master
-  pull_request: {}
+  pull_request: { }
   schedule:
     - cron: '0 23 * * SUN-THU'
   workflow_dispatch:
@@ -29,78 +29,78 @@ jobs:
 
     strategy:
       matrix:
-        python-version: ['3.8', '3.9', '3.10', '3.11']
+        python-version: [ '3.8', '3.9', '3.10', '3.11' ]
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    - name: Setup Python${{ matrix.python-version }}
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ matrix.python-version }}
+      - name: Setup Python${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
 
-    - name: Setup cache
-      uses: actions/cache@v3
-      env:
-        cache-name: test
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-${{ matrix.python-version }}-${{ env.cache-name }}-${{ hashFiles('**/pyproject.toml') }}-v1
-        restore-keys: |
-          ${{ runner.os }}-${{ matrix.python-version }}-${{ env.cache-name }}-${{ hashFiles('**/pyproject.toml') }}
+      - name: Setup cache
+        uses: actions/cache@v3
+        env:
+          cache-name: test
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-${{ matrix.python-version }}-${{ env.cache-name }}-${{ hashFiles('**/pyproject.toml') }}-v1
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.python-version }}-${{ env.cache-name }}-${{ hashFiles('**/pyproject.toml') }}
 
-    - name: Setup environment
-      run: |
-        sudo apt-get update
-        sudo apt-get -y install openmpi-bin libopenmpi-dev libopenblas-dev
+      - name: Setup environment
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install openmpi-bin libopenmpi-dev libopenblas-dev
 
-    - name: Install
-      run: |
-        python -m pip install --upgrade pip
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          
+          pip install --progress-bar off .[test]
+          pip install --progress-bar off .[all]
+          
+          # TODO(not522): Remove the version constraint when splitting this workflow.
+          # This constraint is necessary to use the old Pydantic.
+          # See https://github.com/pydantic/pydantic/issues/5821.
+          pip install "typing_extensions<4.6.0"
+          
+          # Install optuna from specified repository, otherwise from optuna/optuna.
+          $( test ${{ inputs.repository_name }} && test ${{ inputs.branch_name }} ) \
+            && pip install git+https://github.com/${{ inputs.repository_name }}@${{ inputs.branch_name }} \
+            || pip install git+https://github.com/optuna/optuna@master
+          
+          # Install distributed to run importance_tests/test_init tests.
+          pip install distributed
 
-        pip install --progress-bar off .[test]
-        pip install --progress-bar off .[all]
+      - name: Output installed packages
+        run: |
+          pip freeze --all
 
-        # TODO(not522): Remove the version constraint when splitting this workflow.
-        # This constraint is necessary to use the old Pydantic.
-        # See https://github.com/pydantic/pydantic/issues/5821.
-        pip install "typing_extensions<4.6.0"
+      - name: Output dependency tree
+        run: |
+          pip install pipdeptree
+          pipdeptree
 
-        # Install optuna from specified repository, otherwise from optuna/optuna.
-        $( test ${{ inputs.repository_name }} && test ${{ inputs.branch_name }} ) \
-          && pip install git+https://github.com/${{ inputs.repository_name }}@${{ inputs.branch_name }} \
-          || pip install git+https://github.com/optuna/optuna@master
+      - name: Tests
+        run: |
+          if [ ${{ matrix.python-version }} == 3.11 ]; then
+            pytest tests \
+              --ignore tests/allennlp_tests \
+              --ignore tests/test_mxnet.py \
+              --ignore tests/test_tensorflow.py
+          else
+            pytest tests \
+              --ignore tests/allennlp_tests \
+              --ignore tests/test_mxnet.py
+          fi
 
-        # Install distributed to run importance_tests/test_init tests.
-        pip install distributed
-
-    - name: Output installed packages
-      run: |
-        pip freeze --all
-
-    - name: Output dependency tree
-      run: |
-        pip install pipdeptree
-        pipdeptree
-
-    - name: Tests
-      run: |
-        if [ ${{ matrix.python-version }} == 3.11 ]; then
-          pytest tests \
-            --ignore tests/allennlp_tests \
-            --ignore tests/test_mxnet.py \
-            --ignore tests/test_tensorflow.py
-        else
-          pytest tests \
-            --ignore tests/allennlp_tests \
-            --ignore tests/test_mxnet.py
-        fi
-
-    - name: Tests(Deprecated)
-      run: |
-        pip install "numpy<1.24"
-        if [ ${{ matrix.python-version }} != 3.11 ]; then
-          pytest tests/allennlp_tests
-        fi
-        pytest tests/test_mxnet.py
+      - name: Tests(Deprecated)
+        run: |
+          pip install "numpy<1.24"
+          if [ ${{ matrix.python-version }} != 3.11 ]; then
+            pytest tests/allennlp_tests
+          fi
+          pytest tests/test_mxnet.py

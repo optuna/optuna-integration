@@ -20,48 +20,48 @@ jobs:
     if: github.repository == 'optuna/optuna-integration'
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.10"
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
 
-    - name: Install twine and build
-      run: |
-        python -m pip install -U pip
-        python -m pip install -U twine build
- 
-    - name: Output installed packages
-      run: |
-        pip freeze --all
- 
-    - name: Output dependency tree
-      run: |
-        pip install pipdeptree
-        pipdeptree
+      - name: Install twine and build
+        run: |
+          python -m pip install -U pip
+          python -m pip install -U twine build
 
-    - name: Change the version file for scheduled TestPyPI upload
-      if: github.event_name == 'schedule'
-      run: |
-        OPTUNA_VERSION=$(cut -d '"' -f 2 optuna_integration/version.py)
-        DATE=`date +"%Y%m%d"`
-        echo "__version__ = \"${OPTUNA_VERSION}${DATE}\"" > optuna_integration/version.py
+      - name: Output installed packages
+        run: |
+          pip freeze --all
 
-    - name: Build a tar ball
-      run: |
-        python -m build
+      - name: Output dependency tree
+        run: |
+          pip install pipdeptree
+          pipdeptree
 
-    - name: Verify the distributions
-      run: twine check dist/*
+      - name: Change the version file for scheduled TestPyPI upload
+        if: github.event_name == 'schedule'
+        run: |
+          OPTUNA_VERSION=$(cut -d '"' -f 2 optuna_integration/version.py)
+          DATE=`date +"%Y%m%d"`
+          echo "__version__ = \"${OPTUNA_VERSION}${DATE}\"" > optuna_integration/version.py
 
-    - name: Publish distribution to TestPyPI
-      # The following upload action cannot be executed in the forked repository.
-      if: (github.event_name == 'schedule') || (github.event_name == 'release')
-      uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        repository-url: https://test.pypi.org/legacy/
+      - name: Build a tar ball
+        run: |
+          python -m build
 
-    - name: Publish distribution to PyPI
-      # The following upload action cannot be executed in the forked repository.
-      if: github.event_name == 'release'
-      uses: pypa/gh-action-pypi-publish@release/v1
+      - name: Verify the distributions
+        run: twine check dist/*
+
+      - name: Publish distribution to TestPyPI
+        # The following upload action cannot be executed in the forked repository.
+        if: (github.event_name == 'schedule') || (github.event_name == 'release')
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+
+      - name: Publish distribution to PyPI
+        # The following upload action cannot be executed in the forked repository.
+        if: github.event_name == 'release'
+        uses: pypa/gh-action-pypi-publish@release/v1

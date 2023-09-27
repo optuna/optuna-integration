@@ -5,27 +5,32 @@ It’s an honor to have you on board!
 We are proud of this project and have been working to make it great since day one.
 We believe you will love it, and we know there’s room for improvement.
 We want to
+
 - implement features that make what you want to do possible and/or easy.
 - write more tutorials and [examples](https://github.com/optuna/optuna-examples) that help you get familiar with Optuna.
 - make issues and pull requests on GitHub fruitful.
-- have more conversations and discussions on [GitHub Discussions](https://github.com/optuna/optuna-integration/discussions).
+- have more conversations and discussions
+  on [GitHub Discussions](https://github.com/optuna/optuna-integration/discussions).
 
 We need your help and everything about Optuna you have in your mind pushes this project forward.
 Join Us!
 
 If you feel like giving a hand, here are some ways:
+
 - Implement a feature
     - If you have some cool idea, please open an issue first to discuss design to make your idea in a better shape.
 - Send a patch
-    - Dirty your hands by tackling [issues with `contribution-welcome` label](https://github.com/optuna/optuna-integration/issues?q=is%3Aissue+is%3Aopen+label%3Acontribution-welcome)
+    - Dirty your hands by
+      tackling [issues with `contribution-welcome` label](https://github.com/optuna/optuna-integration/issues?q=is%3Aissue+is%3Aopen+label%3Acontribution-welcome)
 - Report a bug
     - If you find a bug, please report it! Your reports are important.
 - Fix/Improve documentation
     - Documentation gets outdated easily and can always be better, so feel free to fix and improve
 - Let us and the Optuna community know your ideas and thoughts.
-    - __Contribution to Optuna includes not only sending pull requests, but also writing down your comments on issues and pull requests by others, and joining conversations/discussions on [GitHub Discussions](https://github.com/optuna/optuna-integration/discussions).__
+    - __Contribution to Optuna includes not only sending pull requests, but also writing down your comments on issues
+      and pull requests by others, and joining conversations/discussions
+      on [GitHub Discussions](https://github.com/optuna/optuna-integration/discussions).__
     - Also, sharing how you enjoy Optuna is a huge contribution! If you write a blog, let us know about it!
-
 
 ## Pull Request Guidelines
 
@@ -38,7 +43,8 @@ If you make a pull request, please follow the guidelines below:
 - [Continuous Integration and Local Verification](#continuous-integration-and-local-verification)
 - [Creating a Pull Request](#creating-a-pull-request)
 
-Detailed conventions and policies to write, test, and maintain Optuna code are described in the [Optuna Wiki](https://github.com/optuna/optuna/wiki).
+Detailed conventions and policies to write, test, and maintain Optuna code are described in
+the [Optuna Wiki](https://github.com/optuna/optuna/wiki).
 
 - [Coding Style Conventions](https://github.com/optuna/optuna/wiki/Coding-Style-Conventions)
 - [Deprecation Policy](https://github.com/optuna/optuna/wiki/Deprecation-policy)
@@ -89,6 +95,7 @@ We use [pytest](https://pytest.org/) as the testing framework and
 unit tests are stored under the [tests directory](./tests).
 
 Please install some required packages at first.
+
 ```bash
 # Install required packages to test.
 pip install ".[test]"
@@ -110,7 +117,8 @@ pytest tests/${TARGET_TEST_FILE_NAME}
 pytest tests/${TARGET_TEST_FILE_NAME} -k ${TARGET_TEST_FUNCTION_NAME}
 ```
 
-See also the [Optuna Test Policy](https://github.com/optuna/optuna/wiki/Test-Policy), which describes the principles to write and maintain Optuna tests to meet certain quality requirements.
+See also the [Optuna Test Policy](https://github.com/optuna/optuna/wiki/Test-Policy), which describes the principles to
+write and maintain Optuna tests to meet certain quality requirements.
 
 ### Continuous Integration and Local Verification
 

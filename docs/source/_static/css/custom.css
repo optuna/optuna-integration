@@ -2,136 +2,137 @@
 
 /* Code-block for console */
 .highlight-console pre {
-  background: #d3d5d4;
+    background: #d3d5d4;
 }
 
 /* Parameter names and colons after them in a signature */
 em.sig-param > span:nth-child(1),
 em.sig-param > span:nth-child(2) {
-  color: #555555;
+    color: #555555;
 }
 
 /* Type hints and default values in a signature */
 em.sig-param > span:not(:nth-child(1)):not(:nth-child(2)) {
-  color: #2980b9;
+    color: #2980b9;
 }
 
 /* Internal links in a signature */
 .rst-content dl.class > dt a.reference.internal,
 .rst-content dl.method > dt a.reference.internal,
 .rst-content dl.function > dt a.reference.internal {
-  color: #2980b9;
+    color: #2980b9;
 }
 
 /* External links in a signature */
 .rst-content dl.class > dt a.reference.external,
 .rst-content dl.method > dt a.reference.external,
 .rst-content dl.function > dt a.reference.external {
-  color: #2980b9;
+    color: #2980b9;
 }
 
 /* Containers for a signature */
 .rst-content dl.class > dt,
 .rst-content dl.function > dt {
-  background-color: #f0f0f0;
+    background-color: #f0f0f0;
 }
 
 /* Containers for methods, properties, parameters, and returns */
 .rst-content dl:not(.docutils) dl dt {
-  border-left: solid 3px #6ab0de;
+    border-left: solid 3px #6ab0de;
 }
 
 /* Main content */
 .wy-nav-content {
-  max-width: 1200px;
+    max-width: 1200px;
 }
 
 /* Sidebar header (and topbar for mobile) */
 .wy-side-nav-search,
 .wy-nav-top {
-  background: #f1f3f4;
+    background: #f1f3f4;
 }
+
 .wy-side-nav-search div.version {
-  color: #404040;
+    color: #404040;
 }
 
 .wy-nav-top a {
-  color: #404040;
+    color: #404040;
 }
 
 .wy-nav-top i {
-  color: #404040;
+    color: #404040;
 }
 
 /* Sidebar */
 .wy-nav-side {
-  background: #f1f3f4;
+    background: #f1f3f4;
 }
 
 /* A tag */
 .wy-menu-vertical a {
-  color: #707070;
+    color: #707070;
 }
 
 a {
-  color: #2ba9cd;
+    color: #2ba9cd;
 }
 
 .wy-menu-vertical a:active {
-  background-color: #2ba9cd;
-  cursor: pointer;
-  color: #f1f3f4;
+    background-color: #2ba9cd;
+    cursor: pointer;
+    color: #f1f3f4;
 }
 
 .highlight {
-  background: #f1f3f4;
+    background: #f1f3f4;
 }
 
 .navbar {
-  background: #ffffff;
+    background: #ffffff;
 }
 
 @media only screen and (max-width: 896px) {
-  .navbar {
-    height: 0px;
-  }
+    .navbar {
+        height: 0px;
+    }
 }
 
 .navbar-nav {
-  background: #ffffff;
-  list-style: none;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 20px;
-  max-width: 1200px;
-  margin-left: 300px;
+    background: #ffffff;
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 20px;
+    max-width: 1200px;
+    margin-left: 300px;
 }
 
 .ml-auto {
-  margin-left: auto !important;
+    margin-left: auto !important;
 }
 
 .header_link {
-  margin: 15px 2px;
-  font-size: 16px;
-  font-weight: 600;
-  font-family: "Helvetica";
-  cursor: pointer;
-  padding: 0.5rem 0.8rem 0.5rem 0.5rem;
-  color: #636a73;
+    margin: 15px 2px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: "Helvetica";
+    cursor: pointer;
+    padding: 0.5rem 0.8rem 0.5rem 0.5rem;
+    color: #636a73;
 }
 
 .navbar-nav a:focus,
 a:hover {
-  color: #2ba9cd;
-  text-decoration: none;
+    color: #2ba9cd;
+    text-decoration: none;
 }
 
 .navbar-nav a:visited {
-  color: #636a73;
-  text-decoration: none;
+    color: #636a73;
+    text-decoration: none;
 }
 
 .wy-alert.wy-alert-info .wy-alert-title,
@@ -161,7 +162,7 @@ a:hover {
 .rst-content .seealso .admonition-title,
 .rst-content .wy-alert-info.admonition-todo .admonition-title,
 .rst-content .wy-alert-info.admonition .admonition-title {
-  background: #2ba9cd;
+    background: #2ba9cd;
 }
 
 .wy-alert,
@@ -177,11 +178,11 @@ a:hover {
 .rst-content .seealso,
 .rst-content .admonition-todo,
 .rst-content .admonition {
-  background: #f1f3f4;
+    background: #f1f3f4;
 }
 
 /* This is the patch fix for tutorial page */
 /* TODO (himkt): Remove here after resolving https://github.com/optuna/optuna/pull/3322 */
 .sphx-glr-thumbcontainer {
-  min-width: 182px;
+    min-width: 182px;
 }

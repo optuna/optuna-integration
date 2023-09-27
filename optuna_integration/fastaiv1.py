@@ -1,10 +1,11 @@
 from typing import Any
 
-from packaging import version
-
 import optuna
 from optuna._deprecated import deprecated_class
+from packaging import version
+
 from optuna_integration._imports import try_import
+
 
 with try_import() as _imports:
     import fastai
