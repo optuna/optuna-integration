@@ -86,20 +86,11 @@ jobs:
     - name: Tests
       run: |
         pytest tests \
-        --ignore tests/allennlp_tests \
         --ignore tests/test_mxnet.py
-      env:
-        OMP_NUM_THREADS: 1
-
-    - name: Tests MPI
-      run: |
-        export OMPI_MCA_rmaps_base_oversubscribe=yes
-        mpirun -n 2 -- pytest tests/test_chainermn.py
       env:
         OMP_NUM_THREADS: 1
 
     - name: Tests(Deprecated)
       run: |
         pip install "numpy<1.24"
-        pytest tests/allennlp_tests
         pytest tests/test_mxnet.py
