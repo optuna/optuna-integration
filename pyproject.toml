@@ -55,6 +55,7 @@ all = [
   "allennlp>=2.2.0; python_version<'3.11'",
   "catalyst",
   "chainer>=5.0.0",
+  "fastai",
   "mpi4py",
   "mxnet",
   "shap",

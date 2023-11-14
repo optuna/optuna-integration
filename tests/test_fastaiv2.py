@@ -1,11 +1,11 @@
 from typing import Any
 
+import optuna
+from optuna.testing.pruners import DeterministicPruner
 import pytest
 
-import optuna
-from optuna._imports import try_import
-from optuna.integration import FastAIV2PruningCallback
-from optuna.testing.pruners import DeterministicPruner
+from optuna_integration.fastaiv2 import FastAIV2PruningCallback
+from optuna_integration._imports import try_import
 
 
 with try_import():

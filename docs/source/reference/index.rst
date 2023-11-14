@@ -46,6 +46,17 @@ Chainer
    optuna.integration.ChainerPruningExtension
    optuna.integration.ChainerMNStudy
 
+fast.ai
+-------
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   optuna.integration.FastAIV1PruningCallback
+   optuna.integration.FastAIV2PruningCallback
+   optuna.integration.FastAIPruningCallback
+
 Keras
 -----
 
