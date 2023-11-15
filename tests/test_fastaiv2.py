@@ -4,8 +4,8 @@ import optuna
 from optuna.testing.pruners import DeterministicPruner
 import pytest
 
-from optuna_integration.fastaiv2 import FastAIV2PruningCallback
 from optuna_integration._imports import try_import
+from optuna_integration.fastaiv2 import FastAIV2PruningCallback
 
 
 with try_import():
@@ -16,8 +16,6 @@ with try_import():
     import torch
     import torch.nn as nn
     import torch.nn.functional as F
-
-pytestmark = pytest.mark.integration
 
 
 def _generate_dummy_dataset() -> "torch.utils.data.DataLoader":
