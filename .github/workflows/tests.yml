@@ -53,7 +53,7 @@ jobs:
     - name: Setup environment
       run: |
         sudo apt-get update
-        sudo apt-get -y install openmpi-bin libopenmpi-dev libopenblas-dev
+        sudo apt-get -y install libopenblas-dev
 
     - name: Install
       run: |
@@ -87,13 +87,9 @@ jobs:
     - name: Tests
       run: |
         pytest tests \
-          --ignore tests/allennlp_tests \
           --ignore tests/test_mxnet.py
 
     - name: Tests(Deprecated)
       run: |
         pip install "numpy<1.24"
-        if [ ${{ matrix.python-version }} != 3.11 ]; then
-          pytest tests/allennlp_tests
-        fi
         pytest tests/test_mxnet.py
