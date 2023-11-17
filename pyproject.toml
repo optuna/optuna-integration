@@ -53,6 +53,7 @@ document = [
 ]
 all = [
   "catalyst",
+  "fastai",
   "mxnet",
   "shap",
   "skorch",
