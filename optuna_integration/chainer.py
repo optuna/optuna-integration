@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import optuna
+from optuna._deprecated import deprecated_class
 
 from optuna_integration._imports import try_import
 
@@ -15,6 +16,7 @@ if not _imports.is_successful():
     Extension = object  # type: ignore[assignment, misc]  # NOQA
 
 
+@deprecated_class("3.5.0", "5.0.0")
 class ChainerPruningExtension(Extension):
     """Chainer extension to prune unpromising trials.
 

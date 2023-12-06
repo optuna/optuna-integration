@@ -1,6 +1,7 @@
 import json
 
 import optuna
+from optuna._deprecated import deprecated_func
 
 from optuna_integration._imports import try_import
 from optuna_integration.allennlp._environment import _environment_variables
@@ -10,6 +11,7 @@ with try_import() as _imports:
     import _jsonnet
 
 
+@deprecated_func("3.5.0", "5.0.0")
 def dump_best_config(input_config_file: str, output_config_file: str, study: optuna.Study) -> None:
     """Save JSON config file with environment variables and best performing hyperparameters.
 
