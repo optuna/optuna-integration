@@ -8,7 +8,7 @@ from optuna import load_study
 from optuna import pruners
 from optuna import Trial
 from optuna import TrialPruned
-from optuna._experimental import experimental_class
+from optuna._deprecated import deprecated_class
 from packaging import version
 
 from optuna_integration._imports import try_import
@@ -72,7 +72,7 @@ def _create_pruner(
     return pruner(**pruner_kwargs)
 
 
-@experimental_class("2.0.0")
+@deprecated_class("3.5.0", "5.0.0")
 @TrainerCallback.register("optuna_pruner")
 class AllenNLPPruningCallback(TrainerCallback):
     """AllenNLP callback to prune unpromising trials.
