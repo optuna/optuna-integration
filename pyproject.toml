@@ -57,6 +57,7 @@ all = [
   "mxnet",
   "shap",
   "skorch",
+  "tensorboard",
   "tensorflow",
 ]
 

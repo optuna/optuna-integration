@@ -26,6 +26,7 @@ Optuna-Integration API reference is [here](https://optuna-integration.readthedoc
 * [MXNet](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#mxnet)  ([example](https://github.com/optuna/optuna-examples/tree/main/mxnet))
 * [SHAP](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#shap)
 * [skorch](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#skorch)  ([example](https://github.com/optuna/optuna-examples/tree/main/pytorch/skorch_simple.py))
+* [TensorBoard](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#tensorboard)  ([example](https://github.com/optuna/optuna-examples/tree/main/tensorboard/tensorboard_simple.py))
 * [tf.keras](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#tensorflow)  ([example](https://github.com/optuna/optuna-examples/tree/main/tfkeras/tfkeras_integration.py))
 
 ## Installation
