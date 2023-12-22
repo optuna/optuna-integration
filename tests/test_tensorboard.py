@@ -5,8 +5,9 @@ import tempfile
 import pytest
 
 import optuna
-from optuna._imports import try_import
-from optuna.integration.tensorboard import TensorBoardCallback
+
+from optuna_integration._imports import try_import
+from optuna_integration.tensorboard import TensorBoardCallback
 
 
 with try_import():
