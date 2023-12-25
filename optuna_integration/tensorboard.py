@@ -3,8 +3,9 @@ from typing import Dict
 
 import optuna
 from optuna._experimental import experimental_class
-from optuna_integration._imports import try_import
 from optuna.logging import get_logger
+
+from optuna_integration._imports import try_import
 
 
 with try_import() as _imports:

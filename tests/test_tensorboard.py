@@ -2,9 +2,8 @@ import os
 import shutil
 import tempfile
 
-import pytest
-
 import optuna
+import pytest
 
 from optuna_integration._imports import try_import
 from optuna_integration.tensorboard import TensorBoardCallback
