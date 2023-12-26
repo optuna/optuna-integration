@@ -94,7 +94,7 @@ skorch
     optuna.integration.SkorchPruningCallback
 
 TensorBoard
-----------
+-----------
 
 .. autosummary::
    :toctree: generated/
