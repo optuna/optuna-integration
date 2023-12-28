@@ -13,15 +13,6 @@ on:
   schedule:
     - cron: '0 23 * * SUN-THU'
   workflow_dispatch:
-    inputs:
-      repository_name:
-        description: 'Repository for optuna package (username/optuna)'
-        required: false
-        type: string
-      branch_name:
-        description: 'Branch name'
-        required: false
-        type: string
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref == 'refs/heads/master' && github.run_number || github.ref }}
@@ -64,10 +55,8 @@ jobs:
         pip install --progress-bar off .[test]
         pip install --progress-bar off .[all]
 
-        # Install optuna from specified repository, otherwise from optuna/optuna.
-        $( test ${{ inputs.repository_name }} && test ${{ inputs.branch_name }} ) \
-          && pip install git+https://github.com/${{ inputs.repository_name }}@${{ inputs.branch_name }} \
-          || pip install git+https://github.com/optuna/optuna@master
+        # Install optuna from optuna master
+        pip install git+https://github.com/optuna/optuna@master
 
         # Install distributed to run importance_tests/test_init tests.
         pip install distributed
