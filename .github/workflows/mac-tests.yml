@@ -1,4 +1,4 @@
-# Run tests and integration tests on Mac, which are triggered by each master push.
+# Run tests and integration tests on Mac, which are triggered by each main push.
 # Currently, Python3.10 is only used as an environment.
 # This is mainly for the sake of speed.
 name: mac-tests
@@ -6,7 +6,7 @@ name: mac-tests
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     paths:
       - '.github/workflows/mac-tests.yml'
@@ -15,7 +15,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref == 'refs/heads/master' && github.run_number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref == 'refs/heads/main' && github.run_number || github.ref }}
   cancel-in-progress: true
 
 jobs:
