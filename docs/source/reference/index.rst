@@ -93,6 +93,15 @@ skorch
 
     optuna.integration.SkorchPruningCallback
 
+TensorBoard
+-----------
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   optuna.integration.TensorBoardCallback
+
 TensorFlow
 ----------
 
@@ -101,3 +110,4 @@ TensorFlow
    :nosignatures:
 
    optuna.integration.TFKerasPruningCallback
+   
