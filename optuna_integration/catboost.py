@@ -1,10 +1,10 @@
 from typing import Any
 from typing import Optional
 
-from packaging import version
-
 import optuna
 from optuna._experimental import experimental_class
+from packaging import version
+
 from optuna_integration._imports import try_import
 
 
