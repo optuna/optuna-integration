@@ -19,6 +19,7 @@ Optuna-Integration API reference is [here](https://optuna-integration.readthedoc
 
 * [AllenNLP](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#allennlp)  ([example](https://github.com/optuna/optuna-examples/tree/main/allennlp))
 * [Catalyst](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#catalyst)  ([example](https://github.com/optuna/optuna-examples/blob/main/pytorch/catalyst_simple.py))
+* [CatBoost](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#catboost)  ([example](https://github.com/optuna/optuna-examples/blob/main/catboost/catboost_pruning.py))
 * [Chainer](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#chainer)  ([example](https://github.com/optuna/optuna-examples/tree/main/chainer/chainer_integration.py))
 * [ChainerMN](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#chainermn)  ([example](https://github.com/optuna/optuna-examples/tree/main/chainer/chainermn_simple.py))
 * FastAI ([V1](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#fastaiv1)  ([example](https://github.com/optuna/optuna-examples/tree/main/fastai/fastaiv1_simple.py)), ([V2](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#fastaiv2)  ([example]https://github.com/optuna/optuna-examples/tree/main/fastai/fastaiv2_simple.py)))

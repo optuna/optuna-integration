@@ -4,9 +4,9 @@ import numpy as np
 import pytest
 
 import optuna
-from optuna._imports import try_import
-from optuna.integration.catboost import CatBoostPruningCallback
 from optuna.testing.pruners import DeterministicPruner
+from optuna_integration._imports import try_import
+from optuna_integration.catboost import CatBoostPruningCallback
 
 
 with try_import():
