@@ -28,7 +28,7 @@ class CatBoostPruningCallback:
         :class:`optuna.TrialPruned` cannot be raised
         in :meth:`~optuna_integration.CatBoostPruningCallback.after_iteration`
         that is called in CatBoost via ``CatBoostPruningCallback``.
-        You must call :meth:`~optuna.integration.CatBoostPruningCallback.check_pruned`
+        You must call :meth:`~optuna_integration.CatBoostPruningCallback.check_pruned`
         after training manually unlike other pruning callbacks
         to raise :class:`optuna.TrialPruned`.
 
