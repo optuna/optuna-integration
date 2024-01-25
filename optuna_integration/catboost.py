@@ -56,7 +56,7 @@ class CatBoostPruningCallback:
     """
 
     def __init__(
-        self, trial: optuna.trial.Trial, metric: str, eval_set_index: Optional[int] = None
+        self, trial: optuna.trial.Trial, metric: str, eval_set_index: int | None = None
     ) -> None:
         default_valid_name = "validation"
         self._trial = trial
