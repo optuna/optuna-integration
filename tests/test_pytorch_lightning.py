@@ -9,6 +9,8 @@ import optuna
 from optuna._imports import try_import
 from optuna.testing.pruners import DeterministicPruner
 from optuna.testing.storages import StorageSupplier
+from optuna.trial import Trial
+from optuna.trial import TrialState
 
 from optuna_integration import PyTorchLightningPruningCallback
 
@@ -99,7 +101,7 @@ class ModelDDP(Model):
 
 
 def test_pytorch_lightning_pruning_callback() -> None:
-    def objective(trial: optuna.trial.Trial) -> float:
+    def objective(trial: Trial) -> float:
         callback = PyTorchLightningPruningCallback(trial, monitor="accuracy")
         trainer = pl.Trainer(
             max_epochs=2,
@@ -115,11 +117,11 @@ def test_pytorch_lightning_pruning_callback() -> None:
 
     study = optuna.create_study(pruner=DeterministicPruner(True))
     study.optimize(objective, n_trials=1)
-    assert study.trials[0].state == optuna.trial.TrialState.PRUNED
+    assert study.trials[0].state == TrialState.PRUNED
 
     study = optuna.create_study(pruner=DeterministicPruner(False))
     study.optimize(objective, n_trials=1)
-    assert study.trials[0].state == optuna.trial.TrialState.COMPLETE
+    assert study.trials[0].state == TrialState.COMPLETE
     assert study.trials[0].value == 1.0
 
 
@@ -143,7 +145,7 @@ def test_pytorch_lightning_pruning_callback_monitor_is_invalid() -> None:
 def test_pytorch_lightning_pruning_callback_ddp_monitor(
     storage_mode: str,
 ) -> None:
-    def objective(trial: optuna.trial.Trial) -> float:
+    def objective(trial: Trial) -> float:
         callback = PyTorchLightningPruningCallback(trial, monitor="accuracy")
         trainer = pl.Trainer(
             max_epochs=2,
@@ -165,13 +167,13 @@ def test_pytorch_lightning_pruning_callback_ddp_monitor(
     with StorageSupplier(storage_mode) as storage:
         study = optuna.create_study(storage=storage, pruner=DeterministicPruner(True))
         study.optimize(objective, n_trials=1)
-        assert study.trials[0].state == optuna.trial.TrialState.PRUNED
+        assert study.trials[0].state == TrialState.PRUNED
         assert list(study.trials[0].intermediate_values.keys()) == [0]
         np.testing.assert_almost_equal(study.trials[0].intermediate_values[0], 0.45)
 
         study = optuna.create_study(storage=storage, pruner=DeterministicPruner(False))
         study.optimize(objective, n_trials=1)
-        assert study.trials[0].state == optuna.trial.TrialState.COMPLETE
+        assert study.trials[0].state == TrialState.COMPLETE
         assert study.trials[0].value == 1.0
         assert list(study.trials[0].intermediate_values.keys()) == [0, 1]
         np.testing.assert_almost_equal(study.trials[0].intermediate_values[0], 0.45)
@@ -181,7 +183,7 @@ def test_pytorch_lightning_pruning_callback_ddp_monitor(
 def test_pytorch_lightning_pruning_callback_ddp_unsupported_storage() -> None:
     storage_mode = "inmemory"
 
-    def objective(trial: optuna.trial.Trial) -> float:
+    def objective(trial: Trial) -> float:
         callback = PyTorchLightningPruningCallback(trial, monitor="accuracy")
         trainer = pl.Trainer(
             max_epochs=1,

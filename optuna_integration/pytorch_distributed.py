@@ -1,9 +1,10 @@
+from __future__ import annotations
+
 from datetime import datetime
 import functools
 import pickle
 from typing import Any
 from typing import Callable
-from typing import Dict
 from typing import Optional
 from typing import overload
 from typing import Sequence
@@ -112,8 +113,8 @@ class TorchDistributedTrial(optuna.trial.BaseTrial):
 
     def __init__(
         self,
-        trial: Optional[optuna.trial.BaseTrial],
-        group: Optional["ProcessGroup"] = None,
+        trial: optuna.trial.BaseTrial | None,
+        group: "ProcessGroup" | None = None,
     ) -> None:
         _imports.check()
         global _g_pg
@@ -293,24 +294,24 @@ class TorchDistributedTrial(optuna.trial.BaseTrial):
         return self._number
 
     @property
-    def params(self) -> Dict[str, Any]:
+    def params(self) -> dict[str, Any]:
         return self._params
 
     @property
-    def distributions(self) -> Dict[str, BaseDistribution]:
+    def distributions(self) -> dict[str, BaseDistribution]:
         return self._distributions
 
     @property
-    def user_attrs(self) -> Dict[str, Any]:
+    def user_attrs(self) -> dict[str, Any]:
         return self._user_attrs
 
     @property
     @deprecated_func("3.1.0", "5.0.0")
-    def system_attrs(self) -> Dict[str, Any]:
+    def system_attrs(self) -> dict[str, Any]:
         return self._system_attrs
 
     @property
-    def datetime_start(self) -> Optional[datetime]:
+    def datetime_start(self) -> datetime | None:
         return self._datetime_start
 
     def _call_and_communicate(self, func: Callable, dtype: "torch.dtype") -> Any:
@@ -327,7 +328,7 @@ class TorchDistributedTrial(optuna.trial.BaseTrial):
         result = func() if rank == 0 else None
         return self._broadcast(result)
 
-    def _broadcast(self, value: Optional[Any]) -> Any:
+    def _broadcast(self, value: Any | None) -> Any:
         buffer = None
         size_buffer = torch.empty(1, dtype=torch.int)
         rank = dist.get_rank(self._group)
