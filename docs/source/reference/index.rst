@@ -84,6 +84,18 @@ MXNet
 
    optuna.integration.MXNetPruningCallback
 
+
+PyTorch
+-------
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   optuna.integration.PyTorchIgnitePruningHandler
+   optuna.integration.PyTorchLightningPruningCallback
+   optuna.integration.TorchDistributedTrial
+
 SHAP
 ----
 
