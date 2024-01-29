@@ -56,11 +56,16 @@ all = [
   "catboost>=0.26; sys_platform!='darwin'",
   "catboost>=0.26,<1.2; sys_platform=='darwin'",
   "fastai",
+  "lightning",
   "mxnet",
+  "pytorch-ignite",
   "shap",
   "skorch",
   "tensorboard",
   "tensorflow",
+  "torch",
+  "torchaudio",
+  "torchvision",
 ]
 
 [tool.setuptools.packages.find]
