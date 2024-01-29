@@ -41,7 +41,7 @@ def broadcast_properties(f: "Callable[_P, _T]") -> "Callable[_P, _T]":
 
     This decorator ensures trial properties (params, distributions, etc.) on all distributed
     processes are up-to-date with the wrapped trial stored on rank 0.
-    It should be applied to all :class:`~optuna.integration.TorchDistributedTrial`
+    It should be applied to all :class:`~optuna_integration.TorchDistributedTrial`
     methods that update property values.
     """
 
@@ -82,7 +82,7 @@ class TorchDistributedTrial(optuna.trial.BaseTrial):
     """A wrapper of :class:`~optuna.trial.Trial` to incorporate Optuna with PyTorch distributed.
 
     .. seealso::
-        :class:`~optuna.integration.TorchDistributedTrial` provides the same interface as
+        :class:`~optuna_integration.TorchDistributedTrial` provides the same interface as
         :class:`~optuna.trial.Trial`. Please refer to :class:`optuna.trial.Trial` for further
         details.
 
@@ -104,7 +104,7 @@ class TorchDistributedTrial(optuna.trial.BaseTrial):
             Create a global `gloo` backend when group is None and WORLD is nccl.
 
     .. note::
-        The methods of :class:`~optuna.integration.TorchDistributedTrial` are expected to be
+        The methods of :class:`~optuna_integration.TorchDistributedTrial` are expected to be
         called by all workers at once. They invoke synchronous data transmission to share
         processing results and synchronize timing.
 

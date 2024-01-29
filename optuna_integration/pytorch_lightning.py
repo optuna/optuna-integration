@@ -78,7 +78,7 @@ class PyTorchLightningPruningCallback(Callback):
                 and isinstance(self._trial.study._storage._backend, RDBStorage)
             ):
                 raise ValueError(
-                    "optuna.integration.PyTorchLightningPruningCallback"
+                    "optuna_integration.PyTorchLightningPruningCallback"
                     " supports only optuna.storages.RDBStorage in DDP."
                 )
             # It is necessary to store intermediate values directly in the backend storage because
