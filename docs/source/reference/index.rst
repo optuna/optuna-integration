@@ -4,8 +4,8 @@ API Reference for Optuna-Integration
 
 The Optuna-Integration package contains classes used to integrate Optuna with external machine learning frameworks.
 
-All of these classes can be imported in two ways. One is "`from optuna.integration import xxx`" like a module in Optuna, 
-and the other is "`from optuna_integration import xxx`" as an Optuna-Integration specific module. 
+All of these classes can be imported in two ways. One is "`from optuna.integration import xxx`" like a module in Optuna,
+and the other is "`from optuna_integration import xxx`" as an Optuna-Integration specific module.
 The former is provided for backward compatibility.
 
 For most of the ML frameworks supported by Optuna, the corresponding Optuna integration class serves only to implement a callback object and functions, compliant with the framework's specific callback API, to be called with each intermediate step in the model training. The functionality implemented in these callbacks across the different ML frameworks includes:
@@ -35,6 +35,15 @@ Catalyst
    :nosignatures:
 
    optuna.integration.CatalystPruningCallback
+
+CatBoost
+--------
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   optuna.integration.CatBoostPruningCallback
 
 Chainer
 -------
@@ -110,4 +119,3 @@ TensorFlow
    :nosignatures:
 
    optuna.integration.TFKerasPruningCallback
-   
