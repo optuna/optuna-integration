@@ -25,6 +25,7 @@ Optuna-Integration API reference is [here](https://optuna-integration.readthedoc
 * FastAI ([V1](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#fastaiv1)  ([example](https://github.com/optuna/optuna-examples/tree/main/fastai/fastaiv1_simple.py)), ([V2](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#fastaiv2)  ([example]https://github.com/optuna/optuna-examples/tree/main/fastai/fastaiv2_simple.py)))
 * [Keras](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#keras)  ([example](https://github.com/optuna/optuna-examples/tree/main/keras))
 * [MXNet](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#mxnet)  ([example](https://github.com/optuna/optuna-examples/tree/main/mxnet))
+* [PyTorch](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#pytorch)  ([example](https://github.com/optuna/optuna-examples/tree/main/pytorch))
 * [SHAP](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#shap)
 * [skorch](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#skorch)  ([example](https://github.com/optuna/optuna-examples/tree/main/pytorch/skorch_simple.py))
 * [TensorBoard](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#tensorboard)  ([example](https://github.com/optuna/optuna-examples/tree/main/tensorboard/tensorboard_simple.py))
