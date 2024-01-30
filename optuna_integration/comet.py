@@ -1,19 +1,20 @@
 import functools
+import json
 from typing import Any
 from typing import Callable
 from typing import Dict
 from typing import Optional
 from typing import Sequence
 from typing import Union
-import json
 
 import optuna
 from optuna.study.study import ObjectiveFuncType
+
 from optuna_integration._imports import try_import
+
 
 with try_import() as _imports:
     import comet_ml
-
 
 class CometCallback:
     """
@@ -98,7 +99,7 @@ class CometCallback:
         self._trial_experiments = study.user_attrs.get('trial_experiments')
         if self._trial_experiments is None:
             self._trial_experiments = {}
-            study.user_attrs
+            study.set_user_attr('trial_experiments', self._trial_experiments)
 
     def __call__(
         self, 
@@ -139,9 +140,13 @@ class CometCallback:
     ) -> comet_ml.APIExperiment:
         # Check if we've already created an APIExperiment for this Study 
         experiment_key = study.user_attrs.get("comet_study_experiment_key")
+        print("EXPERIMENT KEY")
+        print(experiment_key)
 
         # Load the existing APIExperiment, if present. Else, make a new APIExperiment
         if experiment_key:
+            print("EXPERIMENT KEY")
+            print(experiment_key)
             study_experiment = comet_ml.APIExperiment(previous_experiment=experiment_key)
         else:
             study_experiment = comet_ml.APIExperiment(workspace=self._workspace, project_name=self._project_name)
@@ -179,6 +184,7 @@ class CometCallback:
             experiment.log_other("optuna_study_name", study.study_name)
 
             self._trial_experiments[trial.number] = experiment.get_key()
+            study.set_user_attr("trial_experiments", self._trial_experiments)
 
         setattr(comet_ml, "active_experiment", experiment)
         return experiment
