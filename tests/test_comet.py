@@ -1,13 +1,11 @@
 import json
+from typing import Tuple
 from unittest import mock
 
 import optuna
 import pytest
 
 from optuna_integration.comet import CometCallback
-
-
-pytestmark = pytest.mark.integration
 
 
 def _objective_func(trial: optuna.trial.Trial) -> float:
@@ -23,7 +21,7 @@ def _objective_func(trial: optuna.trial.Trial) -> float:
     return (x - 2) ** 2 + (y - 25) ** 2
 
 
-def _multiobjective_func(trial: optuna.trial.Trial) -> tuple[float, float]:
+def _multiobjective_func(trial: optuna.trial.Trial) -> Tuple[float, float]:
     x = trial.suggest_float("x", -10, 10)
     y = trial.suggest_float("y", 1, 10, log=True)
 
