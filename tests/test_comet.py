@@ -1,5 +1,5 @@
 import json
-from typing import Tuple
+import typing
 from unittest import mock
 
 import optuna
@@ -21,7 +21,7 @@ def _objective_func(trial: optuna.trial.Trial) -> float:
     return (x - 2) ** 2 + (y - 25) ** 2
 
 
-def _multiobjective_func(trial: optuna.trial.Trial) -> Tuple[float, float]:
+def _multiobjective_func(trial: optuna.trial.Trial) -> typing.Tuple[float, float]:
     x = trial.suggest_float("x", -10, 10)
     y = trial.suggest_float("y", 1, 10, log=True)
 
