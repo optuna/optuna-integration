@@ -55,6 +55,7 @@ all = [
   "catalyst",
   "catboost>=0.26; sys_platform!='darwin'",
   "catboost>=0.26,<1.2; sys_platform=='darwin'",
+  "comet_ml",
   "fastai",
   "mxnet",
   "shap",
