@@ -5,7 +5,7 @@ import optuna
 
 use_callback_cls = True
 
-with optuna._imports.try_import() as _imports:
+with optuna_integration._imports.try_import() as _imports:
     import xgboost as xgb
 
     xgboost_version = xgb.__version__.split(".")
