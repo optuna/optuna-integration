@@ -10,11 +10,11 @@ The former is provided for backward compatibility.
 
 For most of the ML frameworks supported by Optuna, the corresponding Optuna integration class serves only to implement a callback object and functions, compliant with the framework's specific callback API, to be called with each intermediate step in the model training. The functionality implemented in these callbacks across the different ML frameworks includes:
 
-(1) Reporting intermediate model scores back to the Optuna trial using :func:`optuna.trial.Trial.report`,
-(2) According to the results of :func:`optuna.trial.Trial.should_prune`, pruning the current model by raising :func:`optuna.TrialPruned`, and
-(3) Reporting intermediate Optuna data such as the current trial number back to the framework, as done in :class:`~optuna.integration.MLflowCallback`.
+(1) Reporting intermediate model scores back to the Optuna trial using `optuna.trial.Trial.report <https://optuna.readthedocs.io/en/stable/reference/generated/optuna.trial.Trial.html#optuna.trial.Trial.report>`_,
+(2) According to the results of `optuna.trial.Trial.should_prune <https://optuna.readthedocs.io/en/stable/reference/generated/optuna.trial.Trial.html#optuna.trial.Trial.should_prune>`_, pruning the current model by raising `optuna.TrialPruned <https://optuna.readthedocs.io/en/stable/reference/generated/optuna.TrialPruned.html#optuna.TrialPruned>`_, and
+(3) Reporting intermediate Optuna data such as the current trial number back to the framework, as done in :class:`~optuna_integration.MLflowCallback`.
 
-For scikit-learn, an integrated :class:`~optuna.integration.OptunaSearchCV` estimator is available that combines scikit-learn BaseEstimator functionality with access to a class-level ``Study`` object.
+For scikit-learn, an integrated :class:`~optuna_integration.OptunaSearchCV` estimator is available that combines scikit-learn BaseEstimator functionality with access to a class-level ``Study`` object.
 
 AllenNLP
 --------
@@ -23,9 +23,9 @@ AllenNLP
    :toctree: generated/
    :nosignatures:
 
-   optuna.integration.AllenNLPExecutor
-   optuna.integration.allennlp.dump_best_config
-   optuna.integration.AllenNLPPruningCallback
+   optuna_integration.AllenNLPExecutor
+   optuna_integration.allennlp.dump_best_config
+   optuna_integration.AllenNLPPruningCallback
 
 Catalyst
 --------
@@ -34,7 +34,7 @@ Catalyst
    :toctree: generated/
    :nosignatures:
 
-   optuna.integration.CatalystPruningCallback
+   optuna_integration.CatalystPruningCallback
 
 CatBoost
 --------
@@ -43,7 +43,7 @@ CatBoost
    :toctree: generated/
    :nosignatures:
 
-   optuna.integration.CatBoostPruningCallback
+   optuna_integration.CatBoostPruningCallback
 
 Chainer
 -------
@@ -52,8 +52,8 @@ Chainer
    :toctree: generated/
    :nosignatures:
 
-   optuna.integration.ChainerPruningExtension
-   optuna.integration.ChainerMNStudy
+   optuna_integration.ChainerPruningExtension
+   optuna_integration.ChainerMNStudy
 
 fast.ai
 -------
@@ -62,9 +62,9 @@ fast.ai
    :toctree: generated/
    :nosignatures:
 
-   optuna.integration.FastAIV1PruningCallback
-   optuna.integration.FastAIV2PruningCallback
-   optuna.integration.FastAIPruningCallback
+   optuna_integration.FastAIV1PruningCallback
+   optuna_integration.FastAIV2PruningCallback
+   optuna_integration.FastAIPruningCallback
 
 Keras
 -----
@@ -73,7 +73,7 @@ Keras
    :toctree: generated/
    :nosignatures:
 
-   optuna.integration.KerasPruningCallback
+   optuna_integration.KerasPruningCallback
 
 MXNet
 -----
@@ -82,7 +82,7 @@ MXNet
    :toctree: generated/
    :nosignatures:
 
-   optuna.integration.MXNetPruningCallback
+   optuna_integration.MXNetPruningCallback
 
 SHAP
 ----
@@ -91,7 +91,16 @@ SHAP
    :toctree: generated/
    :nosignatures:
 
-   optuna.integration.ShapleyImportanceEvaluator
+   optuna_integration.ShapleyImportanceEvaluator
+
+sklearn
+-------
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+    optuna_integration.OptunaSearchCV
 
 skorch
 ------
@@ -100,7 +109,7 @@ skorch
    :toctree: generated/
    :nosignatures:
 
-    optuna.integration.SkorchPruningCallback
+    optuna_integration.SkorchPruningCallback
 
 TensorBoard
 -----------
@@ -109,7 +118,7 @@ TensorBoard
    :toctree: generated/
    :nosignatures:
 
-   optuna.integration.TensorBoardCallback
+   optuna_integration.TensorBoardCallback
 
 TensorFlow
 ----------
@@ -118,4 +127,4 @@ TensorFlow
    :toctree: generated/
    :nosignatures:
 
-   optuna.integration.TFKerasPruningCallback
+   optuna_integration.TFKerasPruningCallback

@@ -18,9 +18,8 @@ from optuna.trial import FrozenTrial
 
 
 with try_import() as _imports:
-    from sklearn.ensemble import RandomForestRegressor
-
     from shap import TreeExplainer
+    from sklearn.ensemble import RandomForestRegressor
 
 
 @experimental_class("3.0.0")

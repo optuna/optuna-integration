@@ -14,7 +14,6 @@ from typing import List
 from typing import Union
 
 import numpy as np
-
 from optuna import distributions
 from optuna import logging
 from optuna import samplers
@@ -33,6 +32,7 @@ with try_import() as _imports:
     import pandas as pd
     import scipy as sp
     from scipy.sparse import spmatrix
+
     import sklearn
     from sklearn.base import BaseEstimator
     from sklearn.base import clone
@@ -45,6 +45,7 @@ with try_import() as _imports:
     from sklearn.utils import check_random_state
     from sklearn.utils.metaestimators import _safe_split
     from sklearn.utils.validation import check_is_fitted
+
 
 if not _imports.is_successful():
     BaseEstimator = object  # NOQA
@@ -216,18 +217,34 @@ class _Objective:
         if self.enable_pruning:
             scores = self._cross_validate_with_pruning(trial, estimator)
         else:
+            sklearn_version = sklearn.__version__.split(".")
+            sklearn_major_version = int(sklearn_version[0])
+            sklearn_minor_version = int(sklearn_version[1])
             try:
-                scores = cross_validate(
-                    estimator,
-                    self.X,
-                    self.y,
-                    cv=self.cv,
-                    error_score=self.error_score,
-                    fit_params=self.fit_params,
-                    groups=self.groups,
-                    return_train_score=self.return_train_score,
-                    scoring=self.scoring,
-                )
+                if sklearn_major_version == 1 and sklearn_minor_version >= 4:
+                    scores = cross_validate(
+                        estimator,
+                        self.X,
+                        self.y,
+                        cv=self.cv,
+                        error_score=self.error_score,
+                        params=self.fit_params,
+                        groups=self.groups,
+                        return_train_score=self.return_train_score,
+                        scoring=self.scoring,
+                    )
+                else:
+                    scores = cross_validate(
+                        estimator,
+                        self.X,
+                        self.y,
+                        cv=self.cv,
+                        error_score=self.error_score,
+                        fit_params=self.fit_params,
+                        groups=self.groups,
+                        return_train_score=self.return_train_score,
+                        scoring=self.scoring,
+                    )
             except ValueError:
                 n_splits = self.cv.get_n_splits(self.X, self.y, self.groups)
                 fit_time = np.array([np.nan] * n_splits)
@@ -410,7 +427,7 @@ class OptunaSearchCV(BaseEstimator):
                 .. note::
                     ``n_jobs`` allows parallelization using :obj:`threading` and may suffer from
                     `Python's GIL <https://wiki.python.org/moin/GlobalInterpreterLock>`_.
-                    It is recommended to use :ref:`process-based parallelization<distributed>`
+                    It is recommended to use `process-based optimization <https://optuna.readthedocs.io/en/stable/tutorial/10_key_features/004_distributed.html#distributed>`_
                     if ``func`` is CPU bound.
 
         n_trials:
@@ -474,8 +491,8 @@ class OptunaSearchCV(BaseEstimator):
 
             .. seealso::
 
-                See the tutorial of :ref:`optuna_callback` for how to use and implement
-                callback functions.
+                See the tutorial of `Callback for Study.optimize <https://optuna.readthedocs.io/en/stable/tutorial/20_recipes/007_optuna_callback.html#optuna-callback>`_
+                for how to use and implement callback functions.
 
     Attributes:
         best_estimator_:
@@ -503,6 +520,8 @@ class OptunaSearchCV(BaseEstimator):
         .. testcode::
 
             import optuna
+            import optuna_integration
+
             from sklearn.datasets import load_iris
             from sklearn.svm import SVC
 
@@ -510,7 +529,7 @@ class OptunaSearchCV(BaseEstimator):
             param_distributions = {
                 "C": optuna.distributions.FloatDistribution(1e-10, 1e10, log=True)
             }
-            optuna_search = optuna.integration.OptunaSearchCV(clf, param_distributions)
+            optuna_search = optuna_integration.OptunaSearchCV(clf, param_distributions)
             X, y = load_iris(return_X_y=True)
             optuna_search.fit(X, y)
             y_pred = optuna_search.predict(X)
@@ -519,7 +538,7 @@ class OptunaSearchCV(BaseEstimator):
         By following the scikit-learn convention for scorers, the direction of optimization is
         ``maximize``. See https://scikit-learn.org/stable/modules/model_evaluation.html.
         For the minimization problem, please multiply ``-1``.
-    """
+    """  # NOQA: E501
 
     _required_parameters = ["estimator", "param_distributions"]
 
@@ -570,8 +589,8 @@ class OptunaSearchCV(BaseEstimator):
 
     @property
     def cv_results_(self) -> dict[str, Any]:
-        """A dictionary mapping a metric name to a list of
-        Cross-Validation results of all trials."""
+        """A dictionary mapping a metric name to a list of Cross-Validation results of all trials."""  # NOQA: E501
+
         cv_results_dict_in_list = [trial_.user_attrs for trial_ in self.trials_]
         if len(cv_results_dict_in_list) == 0:
             cv_results_list_in_dict = {}

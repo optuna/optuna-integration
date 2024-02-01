@@ -5,8 +5,14 @@ from unittest.mock import patch
 import warnings
 
 import numpy as np
+from optuna import distributions
+from optuna.samplers import BruteForceSampler
+from optuna.study import create_study
+from optuna.terminator.erroreval import _CROSS_VALIDATION_SCORES_KEY
 import pytest
 import scipy as sp
+
+import optuna_integration as integration
 from sklearn.datasets import make_blobs
 from sklearn.datasets import make_regression
 from sklearn.decomposition import PCA
@@ -16,12 +22,6 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import SGDClassifier
 from sklearn.neighbors import KernelDensity
 from sklearn.tree import DecisionTreeRegressor
-
-from optuna import distributions
-from optuna import integration
-from optuna.samplers import BruteForceSampler
-from optuna.study import create_study
-from optuna.terminator.erroreval import _CROSS_VALIDATION_SCORES_KEY
 
 
 pytestmark = pytest.mark.integration
@@ -414,7 +414,7 @@ def test_callbacks() -> None:
 
 
 @pytest.mark.filterwarnings("ignore::UserWarning")
-@patch("optuna.integration.sklearn.cross_validate")
+@patch("optuna_integration.sklearn.cross_validate")
 def test_terminator_cv_score_reporting(mock: MagicMock) -> None:
     scores = {
         "fit_time": np.array([2.01, 1.78, 3.22]),
