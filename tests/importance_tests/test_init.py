@@ -4,7 +4,6 @@ import numpy as np
 import optuna
 from optuna import samplers
 from optuna.importance import get_param_importances
-import optuna.integration.shap
 from optuna.samplers import RandomSampler
 from optuna.study import create_study
 from optuna.testing.objectives import pruned_objective
