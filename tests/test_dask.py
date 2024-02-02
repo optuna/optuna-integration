@@ -21,8 +21,6 @@ with try_import() as _imports:
     from distributed.utils_test import clean
     from distributed.utils_test import gen_cluster
 
-pytestmark = pytest.mark.integration
-
 
 STORAGE_MODES = ["inmemory", "sqlite"]
 
