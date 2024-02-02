@@ -3,14 +3,14 @@ import time
 from typing import Iterator
 
 import numpy as np
+import optuna
+from optuna.testing.tempfile_pool import NamedTemporaryFilePool
+from optuna.trial import Trial
 import pytest
 
-import optuna
 from optuna_integration._imports import try_import
 from optuna_integration.dask import _OptunaSchedulerExtension
 from optuna_integration.dask import DaskStorage
-from optuna.testing.tempfile_pool import NamedTemporaryFilePool
-from optuna.trial import Trial
 
 
 with try_import() as _imports:

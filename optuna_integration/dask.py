@@ -14,7 +14,6 @@ import uuid
 
 import optuna
 from optuna._experimental import experimental_class
-from optuna_integration._imports import try_import
 from optuna._typing import JSONSerializable
 from optuna.distributions import BaseDistribution
 from optuna.distributions import distribution_to_json
@@ -24,6 +23,8 @@ from optuna.study import StudyDirection
 from optuna.study._frozen import FrozenStudy
 from optuna.trial import FrozenTrial
 from optuna.trial import TrialState
+
+from optuna_integration._imports import try_import
 
 
 with try_import() as _imports:
