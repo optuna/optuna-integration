@@ -2,9 +2,7 @@ from __future__ import annotations
 
 import numpy as np
 import optuna
-from optuna import samplers
 from optuna.importance import get_param_importances
-import optuna.integration.shap
 from optuna.samplers import RandomSampler
 from optuna.study import create_study
 from optuna.testing.objectives import pruned_objective
@@ -62,7 +60,7 @@ def test_get_param_importances(storage_mode: str, normalize: bool) -> None:
         return value
 
     with StorageSupplier(storage_mode) as storage:
-        study = create_study(storage=storage, sampler=samplers.RandomSampler())
+        study = create_study(storage=storage, sampler=RandomSampler())
         study.optimize(objective, n_trials=3)
 
         param_importance = get_param_importances(
