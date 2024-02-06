@@ -6,7 +6,7 @@ from optuna._imports import try_import
 from optuna.testing.pruners import DeterministicPruner
 import pytest
 
-from optuna_integration.pytorch_ignite import PyTorchIgnitePruningHandler
+from optuna_integration import PyTorchIgnitePruningHandler
 
 
 with try_import():
