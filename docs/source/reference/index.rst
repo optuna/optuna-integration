@@ -101,9 +101,9 @@ PyTorch
    :toctree: generated/
    :nosignatures:
 
-   optuna.integration.PyTorchIgnitePruningHandler
-   optuna.integration.PyTorchLightningPruningCallback
-   optuna.integration.TorchDistributedTrial
+   optuna_integration.PyTorchIgnitePruningHandler
+   optuna_integration.PyTorchLightningPruningCallback
+   optuna_integration.TorchDistributedTrial
 
 SHAP
 ----

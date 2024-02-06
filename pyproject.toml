@@ -71,8 +71,6 @@ all = [
   "tensorboard",
   "tensorflow",
   "torch",
-  "torchaudio",
-  "torchvision",
 ]
 
 [tool.setuptools.packages.find]

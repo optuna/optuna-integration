@@ -7,7 +7,6 @@ import pytest
 
 import optuna
 from optuna._imports import try_import
-from optuna.testing.pruners import DeterministicPruner
 from optuna.testing.storages import StorageSupplier
 
 from optuna_integration import TorchDistributedTrial
