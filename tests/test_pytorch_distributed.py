@@ -61,7 +61,9 @@ def test_torch_distributed_trial_invalid_argument() -> None:
             TorchDistributedTrial(study.ask())
 
 
-def _get_study_and_trial(storage_mode: str) -> tuple[optuna.study.Study | None, TorchDistributedTrial]:
+def _get_study_and_trial(
+    storage_mode: str,
+) -> tuple[optuna.study.Study | None, TorchDistributedTrial]:
     study: optuna.study.Study | None = None
     with StorageSupplier(storage_mode) as storage:
         if dist.get_rank() == 0:
@@ -69,7 +71,7 @@ def _get_study_and_trial(storage_mode: str) -> tuple[optuna.study.Study | None, 
             trial = TorchDistributedTrial(study.ask())
         else:
             trial = TorchDistributedTrial(None)
-    
+
     return study, trial
 
 
