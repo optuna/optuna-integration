@@ -45,6 +45,8 @@ jobs:
 
     - name: Setup mac environment
       run: |
+        brew install libomp
+        brew install open-mpi
         brew install openblas
 
     - name: Install
