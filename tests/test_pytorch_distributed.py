@@ -3,11 +3,10 @@ from __future__ import annotations
 import datetime
 import os
 
-import pytest
-
 import optuna
 from optuna._imports import try_import
 from optuna.testing.storages import StorageSupplier
+import pytest
 
 from optuna_integration import TorchDistributedTrial
 

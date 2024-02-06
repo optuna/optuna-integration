@@ -1,11 +1,10 @@
 from typing import Iterable
 from unittest.mock import patch
 
-import pytest
-
 import optuna
 from optuna._imports import try_import
 from optuna.testing.pruners import DeterministicPruner
+import pytest
 
 from optuna_integration.pytorch_ignite import PyTorchIgnitePruningHandler
 

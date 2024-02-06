@@ -3,14 +3,13 @@ from __future__ import annotations
 from collections.abc import Sequence
 
 import numpy as np
-import pytest
-
 import optuna
 from optuna._imports import try_import
 from optuna.testing.pruners import DeterministicPruner
 from optuna.testing.storages import StorageSupplier
 from optuna.trial import Trial
 from optuna.trial import TrialState
+import pytest
 
 from optuna_integration import PyTorchLightningPruningCallback
 

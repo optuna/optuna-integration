@@ -1,10 +1,9 @@
 import warnings
 
-from packaging import version
-
 import optuna
 from optuna.storages._cached_storage import _CachedStorage
 from optuna.storages._rdb.storage import RDBStorage
+from packaging import version
 
 
 # Define key names of `Trial.system_attrs`.
