@@ -6,9 +6,7 @@ from unittest.mock import patch
 import warnings
 
 import optuna
-from optuna import integration
 from optuna._imports import try_import
-from optuna.integration import BoTorchSampler
 from optuna.samplers import RandomSampler
 from optuna.samplers._base import _CONSTRAINTS_KEY
 from optuna.storages import RDBStorage
@@ -17,6 +15,9 @@ from optuna.trial import Trial
 from optuna.trial import TrialState
 from packaging import version
 import pytest
+
+import optuna_integration as integration
+from optuna_integration import BoTorchSampler
 
 
 with try_import() as _imports:
