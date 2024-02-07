@@ -26,7 +26,6 @@ from optuna.trial import Trial
 from optuna.trial import TrialState
 import pytest
 
-
 import optuna_integration
 from optuna_integration.botorch import logei_candidates_func
 from optuna_integration.botorch import qei_candidates_func
