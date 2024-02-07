@@ -7,8 +7,6 @@ from typing import Union
 import warnings
 
 import numpy
-from packaging import version
-
 from optuna import logging
 from optuna._experimental import experimental_class
 from optuna._experimental import experimental_func
@@ -24,6 +22,7 @@ from optuna.study import Study
 from optuna.study import StudyDirection
 from optuna.trial import FrozenTrial
 from optuna.trial import TrialState
+from packaging import version
 
 
 with try_import() as _imports:
@@ -52,14 +51,15 @@ with try_import() as _imports:
         def _get_sobol_qmc_normal_sampler(num_samples: int) -> SobolQMCNormalSampler:
             return SobolQMCNormalSampler(torch.Size((num_samples,)))
 
+    from gpytorch.mlls import ExactMarginalLogLikelihood
+    import torch
+
     from botorch.utils.multi_objective.box_decompositions import NondominatedPartitioning
     from botorch.utils.multi_objective.scalarization import get_chebyshev_scalarization
     from botorch.utils.sampling import manual_seed
     from botorch.utils.sampling import sample_simplex
     from botorch.utils.transforms import normalize
     from botorch.utils.transforms import unnormalize
-    from gpytorch.mlls import ExactMarginalLogLikelihood
-    import torch
 
 
 _logger = logging.get_logger(__name__)

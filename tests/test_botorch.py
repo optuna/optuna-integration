@@ -5,9 +5,6 @@ from typing import Tuple
 from unittest.mock import patch
 import warnings
 
-from packaging import version
-import pytest
-
 import optuna
 from optuna import integration
 from optuna._imports import try_import
@@ -18,11 +15,14 @@ from optuna.storages import RDBStorage
 from optuna.trial import FrozenTrial
 from optuna.trial import Trial
 from optuna.trial import TrialState
+from packaging import version
+import pytest
 
 
 with try_import() as _imports:
-    import botorch
     import torch
+
+    import botorch
 
 if not _imports.is_successful():
     from unittest.mock import MagicMock
