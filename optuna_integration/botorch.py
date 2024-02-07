@@ -79,7 +79,7 @@ def logei_candidates_func(
 ) -> "torch.Tensor":
     """Log Expected Improvement (LogEI).
 
-    The default value of ``candidates_func`` in :class:`~optuna.integration.BoTorchSampler`
+    The default value of ``candidates_func`` in :class:`~optuna_integration.BoTorchSampler`
     with single-objective optimization.
 
     Args:
@@ -299,7 +299,7 @@ def qnei_candidates_func(
     the evaluated values of objective function are noisy.
 
     .. seealso::
-        :func:`~optuna.integration.botorch.qei_candidates_func` for argument and return value
+        :func:`~optuna_integration.botorch.qei_candidates_func` for argument and return value
         descriptions.
     """
     if train_obj.size(-1) != 1:
@@ -363,11 +363,11 @@ def qehvi_candidates_func(
 ) -> "torch.Tensor":
     """Quasi MC-based batch Expected Hypervolume Improvement (qEHVI).
 
-    The default value of ``candidates_func`` in :class:`~optuna.integration.BoTorchSampler`
+    The default value of ``candidates_func`` in :class:`~optuna_integration.BoTorchSampler`
     with multi-objective optimization when the number of objectives is three or less.
 
     .. seealso::
-        :func:`~optuna.integration.botorch.qei_candidates_func` for argument and return value
+        :func:`~optuna_integration.botorch.qei_candidates_func` for argument and return value
         descriptions.
     """
 
@@ -450,11 +450,11 @@ def ehvi_candidates_func(
 ) -> "torch.Tensor":
     """Expected Hypervolume Improvement (EHVI).
 
-    The default value of ``candidates_func`` in :class:`~optuna.integration.BoTorchSampler`
+    The default value of ``candidates_func`` in :class:`~optuna_integration.BoTorchSampler`
     with multi-objective optimization without constraints.
 
     .. seealso::
-        :func:`~optuna.integration.botorch.qei_candidates_func` for argument and return value
+        :func:`~optuna_integration.botorch.qei_candidates_func` for argument and return value
         descriptions.
     """
 
@@ -520,7 +520,7 @@ def qnehvi_candidates_func(
     (cf. https://botorch.org/tutorials/constrained_multi_objective_bo )
 
     .. seealso::
-        :func:`~optuna.integration.botorch.qei_candidates_func` for argument and return value
+        :func:`~optuna_integration.botorch.qei_candidates_func` for argument and return value
         descriptions.
     """
 
@@ -601,11 +601,11 @@ def qparego_candidates_func(
 ) -> "torch.Tensor":
     """Quasi MC-based extended ParEGO (qParEGO) for constrained multi-objective optimization.
 
-    The default value of ``candidates_func`` in :class:`~optuna.integration.BoTorchSampler`
+    The default value of ``candidates_func`` in :class:`~optuna_integration.BoTorchSampler`
     with multi-objective optimization when the number of objectives is larger than three.
 
     .. seealso::
-        :func:`~optuna.integration.botorch.qei_candidates_func` for argument and return value
+        :func:`~optuna_integration.botorch.qei_candidates_func` for argument and return value
         descriptions.
     """
 
@@ -732,7 +732,7 @@ class BoTorchSampler(BaseSampler):
             The function should assume *maximization* of the objective.
 
             .. seealso::
-                See :func:`optuna.integration.botorch.qei_candidates_func` for an example.
+                See :func:`optuna_integration.botorch.qei_candidates_func` for an example.
         constraints_func:
             An optional function that computes the objective constraints. It must take a
             :class:`~optuna.trial.FrozenTrial` and return the constraints. The return value must
