@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING
 
 _import_structure = {
     "allennlp": ["AllenNLPExecutor", "AllenNLPPruningCallback"],
+    "botorch": ["BoTorchSampler"],
     "catalyst": ["CatalystPruningCallback"],
     "catboost": ["CatBoostPruningCallback"],
     "chainer": ["ChainerPruningExtension"],
@@ -30,6 +31,7 @@ _import_structure = {
 if TYPE_CHECKING:
     from optuna_integration.allennlp import AllenNLPExecutor
     from optuna_integration.allennlp import AllenNLPPruningCallback
+    from optuna_integration.botorch import BoTorchSampler
     from optuna_integration.catalyst import CatalystPruningCallback
     from optuna_integration.catboost import CatBoostPruningCallback
     from optuna_integration.chainer import ChainerPruningExtension
@@ -98,6 +100,7 @@ else:
 __all__ = [
     "AllenNLPExecutor",
     "AllenNLPPruningCallback",
+    "BoTorchSampler",
     "CatalystPruningCallback",
     "CatBoostPruningCallback",
     "ChainerMNStudy",
