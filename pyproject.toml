@@ -55,11 +55,13 @@ document = [
     "sphinx_rtd_theme",
 ]
 all = [
+  "botorch",
   "catalyst",
   "catboost>=0.26; sys_platform!='darwin'",
   "catboost>=0.26,<1.2; sys_platform=='darwin'",
   "distributed",
   "fastai",
+  "gpytorch",
   "mxnet",
   "pandas",
   "shap",
@@ -68,6 +70,7 @@ all = [
   "skorch",
   "tensorboard",
   "tensorflow",
+  "torch",
 ]
 
 [tool.setuptools.packages.find]
