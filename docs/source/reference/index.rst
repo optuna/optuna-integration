@@ -78,7 +78,7 @@ Dask
    :toctree: generated/
    :nosignatures:
 
-   optuna.integration.DaskStorage
+   optuna_integration.DaskStorage
 
 fast.ai
 -------
