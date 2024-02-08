@@ -27,6 +27,7 @@ Optuna-Integration API reference is [here](https://optuna-integration.readthedoc
 * FastAI ([V1](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#fastaiv1)  ([example](https://github.com/optuna/optuna-examples/tree/main/fastai/fastaiv1_simple.py)), ([V2](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#fastaiv2)  ([example]https://github.com/optuna/optuna-examples/tree/main/fastai/fastaiv2_simple.py)))
 * [Keras](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#keras)  ([example](https://github.com/optuna/optuna-examples/tree/main/keras))
 * [MXNet](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#mxnet)  ([example](https://github.com/optuna/optuna-examples/tree/main/mxnet))
+* [scikit-optimize](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#skopt)
 * [SHAP](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#shap)
 * [sklearn](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#sklearn)  ([example](https://github.com/optuna/optuna-examples/tree/main/sklearn/sklearn_optuna_search_cv_simple.py))
 * [skorch](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#skorch)  ([example](https://github.com/optuna/optuna-examples/tree/main/pytorch/skorch_simple.py))
@@ -54,8 +55,8 @@ Also, we also provide Optuna docker images on [DockerHub](https://hub.docker.com
 
 ## Communication
 
-- [GitHub Discussions] for questions.
-- [GitHub Issues] for bug reports and feature requests.
+* [GitHub Discussions] for questions.
+* [GitHub Issues] for bug reports and feature requests.
 
 [GitHub Discussions]: https://github.com/optuna/optuna-integration/discussions
 [GitHub issues]: https://github.com/optuna/optuna-integration/issues
