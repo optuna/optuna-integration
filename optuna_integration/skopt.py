@@ -66,7 +66,7 @@ class SkoptSampler(BaseSampler):
             class.
 
             Note that ``dimensions`` argument in ``skopt_kwargs`` will be ignored
-            because it is added by :class:`~optuna.integration.SkoptSampler` automatically.
+            because it is added by :class:`~optuna_integration.SkoptSampler` automatically.
 
         n_startup_trials:
             The independent sampling is used until the given number of trials finish in the
