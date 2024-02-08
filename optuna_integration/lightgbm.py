@@ -7,6 +7,7 @@ import optuna
 from optuna._imports import try_import
 from optuna.integration import _lightgbm_tuner as tuner
 
+
 if TYPE_CHECKING:
     from lightgbm.basic import _LGBM_BoosterEvalMethodResultType
     from lightgbm.basic import _LGBM_BoosterEvalMethodResultWithStandardDeviationType
