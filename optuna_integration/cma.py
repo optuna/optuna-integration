@@ -45,6 +45,7 @@ class PyCmaSampler(BaseSampler):
         .. testcode::
 
             import optuna
+            import optuna_integration
 
 
             def objective(trial):
