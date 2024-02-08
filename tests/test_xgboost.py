@@ -65,7 +65,7 @@ def test_xgboost_pruning_callback_cv() -> None:
             "objective": "binary:logistic",
         }
 
-        pruning_callback = optuna.integration.XGBoostPruningCallback(trial, "test-logloss")
+        pruning_callback = XGBoostPruningCallback(trial, "test-logloss")
         xgb.cv(params, dtrain, callbacks=[pruning_callback], nfold=2)
         return 1.0
 
