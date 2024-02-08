@@ -71,6 +71,7 @@ all = [
   "skorch",
   "tensorboard",
   "tensorflow",
+  "wandb",
   "xgboost",
   "torch",
 ]

@@ -49,7 +49,7 @@ class WeightsAndBiasesCallback:
         .. code::
 
             import optuna
-            from optuna.integration.wandb import WeightsAndBiasesCallback
+            from optuna_integration.wandb import WeightsAndBiasesCallback
 
 
             def objective(trial):
@@ -71,7 +71,7 @@ class WeightsAndBiasesCallback:
         .. code::
 
             import optuna
-            from optuna.integration.wandb import WeightsAndBiasesCallback
+            from optuna_integration.wandb import WeightsAndBiasesCallback
 
             wandb_kwargs = {"project": "my-project"}
             wandbc = WeightsAndBiasesCallback(wandb_kwargs=wandb_kwargs, as_multirun=True)
@@ -191,7 +191,7 @@ class WeightsAndBiasesCallback:
             .. code::
 
                 import optuna
-                from optuna.integration.wandb import WeightsAndBiasesCallback
+                from optuna_integration.wandb import WeightsAndBiasesCallback
                 import wandb
 
                 wandb_kwargs = {"project": "my-project"}
