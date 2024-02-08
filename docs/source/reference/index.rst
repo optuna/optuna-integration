@@ -145,4 +145,4 @@ XGBoost
    :toctree: generated/
    :nosignatures:
 
-   optuna.integration.XGBoostPruningCallback
+   optuna_integration.XGBoostPruningCallback
