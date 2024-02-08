@@ -9,12 +9,10 @@ from typing import Tuple
 import warnings
 
 import numpy as np
-
 import optuna
 from optuna import distributions
 from optuna import samplers
 from optuna._deprecated import deprecated_class
-from optuna._imports import try_import
 from optuna.exceptions import ExperimentalWarning
 from optuna.samplers import BaseSampler
 from optuna.search_space import IntersectionSearchSpace
@@ -22,6 +20,8 @@ from optuna.study import Study
 from optuna.study._study_direction import StudyDirection
 from optuna.trial import FrozenTrial
 from optuna.trial import TrialState
+
+from optuna_integration._imports import try_import
 
 
 with try_import() as _imports:
@@ -33,7 +33,7 @@ with try_import() as _imports:
 class SkoptSampler(BaseSampler):
     """Sampler using Scikit-Optimize as the backend.
 
-    The use of :class:`~optuna.integration.SkoptSampler` is highly not recommended, as the
+    The use of :class:`~optuna_integration.SkoptSampler` is highly not recommended, as the
     development of Scikit-Optimize has been inactive and we have identified compatibility
     issues with newer NumPy versions.
 
@@ -42,7 +42,7 @@ class SkoptSampler(BaseSampler):
             A :class:`~optuna.samplers.BaseSampler` instance that is used for independent
             sampling. The parameters not contained in the relative search space are sampled
             by this sampler.
-            The search space for :class:`~optuna.integration.SkoptSampler` is determined by
+            The search space for :class:`~optuna_integration.SkoptSampler` is determined by
             :func:`~optuna.search_space.intersection_search_space()`.
 
             If :obj:`None` is specified, :class:`~optuna.samplers.RandomSampler` is used
