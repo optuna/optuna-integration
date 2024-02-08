@@ -64,6 +64,15 @@ MXNet
 
    optuna.integration.MXNetPruningCallback
 
+scikit-optimize
+---------------
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   optuna.integration.SkoptSampler
+
 SHAP
 ----
 
