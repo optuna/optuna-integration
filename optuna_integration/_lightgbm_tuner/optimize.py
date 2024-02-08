@@ -1,23 +1,22 @@
 from __future__ import annotations
 
 import abc
-import copy
-import json
-import numpy as np
-import os
-import pickle
-import time
-import tqdm
-import warnings
 from collections.abc import Callable
 from collections.abc import Container
 from collections.abc import Generator
 from collections.abc import Iterable
 from collections.abc import Iterator
 from collections.abc import Sequence
+import copy
+import json
+import os
+import pickle
+import time
 from typing import Any
 from typing import cast
+import warnings
 
+import numpy as np
 import optuna
 from optuna._imports import try_import
 from optuna.integration._lightgbm_tuner.alias import _handling_alias_metrics
@@ -25,6 +24,8 @@ from optuna.integration._lightgbm_tuner.alias import _handling_alias_parameters
 from optuna.study import Study
 from optuna.trial import FrozenTrial
 from optuna.trial import TrialState
+import tqdm
+
 
 with try_import() as _imports:
     import lightgbm as lgb

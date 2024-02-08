@@ -1,6 +1,7 @@
-import lightgbm as lgb
-import warnings
 from typing import Any
+import warnings
+
+import lightgbm as lgb
 
 
 class LGBMModel(lgb.LGBMModel):

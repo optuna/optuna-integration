@@ -1,25 +1,26 @@
 from __future__ import annotations
 
-from unittest import mock
-
-import contextlib
-import numpy as np
-import pytest
-import warnings
 from collections.abc import Generator
+import contextlib
 from tempfile import TemporaryDirectory
 from typing import Any
 from typing import TYPE_CHECKING
+from unittest import mock
+import warnings
 
+import numpy as np
 import optuna
-import optuna_integration.lightgbm as lgb
 from optuna._imports import try_import
 from optuna.study import Study
-from optuna_integration._lightgbm_tuner.optimize import LightGBMTuner
-from optuna_integration._lightgbm_tuner.optimize import LightGBMTunerCV
+import pytest
+
 from optuna_integration._lightgbm_tuner.optimize import _BaseTuner
 from optuna_integration._lightgbm_tuner.optimize import _OptunaObjective
 from optuna_integration._lightgbm_tuner.optimize import _OptunaObjectiveCV
+from optuna_integration._lightgbm_tuner.optimize import LightGBMTuner
+from optuna_integration._lightgbm_tuner.optimize import LightGBMTunerCV
+import optuna_integration.lightgbm as lgb
+
 
 with try_import():
     from lightgbm import early_stopping

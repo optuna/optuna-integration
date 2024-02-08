@@ -1,12 +1,14 @@
-import numpy as np
-import pytest
 from functools import partial
 from unittest.mock import patch
 
+import numpy as np
 import optuna
 from optuna._imports import try_import
 from optuna.testing.pruners import DeterministicPruner
+import pytest
+
 from optuna_integration.lightgbm import LightGBMPruningCallback
+
 
 with try_import():
     import lightgbm as lgb

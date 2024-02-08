@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-import warnings
 from collections.abc import Iterable
 from typing import Any
+import warnings
+
 
 _ALIAS_GROUP_LIST: list[dict[str, Any]] = [
     {"param_name": "bagging_fraction", "alias_names": ["sub_row", "subsample", "bagging"]},
