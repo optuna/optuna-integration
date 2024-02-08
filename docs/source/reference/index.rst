@@ -116,7 +116,7 @@ scikit-optimize
    :toctree: generated/
    :nosignatures:
 
-   optuna.integration.SkoptSampler
+   optuna_integration.SkoptSampler
 
 SHAP
 ----
