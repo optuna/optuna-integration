@@ -1,11 +1,9 @@
+from __future__ import annotations
+
+from collections.abc import Sequence
 import copy
 import random
 from typing import Any
-from typing import Dict
-from typing import List
-from typing import Optional
-from typing import Sequence
-from typing import Tuple
 import warnings
 
 import numpy as np
@@ -94,13 +92,13 @@ class SkoptSampler(BaseSampler):
 
     def __init__(
         self,
-        independent_sampler: Optional[BaseSampler] = None,
+        independent_sampler: BaseSampler | None = None,
         warn_independent_sampling: bool = True,
-        skopt_kwargs: Optional[Dict[str, Any]] = None,
+        skopt_kwargs: dict[str, Any] | None = None,
         n_startup_trials: int = 1,
         *,
         consider_pruned_trials: bool = False,
-        seed: Optional[int] = None,
+        seed: int | None = None,
     ) -> None:
         _imports.check()
 
@@ -123,7 +121,7 @@ class SkoptSampler(BaseSampler):
 
         if seed is not None and "random_state" not in self._skopt_kwargs:
             self._skopt_kwargs["random_state"] = seed
-        self._rng: Optional[np.random.RandomState] = None
+        self._rng: np.random.RandomState | None = None
 
     def reseed_rng(self) -> None:
         self._skopt_kwargs["random_state"] = random.randint(1, np.iinfo(np.int32).max)
@@ -131,7 +129,7 @@ class SkoptSampler(BaseSampler):
 
     def infer_relative_search_space(
         self, study: Study, trial: FrozenTrial
-    ) -> Dict[str, distributions.BaseDistribution]:
+    ) -> dict[str, distributions.BaseDistribution]:
         search_space = {}
         for name, distribution in self._search_space.calculate(study).items():
             if distribution.single():
@@ -150,8 +148,8 @@ class SkoptSampler(BaseSampler):
         self,
         study: Study,
         trial: FrozenTrial,
-        search_space: Dict[str, distributions.BaseDistribution],
-    ) -> Dict[str, Any]:
+        search_space: dict[str, distributions.BaseDistribution],
+    ) -> dict[str, Any]:
         self._raise_error_if_multi_objective(study)
 
         if len(search_space) == 0:
@@ -200,7 +198,7 @@ class SkoptSampler(BaseSampler):
             )
         )
 
-    def _get_trials(self, study: Study) -> List[FrozenTrial]:
+    def _get_trials(self, study: Study) -> list[FrozenTrial]:
         complete_trials = []
         for t in study._get_trials(deepcopy=False, use_cache=True):
             if t.state == TrialState.COMPLETE:
@@ -224,14 +222,14 @@ class SkoptSampler(BaseSampler):
         study: Study,
         trial: FrozenTrial,
         state: TrialState,
-        values: Optional[Sequence[float]],
+        values: Sequence[float] | None,
     ) -> None:
         self._independent_sampler.after_trial(study, trial, state, values)
 
 
 class _Optimizer:
     def __init__(
-        self, search_space: Dict[str, distributions.BaseDistribution], skopt_kwargs: Dict[str, Any]
+        self, search_space: dict[str, distributions.BaseDistribution], skopt_kwargs: dict[str, Any]
     ) -> None:
         self._search_space = search_space
 
@@ -267,7 +265,7 @@ class _Optimizer:
 
         self._optimizer = skopt.Optimizer(dimensions, **skopt_kwargs)
 
-    def tell(self, study: Study, complete_trials: List[FrozenTrial]) -> None:
+    def tell(self, study: Study, complete_trials: list[FrozenTrial]) -> None:
         xs = []
         ys = []
 
@@ -281,7 +279,7 @@ class _Optimizer:
 
         self._optimizer.tell(xs, ys)
 
-    def ask(self) -> Dict[str, Any]:
+    def ask(self) -> dict[str, Any]:
         params = {}
         param_values = self._optimizer.ask()
         for (name, distribution), value in zip(sorted(self._search_space.items()), param_values):
@@ -322,7 +320,7 @@ class _Optimizer:
 
     def _complete_trial_to_skopt_observation(
         self, study: Study, trial: FrozenTrial
-    ) -> Tuple[List[Any], float]:
+    ) -> tuple[list[Any], float]:
         param_values = []
         for name, distribution in sorted(self._search_space.items()):
             param_value = trial.params[name]
