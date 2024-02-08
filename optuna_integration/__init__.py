@@ -23,6 +23,7 @@ _import_structure = {
     "tensorboard": ["TensorBoardCallback"],
     "tensorflow": ["TensorFlowPruningHook"],
     "tfkeras": ["TFKerasPruningCallback"],
+    "xgboost": ["XGBoostPruningCallback"],
 }
 
 
@@ -46,6 +47,7 @@ if TYPE_CHECKING:
     from optuna_integration.tensorboard import TensorBoardCallback
     from optuna_integration.tensorflow import TensorFlowPruningHook
     from optuna_integration.tfkeras import TFKerasPruningCallback
+    from optuna_integration.xgboost import XGBoostPruningCallback
 else:
 
     class _IntegrationModule(ModuleType):
@@ -113,4 +115,5 @@ __all__ = [
     "TensorBoardCallback",
     "TensorFlowPruningHook",
     "TFKerasPruningCallback",
+    "XGBoostPruningCallback",
 ]

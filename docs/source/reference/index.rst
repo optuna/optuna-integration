@@ -152,4 +152,13 @@ TensorFlow
    :toctree: generated/
    :nosignatures:
 
-   optuna_integration.TFKerasPruningCallback
+   optuna.integration.TFKerasPruningCallback
+
+XGBoost
+-------
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   optuna_integration.XGBoostPruningCallback
