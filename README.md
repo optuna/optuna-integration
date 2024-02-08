@@ -23,7 +23,7 @@ Optuna-Integration API reference is [here](https://optuna-integration.readthedoc
 * [ChainerMN](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#chainermn)  ([example](https://github.com/optuna/optuna-examples/tree/main/chainer/chainermn_simple.py))
 * [Keras](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#keras)  ([example](https://github.com/optuna/optuna-examples/tree/main/keras))
 * [MXNet](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#mxnet)  ([example](https://github.com/optuna/optuna-examples/tree/main/mxnet))
-* [scikit-optimize](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#skopt)  ([example](
+* [scikit-optimize](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#skopt)
 * [SHAP](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#shap)
 * [skorch](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#skorch)  ([example](https://github.com/optuna/optuna-examples/tree/main/pytorch/skorch_simple.py))
 * [tf.keras](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#tensorflow)  ([example](https://github.com/optuna/optuna-examples/tree/main/tfkeras/tfkeras_integration.py))
@@ -48,8 +48,8 @@ Also, we also provide Optuna docker images on [DockerHub](https://hub.docker.com
 
 ## Communication
 
-- [GitHub Discussions] for questions.
-- [GitHub Issues] for bug reports and feature requests.
+* [GitHub Discussions] for questions.
+* [GitHub Issues] for bug reports and feature requests.
 
 [GitHub Discussions]: https://github.com/optuna/optuna-integration/discussions
 [GitHub issues]: https://github.com/optuna/optuna-integration/issues
