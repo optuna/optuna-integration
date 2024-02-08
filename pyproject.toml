@@ -62,6 +62,7 @@ all = [
   "distributed",
   "fastai",
   "gpytorch",
+  "lightgbm",
   "mxnet",
   "pandas",
   "shap",
