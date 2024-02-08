@@ -19,6 +19,7 @@ _import_structure = {
     "mxnet": ["MXNetPruningCallback"],
     "shap": ["ShapleyImportanceEvaluator"],
     "sklearn": ["OptunaSearchCV"],
+    "skopt": ["SkoptSampler"],
     "skorch": ["SkorchPruningCallback"],
     "tensorboard": ["TensorBoardCallback"],
     "tensorflow": ["TensorFlowPruningHook"],
@@ -43,6 +44,7 @@ if TYPE_CHECKING:
     from optuna_integration.mxnet import MXNetPruningCallback
     from optuna_integration.shap import ShapleyImportanceEvaluator
     from optuna_integration.sklearn import OptunaSearchCV
+    from optuna_integration.skopt import SkoptSampler
     from optuna_integration.skorch import SkorchPruningCallback
     from optuna_integration.tensorboard import TensorBoardCallback
     from optuna_integration.tensorflow import TensorFlowPruningHook
@@ -111,6 +113,7 @@ __all__ = [
     "MXNetPruningCallback",
     "OptunaSearchCV",
     "ShapleyImportanceEvaluator",
+    "SkoptSampler",
     "SkorchPruningCallback",
     "TensorBoardCallback",
     "TensorFlowPruningHook",
