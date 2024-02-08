@@ -16,6 +16,7 @@ _import_structure = {
     "fastaiv1": ["FastAIV1PruningCallback"],
     "fastaiv2": ["FastAIV2PruningCallback", "FastAIPruningCallback"],
     "keras": ["KerasPruningCallback"],
+    "lightgbm": ["LightGBMPruningCallback", "LightGBMTuner", "LightGBMTunerCV"],
     "mxnet": ["MXNetPruningCallback"],
     "shap": ["ShapleyImportanceEvaluator"],
     "sklearn": ["OptunaSearchCV"],
