@@ -111,13 +111,21 @@ MXNet
 
 pycma
 -----
-
 .. autosummary::
    :toctree: generated/
    :nosignatures:
 
    optuna_integration.CmaEsSampler
    optuna_integration.PyCmaSampler
+
+scikit-optimize
+---------------
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   optuna_integration.SkoptSampler
 
 SHAP
 ----
@@ -162,7 +170,7 @@ TensorFlow
    :toctree: generated/
    :nosignatures:
 
-   optuna.integration.TFKerasPruningCallback
+   optuna_integration.TFKerasPruningCallback
 
 XGBoost
 -------
