@@ -139,7 +139,7 @@ TensorFlow
    optuna.integration.TFKerasPruningCallback
 
 XGBoost
-----------
+-------
 
 .. autosummary::
    :toctree: generated/
