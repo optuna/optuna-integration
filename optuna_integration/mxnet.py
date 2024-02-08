@@ -34,7 +34,7 @@ class MXNetPruningCallback:
     def __call__(self, param: "mx.model.BatchEndParam") -> None:
         if param.eval_metric is not None:
             metric_names, metric_values = param.eval_metric.get()
-            if type(metric_names) == list and self._eval_metric in metric_names:
+            if isinstance(metric_names, list) and self._eval_metric in metric_names:
                 current_score = metric_values[metric_names.index(self._eval_metric)]
             elif metric_names == self._eval_metric:
                 current_score = metric_values

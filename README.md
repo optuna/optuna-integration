@@ -2,7 +2,7 @@
 
 [![Python](https://img.shields.io/badge/python-3.7%20%7C%203.8%20%7C%203.9%20%7C%203.10%20%7C%203.11-blue)](https://www.python.org)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/optuna/optuna-integration)
-[![Codecov](https://codecov.io/gh/optuna/optuna-integration/branch/master/graph/badge.svg)](https://codecov.io/gh/optuna/optuna-integration/branch/master)
+[![Codecov](https://codecov.io/gh/optuna/optuna-integration/branch/main/graph/badge.svg)](https://codecov.io/gh/optuna/optuna-integration/branch/main)
 <!-- [![pypi](https://img.shields.io/pypi/v/optuna.svg)](https://pypi.python.org/pypi/optuna-integration) -->
 <!-- [![conda](https://img.shields.io/conda/vn/conda-forge/optuna.svg)](https://anaconda.org/conda-forge/optuna-integration) -->
 [![Read the Docs](https://readthedocs.org/projects/optuna-integration/badge/?version=stable)](https://optuna-integration.readthedocs.io/en/stable/)
@@ -18,15 +18,22 @@ integrated with many useful tools like PyTorch, sklearn, TensorFlow, etc.
 Optuna-Integration API reference is [here](https://optuna-integration.readthedocs.io/en/stable/reference/index.html).
 
 * [AllenNLP](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#allennlp)  ([example](https://github.com/optuna/optuna-examples/tree/main/allennlp))
+* [BoTorch](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#botorch)
 * [Catalyst](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#catalyst)  ([example](https://github.com/optuna/optuna-examples/blob/main/pytorch/catalyst_simple.py))
+* [CatBoost](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#catboost)  ([example](https://github.com/optuna/optuna-examples/blob/main/catboost/catboost_pruning.py))
 * [Chainer](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#chainer)  ([example](https://github.com/optuna/optuna-examples/tree/main/chainer/chainer_integration.py))
 * [ChainerMN](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#chainermn)  ([example](https://github.com/optuna/optuna-examples/tree/main/chainer/chainermn_simple.py))
+* [Dask](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#dask) ([example](https://github.com/optuna/optuna-examples/tree/main/dask/dask_simple.py))
+* FastAI ([V1](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#fastaiv1)  ([example](https://github.com/optuna/optuna-examples/tree/main/fastai/fastaiv1_simple.py)), ([V2](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#fastaiv2)  ([example]https://github.com/optuna/optuna-examples/tree/main/fastai/fastaiv2_simple.py)))
 * [Keras](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#keras)  ([example](https://github.com/optuna/optuna-examples/tree/main/keras))
 * [MXNet](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#mxnet)  ([example](https://github.com/optuna/optuna-examples/tree/main/mxnet))
 * [scikit-optimize](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#skopt)
 * [SHAP](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#shap)
+* [sklearn](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#sklearn)  ([example](https://github.com/optuna/optuna-examples/tree/main/sklearn/sklearn_optuna_search_cv_simple.py))
 * [skorch](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#skorch)  ([example](https://github.com/optuna/optuna-examples/tree/main/pytorch/skorch_simple.py))
+* [TensorBoard](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#tensorboard)  ([example](https://github.com/optuna/optuna-examples/tree/main/tensorboard/tensorboard_simple.py))
 * [tf.keras](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#tensorflow)  ([example](https://github.com/optuna/optuna-examples/tree/main/tfkeras/tfkeras_integration.py))
+* [XGBoost](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#xgboost)  ([example](https://github.com/optuna/optuna-examples/tree/main/xgboost/xgboost_integration.py))
 
 ## Installation
 

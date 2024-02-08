@@ -1,4 +1,4 @@
-# Run tests and integration tests on Mac, which are triggered by each master push.
+# Run tests and integration tests on Mac, which are triggered by each main push.
 # Currently, Python3.10 is only used as an environment.
 # This is mainly for the sake of speed.
 name: mac-tests
@@ -6,25 +6,16 @@ name: mac-tests
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     paths:
       - '.github/workflows/mac-tests.yml'
   schedule:
     - cron: '0 23 * * SUN-THU'
   workflow_dispatch:
-    inputs:
-      repository_name:
-        description: 'Repository for optuna package (username/optuna)'
-        required: false
-        type: string
-      branch_name:
-        description: 'Branch name'
-        required: false
-        type: string
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref == 'refs/heads/master' && github.run_number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref == 'refs/heads/main' && github.run_number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -54,8 +45,6 @@ jobs:
 
     - name: Setup mac environment
       run: |
-        brew install libomp
-        brew install open-mpi
         brew install openblas
 
     - name: Install
@@ -66,10 +55,8 @@ jobs:
         pip install --progress-bar off .[test]
         pip install --progress-bar off .[all]
 
-        # Install optuna from specified repository, otherwise from optuna/optuna.
-        $( test ${{ inputs.repository_name }} && test ${{ inputs.branch_name }} ) \
-          && pip install git+https://github.com/${{ inputs.repository_name }}@${{ inputs.branch_name }} \
-          || pip install git+https://github.com/optuna/optuna@master
+        # Install optuna from optuna master
+        pip install git+https://github.com/optuna/optuna@master
 
         # Install distributed to run importance_tests/test_init tests.
         pip install distributed
@@ -86,20 +73,11 @@ jobs:
     - name: Tests
       run: |
         pytest tests \
-        --ignore tests/allennlp_tests \
         --ignore tests/test_mxnet.py
-      env:
-        OMP_NUM_THREADS: 1
-
-    - name: Tests MPI
-      run: |
-        export OMPI_MCA_rmaps_base_oversubscribe=yes
-        mpirun -n 2 -- pytest tests/test_chainermn.py
       env:
         OMP_NUM_THREADS: 1
 
     - name: Tests(Deprecated)
       run: |
         pip install "numpy<1.24"
-        pytest tests/allennlp_tests
         pytest tests/test_mxnet.py

@@ -3,23 +3,14 @@ name: Tests
 on:
   push:
     branches:
-      - master
+      - main
   pull_request: {}
   schedule:
     - cron: '0 23 * * SUN-THU'
   workflow_dispatch:
-    inputs:
-      repository_name:
-        description: 'Repository for optuna package (username/optuna)'
-        required: false
-        type: string
-      branch_name:
-        description: 'Branch name'
-        required: false
-        type: string
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref == 'refs/heads/master' && github.run_number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref == 'refs/heads/main' && github.run_number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -30,6 +21,13 @@ jobs:
     strategy:
       matrix:
         python-version: ['3.8', '3.9', '3.10', '3.11']
+        test-trigger-type:
+          - ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && 'Scheduled' || '' }}
+        exclude:
+          - test-trigger-type: ""
+            python-version: "3.9"
+          - test-trigger-type: ""
+            python-version: "3.10"
 
     steps:
     - name: Checkout
@@ -53,7 +51,7 @@ jobs:
     - name: Setup environment
       run: |
         sudo apt-get update
-        sudo apt-get -y install openmpi-bin libopenmpi-dev libopenblas-dev
+        sudo apt-get -y install libopenblas-dev
 
     - name: Install
       run: |
@@ -67,10 +65,8 @@ jobs:
         # See https://github.com/pydantic/pydantic/issues/5821.
         pip install "typing_extensions<4.6.0"
 
-        # Install optuna from specified repository, otherwise from optuna/optuna.
-        $( test ${{ inputs.repository_name }} && test ${{ inputs.branch_name }} ) \
-          && pip install git+https://github.com/${{ inputs.repository_name }}@${{ inputs.branch_name }} \
-          || pip install git+https://github.com/optuna/optuna@master
+        # Install optuna from optuna master
+        pip install git+https://github.com/optuna/optuna@master
 
         # Install distributed to run importance_tests/test_init tests.
         pip install distributed
@@ -87,13 +83,9 @@ jobs:
     - name: Tests
       run: |
         pytest tests \
-          --ignore tests/allennlp_tests \
           --ignore tests/test_mxnet.py
 
     - name: Tests(Deprecated)
       run: |
         pip install "numpy<1.24"
-        if [ ${{ matrix.python-version }} != 3.11 ]; then
-          pytest tests/allennlp_tests
-        fi
         pytest tests/test_mxnet.py

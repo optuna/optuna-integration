@@ -3,13 +3,13 @@ name: Checks
 on:
   push:
     branches:
-      - master
+      - main
   pull_request: {}
   schedule:
     - cron: '0 23 * * SUN-THU'
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref == 'refs/heads/master' && github.run_number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref == 'refs/heads/main' && github.run_number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -27,7 +27,6 @@ jobs:
     - name: Setup environment
       run: |
         sudo apt-get update
-        sudo apt-get -y install openmpi-bin libopenmpi-dev
 
     - name: Install
       run: |

@@ -3,11 +3,11 @@ name: Coverage
 on:
   push:
     branches:
-      - master
+      - main
   pull_request: {}
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref == 'refs/heads/master' && github.run_number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref == 'refs/heads/main' && github.run_number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -40,7 +40,7 @@ jobs:
     - name: Setup environment
       run: |
         sudo apt-get update
-        sudo apt-get -y install openmpi-bin libopenmpi-dev libopenblas-dev
+        sudo apt-get -y install libopenblas-dev
 
     - name: Install
       run: |
@@ -70,22 +70,9 @@ jobs:
         COVERAGE_PROCESS_START: .coveragerc  # https://coverage.readthedocs.io/en/6.4.1/subprocess.html
         COVERAGE_COVERAGE: yes  # https://github.com/nedbat/coveragepy/blob/65bf33fc03209ffb01bbbc0d900017614645ee7a/coverage/control.py#L255-L261
       run: |
-        coverage run --source=optuna -m pytest tests \
-          --ignore tests/allennlp_tests \
+        coverage run --source=optuna_integration -m pytest tests \
           --ignore tests/test_mxnet.py
         coverage combine
-        coverage xml
-
-    - name: Multi-node tests
-      env:
-        OMP_NUM_THREADS: 1
-        PYTHONPATH: .
-        COVERAGE_PROCESS_START: .coveragerc
-        COVERAGE_COVERAGE: yes
-      run: |
-        export OMPI_MCA_rmaps_base_oversubscribe=yes
-        mpirun -n 2 -- coverage run -m pytest tests/test_chainermn.py
-        coverage combine --append
         coverage xml
 
     - name: Upload coverage to Codecov

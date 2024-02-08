@@ -8,6 +8,7 @@ from typing import Sequence
 import warnings
 
 from optuna import TrialPruned
+from optuna._deprecated import deprecated_class
 from optuna._deprecated import deprecated_func
 from optuna.distributions import BaseDistribution
 from optuna.distributions import CategoricalChoiceType
@@ -53,6 +54,7 @@ class _ChainerMNObjectiveFunc:
         return self.objective(ChainerMNTrial(trial, self.comm), self.comm)
 
 
+@deprecated_class("3.5.0", "5.0.0")
 class ChainerMNStudy:
     """A wrapper of :class:`~optuna.study.Study` to incorporate Optuna with ChainerMN.
 
@@ -140,6 +142,7 @@ class ChainerMNStudy:
         setattr(self.delegate, attr_name, value)
 
 
+@deprecated_class("3.5.0", "5.0.0")
 class ChainerMNTrial(BaseTrial):
     """A wrapper of :class:`~optuna.trial.Trial` to incorporate Optuna with ChainerMN.
 

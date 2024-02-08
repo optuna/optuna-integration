@@ -7,7 +7,7 @@ import warnings
 
 import optuna
 from optuna import TrialPruned
-from optuna._experimental import experimental_class
+from optuna._deprecated import deprecated_class
 
 from optuna_integration._imports import try_import
 from optuna_integration.allennlp._environment import _environment_variables
@@ -67,7 +67,7 @@ def _fetch_pruner_config(trial: optuna.Trial) -> dict[str, Any]:
     return kwargs
 
 
-@experimental_class("1.4.0")
+@deprecated_class("3.5.0", "5.0.0")
 class AllenNLPExecutor:
     """AllenNLP extension to use optuna with Jsonnet config file.
 

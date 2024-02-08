@@ -37,7 +37,7 @@ test = [
   "fakeredis[lua]",
 ]
 checking = [
-  "black",
+  "black<24.0.0",
   "blackdoc",
   "hacking",
   "isort",
@@ -48,18 +48,30 @@ checking = [
   "typing_extensions>=3.10.0.0",
 ]
 document = [
+    "pandas",
+    "scikit-learn>=0.24.2",
+    "scipy>=1.9.2; python_version>='3.8'",
     "sphinx",
     "sphinx_rtd_theme",
 ]
 all = [
-  "allennlp>=2.2.0; python_version<'3.11'",
+  "botorch",
   "catalyst",
-  "chainer>=5.0.0",
-  "mpi4py",
+  "catboost>=0.26; sys_platform!='darwin'",
+  "catboost>=0.26,<1.2; sys_platform=='darwin'",
+  "distributed",
+  "fastai",
+  "gpytorch",
   "mxnet",
+  "pandas",
   "shap",
+  "scikit-learn>=0.24.2",
+  "scipy>=1.9.2; python_version>='3.8'",
   "skorch",
+  "tensorboard",
   "tensorflow",
+  "xgboost",
+  "torch",
 ]
 
 [tool.setuptools.packages.find]
