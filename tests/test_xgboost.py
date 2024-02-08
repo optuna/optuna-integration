@@ -1,10 +1,10 @@
 import numpy as np
+import optuna
+from optuna.testing.pruners import DeterministicPruner
 import pytest
 
-import optuna
 from optuna_integration._imports import try_import
 from optuna_integration.xgboost import XGBoostPruningCallback
-from optuna.testing.pruners import DeterministicPruner
 
 
 with try_import():
