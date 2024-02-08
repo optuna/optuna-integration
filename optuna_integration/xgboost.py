@@ -1,6 +1,7 @@
 from typing import Any
 
 import optuna
+import optuna_integration
 
 
 use_callback_cls = True
