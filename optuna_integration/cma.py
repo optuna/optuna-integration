@@ -8,7 +8,6 @@ from typing import Optional
 from typing import Sequence
 
 import numpy
-
 import optuna
 from optuna import distributions
 from optuna import logging
@@ -33,7 +32,7 @@ _logger = logging.get_logger(__name__)
 
 _EPS = 1e-10
 
-_cma_deprecated_msg = "This class is renamed to :class:`~optuna.integration.PyCmaSampler`."
+_cma_deprecated_msg = "This class is renamed to :class:`~optuna_integration.PyCmaSampler`."
 
 
 class PyCmaSampler(BaseSampler):
@@ -41,7 +40,7 @@ class PyCmaSampler(BaseSampler):
 
     Example:
 
-        Optimize a simple quadratic function by using :class:`~optuna.integration.PyCmaSampler`.
+        Optimize a simple quadratic function by using :class:`~optuna_integration.PyCmaSampler`.
 
         .. testcode::
 
@@ -54,7 +53,7 @@ class PyCmaSampler(BaseSampler):
                 return x**2 + y
 
 
-            sampler = optuna.integration.PyCmaSampler()
+            sampler = optuna_integration.PyCmaSampler()
             study = optuna.create_study(sampler=sampler)
             study.optimize(objective, n_trials=20)
 
@@ -62,10 +61,10 @@ class PyCmaSampler(BaseSampler):
     especially if the number of trials running in parallel exceeds the population size.
 
     .. note::
-        :class:`~optuna.integration.CmaEsSampler` is deprecated and renamed to
-        :class:`~optuna.integration.PyCmaSampler` in v2.0.0. Please use
-        :class:`~optuna.integration.PyCmaSampler` instead of
-        :class:`~optuna.integration.CmaEsSampler`.
+        :class:`~optuna_integration.CmaEsSampler` is deprecated and renamed to
+        :class:`~optuna_integration.PyCmaSampler` in v2.0.0. Please use
+        :class:`~optuna_integration.PyCmaSampler` instead of
+        :class:`~optuna_integration.CmaEsSampler`.
 
     Args:
 
@@ -94,7 +93,7 @@ class PyCmaSampler(BaseSampler):
             Note that default option is cma_default_options_,
             but ``BoundaryHandler``, ``bounds``, ``CMA_stds`` and ``seed`` arguments in
             ``cma_opts`` will be ignored because it is added by
-            :class:`~optuna.integration.PyCmaSampler` automatically.
+            :class:`~optuna_integration.PyCmaSampler` automatically.
 
         n_startup_trials:
             The independent sampling is used instead of the CMA-ES algorithm until the given number
@@ -104,7 +103,7 @@ class PyCmaSampler(BaseSampler):
             A :class:`~optuna.samplers.BaseSampler` instance that is used for independent
             sampling. The parameters not contained in the relative search space are sampled
             by this sampler.
-            The search space for :class:`~optuna.integration.PyCmaSampler` is determined by
+            The search space for :class:`~optuna_integration.PyCmaSampler` is determined by
             :func:`~optuna.search_space.intersection_search_space()`.
 
             If :obj:`None` is specified, :class:`~optuna.samplers.RandomSampler` is used
