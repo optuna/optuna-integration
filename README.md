@@ -18,6 +18,7 @@ integrated with many useful tools like PyTorch, sklearn, TensorFlow, etc.
 Optuna-Integration API reference is [here](https://optuna-integration.readthedocs.io/en/stable/reference/index.html).
 
 * [AllenNLP](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#allennlp)  ([example](https://github.com/optuna/optuna-examples/tree/main/allennlp))
+* [BoTorch](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#botorch)
 * [Catalyst](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#catalyst)  ([example](https://github.com/optuna/optuna-examples/blob/main/pytorch/catalyst_simple.py))
 * [CatBoost](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#catboost)  ([example](https://github.com/optuna/optuna-examples/blob/main/catboost/catboost_pruning.py))
 * [Chainer](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#chainer)  ([example](https://github.com/optuna/optuna-examples/tree/main/chainer/chainer_integration.py))
