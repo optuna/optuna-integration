@@ -172,6 +172,15 @@ TensorFlow
 
    optuna_integration.TFKerasPruningCallback
 
+Weights & Biases
+----------------
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   optuna_integration.WeightsAndBiasesCallback
+
 XGBoost
 -------
 
