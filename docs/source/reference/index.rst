@@ -109,6 +109,15 @@ MXNet
 
    optuna_integration.MXNetPruningCallback
 
+pycma
+-----
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   optuna_integration.CmaEsSampler
+   optuna_integration.PyCmaSampler
+
 scikit-optimize
 ---------------
 
@@ -162,6 +171,15 @@ TensorFlow
    :nosignatures:
 
    optuna_integration.TFKerasPruningCallback
+
+Weights & Biases
+----------------
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   optuna_integration.WeightsAndBiasesCallback
 
 XGBoost
 -------
