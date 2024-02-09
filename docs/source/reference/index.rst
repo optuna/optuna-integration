@@ -78,7 +78,7 @@ Dask
    :toctree: generated/
    :nosignatures:
 
-   optuna.integration.DaskStorage
+   optuna_integration.DaskStorage
 
 fast.ai
 -------
@@ -109,6 +109,14 @@ MXNet
 
    optuna_integration.MXNetPruningCallback
 
+pycma
+-----
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   optuna_integration.CmaEsSampler
+   optuna_integration.PyCmaSampler
 
 PyTorch
 -------
@@ -120,6 +128,15 @@ PyTorch
    optuna_integration.PyTorchIgnitePruningHandler
    optuna_integration.PyTorchLightningPruningCallback
    optuna_integration.TorchDistributedTrial
+
+scikit-optimize
+---------------
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   optuna_integration.SkoptSampler
 
 SHAP
 ----
@@ -165,3 +182,21 @@ TensorFlow
    :nosignatures:
 
    optuna_integration.TFKerasPruningCallback
+
+Weights & Biases
+----------------
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   optuna_integration.WeightsAndBiasesCallback
+
+XGBoost
+-------
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   optuna_integration.XGBoostPruningCallback

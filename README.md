@@ -28,11 +28,15 @@ Optuna-Integration API reference is [here](https://optuna-integration.readthedoc
 * [Keras](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#keras)  ([example](https://github.com/optuna/optuna-examples/tree/main/keras))
 * [MXNet](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#mxnet)  ([example](https://github.com/optuna/optuna-examples/tree/main/mxnet))
 * [PyTorch](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#pytorch)  ([example](https://github.com/optuna/optuna-examples/tree/main/pytorch))
+* [pycma](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#pycma)
+* [scikit-optimize](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#skopt)
 * [SHAP](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#shap)
 * [sklearn](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#sklearn)  ([example](https://github.com/optuna/optuna-examples/tree/main/sklearn/sklearn_optuna_search_cv_simple.py))
 * [skorch](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#skorch)  ([example](https://github.com/optuna/optuna-examples/tree/main/pytorch/skorch_simple.py))
 * [TensorBoard](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#tensorboard)  ([example](https://github.com/optuna/optuna-examples/tree/main/tensorboard/tensorboard_simple.py))
 * [tf.keras](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#tensorflow)  ([example](https://github.com/optuna/optuna-examples/tree/main/tfkeras/tfkeras_integration.py))
+* [Weights & Biases](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#wandb)  ([example](https://github.com/optuna/optuna-examples/blob/main/wandb/wandb_integration.py))
+* [XGBoost](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#xgboost)  ([example](https://github.com/optuna/optuna-examples/tree/main/xgboost/xgboost_integration.py))
 
 ## Installation
 
@@ -54,8 +58,8 @@ Also, we also provide Optuna docker images on [DockerHub](https://hub.docker.com
 
 ## Communication
 
-- [GitHub Discussions] for questions.
-- [GitHub Issues] for bug reports and feature requests.
+* [GitHub Discussions] for questions.
+* [GitHub Issues] for bug reports and feature requests.
 
 [GitHub Discussions]: https://github.com/optuna/optuna-integration/discussions
 [GitHub issues]: https://github.com/optuna/optuna-integration/issues

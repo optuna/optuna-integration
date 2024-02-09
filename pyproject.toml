@@ -48,6 +48,7 @@ checking = [
   "typing_extensions>=3.10.0.0",
 ]
 document = [
+    "cma",
     "pandas",
     "scikit-learn>=0.24.2",
     "scipy>=1.9.2; python_version>='3.8'",
@@ -59,6 +60,7 @@ all = [
   "catalyst",
   "catboost>=0.26; sys_platform!='darwin'",
   "catboost>=0.26,<1.2; sys_platform=='darwin'",
+  "cma",
   "distributed",
   "fastai",
   "lightning",
@@ -68,10 +70,13 @@ all = [
   "pytorch-ignite",
   "shap",
   "scikit-learn>=0.24.2",
+  "scikit-optimize",
   "scipy>=1.9.2; python_version>='3.8'",
   "skorch",
   "tensorboard",
   "tensorflow",
+  "wandb",
+  "xgboost",
   "torch",
 ]
 

@@ -12,6 +12,8 @@ _import_structure = {
     "catboost": ["CatBoostPruningCallback"],
     "chainer": ["ChainerPruningExtension"],
     "chainermn": ["ChainerMNStudy"],
+    "cma": ["CmaEsSampler", "PyCmaSampler"],
+    "dask": ["DaskStorage"],
     "fastaiv1": ["FastAIV1PruningCallback"],
     "fastaiv2": ["FastAIV2PruningCallback", "FastAIPruningCallback"],
     "keras": ["KerasPruningCallback"],
@@ -21,10 +23,13 @@ _import_structure = {
     "pytorch_lightning": ["PyTorchLightningPruningCallback"],
     "shap": ["ShapleyImportanceEvaluator"],
     "sklearn": ["OptunaSearchCV"],
+    "skopt": ["SkoptSampler"],
     "skorch": ["SkorchPruningCallback"],
     "tensorboard": ["TensorBoardCallback"],
     "tensorflow": ["TensorFlowPruningHook"],
     "tfkeras": ["TFKerasPruningCallback"],
+    "wandb": ["WeightsAndBiasesCallback"],
+    "xgboost": ["XGBoostPruningCallback"],
 }
 
 
@@ -36,6 +41,9 @@ if TYPE_CHECKING:
     from optuna_integration.catboost import CatBoostPruningCallback
     from optuna_integration.chainer import ChainerPruningExtension
     from optuna_integration.chainermn import ChainerMNStudy
+    from optuna_integration.cma import CmaEsSampler
+    from optuna_integration.cma import PyCmaSampler
+    from optuna_integration.dask import DaskStorage
     from optuna_integration.fastaiv1 import FastAIV1PruningCallback
     from optuna_integration.fastaiv2 import FastAIPruningCallback
     from optuna_integration.fastaiv2 import FastAIV2PruningCallback
@@ -46,10 +54,13 @@ if TYPE_CHECKING:
     from optuna_integration.pytorch_lightning import PyTorchLightningPruningCallback
     from optuna_integration.shap import ShapleyImportanceEvaluator
     from optuna_integration.sklearn import OptunaSearchCV
+    from optuna_integration.skopt import SkoptSampler
     from optuna_integration.skorch import SkorchPruningCallback
     from optuna_integration.tensorboard import TensorBoardCallback
     from optuna_integration.tensorflow import TensorFlowPruningHook
     from optuna_integration.tfkeras import TFKerasPruningCallback
+    from optuna_integration.wandb import WeightsAndBiasesCallback
+    from optuna_integration.xgboost import XGBoostPruningCallback
 else:
 
     class _IntegrationModule(ModuleType):
@@ -105,6 +116,7 @@ __all__ = [
     "CatBoostPruningCallback",
     "ChainerMNStudy",
     "ChainerPruningExtension",
+    "DaskStorage",
     "FastAIPruningCallback",
     "FastAIV1PruningCallback",
     "FastAIV2PruningCallback",
@@ -114,9 +126,14 @@ __all__ = [
     "PyTorchIgnitePruningHandler",
     "PyTorchLightningPruningCallback",
     "OptunaSearchCV",
+    "CmaEsSampler",
+    "PyCmaSampler",
     "ShapleyImportanceEvaluator",
+    "SkoptSampler",
     "SkorchPruningCallback",
     "TensorBoardCallback",
     "TensorFlowPruningHook",
     "TFKerasPruningCallback",
+    "WeightsAndBiasesCallback",
+    "XGBoostPruningCallback",
 ]
