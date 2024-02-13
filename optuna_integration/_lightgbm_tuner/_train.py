@@ -4,10 +4,11 @@ from collections.abc import Callable
 from typing import Any
 
 from optuna._imports import try_import
-from optuna_integration._lightgbm_tuner.optimize import _imports
-from optuna_integration._lightgbm_tuner.optimize import LightGBMTuner
 from optuna.study import Study
 from optuna.trial import FrozenTrial
+
+from optuna_integration._lightgbm_tuner.optimize import _imports
+from optuna_integration._lightgbm_tuner.optimize import LightGBMTuner
 
 
 with try_import():

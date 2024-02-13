@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING
 
 import optuna
 from optuna._imports import try_import
+
 from optuna_integration import _lightgbm_tuner as tuner
 
 
@@ -20,10 +21,9 @@ with try_import() as _imports:
 # Attach lightgbm API.
 if _imports.is_successful():
     # To pass tests/lightgbm_tuner_tests/test_optimize.py.
+    from lightgbm import Dataset
     from optuna_integration._lightgbm_tuner import LightGBMTuner
     from optuna_integration._lightgbm_tuner import LightGBMTunerCV
-
-    from lightgbm import Dataset
 
     _names_from_tuners = ["train", "LGBMModel", "LGBMClassifier", "LGBMRegressor"]
 
