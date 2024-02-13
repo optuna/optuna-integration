@@ -112,6 +112,15 @@ LightGBM
    optuna_integration.lightgbm.LightGBMTuner
    optuna_integration.lightgbm.LightGBMTunerCV
 
+MLflow
+------
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   optuna_integration.MLflowCallback
+
 MXNet
 -----
 

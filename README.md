@@ -24,10 +24,13 @@ Optuna-Integration API reference is [here](https://optuna-integration.readthedoc
 * [Chainer](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#chainer)  ([example](https://github.com/optuna/optuna-examples/tree/main/chainer/chainer_integration.py))
 * [ChainerMN](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#chainermn)  ([example](https://github.com/optuna/optuna-examples/tree/main/chainer/chainermn_simple.py))
 * [Dask](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#dask) ([example](https://github.com/optuna/optuna-examples/tree/main/dask/dask_simple.py))
-* FastAI ([V1](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#fastaiv1)  ([example](https://github.com/optuna/optuna-examples/tree/main/fastai/fastaiv1_simple.py)), ([V2](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#fastaiv2)  ([example]https://github.com/optuna/optuna-examples/tree/main/fastai/fastaiv2_simple.py)))
+* [FastAI](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#fast-ai) (
+  V1 ([example](https://github.com/optuna/optuna-examples/tree/main/fastai/fastaiv1_simple.py)),
+  V2  ([example](https://github.com/optuna/optuna-examples/tree/main/fastai/fastaiv2_simple.py)))
 * [Keras](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#keras)  ([example](https://github.com/optuna/optuna-examples/tree/main/keras))
 * [LightGBM](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#lightgbm) ([example](https://github.com/optuna/optuna-examples/tree/main/lightgbm))
 * ```
+* [MLflow](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#mlflow)  ([example](https://github.com/optuna/optuna-examples/blob/main/mlflow/))
 * [MXNet](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#mxnet)  ([example](https://github.com/optuna/optuna-examples/tree/main/mxnet))
 * [pycma](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#pycma)
 * [scikit-optimize](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#skopt)
@@ -41,7 +44,8 @@ Optuna-Integration API reference is [here](https://optuna-integration.readthedoc
 
 ## Installation
 
-Optuna-Integration is available at [the Python Package Index](https://pypi.org/project/optuna-integration/) and on [Anaconda Cloud](https://anaconda.org/conda-forge/optuna-integration).
+Optuna-Integration is available at [the Python Package Index](https://pypi.org/project/optuna-integration/) and
+on [Anaconda Cloud](https://anaconda.org/conda-forge/optuna-integration).
 
 ```bash
 # PyPI
@@ -63,6 +67,7 @@ Also, we also provide Optuna docker images on [DockerHub](https://hub.docker.com
 * [GitHub Issues] for bug reports and feature requests.
 
 [GitHub Discussions]: https://github.com/optuna/optuna-integration/discussions
+
 [GitHub issues]: https://github.com/optuna/optuna-integration/issues
 
 ## Contribution

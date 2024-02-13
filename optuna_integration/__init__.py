@@ -18,6 +18,7 @@ _import_structure = {
     "fastaiv2": ["FastAIV2PruningCallback", "FastAIPruningCallback"],
     "keras": ["KerasPruningCallback"],
     "lightgbm": ["LightGBMPruningCallback", "LightGBMTuner", "LightGBMTunerCV"],
+    "mlflow": ["MLflowCallback"],
     "mxnet": ["MXNetPruningCallback"],
     "shap": ["ShapleyImportanceEvaluator"],
     "sklearn": ["OptunaSearchCV"],
@@ -46,6 +47,7 @@ if TYPE_CHECKING:
     from optuna_integration.fastaiv2 import FastAIPruningCallback
     from optuna_integration.fastaiv2 import FastAIV2PruningCallback
     from optuna_integration.keras import KerasPruningCallback
+    from optuna_integration.mlflow import MLflowCallback
     from optuna_integration.lightgbm import LightGBMPruningCallback
     from optuna_integration.lightgbm import LightGBMTuner
     from optuna_integration.lightgbm import LightGBMTunerCV
@@ -114,17 +116,15 @@ __all__ = [
     "CatBoostPruningCallback",
     "ChainerMNStudy",
     "ChainerPruningExtension",
+    "CmaEsSampler",
     "DaskStorage",
     "FastAIPruningCallback",
     "FastAIV1PruningCallback",
     "FastAIV2PruningCallback",
     "KerasPruningCallback",
-    "LightGBMPruningCallback",
-    "LightGBMTuner",
-    "LightGBMTunerCV",
+    "MLflowCallback",
     "MXNetPruningCallback",
     "OptunaSearchCV",
-    "CmaEsSampler",
     "PyCmaSampler",
     "ShapleyImportanceEvaluator",
     "SkoptSampler",
