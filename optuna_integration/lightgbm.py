@@ -20,8 +20,8 @@ with try_import() as _imports:
 # Attach lightgbm API.
 if _imports.is_successful():
     # To pass tests/integration_tests/lightgbm_tuner_tests/test_optimize.py.
-    from optuna.integration._lightgbm_tuner import LightGBMTuner
-    from optuna.integration._lightgbm_tuner import LightGBMTunerCV
+    from optuna_integration._lightgbm_tuner import LightGBMTuner
+    from optuna_integration._lightgbm_tuner import LightGBMTunerCV
 
     from lightgbm import Dataset
 
