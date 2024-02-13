@@ -17,15 +17,15 @@ from typing import cast
 import warnings
 
 import numpy as np
-import tqdm
-
 import optuna
 from optuna._imports import try_import
-from optuna.integration._lightgbm_tuner.alias import _handling_alias_metrics
-from optuna.integration._lightgbm_tuner.alias import _handling_alias_parameters
 from optuna.study import Study
 from optuna.trial import FrozenTrial
 from optuna.trial import TrialState
+import tqdm
+
+from optuna_integration._lightgbm_tuner.alias import _handling_alias_metrics
+from optuna_integration._lightgbm_tuner.alias import _handling_alias_parameters
 
 
 with try_import() as _imports:
@@ -346,8 +346,8 @@ class _LightGBMBaseTuner(_BaseTuner):
     """Base class of LightGBM Tuners.
 
     This class has common attributes and methods of
-    :class:`~optuna.integration.lightgbm.LightGBMTuner` and
-    :class:`~optuna.integration.lightgbm.LightGBMTunerCV`.
+    :class:`~optuna_integration.lightgbm.LightGBMTuner` and
+    :class:`~optuna_integration.lightgbm.LightGBMTunerCV`.
     """
 
     def __init__(
@@ -690,7 +690,7 @@ class LightGBMTuner(_LightGBMBaseTuner):
         For ``params``, please check `the official documentation for LightGBM
         <https://lightgbm.readthedocs.io/en/latest/Parameters.html>`_.
 
-    The arguments that only :class:`~optuna.integration.lightgbm.LightGBMTuner` has are
+    The arguments that only :class:`~optuna_integration.lightgbm.LightGBMTuner` has are
     listed below:
 
     Args:
@@ -714,7 +714,7 @@ class LightGBMTuner(_LightGBMBaseTuner):
         model_dir:
             A directory to save boosters. By default, it is set to :obj:`None` and no boosters are
             saved. Please set shared directory (e.g., directories on NFS) if you want to access
-            :meth:`~optuna.integration.lightgbm.LightGBMTuner.get_best_booster` in distributed
+            :meth:`~optuna_integration.lightgbm.LightGBMTuner.get_best_booster` in distributed
             environments. Otherwise, it may raise :obj:`ValueError`. If the directory does not
             exist, it will be created. The filenames of the boosters will be
             ``{model_dir}/{trial_number}.pkl`` (e.g., ``./boosters/0.pkl``).
@@ -823,7 +823,7 @@ class LightGBMTuner(_LightGBMBaseTuner):
 
         If the best booster cannot be found, :class:`ValueError` will be raised. To prevent the
         errors, please save boosters by specifying the ``model_dir`` argument of
-        :meth:`~optuna.integration.lightgbm.LightGBMTuner.__init__`,
+        :meth:`~optuna_integration.lightgbm.LightGBMTuner.__init__`,
         when you resume tuning or you run tuning in parallel.
         """
         if self._best_booster_with_trial_number is not None:
@@ -861,9 +861,9 @@ class LightGBMTunerCV(_LightGBMBaseTuner):
     """Hyperparameter tuner for LightGBM with cross-validation.
 
     It employs the same stepwise approach as
-    :class:`~optuna.integration.lightgbm.LightGBMTuner`.
-    :class:`~optuna.integration.lightgbm.LightGBMTunerCV` invokes `lightgbm.cv()`_ to train
-    and validate boosters while :class:`~optuna.integration.lightgbm.LightGBMTuner` invokes
+    :class:`~optuna_integration.lightgbm.LightGBMTuner`.
+    :class:`~optuna_integration.lightgbm.LightGBMTunerCV` invokes `lightgbm.cv()`_ to train
+    and validate boosters while :class:`~optuna_integration.lightgbm.LightGBMTuner` invokes
     `lightgbm.train()`_. See
     `a simple example <https://github.com/optuna/optuna-examples/tree/main/lightgbm/
     lightgbm_tuner_cv.py>`_ which optimizes the validation log loss of cancer detection.
@@ -874,7 +874,7 @@ class LightGBMTunerCV(_LightGBMBaseTuner):
         For ``params``, please check `the official documentation for LightGBM
         <https://lightgbm.readthedocs.io/en/latest/Parameters.html>`_.
 
-    The arguments that only :class:`~optuna.integration.lightgbm.LightGBMTunerCV` has are
+    The arguments that only :class:`~optuna_integration.lightgbm.LightGBMTunerCV` has are
     listed below:
 
     Args:
@@ -898,7 +898,7 @@ class LightGBMTunerCV(_LightGBMBaseTuner):
         model_dir:
             A directory to save boosters. By default, it is set to :obj:`None` and no boosters are
             saved. Please set shared directory (e.g., directories on NFS) if you want to access
-            :meth:`~optuna.integration.lightgbm.LightGBMTunerCV.get_best_booster`
+            :meth:`~optuna_integration.lightgbm.LightGBMTunerCV.get_best_booster`
             in distributed environments.
             Otherwise, it may raise :obj:`ValueError`. If the directory does not exist, it will be
             created. The filenames of the boosters will be ``{model_dir}/{trial_number}.pkl``
@@ -923,7 +923,7 @@ class LightGBMTunerCV(_LightGBMBaseTuner):
                 Please suppress such messages to show the progress bars properly.
 
         return_cvbooster:
-            Flag to enable :meth:`~optuna.integration.lightgbm.LightGBMTunerCV.get_best_booster`.
+            Flag to enable :meth:`~optuna_integration.lightgbm.LightGBMTunerCV.get_best_booster`.
 
         optuna_seed:
             ``seed`` of :class:`~optuna.samplers.TPESampler` for random number generator
@@ -1019,7 +1019,7 @@ class LightGBMTunerCV(_LightGBMBaseTuner):
         If the best booster cannot be found, :class:`ValueError` will be raised.
         To prevent the errors, please save boosters by specifying
         both of the ``model_dir`` and the ``return_cvbooster`` arguments of
-        :meth:`~optuna.integration.lightgbm.LightGBMTunerCV.__init__`,
+        :meth:`~optuna_integration.lightgbm.LightGBMTunerCV.__init__`,
         when you resume tuning or you run tuning in parallel.
         """
         if self.lgbm_kwargs.get("return_cvbooster") is not True:

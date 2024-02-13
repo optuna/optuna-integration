@@ -4,10 +4,11 @@ from collections.abc import Callable
 from typing import Any
 
 from optuna._imports import try_import
-from optuna.integration._lightgbm_tuner.optimize import _imports
-from optuna.integration._lightgbm_tuner.optimize import LightGBMTuner
 from optuna.study import Study
 from optuna.trial import FrozenTrial
+
+from optuna_integration._lightgbm_tuner.optimize import _imports
+from optuna_integration._lightgbm_tuner.optimize import LightGBMTuner
 
 
 with try_import():
@@ -45,10 +46,10 @@ def train(
     lightgbm/lightgbm_tuner_simple.py>`_ which optimizes the validation log loss of cancer
     detection.
 
-    :func:`~optuna.integration.lightgbm.train` is a wrapper function of
-    :class:`~optuna.integration.lightgbm.LightGBMTuner`. To use feature in Optuna such as
+    :func:`~optuna_integration.lightgbm.train` is a wrapper function of
+    :class:`~optuna_integration.lightgbm.LightGBMTuner`. To use feature in Optuna such as
     suspended/resumed optimization and/or parallelization, refer to
-    :class:`~optuna.integration.lightgbm.LightGBMTuner` instead of this function.
+    :class:`~optuna_integration.lightgbm.LightGBMTuner` instead of this function.
 
     .. note::
         Arguments and keyword arguments for `lightgbm.train()`_ can be passed.
@@ -76,7 +77,7 @@ def train(
         model_dir:
             A directory to save boosters. By default, it is set to :obj:`None` and no boosters are
             saved. Please set shared directory (e.g., directories on NFS) if you want to access
-            :meth:`~optuna.integration.lightgbm.LightGBMTuner.get_best_booster` in distributed
+            :meth:`~optuna_integration.lightgbm.LightGBMTuner.get_best_booster` in distributed
             environments. Otherwise, it may raise :obj:`ValueError`. If the directory does not
             exist, it will be created. The filenames of the boosters will be
             ``{model_dir}/{trial_number}.pkl`` (e.g., ``./boosters/0.pkl``).

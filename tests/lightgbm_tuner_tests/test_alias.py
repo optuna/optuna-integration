@@ -1,9 +1,8 @@
 from typing import List
 
-import pytest
-
 from optuna.integration._lightgbm_tuner.alias import _handling_alias_metrics
 from optuna.integration._lightgbm_tuner.alias import _handling_alias_parameters
+import pytest
 
 
 pytestmark = pytest.mark.integration

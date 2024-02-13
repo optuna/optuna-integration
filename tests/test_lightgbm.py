@@ -2,12 +2,12 @@ from functools import partial
 from unittest.mock import patch
 
 import numpy as np
-import pytest
-
 import optuna
 from optuna._imports import try_import
-from optuna.integration.lightgbm import LightGBMPruningCallback
 from optuna.testing.pruners import DeterministicPruner
+import pytest
+
+from optuna_integration.lightgbm import LightGBMPruningCallback
 
 
 with try_import():
