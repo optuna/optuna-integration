@@ -100,7 +100,7 @@ Keras
 
    optuna_integration.KerasPruningCallback
 
-MXflow
+MLflow
 ------
 
 .. autosummary::
