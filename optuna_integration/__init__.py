@@ -32,9 +32,9 @@ _import_structure = {
 
 
 if TYPE_CHECKING:
-    from optuna.integration.lightgbm import LightGBMPruningCallback
-    from optuna.integration.lightgbm import LightGBMTuner
-    from optuna.integration.lightgbm import LightGBMTunerCV
+    from optuna_integration.lightgbm import LightGBMPruningCallback
+    from optuna_integration.lightgbm import LightGBMTuner
+    from optuna_integration.lightgbm import LightGBMTunerCV
 
     from optuna_integration.allennlp import AllenNLPExecutor
     from optuna_integration.allennlp import AllenNLPPruningCallback
