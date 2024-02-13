@@ -107,10 +107,10 @@ LightGBM
    :toctree: generated/
    :nosignatures:
 
-   optuna.integration.LightGBMPruningCallback
-   optuna.integration.lightgbm.train
-   optuna.integration.lightgbm.LightGBMTuner
-   optuna.integration.lightgbm.LightGBMTunerCV
+   optuna_integration.LightGBMPruningCallback
+   optuna_integration.lightgbm.train
+   optuna_integration.lightgbm.LightGBMTuner
+   optuna_integration.lightgbm.LightGBMTunerCV
 
 MXNet
 -----
