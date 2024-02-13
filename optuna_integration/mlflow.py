@@ -1,12 +1,10 @@
+from __future__ import annotations
+
+from collections.abc import Sequence
 import functools
 import threading
 from typing import Any
 from typing import Callable
-from typing import Dict
-from typing import List
-from typing import Optional
-from typing import Sequence
-from typing import Union
 
 import optuna
 from optuna._experimental import experimental_class
@@ -117,10 +115,10 @@ class MLflowCallback:
 
     def __init__(
         self,
-        tracking_uri: Optional[str] = None,
-        metric_name: Union[str, Sequence[str]] = "value",
+        tracking_uri: str | None = None,
+        metric_name: str | Sequence[str] = "value",
         create_experiment: bool = True,
-        mlflow_kwargs: Optional[Dict[str, Any]] = None,
+        mlflow_kwargs: dict[str, Any] | None = None,
         tag_study_user_attrs: bool = False,
         tag_trial_user_attrs: bool = True,
     ) -> None:
@@ -204,7 +202,7 @@ class MLflowCallback:
 
         def decorator(func: ObjectiveFuncType) -> ObjectiveFuncType:
             @functools.wraps(func)
-            def wrapper(trial: optuna.trial.Trial) -> Union[float, Sequence[float]]:
+            def wrapper(trial: optuna.trial.Trial) -> float | Sequence[float]:
                 with self._lock:
                     study = trial.study
                     self._initialize_experiment(study)
@@ -245,7 +243,7 @@ class MLflowCallback:
             study: Study to be tracked.
         """
 
-        tags: Dict[str, Union[str, List[str]]] = {}
+        tags: dict[str, str | list[str]] = {}
         tags["number"] = str(trial.number)
         tags["datetime_start"] = str(trial.datetime_start)
 
@@ -281,7 +279,7 @@ class MLflowCallback:
 
         mlflow.set_tags(tags)
 
-    def _log_metrics(self, values: Optional[List[float]]) -> None:
+    def _log_metrics(self, values: list[float] | None) -> None:
         """Log the trial results as metrics to MLflow.
 
         Args:
@@ -315,7 +313,7 @@ class MLflowCallback:
         mlflow.log_metrics(metrics)
 
     @staticmethod
-    def _log_params(params: Dict[str, Any]) -> None:
+    def _log_params(params: dict[str, Any]) -> None:
         """Log the parameters of the trial to MLflow.
 
         Args:

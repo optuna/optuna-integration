@@ -1,8 +1,6 @@
+from __future__ import annotations
+
 from typing import Callable
-from typing import List
-from typing import Optional
-from typing import Tuple
-from typing import Union
 
 import numpy as np
 import optuna
@@ -29,7 +27,7 @@ def _objective_func(trial: optuna.trial.Trial) -> float:
     return (x - 2) ** 2 + (y - 25) ** 2 + z
 
 
-def _multiobjective_func(trial: optuna.trial.Trial) -> Tuple[float, float]:
+def _multiobjective_func(trial: optuna.trial.Trial) -> tuple[float, float]:
     x = trial.suggest_float("x", low=-1.0, high=1.0)
     y = trial.suggest_float("y", low=20, high=30, log=True)
     z = trial.suggest_categorical("z", (-1.0, 1.0))
@@ -55,7 +53,7 @@ def _objective_func_long_user_attr(trial: optuna.trial.Trial) -> float:
 
 @pytest.mark.parametrize("name,expected", [(None, "Default"), ("foo", "foo")])
 def test_use_existing_or_default_experiment(
-    tmpdir: py.path.local, name: Optional[str], expected: str
+    tmpdir: py.path.local, name: str | None, expected: str
 ) -> None:
     if name is not None:
         tracking_uri = f"file:{tmpdir}"
@@ -157,7 +155,7 @@ def test_metric_name(tmpdir: py.path.local) -> None:
     ],
 )
 def test_metric_name_multiobjective(
-    tmpdir: py.path.local, names: Union[str, List[str]], expected: List[str]
+    tmpdir: py.path.local, names: str | list[str], expected: list[str]
 ) -> None:
     tracking_uri = f"file:{tmpdir}"
 
@@ -178,7 +176,7 @@ def test_metric_name_multiobjective(
 
 
 @pytest.mark.parametrize("run_name,expected", [(None, "0"), ("foo", "foo")])
-def test_run_name(tmpdir: py.path.local, run_name: Optional[str], expected: str) -> None:
+def test_run_name(tmpdir: py.path.local, run_name: str | None, expected: str) -> None:
     tracking_uri = f"file:{tmpdir}"
 
     mlflow_kwargs = {"run_name": run_name}
@@ -426,7 +424,7 @@ def test_track_in_mlflow_decorator(tmpdir: py.path.local, n_jobs: int) -> None:
     ],
 )
 def test_log_metric(
-    tmpdir: py.path.local, func: Callable, names: List[str], values: List[float]
+    tmpdir: py.path.local, func: Callable, names: list[str], values: list[float]
 ) -> None:
     tracking_uri = f"file:{tmpdir}"
     study_name = "my_study"
@@ -507,7 +505,7 @@ def test_log_params(tmpdir: py.path.local) -> None:
 
 
 @pytest.mark.parametrize("metrics", [["foo"], ["foo", "bar", "baz"]])
-def test_multiobjective_raises_on_name_mismatch(tmpdir: py.path.local, metrics: List[str]) -> None:
+def test_multiobjective_raises_on_name_mismatch(tmpdir: py.path.local, metrics: list[str]) -> None:
     tracking_uri = f"file:{tmpdir}"
     mlflc = MLflowCallback(tracking_uri=tracking_uri, metric_name=metrics)
     study = optuna.create_study(study_name="my_study", directions=["minimize", "maximize"])
