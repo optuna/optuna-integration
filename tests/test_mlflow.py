@@ -5,12 +5,12 @@ from typing import Tuple
 from typing import Union
 
 import numpy as np
+import optuna
+from optuna._imports import try_import
 import py
 import pytest
 
-import optuna
-from optuna._imports import try_import
-from optuna.integration.mlflow import MLflowCallback
+from optuna_integration.mlflow import MLflowCallback
 
 
 with try_import():

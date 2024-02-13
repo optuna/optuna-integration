@@ -100,6 +100,15 @@ Keras
 
    optuna_integration.KerasPruningCallback
 
+MXflow
+------
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   optuna_integration.MLflowCallback
+
 MXNet
 -----
 

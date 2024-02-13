@@ -43,7 +43,7 @@ class MLflowCallback:
         .. testcode::
 
             import optuna
-            from optuna.integration.mlflow import MLflowCallback
+            from optuna_integration.mlflow import MLflowCallback
 
 
             def objective(trial):
@@ -178,7 +178,7 @@ class MLflowCallback:
 
                 import optuna
                 import mlflow
-                from optuna.integration.mlflow import MLflowCallback
+                from optuna_integration.mlflow import MLflowCallback
 
                 mlflc = MLflowCallback(
                     tracking_uri=YOUR_TRACKING_URI,
