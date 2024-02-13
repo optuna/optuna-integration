@@ -1,10 +1,10 @@
 from __future__ import annotations
 
+from collections.abc import Callable
 from collections.abc import Sequence
 import functools
 import threading
 from typing import Any
-from typing import Callable
 
 import optuna
 from optuna._experimental import experimental_class
