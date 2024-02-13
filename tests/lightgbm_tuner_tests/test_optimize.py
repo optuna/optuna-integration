@@ -11,14 +11,15 @@ import warnings
 import numpy as np
 import optuna
 from optuna._imports import try_import
-from optuna.integration._lightgbm_tuner.optimize import _BaseTuner
-from optuna.integration._lightgbm_tuner.optimize import _OptunaObjective
-from optuna.integration._lightgbm_tuner.optimize import _OptunaObjectiveCV
-from optuna.integration._lightgbm_tuner.optimize import LightGBMTuner
-from optuna.integration._lightgbm_tuner.optimize import LightGBMTunerCV
-import optuna.integration.lightgbm as lgb
 from optuna.study import Study
 import pytest
+
+from optuna_integration._lightgbm_tuner.optimize import _BaseTuner
+from optuna_integration._lightgbm_tuner.optimize import _OptunaObjective
+from optuna_integration._lightgbm_tuner.optimize import _OptunaObjectiveCV
+from optuna_integration._lightgbm_tuner.optimize import LightGBMTuner
+from optuna_integration._lightgbm_tuner.optimize import LightGBMTunerCV
+import optuna_integration.lightgbm as lgb
 
 
 with try_import():

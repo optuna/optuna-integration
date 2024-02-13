@@ -32,10 +32,6 @@ _import_structure = {
 
 
 if TYPE_CHECKING:
-    from optuna.integration.lightgbm import LightGBMPruningCallback
-    from optuna.integration.lightgbm import LightGBMTuner
-    from optuna.integration.lightgbm import LightGBMTunerCV
-
     from optuna_integration.allennlp import AllenNLPExecutor
     from optuna_integration.allennlp import AllenNLPPruningCallback
     from optuna_integration.botorch import BoTorchSampler
@@ -50,6 +46,9 @@ if TYPE_CHECKING:
     from optuna_integration.fastaiv2 import FastAIPruningCallback
     from optuna_integration.fastaiv2 import FastAIV2PruningCallback
     from optuna_integration.keras import KerasPruningCallback
+    from optuna_integration.lightgbm import LightGBMPruningCallback
+    from optuna_integration.lightgbm import LightGBMTuner
+    from optuna_integration.lightgbm import LightGBMTunerCV
     from optuna_integration.mxnet import MXNetPruningCallback
     from optuna_integration.shap import ShapleyImportanceEvaluator
     from optuna_integration.sklearn import OptunaSearchCV
