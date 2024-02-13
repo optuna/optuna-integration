@@ -32,6 +32,9 @@ _import_structure = {
 
 
 if TYPE_CHECKING:
+    from optuna.integration.lightgbm import LightGBMPruningCallback
+    from optuna.integration.lightgbm import LightGBMTuner
+    from optuna.integration.lightgbm import LightGBMTunerCV
     from optuna_integration.allennlp import AllenNLPExecutor
     from optuna_integration.allennlp import AllenNLPPruningCallback
     from optuna_integration.botorch import BoTorchSampler
@@ -116,6 +119,9 @@ __all__ = [
     "FastAIV1PruningCallback",
     "FastAIV2PruningCallback",
     "KerasPruningCallback",
+    "LightGBMPruningCallback",
+    "LightGBMTuner",
+    "LightGBMTunerCV",
     "MXNetPruningCallback",
     "OptunaSearchCV",
     "CmaEsSampler",
