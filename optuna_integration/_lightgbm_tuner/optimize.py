@@ -860,9 +860,9 @@ class LightGBMTunerCV(_LightGBMBaseTuner):
     """Hyperparameter tuner for LightGBM with cross-validation.
 
     It employs the same stepwise approach as
-    :class:`~optuna.integration.lightgbm.LightGBMTuner`.
-    :class:`~optuna.integration.lightgbm.LightGBMTunerCV` invokes `lightgbm.cv()`_ to train
-    and validate boosters while :class:`~optuna.integration.lightgbm.LightGBMTuner` invokes
+    :class:`~optuna_integration.lightgbm.LightGBMTuner`.
+    :class:`~optuna_integration.lightgbm.LightGBMTunerCV` invokes `lightgbm.cv()`_ to train
+    and validate boosters while :class:`~optuna_integration.lightgbm.LightGBMTuner` invokes
     `lightgbm.train()`_. See
     `a simple example <https://github.com/optuna/optuna-examples/tree/main/lightgbm/
     lightgbm_tuner_cv.py>`_ which optimizes the validation log loss of cancer detection.
