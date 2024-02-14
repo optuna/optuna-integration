@@ -713,7 +713,7 @@ class LightGBMTuner(_LightGBMBaseTuner):
         model_dir:
             A directory to save boosters. By default, it is set to :obj:`None` and no boosters are
             saved. Please set shared directory (e.g., directories on NFS) if you want to access
-            :meth:`~optuna.integration.lightgbm.LightGBMTuner.get_best_booster` in distributed
+            :meth:`~optuna_integration.lightgbm.LightGBMTuner.get_best_booster` in distributed
             environments. Otherwise, it may raise :obj:`ValueError`. If the directory does not
             exist, it will be created. The filenames of the boosters will be
             ``{model_dir}/{trial_number}.pkl`` (e.g., ``./boosters/0.pkl``).
