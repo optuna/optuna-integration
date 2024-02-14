@@ -689,7 +689,7 @@ class LightGBMTuner(_LightGBMBaseTuner):
         For ``params``, please check `the official documentation for LightGBM
         <https://lightgbm.readthedocs.io/en/latest/Parameters.html>`_.
 
-    The arguments that only :class:`~optuna.integration.lightgbm.LightGBMTuner` has are
+    The arguments that only :class:`~optuna_integration.lightgbm.LightGBMTuner` has are
     listed below:
 
     Args:
