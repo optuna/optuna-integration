@@ -345,8 +345,8 @@ class _LightGBMBaseTuner(_BaseTuner):
     """Base class of LightGBM Tuners.
 
     This class has common attributes and methods of
-    :class:`~optuna.integration.lightgbm.LightGBMTuner` and
-    :class:`~optuna.integration.lightgbm.LightGBMTunerCV`.
+    :class:`~optuna_integration.lightgbm.LightGBMTuner` and
+    :class:`~optuna_integration.lightgbm.LightGBMTunerCV`.
     """
 
     def __init__(
