@@ -67,6 +67,7 @@ all = [
   "lightning",
   "gpytorch",
   "mlflow",
+  "lightgbm",
   "mxnet",
   "pandas",
   "pytorch-ignite",

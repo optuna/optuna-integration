@@ -17,6 +17,7 @@ _import_structure = {
     "fastaiv1": ["FastAIV1PruningCallback"],
     "fastaiv2": ["FastAIV2PruningCallback", "FastAIPruningCallback"],
     "keras": ["KerasPruningCallback"],
+    "lightgbm": ["LightGBMPruningCallback", "LightGBMTuner", "LightGBMTunerCV"],
     "mlflow": ["MLflowCallback"],
     "mxnet": ["MXNetPruningCallback"],
     "pytorch_distributed": ["TorchDistributedTrial"],
@@ -49,6 +50,9 @@ if TYPE_CHECKING:
     from optuna_integration.fastaiv2 import FastAIPruningCallback
     from optuna_integration.fastaiv2 import FastAIV2PruningCallback
     from optuna_integration.keras import KerasPruningCallback
+    from optuna_integration.lightgbm import LightGBMPruningCallback
+    from optuna_integration.lightgbm import LightGBMTuner
+    from optuna_integration.lightgbm import LightGBMTunerCV
     from optuna_integration.mlflow import MLflowCallback
     from optuna_integration.mxnet import MXNetPruningCallback
     from optuna_integration.pytorch_distributed import TorchDistributedTrial
@@ -124,6 +128,9 @@ __all__ = [
     "FastAIV1PruningCallback",
     "FastAIV2PruningCallback",
     "KerasPruningCallback",
+    "LightGBMPruningCallback",
+    "LightGBMTuner",
+    "LightGBMTunerCV",
     "MLflowCallback",
     "MXNetPruningCallback",
     "TorchDistributedTrial",

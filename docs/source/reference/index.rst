@@ -100,6 +100,18 @@ Keras
 
    optuna_integration.KerasPruningCallback
 
+LightGBM
+--------
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   optuna_integration.LightGBMPruningCallback
+   optuna_integration.lightgbm.train
+   optuna_integration.lightgbm.LightGBMTuner
+   optuna_integration.lightgbm.LightGBMTunerCV
+
 MLflow
 ------
 
