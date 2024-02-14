@@ -922,7 +922,7 @@ class LightGBMTunerCV(_LightGBMBaseTuner):
                 Please suppress such messages to show the progress bars properly.
 
         return_cvbooster:
-            Flag to enable :meth:`~optuna.integration.lightgbm.LightGBMTunerCV.get_best_booster`.
+            Flag to enable :meth:`~optuna_integration.lightgbm.LightGBMTunerCV.get_best_booster`.
 
         optuna_seed:
             ``seed`` of :class:`~optuna.samplers.TPESampler` for random number generator
