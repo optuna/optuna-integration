@@ -19,12 +19,13 @@ import warnings
 import numpy as np
 import optuna
 from optuna._imports import try_import
-from optuna_integration._lightgbm_tuner.alias import _handling_alias_metrics
-from optuna_integration._lightgbm_tuner.alias import _handling_alias_parameters
 from optuna.study import Study
 from optuna.trial import FrozenTrial
 from optuna.trial import TrialState
 import tqdm
+
+from optuna_integration._lightgbm_tuner.alias import _handling_alias_metrics
+from optuna_integration._lightgbm_tuner.alias import _handling_alias_parameters
 
 
 with try_import() as _imports:
