@@ -19,6 +19,9 @@ _import_structure = {
     "keras": ["KerasPruningCallback"],
     "mlflow": ["MLflowCallback"],
     "mxnet": ["MXNetPruningCallback"],
+    "pytorch_distributed": ["TorchDistributedTrial"],
+    "pytorch_ignite": ["PyTorchIgnitePruningHandler"],
+    "pytorch_lightning": ["PyTorchLightningPruningCallback"],
     "shap": ["ShapleyImportanceEvaluator"],
     "sklearn": ["OptunaSearchCV"],
     "skopt": ["SkoptSampler"],
@@ -48,6 +51,9 @@ if TYPE_CHECKING:
     from optuna_integration.keras import KerasPruningCallback
     from optuna_integration.mlflow import MLflowCallback
     from optuna_integration.mxnet import MXNetPruningCallback
+    from optuna_integration.pytorch_distributed import TorchDistributedTrial
+    from optuna_integration.pytorch_ignite import PyTorchIgnitePruningHandler
+    from optuna_integration.pytorch_lightning import PyTorchLightningPruningCallback
     from optuna_integration.shap import ShapleyImportanceEvaluator
     from optuna_integration.sklearn import OptunaSearchCV
     from optuna_integration.skopt import SkoptSampler
@@ -120,6 +126,9 @@ __all__ = [
     "KerasPruningCallback",
     "MLflowCallback",
     "MXNetPruningCallback",
+    "TorchDistributedTrial",
+    "PyTorchIgnitePruningHandler",
+    "PyTorchLightningPruningCallback",
     "OptunaSearchCV",
     "PyCmaSampler",
     "ShapleyImportanceEvaluator",
