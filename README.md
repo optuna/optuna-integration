@@ -32,6 +32,7 @@ Optuna-Integration API reference is [here](https://optuna-integration.readthedoc
 * ```
 * [MLflow](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#mlflow)  ([example](https://github.com/optuna/optuna-examples/blob/main/mlflow/))
 * [MXNet](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#mxnet)  ([example](https://github.com/optuna/optuna-examples/tree/main/mxnet))
+* [PyTorch](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#pytorch)  ([example](https://github.com/optuna/optuna-examples/tree/main/pytorch))
 * [pycma](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#pycma)
 * [scikit-optimize](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#skopt)
 * [SHAP](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#shap)
