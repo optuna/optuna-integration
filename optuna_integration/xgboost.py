@@ -2,12 +2,12 @@ from typing import Any
 
 import optuna
 
-import optuna_integration
+from optuna_integration._imports import try_import
 
 
 use_callback_cls = True
 
-with optuna_integration._imports.try_import() as _imports:
+with try_import() as _imports:
     import xgboost as xgb
 
     xgboost_version = xgb.__version__.split(".")

@@ -100,6 +100,27 @@ Keras
 
    optuna_integration.KerasPruningCallback
 
+LightGBM
+--------
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   optuna_integration.LightGBMPruningCallback
+   optuna_integration.lightgbm.train
+   optuna_integration.lightgbm.LightGBMTuner
+   optuna_integration.lightgbm.LightGBMTunerCV
+
+MLflow
+------
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   optuna_integration.MLflowCallback
+
 MXNet
 -----
 
@@ -117,6 +138,17 @@ pycma
 
    optuna_integration.CmaEsSampler
    optuna_integration.PyCmaSampler
+
+PyTorch
+-------
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   optuna_integration.PyTorchIgnitePruningHandler
+   optuna_integration.PyTorchLightningPruningCallback
+   optuna_integration.TorchDistributedTrial
 
 scikit-optimize
 ---------------
