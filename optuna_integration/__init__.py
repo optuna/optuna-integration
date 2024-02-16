@@ -35,6 +35,40 @@ _import_structure = {
 }
 
 
+__all__ = [
+    "AllenNLPExecutor",
+    "AllenNLPPruningCallback",
+    "BoTorchSampler",
+    "CatalystPruningCallback",
+    "CatBoostPruningCallback",
+    "ChainerMNStudy",
+    "ChainerPruningExtension",
+    "CmaEsSampler",
+    "DaskStorage",
+    "FastAIPruningCallback",
+    "FastAIV1PruningCallback",
+    "FastAIV2PruningCallback",
+    "KerasPruningCallback",
+    "LightGBMPruningCallback",
+    "LightGBMTuner",
+    "LightGBMTunerCV",
+    "MLflowCallback",
+    "MXNetPruningCallback",
+    "TorchDistributedTrial",
+    "PyTorchIgnitePruningHandler",
+    "PyTorchLightningPruningCallback",
+    "OptunaSearchCV",
+    "PyCmaSampler",
+    "ShapleyImportanceEvaluator",
+    "SkoptSampler",
+    "SkorchPruningCallback",
+    "TensorBoardCallback",
+    "TensorFlowPruningHook",
+    "TFKerasPruningCallback",
+    "WeightsAndBiasesCallback",
+    "XGBoostPruningCallback",
+]
+
 if TYPE_CHECKING:
     from optuna_integration.allennlp import AllenNLPExecutor
     from optuna_integration.allennlp import AllenNLPPruningCallback
@@ -79,6 +113,7 @@ else:
 
         __file__ = globals()["__file__"]
         __path__ = [os.path.dirname(__file__)]
+        __all__ = __all__
 
         _modules = set(_import_structure.keys())
         _class_to_module = {}
@@ -113,37 +148,3 @@ else:
                 )
 
     sys.modules[__name__] = _IntegrationModule(__name__)
-
-__all__ = [
-    "AllenNLPExecutor",
-    "AllenNLPPruningCallback",
-    "BoTorchSampler",
-    "CatalystPruningCallback",
-    "CatBoostPruningCallback",
-    "ChainerMNStudy",
-    "ChainerPruningExtension",
-    "CmaEsSampler",
-    "DaskStorage",
-    "FastAIPruningCallback",
-    "FastAIV1PruningCallback",
-    "FastAIV2PruningCallback",
-    "KerasPruningCallback",
-    "LightGBMPruningCallback",
-    "LightGBMTuner",
-    "LightGBMTunerCV",
-    "MLflowCallback",
-    "MXNetPruningCallback",
-    "TorchDistributedTrial",
-    "PyTorchIgnitePruningHandler",
-    "PyTorchLightningPruningCallback",
-    "OptunaSearchCV",
-    "PyCmaSampler",
-    "ShapleyImportanceEvaluator",
-    "SkoptSampler",
-    "SkorchPruningCallback",
-    "TensorBoardCallback",
-    "TensorFlowPruningHook",
-    "TFKerasPruningCallback",
-    "WeightsAndBiasesCallback",
-    "XGBoostPruningCallback",
-]
