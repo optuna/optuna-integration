@@ -14,6 +14,7 @@ from optuna._imports import try_import
 from optuna.study import Study
 import pytest
 
+import optuna_integration
 from optuna_integration._lightgbm_tuner.optimize import _BaseTuner
 from optuna_integration._lightgbm_tuner.optimize import _OptunaObjective
 from optuna_integration._lightgbm_tuner.optimize import _OptunaObjectiveCV
@@ -636,7 +637,7 @@ class TestLightGBMTuner:
         params: dict = {"verbose": -1}
         dataset = lgb.Dataset(np.zeros((10, 10)))
 
-        with mock.patch("optuna.integration._lightgbm_tuner.optimize.os.mkdir") as m:
+        with mock.patch("optuna_integration._lightgbm_tuner.optimize.os.mkdir") as m:
             with mock.patch("os.path.exists", return_value=dir_exists):
                 LightGBMTuner(params, dataset, valid_sets=dataset, model_dir="./booster")
                 assert m.called == expected
@@ -676,7 +677,7 @@ class TestLightGBMTuner:
         def objective(trial: optuna.trial.Trial, value: float) -> float:
             trial.storage.set_trial_system_attr(
                 trial._trial_id,
-                optuna.integration._lightgbm_tuner.optimize._STEP_NAME_KEY,
+                optuna_integration._lightgbm_tuner.optimize._STEP_NAME_KEY,
                 "step{:.0f}".format(value),
             )
             return trial.suggest_float("x", value, value)
