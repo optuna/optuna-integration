@@ -37,7 +37,7 @@ test = [
   "fakeredis[lua]",
 ]
 checking = [
-  "black<24.0.0",
+  "black",
   "blackdoc",
   "hacking",
   "isort",

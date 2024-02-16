@@ -81,12 +81,14 @@ def _serialize_frozenstudy(study: FrozenStudy) -> dict:
         "directions": [d.name for d in study._directions],
         "study_id": study._study_id,
         "study_name": study.study_name,
-        "user_attrs": dumps(study.user_attrs)  # type: ignore[no-untyped-call]
-        if study.user_attrs
-        else {},
-        "system_attrs": dumps(study.system_attrs)  # type: ignore[no-untyped-call]
-        if study.system_attrs
-        else {},
+        "user_attrs": (
+            dumps(study.user_attrs) if study.user_attrs else {}  # type: ignore[no-untyped-call]
+        ),
+        "system_attrs": (
+            dumps(study.system_attrs)  # type: ignore[no-untyped-call]
+            if study.system_attrs
+            else {}
+        ),
     }
     return data
 
