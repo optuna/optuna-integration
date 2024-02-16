@@ -74,7 +74,7 @@ jobs:
     - name: Tests
       run: |
         export OMPI_MCA_rmaps_base_oversubscribe=yes
-        mpirun -n 2 pytest -- tests/test_pytorch_distributed.py
+        mpirun -n 2 pytest -- tests/pytorch/test_pytorch_distributed.py
 
 
       env:

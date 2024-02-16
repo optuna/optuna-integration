@@ -75,7 +75,7 @@ jobs:
     - name: Tests
       run: |
         pytest tests \
-        --ignore tests/test_mxnet.py
+        --ignore tests/mxnet
       env:
         OMP_NUM_THREADS: 1
 
