@@ -89,4 +89,4 @@ jobs:
     - name: Tests(Deprecated)
       run: |
         pip install "numpy<1.24"
-        pytest tests/test_mxnet.py
+        pytest tests/mxnet

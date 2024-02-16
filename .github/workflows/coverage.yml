@@ -74,7 +74,7 @@ jobs:
         COVERAGE_COVERAGE: yes  # https://github.com/nedbat/coveragepy/blob/65bf33fc03209ffb01bbbc0d900017614645ee7a/coverage/control.py#L255-L261
       run: |
         coverage run --source=optuna_integration -m pytest tests \
-          --ignore tests/test_mxnet.py
+          --ignore tests/mxnet
         coverage combine
         coverage xml
 
