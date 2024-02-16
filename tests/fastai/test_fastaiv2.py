@@ -9,13 +9,14 @@ from optuna_integration.fastaiv2 import FastAIV2PruningCallback
 
 
 with try_import():
+    import torch
+    import torch.nn as nn
+    import torch.nn.functional as F
+
     from fastai.data.core import DataLoader
     from fastai.data.core import DataLoaders
     from fastai.learner import Learner
     from fastai.metrics import accuracy
-    import torch
-    import torch.nn as nn
-    import torch.nn.functional as F
 
 
 def _generate_dummy_dataset() -> "torch.utils.data.DataLoader":
