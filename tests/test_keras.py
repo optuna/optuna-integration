@@ -12,14 +12,15 @@ from optuna_integration.keras import KerasPruningCallback
 with try_import():
     from keras import Sequential
     from keras.layers import Dense
+    from keras.layers import Input
 
 
 @pytest.mark.parametrize("interval, epochs", [(1, 1), (2, 1), (2, 2)])
 def test_keras_pruning_callback(interval: int, epochs: int) -> None:
     def objective(trial: optuna.trial.Trial) -> float:
         model = Sequential()
-        # TODO(nzw0301): Use Input class instead of passing input_dim of layer since Keras 3.0.
-        model.add(Dense(1, activation="sigmoid", input_dim=20))
+        model.add(Input(shape=(20,)))
+        model.add(Dense(1, activation="sigmoid"))
         model.compile(optimizer="rmsprop", loss="binary_crossentropy", metrics=["accuracy"])
         model.fit(
             np.zeros((16, 20), np.float32),
