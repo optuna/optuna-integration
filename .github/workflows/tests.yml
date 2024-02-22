@@ -9,10 +9,6 @@ on:
     - cron: '0 23 * * SUN-THU'
   workflow_dispatch:
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref == 'refs/heads/main' && github.run_number || github.ref }}
-  cancel-in-progress: true
-
 jobs:
   tests:
     if: (github.event_name == 'schedule' && github.repository == 'optuna/optuna-integration') || (github.event_name != 'schedule')
@@ -21,32 +17,12 @@ jobs:
     strategy:
       matrix:
         python-version: ['3.8', '3.9', '3.10', '3.11']
-        test-trigger-type:
-          - ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && 'Scheduled' || '' }}
-        exclude:
-          - test-trigger-type: ""
-            python-version: "3.9"
-          - test-trigger-type: ""
-            python-version: "3.10"
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-
-    - name: Setup Python${{ matrix.python-version }}
-      uses: actions/setup-python@v4
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
-
-    - name: Setup cache
-      uses: actions/cache@v3
-      env:
-        cache-name: test
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-${{ matrix.python-version }}-${{ env.cache-name }}-${{ hashFiles('**/pyproject.toml') }}-v1
-        restore-keys: |
-          ${{ runner.os }}-${{ matrix.python-version }}-${{ env.cache-name }}-${{ hashFiles('**/pyproject.toml') }}
 
     - name: Setup environment
       run: |
@@ -71,21 +47,7 @@ jobs:
         # Install distributed to run importance_tests/test_init tests.
         pip install distributed
 
-    - name: Output installed packages
-      run: |
-        pip freeze --all
-
-    - name: Output dependency tree
-      run: |
-        pip install pipdeptree
-        pipdeptree
-
     - name: Tests
       run: |
-        pytest tests \
-          --ignore tests/test_mxnet.py
-
-    - name: Tests(Deprecated)
-      run: |
         pip install "numpy<1.24"
-        pytest tests/test_mxnet.py
+        pytest tests
