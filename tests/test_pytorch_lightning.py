@@ -23,8 +23,6 @@ with try_import() as _imports:
 if not _imports.is_successful():
     LightningModule = object  # type: ignore[assignment, misc]  # NOQA
 
-pytestmark = pytest.mark.integration
-
 
 class Model(LightningModule):
     def __init__(self) -> None:

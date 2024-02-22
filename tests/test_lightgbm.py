@@ -13,8 +13,6 @@ from optuna_integration.lightgbm import LightGBMPruningCallback
 with try_import():
     import lightgbm as lgb
 
-pytestmark = pytest.mark.integration
-
 # If `True`, `lgb.cv(..)` will be used in the test, otherwise `lgb.train(..)` will be used.
 CV_FLAGS = [False, True]
 

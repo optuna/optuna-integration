@@ -24,9 +24,6 @@ from sklearn.neighbors import KernelDensity
 from sklearn.tree import DecisionTreeRegressor
 
 
-pytestmark = pytest.mark.integration
-
-
 def test_is_arraylike() -> None:
     assert integration.sklearn._is_arraylike([])
     assert integration.sklearn._is_arraylike(np.zeros(5))

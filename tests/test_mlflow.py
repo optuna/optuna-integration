@@ -16,9 +16,6 @@ with try_import():
     from mlflow.tracking import MlflowClient
     from mlflow.utils.mlflow_tags import MLFLOW_PARENT_RUN_ID
 
-pytestmark = pytest.mark.integration
-
-
 def _objective_func(trial: optuna.trial.Trial) -> float:
     x = trial.suggest_float("x", -1.0, 1.0)
     y = trial.suggest_float("y", 20, 30, log=True)

@@ -16,8 +16,6 @@ with try_import():
     import torch
     import torch.distributed as dist
 
-pytestmark = pytest.mark.integration
-
 STORAGE_MODES = [
     "inmemory",
     "sqlite",
