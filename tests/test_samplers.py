@@ -33,27 +33,27 @@ from optuna_integration.botorch import qei_candidates_func
 parametrize_sampler = pytest.mark.parametrize(
     "sampler_class",
     [
-            lambda: optuna_integration.BoTorchSampler(
-                n_startup_trials=0,
-                candidates_func=logei_candidates_func,
-            ),
-            lambda: optuna_integration.BoTorchSampler(
-                n_startup_trials=0,
-                candidates_func=qei_candidates_func,
-            ),
-            lambda: optuna_integration.PyCmaSampler(n_startup_trials=0),
+        lambda: optuna_integration.BoTorchSampler(
+            n_startup_trials=0,
+            candidates_func=logei_candidates_func,
+        ),
+        lambda: optuna_integration.BoTorchSampler(
+            n_startup_trials=0,
+            candidates_func=qei_candidates_func,
+        ),
+        lambda: optuna_integration.PyCmaSampler(n_startup_trials=0),
     ],
 )
 parametrize_relative_sampler = pytest.mark.parametrize(
     "relative_sampler_class",
     [
-            lambda: optuna_integration.PyCmaSampler(n_startup_trials=0),
+        lambda: optuna_integration.PyCmaSampler(n_startup_trials=0),
     ],
 )
 parametrize_multi_objective_sampler = pytest.mark.parametrize(
     "multi_objective_sampler_class",
     [
-            lambda: optuna_integration.BoTorchSampler(n_startup_trials=0),
+        lambda: optuna_integration.BoTorchSampler(n_startup_trials=0),
     ],
 )
 
@@ -66,12 +66,8 @@ param_sampler_with_seed = []
 param_sampler_name_with_seed = []
 for sampler_name, (sampler_class, integration_flag) in sampler_class_with_seed.items():
     if integration_flag:
-        param_sampler_with_seed.append(
-            pytest.param(sampler_class, id=sampler_name)
-        )
-        param_sampler_name_with_seed.append(
-            pytest.param(sampler_name)
-        )
+        param_sampler_with_seed.append(pytest.param(sampler_class, id=sampler_name))
+        param_sampler_name_with_seed.append(pytest.param(sampler_name))
     else:
         param_sampler_with_seed.append(pytest.param(sampler_class, id=sampler_name))
         param_sampler_name_with_seed.append(pytest.param(sampler_name))
@@ -164,7 +160,7 @@ def parametrize_suggest_method(name: str) -> MarkDecorator:
 @pytest.mark.parametrize(
     "sampler_class",
     [
-            lambda: optuna_integration.PyCmaSampler(n_startup_trials=0),
+        lambda: optuna_integration.PyCmaSampler(n_startup_trials=0),
     ],
 )
 def test_raise_error_for_samplers_during_multi_objectives(

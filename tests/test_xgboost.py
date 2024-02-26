@@ -10,6 +10,7 @@ from optuna_integration.xgboost import XGBoostPruningCallback
 with try_import():
     import xgboost as xgb
 
+
 def test_xgboost_pruning_callback_call() -> None:
     # The pruner is deactivated.
     study = optuna.create_study(pruner=DeterministicPruner(False))

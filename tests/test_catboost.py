@@ -12,6 +12,7 @@ from optuna_integration.catboost import CatBoostPruningCallback
 with try_import():
     import catboost as cb
 
+
 def test_catboost_pruning_callback_call() -> None:
     # The pruner is deactivated.
     study = optuna.create_study(pruner=DeterministicPruner(False))
