@@ -30,6 +30,7 @@ import optuna_integration
 from optuna_integration.botorch import logei_candidates_func
 from optuna_integration.botorch import qei_candidates_func
 
+
 parametrize_sampler = pytest.mark.parametrize(
     "sampler_class",
     [
