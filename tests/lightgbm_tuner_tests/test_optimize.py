@@ -30,8 +30,6 @@ with try_import():
     from sklearn.model_selection import KFold
     from sklearn.model_selection import train_test_split
 
-pytestmark = pytest.mark.integration
-
 
 @contextlib.contextmanager
 def turnoff_train(metric: str = "binary_logloss") -> Generator[None, None, None]:

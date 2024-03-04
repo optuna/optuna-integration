@@ -6,9 +6,6 @@ from optuna_integration._lightgbm_tuner.alias import _handling_alias_metrics
 from optuna_integration._lightgbm_tuner.alias import _handling_alias_parameters
 
 
-pytestmark = pytest.mark.integration
-
-
 def test__handling_alias_parameters() -> None:
     params = {"reg_alpha": 0.1}
     _handling_alias_parameters(params)

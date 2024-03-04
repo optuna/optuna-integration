@@ -26,8 +26,6 @@ from optuna_integration.cma import _Optimizer
 with try_import():
     import cma
 
-pytestmark = pytest.mark.integration
-
 
 def test_cmaes_deprecation_warning() -> None:
     with pytest.warns(FutureWarning):

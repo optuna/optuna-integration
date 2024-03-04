@@ -12,8 +12,6 @@ from optuna_integration.tensorboard import TensorBoardCallback
 with try_import():
     from tensorboard.backend.event_processing.event_accumulator import EventAccumulator
 
-pytestmark = pytest.mark.integration
-
 
 def _objective_func(trial: optuna.trial.Trial) -> float:
     u = trial.suggest_int("u", 0, 10, step=2)

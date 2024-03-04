@@ -30,8 +30,6 @@ if not _imports.is_successful():
 
     torch = MagicMock()  # NOQA
 
-pytestmark = pytest.mark.integration
-
 
 @pytest.mark.parametrize("n_objectives", [1, 2, 4])
 def test_botorch_candidates_func_none(n_objectives: int) -> None:

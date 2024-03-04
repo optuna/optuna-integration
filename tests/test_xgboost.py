@@ -10,8 +10,6 @@ from optuna_integration.xgboost import XGBoostPruningCallback
 with try_import():
     import xgboost as xgb
 
-pytestmark = pytest.mark.integration
-
 
 def test_xgboost_pruning_callback_call() -> None:
     # The pruner is deactivated.

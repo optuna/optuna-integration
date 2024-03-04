@@ -12,8 +12,6 @@ from optuna_integration import PyTorchIgnitePruningHandler
 with try_import():
     from ignite.engine import Engine
 
-pytestmark = pytest.mark.integration
-
 
 def test_pytorch_ignite_pruning_handler() -> None:
     def update(engine: Engine, batch: Iterable) -> None:

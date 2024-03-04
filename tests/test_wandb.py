@@ -12,9 +12,6 @@ import pytest
 from optuna_integration import WeightsAndBiasesCallback
 
 
-pytestmark = pytest.mark.integration
-
-
 def _objective_func(trial: optuna.trial.Trial) -> float:
     x = trial.suggest_float("x", low=-10, high=10)
     y = trial.suggest_float("y", low=1, high=10, log=True)
