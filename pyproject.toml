@@ -57,7 +57,7 @@ document = [
     "sphinx_rtd_theme",
 ]
 all = [
-  "botorch",
+  "botorch<0.10.0",
   "catalyst",
   "catboost>=0.26; sys_platform!='darwin'",
   "catboost>=0.26,<1.2; sys_platform=='darwin'",
