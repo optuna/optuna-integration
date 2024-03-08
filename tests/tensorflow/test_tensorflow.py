@@ -55,7 +55,9 @@ def test_tensorflow_pruning_hook() -> None:
 
     # Check if eval_metrics returns the None value.
     value = OrderedDict([(10, {"accuracy": None})])
-    with patch("optuna_integration.tensorflow.read_eval_metrics", return_value=value) as mock_obj:
+    with patch(
+        "optuna_integration.tensorflow.tensorflow.read_eval_metrics", return_value=value
+    ) as mock_obj:
         study = optuna.create_study(pruner=DeterministicPruner(True), direction="maximize")
         study.optimize(objective, n_trials=1)
         assert mock_obj.call_count == 1
