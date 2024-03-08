@@ -1,0 +1,48 @@
+name: shap
+
+on:
+  push: # TODO(gen740): Remove this
+    branches:
+      - split_ci
+    paths:
+      - 'optuna_integration/shap/**'
+      - '.github/workflows/shap.yml'
+      - 'tests/shap/**'
+  pull_request:
+    paths:
+      - 'optuna_integration/shap/**'
+      - '.github/workflows/shap.yml'
+      - 'tests/shap/**'
+  schedule:
+    - cron: '0 23 * * SUN-THU'
+  workflow_dispatch:
+
+jobs:
+  tests:
+    if: (github.event_name == 'schedule' && github.repository == 'optuna/optuna-integration') || (github.event_name != 'schedule')
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11']
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install
+      run: |
+        python -m pip install --upgrade pip
+
+        # Install optuna from optuna master
+        pip install git+https://github.com/optuna/optuna@master
+
+        pip install --progress-bar off .[test]
+        pip install --progress-bar off -r optuna_integration/shap/requirements.txt
+
+
+    - name: Tests
+      run: |
+        pytest tests/shap
