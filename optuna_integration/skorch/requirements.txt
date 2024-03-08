@@ -1,0 +1,2 @@
+skorch
+torch # Required for runnig test_skorch
