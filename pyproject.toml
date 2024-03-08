@@ -58,7 +58,6 @@ document = [
 all = [
   "gpytorch",
   "lightning",
-  "mlflow",
   "mxnet",
   "pandas",
   "pytorch-ignite",
