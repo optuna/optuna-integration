@@ -12,7 +12,10 @@ from optuna.terminator.erroreval import _CROSS_VALIDATION_SCORES_KEY
 import pytest
 import scipy as sp
 
-import optuna_integration as integration
+from optuna_integration import OptunaSearchCV
+from optuna_integration.sklearn.sklearn import _is_arraylike
+from optuna_integration.sklearn.sklearn import _make_indexable
+from optuna_integration.sklearn.sklearn import _num_samples
 from sklearn.datasets import make_blobs
 from sklearn.datasets import make_regression
 from sklearn.decomposition import PCA
@@ -25,16 +28,16 @@ from sklearn.tree import DecisionTreeRegressor
 
 
 def test_is_arraylike() -> None:
-    assert integration.sklearn._is_arraylike([])
-    assert integration.sklearn._is_arraylike(np.zeros(5))
-    assert not integration.sklearn._is_arraylike(1)
+    assert _is_arraylike([])
+    assert _is_arraylike(np.zeros(5))
+    assert not _is_arraylike(1)
 
 
 def test_num_samples() -> None:
     x1 = np.random.random((10, 10))
     x2 = [1, 2, 3]
-    assert integration.sklearn._num_samples(x1) == 10
-    assert integration.sklearn._num_samples(x2) == 3
+    assert _num_samples(x1) == 10
+    assert _num_samples(x2) == 3
 
 
 def test_make_indexable() -> None:
@@ -42,10 +45,10 @@ def test_make_indexable() -> None:
     x2 = sp.sparse.coo_matrix(x1)
     x3 = [1, 2, 3]
 
-    assert hasattr(integration.sklearn._make_indexable(x1), "__getitem__")
-    assert hasattr(integration.sklearn._make_indexable(x2), "__getitem__")
-    assert hasattr(integration.sklearn._make_indexable(x3), "__getitem__")
-    assert integration.sklearn._make_indexable(None) is None
+    assert hasattr(_make_indexable(x1), "__getitem__")
+    assert hasattr(_make_indexable(x2), "__getitem__")
+    assert hasattr(_make_indexable(x3), "__getitem__")
+    assert _make_indexable(None) is None
 
 
 @pytest.mark.parametrize("enable_pruning", [True, False])
@@ -55,7 +58,7 @@ def test_optuna_search(enable_pruning: bool, fit_params: str) -> None:
     X, y = make_blobs(n_samples=10)
     est = SGDClassifier(max_iter=5, tol=1e-03)
     param_dist = {"alpha": distributions.FloatDistribution(1e-04, 1e03, log=True)}
-    optuna_search = integration.OptunaSearchCV(
+    optuna_search = OptunaSearchCV(
         est,
         param_dist,
         cv=3,
@@ -86,8 +89,13 @@ def test_optuna_search_properties() -> None:
     est = LogisticRegression(tol=1e-03)
     param_dist = {"C": distributions.FloatDistribution(1e-04, 1e03, log=True)}
 
-    optuna_search = integration.OptunaSearchCV(
-        est, param_dist, cv=3, error_score="raise", random_state=0, return_train_score=True
+    optuna_search = OptunaSearchCV(
+        est,
+        param_dist,
+        cv=3,
+        error_score="raise",
+        random_state=0,
+        return_train_score=True,
     )
     optuna_search.fit(X, y)
     optuna_search.set_user_attr("dataset", "blobs")
@@ -111,7 +119,7 @@ def test_optuna_search_properties() -> None:
 def test_optuna_search_score_samples() -> None:
     X, y = make_blobs(n_samples=10)
     est = KernelDensity()
-    optuna_search = integration.OptunaSearchCV(
+    optuna_search = OptunaSearchCV(
         est, {}, cv=3, error_score="raise", random_state=0, return_train_score=True
     )
     optuna_search.fit(X)
@@ -122,7 +130,7 @@ def test_optuna_search_score_samples() -> None:
 def test_optuna_search_transforms() -> None:
     X, y = make_blobs(n_samples=10)
     est = PCA()
-    optuna_search = integration.OptunaSearchCV(
+    optuna_search = OptunaSearchCV(
         est, {}, cv=3, error_score="raise", random_state=0, return_train_score=True
     )
     optuna_search.fit(X)
@@ -133,7 +141,7 @@ def test_optuna_search_transforms() -> None:
 def test_optuna_search_invalid_estimator() -> None:
     X, y = make_blobs(n_samples=10)
     est = "not an estimator"
-    optuna_search = integration.OptunaSearchCV(
+    optuna_search = OptunaSearchCV(
         est, {}, cv=3, error_score="raise", random_state=0, return_train_score=True
     )
 
@@ -145,7 +153,7 @@ def test_optuna_search_pruning_without_partial_fit() -> None:
     X, y = make_blobs(n_samples=10)
     est = KernelDensity()
     param_dist = {}  # type: ignore
-    optuna_search = integration.OptunaSearchCV(
+    optuna_search = OptunaSearchCV(
         est,
         param_dist,
         cv=3,
@@ -163,7 +171,7 @@ def test_optuna_search_negative_max_iter() -> None:
     X, y = make_blobs(n_samples=10)
     est = KernelDensity()
     param_dist = {}  # type: ignore
-    optuna_search = integration.OptunaSearchCV(
+    optuna_search = OptunaSearchCV(
         est,
         param_dist,
         cv=3,
@@ -181,7 +189,7 @@ def test_optuna_search_tuple_instead_of_distribution() -> None:
     X, y = make_blobs(n_samples=10)
     est = KernelDensity()
     param_dist = {"kernel": ("gaussian", "linear")}
-    optuna_search = integration.OptunaSearchCV(
+    optuna_search = OptunaSearchCV(
         est,
         param_dist,  # type: ignore
         cv=3,
@@ -198,8 +206,14 @@ def test_optuna_search_study_with_minimize() -> None:
     X, y = make_blobs(n_samples=10)
     est = KernelDensity()
     study = create_study(direction="minimize")
-    optuna_search = integration.OptunaSearchCV(
-        est, {}, cv=3, error_score="raise", random_state=0, return_train_score=True, study=study
+    optuna_search = OptunaSearchCV(
+        est,
+        {},
+        cv=3,
+        error_score="raise",
+        random_state=0,
+        return_train_score=True,
+        study=study,
     )
 
     with pytest.raises(ValueError, match="direction of study must be 'maximize'."):
@@ -211,7 +225,7 @@ def test_optuna_search_verbosity(verbose: int) -> None:
     X, y = make_blobs(n_samples=10)
     est = KernelDensity()
     param_dist = {}  # type: ignore
-    optuna_search = integration.OptunaSearchCV(
+    optuna_search = OptunaSearchCV(
         est,
         param_dist,
         cv=3,
@@ -227,7 +241,7 @@ def test_optuna_search_subsample() -> None:
     X, y = make_blobs(n_samples=10)
     est = KernelDensity()
     param_dist = {}  # type: ignore
-    optuna_search = integration.OptunaSearchCV(
+    optuna_search = OptunaSearchCV(
         est,
         param_dist,
         cv=3,
@@ -244,7 +258,7 @@ def test_objective_y_None() -> None:
     X, y = make_blobs(n_samples=10)
     est = SGDClassifier(max_iter=5, tol=1e-03)
     param_dist = {}  # type: ignore
-    optuna_search = integration.OptunaSearchCV(
+    optuna_search = OptunaSearchCV(
         est,
         param_dist,
         cv=3,
@@ -263,7 +277,7 @@ def test_objective_error_score_nan() -> None:
     X, y = make_blobs(n_samples=10)
     est = SGDClassifier(max_iter=5, tol=1e-03)
     param_dist = {}  # type: ignore
-    optuna_search = integration.OptunaSearchCV(
+    optuna_search = OptunaSearchCV(
         est,
         param_dist,
         cv=3,
@@ -294,7 +308,7 @@ def test_objective_error_score_invalid() -> None:
     X, y = make_blobs(n_samples=10)
     est = SGDClassifier(max_iter=5, tol=1e-03)
     param_dist = {}  # type: ignore
-    optuna_search = integration.OptunaSearchCV(
+    optuna_search = OptunaSearchCV(
         est,
         param_dist,
         cv=3,
@@ -328,7 +342,7 @@ def test_no_halt_with_error(
     study = create_study(sampler=BruteForceSampler(), direction="maximize")
 
     # DecisionTreeRegressor raises ValueError when max_depth==0.
-    optuna_search = integration.OptunaSearchCV(
+    optuna_search = OptunaSearchCV(
         estimator,
         param_dist,
         study=study,
@@ -363,13 +377,13 @@ def test_optuna_search_convert_deprecated_distribution() -> None:
     }
 
     with pytest.raises(ValueError):
-        optuna_search = integration.OptunaSearchCV(
+        optuna_search = OptunaSearchCV(
             KernelDensity(),
             param_dist,
         )
 
     # It confirms that ask doesn't convert non-deprecated distributions.
-    optuna_search = integration.OptunaSearchCV(
+    optuna_search = OptunaSearchCV(
         KernelDensity(),
         expected_param_dist,
     )
@@ -389,7 +403,7 @@ def test_callbacks() -> None:
     X, y = make_blobs(n_samples=10)
     est = SGDClassifier(max_iter=5, tol=1e-03)
     param_dist = {"alpha": distributions.FloatDistribution(1e-04, 1e03, log=True)}
-    optuna_search = integration.OptunaSearchCV(
+    optuna_search = OptunaSearchCV(
         est,
         param_dist,
         cv=3,
@@ -411,7 +425,7 @@ def test_callbacks() -> None:
 
 
 @pytest.mark.filterwarnings("ignore::UserWarning")
-@patch("optuna_integration.sklearn.cross_validate")
+@patch("optuna_integration.sklearn.sklearn.cross_validate")
 def test_terminator_cv_score_reporting(mock: MagicMock) -> None:
     scores = {
         "fit_time": np.array([2.01, 1.78, 3.22]),
@@ -422,7 +436,7 @@ def test_terminator_cv_score_reporting(mock: MagicMock) -> None:
 
     X, _ = make_blobs(n_samples=10)
     est = PCA()
-    optuna_search = integration.OptunaSearchCV(est, {}, cv=3, error_score="raise", random_state=0)
+    optuna_search = OptunaSearchCV(est, {}, cv=3, error_score="raise", random_state=0)
     optuna_search.fit(X)
 
     for trial in optuna_search.study_.trials:
