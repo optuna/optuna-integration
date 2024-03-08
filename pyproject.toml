@@ -56,9 +56,7 @@ document = [
     "sphinx_rtd_theme",
 ]
 all = [
-  "cma",
   "distributed",
-  "fastai",
   "gpytorch",
   "lightgbm",
   "lightning",

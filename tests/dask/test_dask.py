@@ -9,8 +9,8 @@ from optuna.trial import Trial
 import pytest
 
 from optuna_integration._imports import try_import
-from optuna_integration.dask import _OptunaSchedulerExtension
 from optuna_integration.dask import DaskStorage
+from optuna_integration.dask.dask import _OptunaSchedulerExtension
 
 
 with try_import() as _imports:
