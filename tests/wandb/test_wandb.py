@@ -27,7 +27,7 @@ def _multiobjective_func(trial: optuna.trial.Trial) -> Tuple[float, float]:
     return first_objective, second_objective
 
 
-@mock.patch("optuna_integration.wandb.wandb")
+@mock.patch("optuna_integration.wandb.wandb.wandb")
 def test_run_initialized(wandb: mock.MagicMock) -> None:
     wandb.sdk.wandb_run.Run = mock.MagicMock
 
@@ -73,7 +73,7 @@ def test_run_initialized(wandb: mock.MagicMock) -> None:
     assert wandb.init().finish.call_count == n_trials
 
 
-@mock.patch("optuna_integration.wandb.wandb")
+@mock.patch("optuna_integration.wandb.wandb.wandb")
 @pytest.mark.parametrize("as_multirun", [True, False])
 def test_attributes_set_on_epoch(wandb: mock.MagicMock, as_multirun: bool) -> None:
     wandb.sdk.wandb_run.Run = mock.MagicMock
@@ -97,7 +97,7 @@ def test_attributes_set_on_epoch(wandb: mock.MagicMock, as_multirun: bool) -> No
         wandb.run.config.update.assert_called_once_with(expected_config)
 
 
-@mock.patch("optuna_integration.wandb.wandb")
+@mock.patch("optuna_integration.wandb.wandb.wandb")
 @pytest.mark.parametrize("as_multirun", [True, False])
 def test_multiobjective_attributes_set_on_epoch(wandb: mock.MagicMock, as_multirun: bool) -> None:
     wandb.sdk.wandb_run.Run = mock.MagicMock
@@ -121,7 +121,7 @@ def test_multiobjective_attributes_set_on_epoch(wandb: mock.MagicMock, as_multir
         wandb.run.config.update.assert_called_once_with(expected_config)
 
 
-@mock.patch("optuna_integration.wandb.wandb")
+@mock.patch("optuna_integration.wandb.wandb.wandb")
 def test_log_api_call_count(wandb: mock.MagicMock) -> None:
     wandb.sdk.wandb_run.Run = mock.MagicMock
 
@@ -154,7 +154,7 @@ def test_log_api_call_count(wandb: mock.MagicMock) -> None:
     "metric,as_multirun,expected",
     [("value", False, ["x", "y", "value"]), ("foo", True, ["x", "y", "foo", "trial_number"])],
 )
-@mock.patch("optuna_integration.wandb.wandb")
+@mock.patch("optuna_integration.wandb.wandb.wandb")
 def test_values_registered_on_epoch(
     wandb: mock.MagicMock, metric: str, as_multirun: bool, expected: List[str]
 ) -> None:
@@ -178,7 +178,7 @@ def test_values_registered_on_epoch(
 
 
 @pytest.mark.parametrize("metric,expected", [("foo", ["x", "y", "foo", "trial_number"])])
-@mock.patch("optuna_integration.wandb.wandb")
+@mock.patch("optuna_integration.wandb.wandb.wandb")
 def test_values_registered_on_epoch_with_logging(
     wandb: mock.MagicMock, metric: str, expected: List[str]
 ) -> None:
@@ -215,7 +215,7 @@ def test_values_registered_on_epoch_with_logging(
         (("foo", "bar"), True, ["x", "y", "foo", "bar", "trial_number"]),
     ],
 )
-@mock.patch("optuna_integration.wandb.wandb")
+@mock.patch("optuna_integration.wandb.wandb.wandb")
 def test_multiobjective_values_registered_on_epoch(
     wandb: mock.MagicMock,
     metrics: Union[str, Sequence[str]],
@@ -249,7 +249,7 @@ def test_multiobjective_values_registered_on_epoch(
         (("foo", "bar"), ["x", "y", "foo", "bar", "trial_number"]),
     ],
 )
-@mock.patch("optuna_integration.wandb.wandb")
+@mock.patch("optuna_integration.wandb.wandb.wandb")
 def test_multiobjective_values_registered_on_epoch_with_logging(
     wandb: mock.MagicMock, metrics: Union[str, Sequence[str]], expected: List[str]
 ) -> None:
@@ -277,7 +277,7 @@ def test_multiobjective_values_registered_on_epoch_with_logging(
 
 
 @pytest.mark.parametrize("metrics", [["foo"], ["foo", "bar", "baz"]])
-@mock.patch("optuna_integration.wandb.wandb")
+@mock.patch("optuna_integration.wandb.wandb.wandb")
 def test_multiobjective_raises_on_name_mismatch(wandb: mock.MagicMock, metrics: List[str]) -> None:
     wandb.sdk.wandb_run.Run = mock.MagicMock
 
