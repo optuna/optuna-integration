@@ -1,9 +1,9 @@
 name: pytorch_lightning
 
 on:
-  push: # TODO(gen740): Remove this
+  push:
     branches:
-      - split_ci
+      - main
     paths:
       - 'optuna_integration/pytorch_lightning/**'
       - '.github/workflows/pytorch_lightning.yml'

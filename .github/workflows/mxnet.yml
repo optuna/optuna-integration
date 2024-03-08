@@ -1,9 +1,9 @@
 name: mxnet
 
 on:
-  push: # TODO(gen740): Remove this
+  push:
     branches:
-      - split_ci
+      - main
     paths:
       - 'optuna_integration/mxnet/**'
       - '.github/workflows/mxnet.yml'

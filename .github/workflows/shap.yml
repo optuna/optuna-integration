@@ -1,9 +1,9 @@
 name: shap
 
 on:
-  push: # TODO(gen740): Remove this
+  push:
     branches:
-      - split_ci
+      - main
     paths:
       - 'optuna_integration/shap/**'
       - '.github/workflows/shap.yml'

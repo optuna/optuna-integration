@@ -1,9 +1,9 @@
 name: pytorch_ignite
 
 on:
-  push: # TODO(gen740): Remove this
+  push:
     branches:
-      - split_ci
+      - main
     paths:
       - 'optuna_integration/pytorch_ignite/**'
       - '.github/workflows/pytorch_ignite.yml'

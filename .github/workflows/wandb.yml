@@ -1,9 +1,9 @@
 name: wandb
 
 on:
-  push: # TODO(gen740): Remove this
+  push:
     branches:
-      - split_ci
+      - main
     paths:
       - 'optuna_integration/wandb/**'
       - '.github/workflows/wandb.yml'

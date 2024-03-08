@@ -1,9 +1,9 @@
 name: catboost
 
 on:
-  push: # TODO(gen740): Remove this
+  push:
     branches:
-      - split_ci
+      - main
     paths:
       - 'optuna_integration/catboost/**'
       - '.github/workflows/catboost.yml'
