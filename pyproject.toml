@@ -55,22 +55,6 @@ document = [
     "sphinx",
     "sphinx_rtd_theme",
 ]
-all = [
-  "gpytorch",
-  "lightning",
-  "pandas",
-  "pytorch-ignite",
-  "scikit-learn>=0.24.2",
-  "scikit-optimize",
-  "scipy>=1.9.2; python_version>='3.8'",
-  "shap",
-  "skorch",
-  "tensorboard",
-  "tensorflow",
-  "torch",
-  "wandb",
-  "xgboost",
-]
 
 [tool.setuptools.packages.find]
 # where = ["."]

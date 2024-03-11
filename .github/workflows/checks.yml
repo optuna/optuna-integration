@@ -33,28 +33,296 @@ jobs:
         python -m pip install -U pip
         pip install --progress-bar off -U .[checking]
         pip install --progress-bar off -U .[test]
-        pip install --progress-bar off -U .[all]
 
-    - name: Output installed packages
-      run: |
-        pip freeze --all
+    - uses: dorny/paths-filter@v3
+      id: changes
+      with:
+        filters: |
+          allennlp:
+            - 'optuna_integration/allennlp/**'
+            - 'tests/allennlp/**'
+            - '.github/workflows/checks.yml'
+          botorch:
+            - 'optuna_integration/botorch/**'
+            - 'tests/botorch/**'
+            - '.github/workflows/checks.yml'
+          catalyst:
+            - 'optuna_integration/catalyst/**'
+            - 'tests/catalyst/**'
+            - '.github/workflows/checks.yml'
+          catboost:
+            - 'optuna_integration/catboost/**'
+            - 'tests/catboost/**'
+            - '.github/workflows/checks.yml'
+          chainer:
+            - 'optuna_integration/chainer/**'
+            - 'tests/chainer/**'
+            - '.github/workflows/checks.yml'
+          chainermn:
+            - 'optuna_integration/chainermn/**'
+            - 'tests/chainermn/**'
+            - '.github/workflows/checks.yml'
+          cma:
+            - 'optuna_integration/cma/**'
+            - 'tests/cma/**'
+            - '.github/workflows/checks.yml'
+          dask:
+            - 'optuna_integration/dask/**'
+            - 'tests/dask/**'
+            - '.github/workflows/checks.yml'
+          fastaiv1:
+            - 'optuna_integration/fastaiv1/**'
+            - 'tests/fastaiv1/**'
+            - '.github/workflows/checks.yml'
+          fastaiv2:
+            - 'optuna_integration/fastaiv2/**'
+            - 'tests/fastaiv2/**'
+            - '.github/workflows/checks.yml'
+          keras:
+            - 'optuna_integration/keras/**'
+            - 'tests/keras/**'
+            - '.github/workflows/checks.yml'
+          lightgbm:
+            - 'optuna_integration/lightgbm/**'
+            - 'tests/lightgbm/**'
+            - '.github/workflows/checks.yml'
+          mlflow:
+            - 'optuna_integration/mlflow/**'
+            - 'tests/mlflow/**'
+            - '.github/workflows/checks.yml'
+          mxnet:
+            - 'optuna_integration/mxnet/**'
+            - 'tests/mxnet/**'
+            - '.github/workflows/checks.yml'
+          pytorch_distributed:
+            - 'optuna_integration/pytorch_distributed/**'
+            - 'tests/pytorch_distributed/**'
+            - '.github/workflows/checks.yml'
+          pytorch_ignite:
+            - 'optuna_integration/pytorch_ignite/**'
+            - 'tests/pytorch_ignite/**'
+            - '.github/workflows/checks.yml'
+          pytorch_lightning:
+            - 'optuna_integration/pytorch_lightning/**'
+            - 'tests/pytorch_lightning/**'
+            - '.github/workflows/checks.yml'
+          shap:
+            - 'optuna_integration/shap/**'
+            - 'tests/shap/**'
+            - '.github/workflows/checks.yml'
+          sklearn:
+            - 'optuna_integration/sklearn/**'
+            - 'tests/sklearn/**'
+            - '.github/workflows/checks.yml'
+          skopt:
+            - 'optuna_integration/skopt/**'
+            - 'tests/skopt/**'
+            - '.github/workflows/checks.yml'
+          skorch:
+            - 'optuna_integration/skorch/**'
+            - 'tests/skorch/**'
+            - '.github/workflows/checks.yml'
+          tensorboard:
+            - 'optuna_integration/tensorboard/**'
+            - 'tests/tensorboard/**'
+            - '.github/workflows/checks.yml'
+          tensorflow:
+            - 'optuna_integration/tensorflow/**'
+            - 'tests/tensorflow/**'
+            - '.github/workflows/checks.yml'
+          tfkeras:
+            - 'optuna_integration/tfkeras/**'
+            - 'tests/tfkeras/**'
+            - '.github/workflows/checks.yml'
+          wandb:
+            - 'optuna_integration/wandb/**'
+            - 'tests/wandb/**'
+            - '.github/workflows/checks.yml'
+          xgboost:
+            - 'optuna_integration/xgboost/**'
+            - 'tests/xgboost/**'
+            - '.github/workflows/checks.yml'
 
-    - name: Output dependency tree
+    - name: detect allennlp
+      if: steps.changes.outputs.allennlp == 'true'
       run: |
-        pip install pipdeptree
-        pipdeptree
+        echo 'CHANGED_INTEGRATIONS=allennlp ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+
+    - name: detect botorch
+      if: steps.changes.outputs.botorch == 'true'
+      run: |
+        echo 'CHANGED_INTEGRATIONS=botorch ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+
+    - name: detect catalyst
+      if: steps.changes.outputs.catalyst == 'true'
+      run: |
+        echo 'CHANGED_INTEGRATIONS=catalyst ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+
+    - name: detect catboost
+      if: steps.changes.outputs.catboost == 'true'
+      run: |
+        echo 'CHANGED_INTEGRATIONS=catboost ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+
+    - name: detect chainer
+      if: steps.changes.outputs.chainer == 'true'
+      run: |
+        echo 'CHANGED_INTEGRATIONS=chainer ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+
+    - name: detect chainermn
+      if: steps.changes.outputs.chainermn == 'true'
+      run: |
+        echo 'CHANGED_INTEGRATIONS=chainermn ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+
+    - name: detect cma
+      if: steps.changes.outputs.cma == 'true'
+      run: |
+        echo 'CHANGED_INTEGRATIONS=cma ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+
+    - name: detect dask
+      if: steps.changes.outputs.dask == 'true'
+      run: |
+        echo 'CHANGED_INTEGRATIONS=dask ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+
+    - name: detect fastaiv1
+      if: steps.changes.outputs.fastaiv1 == 'true'
+      run: |
+        echo 'CHANGED_INTEGRATIONS=fastaiv1 ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+
+    - name: detect fastaiv2
+      if: steps.changes.outputs.fastaiv2 == 'true'
+      run: |
+        echo 'CHANGED_INTEGRATIONS=fastaiv2 ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+
+    - name: detect keras
+      if: steps.changes.outputs.keras == 'true'
+      run: |
+        echo 'CHANGED_INTEGRATIONS=keras ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+
+    - name: detect lightgbm
+      if: steps.changes.outputs.lightgbm == 'true'
+      run: |
+        echo 'CHANGED_INTEGRATIONS=lightgbm ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+
+    - name: detect mlflow
+      if: steps.changes.outputs.mlflow == 'true'
+      run: |
+        echo 'CHANGED_INTEGRATIONS=mlflow ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+
+    - name: detect mxnet
+      if: steps.changes.outputs.mxnet == 'true'
+      run: |
+        echo 'CHANGED_INTEGRATIONS=mxnet ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+
+    - name: detect pytorch_distributed
+      if: steps.changes.outputs.pytorch_distributed == 'true'
+      run: |
+        echo 'CHANGED_INTEGRATIONS=pytorch_distributed ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+
+    - name: detect pytorch_ignite
+      if: steps.changes.outputs.pytorch_ignite == 'true'
+      run: |
+        echo 'CHANGED_INTEGRATIONS=pytorch_ignite ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+
+    - name: detect pytorch_lightning
+      if: steps.changes.outputs.pytorch_lightning == 'true'
+      run: |
+        echo 'CHANGED_INTEGRATIONS=pytorch_lightning ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+
+    - name: detect shap
+      if: steps.changes.outputs.shap == 'true'
+      run: |
+        echo 'CHANGED_INTEGRATIONS=shap ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+
+    - name: detect sklearn
+      if: steps.changes.outputs.sklearn == 'true'
+      run: |
+        echo 'CHANGED_INTEGRATIONS=sklearn ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+
+    - name: detect skopt
+      if: steps.changes.outputs.skopt == 'true'
+      run: |
+        echo 'CHANGED_INTEGRATIONS=skopt ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+
+    - name: detect skorch
+      if: steps.changes.outputs.skorch == 'true'
+      run: |
+        echo 'CHANGED_INTEGRATIONS=skorch ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+
+    - name: detect tensorboard
+      if: steps.changes.outputs.tensorboard == 'true'
+      run: |
+        echo 'CHANGED_INTEGRATIONS=tensorboard ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+
+    - name: detect tensorflow
+      if: steps.changes.outputs.tensorflow == 'true'
+      run: |
+        echo 'CHANGED_INTEGRATIONS=tensorflow ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+
+    - name: detect tfkeras
+      if: steps.changes.outputs.tfkeras == 'true'
+      run: |
+        echo 'CHANGED_INTEGRATIONS=tfkeras ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+
+    - name: detect wandb
+      if: steps.changes.outputs.wandb == 'true'
+      run: |
+        echo 'CHANGED_INTEGRATIONS=wandb ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+
+    - name: detect xgboost
+      if: steps.changes.outputs.xgboost == 'true'
+      run: |
+        echo 'CHANGED_INTEGRATIONS=xgboost ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+
+    - name: echo changed
+      run: |
+        for i in $CHANGED_INTEGRATIONS
+        do
+          echo $i
+        done
+
+    - name: Install dependencies
+      run: |
+        for i in $CHANGED_INTEGRATIONS
+        do
+          optuna_integration/${i}/requirements.txt && pip install -r optuna_integration/${i}/requirements.txt
+        done
 
     - name: black
-      run: black . --check --diff
+      run: |
+        for i in $CHANGED_INTEGRATIONS
+        do
+          [ -e optuna_integration/${i} ] && black optuna_integration/${i} --check --diff
+          [ -e tests/${i} ] && black tests/${i} --check --diff
+        done
 
     - name: flake8
-      run: flake8 .
+      run: |
+        for i in $CHANGED_INTEGRATIONS
+        do
+          [ -e optuna_integration/${i} ] && flake8 optuna_integration/${i}
+          [ -e tests/${i} ] && flake8 tests/${i}
+        done
 
     - name: isort
-      run: isort . --check --diff
+      run: |
+        for i in $CHANGED_INTEGRATIONS
+        do
+          [ -e optuna_integration/${i} ] && isort optuna_integration/${i} --check --diff
+          [ -e tests/${i} ] && isort tests/${i} --check --diff
+        done
 
     - name: mypy
-      run: mypy .
+      run: |
+        for i in $CHANGED_INTEGRATIONS
+        do
+          [ -e optuna_integration/${i} ] && mypy optuna_integration/${i}
+          [ -e tests/${i} ] && mypy tests/${i}
+        done
 
     - name: blackdoc
-      run: blackdoc . --check --diff
+      run: |
+        for i in $CHANGED_INTEGRATIONS
+        do
+          [ -e optuna_integration/${i} ] && blackdoc optuna_integration/${i} --check --diff
+          [ -e tests/${i} ] && blackdoc tests/${i} --check --diff
+        done
