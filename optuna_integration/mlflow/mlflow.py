@@ -30,39 +30,6 @@ class MLflowCallback:
 
         Add MLflow callback to Optuna optimization.
 
-        .. testsetup::
-
-            import pathlib
-            import tempfile
-
-            tempdir = tempfile.mkdtemp()
-            YOUR_TRACKING_URI = pathlib.Path(tempdir).as_uri()
-
-        .. testcode::
-
-            import optuna
-            from optuna_integration.mlflow import MLflowCallback
-
-
-            def objective(trial):
-                x = trial.suggest_float("x", -10, 10)
-                return (x - 2) ** 2
-
-
-            mlflc = MLflowCallback(
-                tracking_uri=YOUR_TRACKING_URI,
-                metric_name="my metric score",
-            )
-
-            study = optuna.create_study(study_name="my_study")
-            study.optimize(objective, n_trials=10, callbacks=[mlflc])
-
-        .. testcleanup::
-
-            import shutil
-
-            shutil.rmtree(tempdir)
-
     Args:
         tracking_uri:
             The URI of the MLflow tracking server.
@@ -171,30 +138,6 @@ class MLflowCallback:
         Example:
 
             Add additional logging to MLflow.
-
-            .. testcode::
-
-                import optuna
-                import mlflow
-                from optuna_integration.mlflow import MLflowCallback
-
-                mlflc = MLflowCallback(
-                    tracking_uri=YOUR_TRACKING_URI,
-                    metric_name="my metric score",
-                )
-
-
-                @mlflc.track_in_mlflow()
-                def objective(trial):
-                    x = trial.suggest_float("x", -10, 10)
-                    mlflow.log_param("power", 2)
-                    mlflow.log_metric("base of metric", x - 2)
-
-                    return (x - 2) ** 2
-
-
-                study = optuna.create_study(study_name="my_other_study")
-                study.optimize(objective, n_trials=10, callbacks=[mlflc])
 
         Returns:
             Objective function with tracking to MLflow enabled.

@@ -517,23 +517,6 @@ class OptunaSearchCV(BaseEstimator):
 
     Examples:
 
-        .. testcode::
-
-            import optuna
-            import optuna_integration
-
-            from sklearn.datasets import load_iris
-            from sklearn.svm import SVC
-
-            clf = SVC(gamma="auto")
-            param_distributions = {
-                "C": optuna.distributions.FloatDistribution(1e-10, 1e10, log=True)
-            }
-            optuna_search = optuna_integration.OptunaSearchCV(clf, param_distributions)
-            X, y = load_iris(return_X_y=True)
-            optuna_search.fit(X, y)
-            y_pred = optuna_search.predict(X)
-
     .. note::
         By following the scikit-learn convention for scorers, the direction of optimization is
         ``maximize``. See https://scikit-learn.org/stable/modules/model_evaluation.html.

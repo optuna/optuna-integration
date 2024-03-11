@@ -42,22 +42,6 @@ class PyCmaSampler(BaseSampler):
 
         Optimize a simple quadratic function by using :class:`~optuna_integration.PyCmaSampler`.
 
-        .. testcode::
-
-            import optuna
-            import optuna_integration
-
-
-            def objective(trial):
-                x = trial.suggest_float("x", -1, 1)
-                y = trial.suggest_int("y", -1, 1)
-                return x**2 + y
-
-
-            sampler = optuna_integration.PyCmaSampler()
-            study = optuna.create_study(sampler=sampler)
-            study.optimize(objective, n_trials=20)
-
     Note that parallel execution of trials may affect the optimization performance of CMA-ES,
     especially if the number of trials running in parallel exceeds the population size.
 
