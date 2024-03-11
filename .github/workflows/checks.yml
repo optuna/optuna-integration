@@ -13,27 +13,38 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  checks:
+  changes:
     if: (github.event_name == 'schedule' && github.repository == 'optuna/optuna-integration') || (github.event_name != 'schedule')
     runs-on: ubuntu-latest
-
+    outputs:
+      allennlp: ${{ steps.changes.outputs.allennlp }}
+      botorch: ${{ steps.changes.outputs.botorch }}
+      catalyst: ${{ steps.changes.outputs.catalyst }}
+      catboost: ${{ steps.changes.outputs.catboost }}
+      chainer: ${{ steps.changes.outputs.chainer }}
+      chainermn: ${{ steps.changes.outputs.chainermn }}
+      cma: ${{ steps.changes.outputs.cma }}
+      dask: ${{ steps.changes.outputs.dask }}
+      fastaiv1: ${{ steps.changes.outputs.fastaiv1 }}
+      fastaiv2: ${{ steps.changes.outputs.fastaiv2 }}
+      keras: ${{ steps.changes.outputs.keras }}
+      lightgbm: ${{ steps.changes.outputs.lightgbm }}
+      mlflow: ${{ steps.changes.outputs.mlflow }}
+      mxnet: ${{ steps.changes.outputs.mxnet }}
+      pytorch_distributed: ${{ steps.changes.outputs.pytorch_distributed }}
+      pytorch_ignite: ${{ steps.changes.outputs.pytorch_ignite }}
+      pytorch_lightning: ${{ steps.changes.outputs.pytorch_lightning }}
+      shap: ${{ steps.changes.outputs.shap }}
+      sklearn: ${{ steps.changes.outputs.sklearn }}
+      skopt: ${{ steps.changes.outputs.skopt }}
+      skorch: ${{ steps.changes.outputs.skorch }}
+      tensorboard: ${{ steps.changes.outputs.tensorboard }}
+      tensorflow: ${{ steps.changes.outputs.tensorflow }}
+      tfkeras: ${{ steps.changes.outputs.tfkeras }}
+      wandb: ${{ steps.changes.outputs.wandb }}
+      xgboost: ${{ steps.changes.outputs.xgboost }}
     steps:
     - uses: actions/checkout@v3
-
-    - uses: actions/setup-python@v4
-      with:
-        python-version: "3.10"
-
-    - name: Setup environment
-      run: |
-        sudo apt-get update
-
-    - name: Install
-      run: |
-        python -m pip install -U pip
-        pip install --progress-bar off -U .[checking]
-        pip install --progress-bar off -U .[test]
-
     - uses: dorny/paths-filter@v3
       id: changes
       with:
@@ -143,186 +154,184 @@ jobs:
             - 'tests/xgboost/**'
             - '.github/workflows/checks.yml'
 
-    - name: detect allennlp
-      if: steps.changes.outputs.allennlp == 'true'
-      run: |
-        echo 'CHANGED_INTEGRATIONS=allennlp ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+  allennlp:
+    if: needs.changes.outputs.allennlp == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'allennlp'
 
-    - name: detect botorch
-      if: steps.changes.outputs.botorch == 'true'
-      run: |
-        echo 'CHANGED_INTEGRATIONS=botorch ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+  botorch:
+    if: needs.changes.outputs.botorch == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'botorch'
 
-    - name: detect catalyst
-      if: steps.changes.outputs.catalyst == 'true'
-      run: |
-        echo 'CHANGED_INTEGRATIONS=catalyst ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+  catalyst:
+    if: needs.changes.outputs.catalyst == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'catalyst'
 
-    - name: detect catboost
-      if: steps.changes.outputs.catboost == 'true'
-      run: |
-        echo 'CHANGED_INTEGRATIONS=catboost ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+  catboost:
+    if: needs.changes.outputs.catboost == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'catboost'
 
-    - name: detect chainer
-      if: steps.changes.outputs.chainer == 'true'
-      run: |
-        echo 'CHANGED_INTEGRATIONS=chainer ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+  chainer:
+    if: needs.changes.outputs.chainer == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'chainer'
 
-    - name: detect chainermn
-      if: steps.changes.outputs.chainermn == 'true'
-      run: |
-        echo 'CHANGED_INTEGRATIONS=chainermn ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+  chainermn:
+    if: needs.changes.outputs.chainermn == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'chainermn'
 
-    - name: detect cma
-      if: steps.changes.outputs.cma == 'true'
-      run: |
-        echo 'CHANGED_INTEGRATIONS=cma ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+  cma:
+    if: needs.changes.outputs.cma == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'cma'
 
-    - name: detect dask
-      if: steps.changes.outputs.dask == 'true'
-      run: |
-        echo 'CHANGED_INTEGRATIONS=dask ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+  dask:
+    if: needs.changes.outputs.dask == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'dask'
 
-    - name: detect fastaiv1
-      if: steps.changes.outputs.fastaiv1 == 'true'
-      run: |
-        echo 'CHANGED_INTEGRATIONS=fastaiv1 ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+  fastaiv1:
+    if: needs.changes.outputs.fastaiv1 == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'fastaiv1'
 
-    - name: detect fastaiv2
-      if: steps.changes.outputs.fastaiv2 == 'true'
-      run: |
-        echo 'CHANGED_INTEGRATIONS=fastaiv2 ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+  fastaiv2:
+    if: needs.changes.outputs.fastaiv2 == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'fastaiv2'
 
-    - name: detect keras
-      if: steps.changes.outputs.keras == 'true'
-      run: |
-        echo 'CHANGED_INTEGRATIONS=keras ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+  keras:
+    if: needs.changes.outputs.keras == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'keras'
 
-    - name: detect lightgbm
-      if: steps.changes.outputs.lightgbm == 'true'
-      run: |
-        echo 'CHANGED_INTEGRATIONS=lightgbm ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+  lightgbm:
+    if: needs.changes.outputs.lightgbm == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'lightgbm'
 
-    - name: detect mlflow
-      if: steps.changes.outputs.mlflow == 'true'
-      run: |
-        echo 'CHANGED_INTEGRATIONS=mlflow ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+  mlflow:
+    if: needs.changes.outputs.mlflow == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'mlflow'
 
-    - name: detect mxnet
-      if: steps.changes.outputs.mxnet == 'true'
-      run: |
-        echo 'CHANGED_INTEGRATIONS=mxnet ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+  mxnet:
+    if: needs.changes.outputs.mxnet == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'mxnet'
 
-    - name: detect pytorch_distributed
-      if: steps.changes.outputs.pytorch_distributed == 'true'
-      run: |
-        echo 'CHANGED_INTEGRATIONS=pytorch_distributed ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+  pytorch_distributed:
+    if: needs.changes.outputs.pytorch_distributed == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'pytorch_distributed'
 
-    - name: detect pytorch_ignite
-      if: steps.changes.outputs.pytorch_ignite == 'true'
-      run: |
-        echo 'CHANGED_INTEGRATIONS=pytorch_ignite ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+  pytorch_ignite:
+    if: needs.changes.outputs.pytorch_ignite == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'pytorch_ignite'
 
-    - name: detect pytorch_lightning
-      if: steps.changes.outputs.pytorch_lightning == 'true'
-      run: |
-        echo 'CHANGED_INTEGRATIONS=pytorch_lightning ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+  pytorch_lightning:
+    if: needs.changes.outputs.pytorch_lightning == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'pytorch_lightning'
 
-    - name: detect shap
-      if: steps.changes.outputs.shap == 'true'
-      run: |
-        echo 'CHANGED_INTEGRATIONS=shap ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+  shap:
+    if: needs.changes.outputs.shap == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'shap'
 
-    - name: detect sklearn
-      if: steps.changes.outputs.sklearn == 'true'
-      run: |
-        echo 'CHANGED_INTEGRATIONS=sklearn ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+  sklearn:
+    if: needs.changes.outputs.sklearn == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'sklearn'
 
-    - name: detect skopt
-      if: steps.changes.outputs.skopt == 'true'
-      run: |
-        echo 'CHANGED_INTEGRATIONS=skopt ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+  skopt:
+    if: needs.changes.outputs.skopt == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'skopt'
 
-    - name: detect skorch
-      if: steps.changes.outputs.skorch == 'true'
-      run: |
-        echo 'CHANGED_INTEGRATIONS=skorch ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+  skorch:
+    if: needs.changes.outputs.skorch == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'skorch'
 
-    - name: detect tensorboard
-      if: steps.changes.outputs.tensorboard == 'true'
-      run: |
-        echo 'CHANGED_INTEGRATIONS=tensorboard ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+  tensorboard:
+    if: needs.changes.outputs.tensorboard == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'tensorboard'
 
-    - name: detect tensorflow
-      if: steps.changes.outputs.tensorflow == 'true'
-      run: |
-        echo 'CHANGED_INTEGRATIONS=tensorflow ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+  tensorflow:
+    if: needs.changes.outputs.tensorflow == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'tensorflow'
 
-    - name: detect tfkeras
-      if: steps.changes.outputs.tfkeras == 'true'
-      run: |
-        echo 'CHANGED_INTEGRATIONS=tfkeras ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+  tfkeras:
+    if: needs.changes.outputs.tfkeras == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'tfkeras'
 
-    - name: detect wandb
-      if: steps.changes.outputs.wandb == 'true'
-      run: |
-        echo 'CHANGED_INTEGRATIONS=wandb ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
+  wandb:
+    if: needs.changes.outputs.wandb == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'wandb'
 
-    - name: detect xgboost
-      if: steps.changes.outputs.xgboost == 'true'
-      run: |
-        echo 'CHANGED_INTEGRATIONS=xgboost ${{ env.CHANGED_INTEGRATIONS }}' >> $GITHUB_ENV
-
-    - name: echo changed
-      run: |
-        for i in $CHANGED_INTEGRATIONS
-        do
-          echo $i
-        done
-
-    - name: Install dependencies
-      run: |
-        for i in $CHANGED_INTEGRATIONS
-        do
-          optuna_integration/${i}/requirements.txt && pip install -r optuna_integration/${i}/requirements.txt
-        done
-
-    - name: black
-      run: |
-        for i in $CHANGED_INTEGRATIONS
-        do
-          [ -e optuna_integration/${i} ] && black optuna_integration/${i} --check --diff
-          [ -e tests/${i} ] && black tests/${i} --check --diff
-        done
-
-    - name: flake8
-      run: |
-        for i in $CHANGED_INTEGRATIONS
-        do
-          [ -e optuna_integration/${i} ] && flake8 optuna_integration/${i}
-          [ -e tests/${i} ] && flake8 tests/${i}
-        done
-
-    - name: isort
-      run: |
-        for i in $CHANGED_INTEGRATIONS
-        do
-          [ -e optuna_integration/${i} ] && isort optuna_integration/${i} --check --diff
-          [ -e tests/${i} ] && isort tests/${i} --check --diff
-        done
-
-    - name: mypy
-      run: |
-        for i in $CHANGED_INTEGRATIONS
-        do
-          [ -e optuna_integration/${i} ] && mypy optuna_integration/${i}
-          [ -e tests/${i} ] && mypy tests/${i}
-        done
-
-    - name: blackdoc
-      run: |
-        for i in $CHANGED_INTEGRATIONS
-        do
-          [ -e optuna_integration/${i} ] && blackdoc optuna_integration/${i} --check --diff
-          [ -e tests/${i} ] && blackdoc tests/${i} --check --diff
-        done
+  xgboost:
+    if: needs.changes.outputs.xgboost == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'xgboost'
