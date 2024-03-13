@@ -45,7 +45,8 @@ jobs:
         pip install git+https://github.com/optuna/optuna@master
 
         # Install distributed to run importance_tests/test_init tests.
-        pip install distributed
+        # TODO(nabenabe0928/2024/03/12): Remove this version constraint once the issue is resolved.
+        pip install "distributed<3.0"
 
     - name: Tests
       run: |
