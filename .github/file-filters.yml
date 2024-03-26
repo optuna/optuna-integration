@@ -1,0 +1,129 @@
+allennlp:
+  - 'optuna_integration/allennlp/**'
+  - 'tests/allennlp/**'
+  - '.github/workflows/checks.yml'
+
+botorch:
+  - 'optuna_integration/botorch/**'
+  - 'tests/botorch/**'
+  - '.github/workflows/checks.yml'
+
+catalyst:
+  - 'optuna_integration/catalyst/**'
+  - 'tests/catalyst/**'
+  - '.github/workflows/checks.yml'
+
+catboost:
+  - 'optuna_integration/catboost/**'
+  - 'tests/catboost/**'
+  - '.github/workflows/checks.yml'
+
+chainer:
+  - 'optuna_integration/chainer/**'
+  - 'tests/chainer/**'
+  - '.github/workflows/checks.yml'
+
+chainermn:
+  - 'optuna_integration/chainermn/**'
+  - 'tests/chainermn/**'
+  - '.github/workflows/checks.yml'
+
+cma:
+  - 'optuna_integration/cma/**'
+  - 'tests/cma/**'
+  - '.github/workflows/checks.yml'
+
+dask:
+  - 'optuna_integration/dask/**'
+  - 'tests/dask/**'
+  - '.github/workflows/checks.yml'
+
+fastaiv1:
+  - 'optuna_integration/fastaiv1/**'
+  - 'tests/fastaiv1/**'
+  - '.github/workflows/checks.yml'
+
+fastaiv2:
+  - 'optuna_integration/fastaiv2/**'
+  - 'tests/fastaiv2/**'
+  - '.github/workflows/checks.yml'
+
+keras:
+  - 'optuna_integration/keras/**'
+  - 'tests/keras/**'
+  - '.github/workflows/checks.yml'
+
+lightgbm:
+  - 'optuna_integration/lightgbm/**'
+  - 'tests/lightgbm/**'
+  - '.github/workflows/checks.yml'
+
+mlflow:
+  - 'optuna_integration/mlflow/**'
+  - 'tests/mlflow/**'
+  - '.github/workflows/checks.yml'
+
+mxnet:
+  - 'optuna_integration/mxnet/**'
+  - 'tests/mxnet/**'
+  - '.github/workflows/checks.yml'
+
+pytorch_distributed:
+  - 'optuna_integration/pytorch_distributed/**'
+  - 'tests/pytorch_distributed/**'
+  - '.github/workflows/checks.yml'
+
+pytorch_ignite:
+  - 'optuna_integration/pytorch_ignite/**'
+  - 'tests/pytorch_ignite/**'
+  - '.github/workflows/checks.yml'
+
+pytorch_lightning:
+  - 'optuna_integration/pytorch_lightning/**'
+  - 'tests/pytorch_lightning/**'
+  - '.github/workflows/checks.yml'
+
+shap:
+  - 'optuna_integration/shap/**'
+  - 'tests/shap/**'
+  - '.github/workflows/checks.yml'
+
+sklearn:
+  - 'optuna_integration/sklearn/**'
+  - 'tests/sklearn/**'
+  - '.github/workflows/checks.yml'
+
+skopt:
+  - 'optuna_integration/skopt/**'
+  - 'tests/skopt/**'
+  - '.github/workflows/checks.yml'
+
+skorch:
+  - 'optuna_integration/skorch/**'
+  - 'tests/skorch/**'
+  - '.github/workflows/checks.yml'
+
+tensorboard:
+  - 'optuna_integration/tensorboard/**'
+  - 'tests/tensorboard/**'
+  - '.github/workflows/checks.yml'
+
+tensorflow:
+  - 'optuna_integration/tensorflow/**'
+  - 'tests/tensorflow/**'
+  - '.github/workflows/checks.yml'
+
+tfkeras:
+  - 'optuna_integration/tfkeras/**'
+  - 'tests/tfkeras/**'
+  - '.github/workflows/checks.yml'
+
+wandb:
+  - 'optuna_integration/wandb/**'
+  - 'tests/wandb/**'
+  - '.github/workflows/checks.yml'
+
+xgboost:
+  - 'optuna_integration/xgboost/**'
+  - 'tests/xgboost/**'
+  - '.github/workflows/checks.yml'
