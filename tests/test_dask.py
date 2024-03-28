@@ -1,6 +1,7 @@
 from contextlib import contextmanager
 import time
 from typing import Iterator
+import warnings
 
 import numpy as np
 import optuna
@@ -68,19 +69,23 @@ def test_experimental(client: "Client") -> None:
 
 
 def test_no_client_informative_error() -> None:
-    with pytest.raises(ValueError, match="No global client found"):
+    with pytest.raises(ValueError, match="No global client found"), warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
         DaskStorage()
 
 
 def test_name_unique(client: "Client") -> None:
-    s1 = DaskStorage()
-    s2 = DaskStorage()
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        s1 = DaskStorage()
+        s2 = DaskStorage()
     assert s1.name != s2.name
 
 
 @pytest.mark.parametrize("storage_specifier", STORAGE_MODES)
 def test_study_optimize(client: "Client", storage_specifier: str) -> None:
-    with get_storage_url(storage_specifier) as url:
+    with get_storage_url(storage_specifier) as url, warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
         storage = DaskStorage(storage=url)
         study = optuna.create_study(storage=storage)
         assert not study.trials
@@ -97,7 +102,9 @@ def test_study_optimize(client: "Client", storage_specifier: str) -> None:
 @pytest.mark.parametrize("storage_specifier", STORAGE_MODES)
 def test_get_base_storage(client: "Client", storage_specifier: str) -> None:
     with get_storage_url(storage_specifier) as url:
-        dask_storage = DaskStorage(url)
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+            dask_storage = DaskStorage(url)
         storage = dask_storage.get_base_storage()
         expected_type = type(optuna.storages.get_storage(url))
         assert type(storage) is expected_type
@@ -107,7 +114,9 @@ def test_get_base_storage(client: "Client", storage_specifier: str) -> None:
 def test_study_direction_best_value(client: "Client", direction: str) -> None:
     # Regression test for https://github.com/jrbourbeau/dask-optuna/issues/15
     pytest.importorskip("pandas")
-    storage = DaskStorage()
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        storage = DaskStorage()
     study = optuna.create_study(storage=storage, direction=direction)
     f = client.submit(study.optimize, objective, n_trials=10)  # type: ignore[no-untyped-call]
     wait(f)  # type: ignore[no-untyped-call]
@@ -130,17 +139,23 @@ if _imports.is_successful():
         c: "Client", s: "Scheduler", a: "Worker", b: "Worker"
     ) -> None:
         assert "optuna" not in s.extensions
-        await DaskStorage()
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+            await DaskStorage()
         assert "optuna" in s.extensions
         assert type(s.extensions["optuna"]) is _OptunaSchedulerExtension
 
     @gen_cluster(client=True)
     async def test_name(c: "Client", s: "Scheduler", a: "Worker", b: "Worker") -> None:
-        await DaskStorage(name="foo")
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+            await DaskStorage(name="foo")
         ext = s.extensions["optuna"]
         assert len(ext.storages) == 1
         assert type(ext.storages["foo"]) is optuna.storages.InMemoryStorage
 
-        await DaskStorage(name="bar")
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+            await DaskStorage(name="bar")
         assert len(ext.storages) == 2
         assert type(ext.storages["bar"]) is optuna.storages.InMemoryStorage

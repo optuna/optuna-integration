@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import warnings
+
 import numpy as np
 import optuna
 from optuna.importance import get_param_importances
@@ -36,7 +38,8 @@ def test_get_param_importance_target_is_none_and_study_is_multi_obj(storage_mode
         study = create_study(directions=["minimize", "minimize"], storage=storage)
         study.optimize(objective, n_trials=3)
 
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError), warnings.catch_warnings():
+            warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
             get_param_importances(study, evaluator=ShapleyImportanceEvaluator())
 
 
@@ -63,9 +66,11 @@ def test_get_param_importances(storage_mode: str, normalize: bool) -> None:
         study = create_study(storage=storage, sampler=RandomSampler())
         study.optimize(objective, n_trials=3)
 
-        param_importance = get_param_importances(
-            study, evaluator=ShapleyImportanceEvaluator(), normalize=normalize
-        )
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+            param_importance = get_param_importances(
+                study, evaluator=ShapleyImportanceEvaluator(), normalize=normalize
+            )
 
         assert isinstance(param_importance, dict)
         assert len(param_importance) == 6
@@ -107,9 +112,11 @@ def test_get_param_importances_with_params(
         study = create_study(storage=storage)
         study.optimize(objective, n_trials=10)
 
-        param_importance = get_param_importances(
-            study, evaluator=ShapleyImportanceEvaluator(), params=params, normalize=normalize
-        )
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+            param_importance = get_param_importances(
+                study, evaluator=ShapleyImportanceEvaluator(), params=params, normalize=normalize
+            )
 
         assert isinstance(param_importance, dict)
         assert len(param_importance) == len(params)
@@ -143,12 +150,14 @@ def test_get_param_importances_with_target(storage_mode: str, normalize: bool) -
         study = create_study(storage=storage)
         study.optimize(objective, n_trials=3)
 
-        param_importance = get_param_importances(
-            study,
-            evaluator=ShapleyImportanceEvaluator(),
-            target=lambda t: t.params["x1"] + t.params["x2"],
-            normalize=normalize,
-        )
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+            param_importance = get_param_importances(
+                study,
+                evaluator=ShapleyImportanceEvaluator(),
+                target=lambda t: t.params["x1"] + t.params["x2"],
+                normalize=normalize,
+            )
 
         assert isinstance(param_importance, dict)
         assert len(param_importance) == 3
@@ -169,12 +178,14 @@ def test_get_param_importances_with_target(storage_mode: str, normalize: bool) -
 def test_get_param_importances_invalid_empty_study() -> None:
     study = create_study()
 
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError), warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
         get_param_importances(study, evaluator=ShapleyImportanceEvaluator())
 
     study.optimize(pruned_objective, n_trials=3)
 
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError), warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
         get_param_importances(study, evaluator=ShapleyImportanceEvaluator())
 
 
@@ -186,7 +197,8 @@ def test_get_param_importances_invalid_single_trial() -> None:
     study = create_study()
     study.optimize(objective, n_trials=1)
 
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError), warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
         get_param_importances(study, evaluator=ShapleyImportanceEvaluator())
 
 
@@ -202,15 +214,18 @@ def test_get_param_importances_invalid_no_completed_trials_params() -> None:
     study.optimize(objective, n_trials=3)
 
     # None of the trials with `x2` are completed.
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError), warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
         get_param_importances(study, evaluator=ShapleyImportanceEvaluator(), params=["x2"])
 
     # None of the trials with `x2` are completed. Adding "x1" should not matter.
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError), warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
         get_param_importances(study, evaluator=ShapleyImportanceEvaluator(), params=["x1", "x2"])
 
     # None of the trials contain `x3`.
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError), warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
         get_param_importances(study, evaluator=ShapleyImportanceEvaluator(), params=["x3"])
 
 
@@ -222,7 +237,8 @@ def test_get_param_importances_invalid_dynamic_search_space_params() -> None:
     study = create_study()
     study.optimize(objective, n_trials=3)
 
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError), warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
         get_param_importances(study, evaluator=ShapleyImportanceEvaluator(), params=["x1"])
 
 
@@ -235,7 +251,9 @@ def test_get_param_importances_empty_search_space() -> None:
     study = create_study()
     study.optimize(objective, n_trials=3)
 
-    param_importance = get_param_importances(study, evaluator=ShapleyImportanceEvaluator())
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        param_importance = get_param_importances(study, evaluator=ShapleyImportanceEvaluator())
 
     assert len(param_importance) == 2
     assert all([param in param_importance for param in ["x", "y"]])
@@ -253,14 +271,20 @@ def test_importance_evaluator_seed() -> None:
     study = create_study(sampler=RandomSampler(seed=0))
     study.optimize(objective, n_trials=3)
 
-    evaluator = ShapleyImportanceEvaluator(seed=2)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        evaluator = ShapleyImportanceEvaluator(seed=2)
     param_importance = evaluator.evaluate(study)
 
-    evaluator = ShapleyImportanceEvaluator(seed=2)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        evaluator = ShapleyImportanceEvaluator(seed=2)
     param_importance_same_seed = evaluator.evaluate(study)
     assert param_importance == param_importance_same_seed
 
-    evaluator = ShapleyImportanceEvaluator(seed=3)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        evaluator = ShapleyImportanceEvaluator(seed=3)
     param_importance_different_seed = evaluator.evaluate(study)
     assert param_importance != param_importance_different_seed
 
@@ -276,7 +300,9 @@ def test_importance_evaluator_with_target() -> None:
     study = create_study(sampler=RandomSampler(seed=0))
     study.optimize(objective, n_trials=3)
 
-    evaluator = ShapleyImportanceEvaluator(seed=0)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        evaluator = ShapleyImportanceEvaluator(seed=0)
     param_importance = evaluator.evaluate(study)
     param_importance_with_target = evaluator.evaluate(
         study,

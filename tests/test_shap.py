@@ -1,10 +1,13 @@
 from __future__ import annotations
 
+import warnings
+
 from optuna import create_study
 from optuna import Trial
 from optuna.distributions import CategoricalDistribution
 from optuna.distributions import FloatDistribution
 from optuna.distributions import IntDistribution
+from optuna.exceptions import ExperimentalWarning
 from optuna.samplers import RandomSampler
 from optuna.trial import create_trial
 import pytest
@@ -26,10 +29,14 @@ def test_mean_abs_shap_importance_evaluator_n_trees() -> None:
     study = create_study(sampler=RandomSampler(seed=0))
     study.optimize(objective, n_trials=3)
 
-    evaluator = ShapleyImportanceEvaluator(n_trees=10, seed=0)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", ExperimentalWarning)
+        evaluator = ShapleyImportanceEvaluator(n_trees=10, seed=0)
     param_importance = evaluator.evaluate(study)
 
-    evaluator = ShapleyImportanceEvaluator(n_trees=20, seed=0)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", ExperimentalWarning)
+        evaluator = ShapleyImportanceEvaluator(n_trees=20, seed=0)
     param_importance_different_n_trees = evaluator.evaluate(study)
 
     assert param_importance != param_importance_different_n_trees
@@ -41,10 +48,14 @@ def test_mean_abs_shap_importance_evaluator_max_depth() -> None:
     study = create_study(sampler=RandomSampler(seed=0))
     study.optimize(objective, n_trials=3)
 
-    evaluator = ShapleyImportanceEvaluator(max_depth=1, seed=0)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", ExperimentalWarning)
+        evaluator = ShapleyImportanceEvaluator(max_depth=1, seed=0)
     param_importance = evaluator.evaluate(study)
 
-    evaluator = ShapleyImportanceEvaluator(max_depth=2, seed=0)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", ExperimentalWarning)
+        evaluator = ShapleyImportanceEvaluator(max_depth=2, seed=0)
     param_importance_different_max_depth = evaluator.evaluate(study)
 
     assert param_importance != param_importance_different_max_depth
@@ -60,7 +71,9 @@ def test_shap_importance_evaluator_with_infinite(inf_value: float) -> None:
     study = create_study(sampler=RandomSampler(seed=seed))
     study.optimize(objective, n_trials=n_trial)
 
-    evaluator = ShapleyImportanceEvaluator(seed=seed)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", ExperimentalWarning)
+        evaluator = ShapleyImportanceEvaluator(seed=seed)
     param_importance_without_inf = evaluator.evaluate(study)
 
     # A trial with an inf value is added into the study manually.
@@ -104,7 +117,9 @@ def test_multi_objective_shap_importance_evaluator_with_infinite(
     study = create_study(directions=["minimize", "minimize"], sampler=RandomSampler(seed=seed))
     study.optimize(multi_objective_function, n_trials=n_trial)
 
-    evaluator = ShapleyImportanceEvaluator(seed=seed)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", ExperimentalWarning)
+        evaluator = ShapleyImportanceEvaluator(seed=seed)
     param_importance_without_inf = evaluator.evaluate(study, target=lambda t: t.values[target_idx])
 
     # A trial with an inf value is added into the study manually.
@@ -121,7 +136,11 @@ def test_multi_objective_shap_importance_evaluator_with_infinite(
         )
     )
     # Importance scores are calculated with a trial with an inf value.
-    param_importance_with_inf = evaluator.evaluate(study, target=lambda t: t.values[target_idx])
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", ExperimentalWarning)
+        param_importance_with_inf = evaluator.evaluate(
+            study, target=lambda t: t.values[target_idx]
+        )
 
     # Obtained importance scores should be the same between with inf and without inf,
     # because the last trial whose objective value is an inf is ignored.

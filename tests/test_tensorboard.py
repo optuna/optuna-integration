@@ -1,8 +1,10 @@
 import os
 import shutil
 import tempfile
+import warnings
 
 import optuna
+from optuna.exceptions import ExperimentalWarning
 import pytest
 
 from optuna_integration._imports import try_import
@@ -29,7 +31,9 @@ def test_study_name() -> None:
     metric_name = "target"
     study_name = "test_tensorboard_integration"
 
-    tbcallback = TensorBoardCallback(dirname, metric_name)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", ExperimentalWarning)
+        tbcallback = TensorBoardCallback(dirname, metric_name)
     study = optuna.create_study(study_name=study_name)
     study.optimize(_objective_func, n_trials=1, callbacks=[tbcallback])
 
@@ -56,7 +60,9 @@ def test_cast_float() -> None:
     metric_name = "target"
     study_name = "test_tensorboard_integration"
 
-    tbcallback = TensorBoardCallback(dirname, metric_name)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", ExperimentalWarning)
+        tbcallback = TensorBoardCallback(dirname, metric_name)
     study = optuna.create_study(study_name=study_name)
     study.optimize(objective, n_trials=1, callbacks=[tbcallback])
 
@@ -71,7 +77,9 @@ def test_categorical() -> None:
     metric_name = "target"
     study_name = "test_tensorboard_integration"
 
-    tbcallback = TensorBoardCallback(dirname, metric_name)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", ExperimentalWarning)
+        tbcallback = TensorBoardCallback(dirname, metric_name)
     study = optuna.create_study(study_name=study_name)
     study.optimize(objective, n_trials=1, callbacks=[tbcallback])
 
@@ -86,7 +94,9 @@ def test_categorical_mixed_types() -> None:
     metric_name = "target"
     study_name = "test_tensorboard_integration"
 
-    tbcallback = TensorBoardCallback(dirname, metric_name)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", ExperimentalWarning)
+        tbcallback = TensorBoardCallback(dirname, metric_name)
     study = optuna.create_study(study_name=study_name)
     study.optimize(objective, n_trials=10, callbacks=[tbcallback])
 
@@ -101,7 +111,9 @@ def test_categorical_unsupported_types() -> None:
     metric_name = "target"
     study_name = "test_tensorboard_integration"
 
-    tbcallback = TensorBoardCallback(dirname, metric_name)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", ExperimentalWarning)
+        tbcallback = TensorBoardCallback(dirname, metric_name)
     study = optuna.create_study(study_name=study_name)
     study.optimize(objective, n_trials=10, callbacks=[tbcallback])
 

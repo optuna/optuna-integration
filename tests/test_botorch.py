@@ -39,7 +39,9 @@ def test_botorch_candidates_func_none(n_objectives: int) -> None:
     n_trials = 3
     n_startup_trials = 2
 
-    sampler = BoTorchSampler(n_startup_trials=n_startup_trials)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        sampler = BoTorchSampler(n_startup_trials=n_startup_trials)
 
     study = optuna.create_study(directions=["minimize"] * n_objectives, sampler=sampler)
     study.optimize(
@@ -81,7 +83,11 @@ def test_botorch_candidates_func() -> None:
     n_trials = 3
     n_startup_trials = 1
 
-    sampler = BoTorchSampler(candidates_func=candidates_func, n_startup_trials=n_startup_trials)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        sampler = BoTorchSampler(
+            candidates_func=candidates_func, n_startup_trials=n_startup_trials
+        )
 
     study = optuna.create_study(direction="minimize", sampler=sampler)
     study.optimize(lambda t: t.suggest_float("x0", 0, 1), n_trials=n_trials)
@@ -114,10 +120,11 @@ def test_botorch_specify_candidates_func(candidates_func: Any, n_objectives: int
     n_trials = 4
     n_startup_trials = 2
 
-    sampler = BoTorchSampler(
-        candidates_func=candidates_func,
-        n_startup_trials=n_startup_trials,
-    )
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        sampler = BoTorchSampler(
+            candidates_func=candidates_func, n_startup_trials=n_startup_trials
+        )
 
     study = optuna.create_study(directions=["minimize"] * n_objectives, sampler=sampler)
     study.optimize(
@@ -153,11 +160,13 @@ def test_botorch_specify_candidates_func_constrained(
 
         return (xs - 0.5,)
 
-    sampler = BoTorchSampler(
-        constraints_func=constraints_func,
-        candidates_func=candidates_func,
-        n_startup_trials=n_startup_trials,
-    )
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        sampler = BoTorchSampler(
+            constraints_func=constraints_func,
+            candidates_func=candidates_func,
+            n_startup_trials=n_startup_trials,
+        )
 
     study = optuna.create_study(directions=["minimize"] * n_objectives, sampler=sampler)
     study.optimize(
@@ -178,7 +187,9 @@ def test_botorch_candidates_func_invalid_batch_size() -> None:
     ) -> torch.Tensor:
         return torch.rand(2, 1)  # Must have the batch size one, not two.
 
-    sampler = BoTorchSampler(candidates_func=candidates_func, n_startup_trials=1)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        sampler = BoTorchSampler(candidates_func=candidates_func, n_startup_trials=1)
 
     study = optuna.create_study(direction="minimize", sampler=sampler)
 
@@ -196,7 +207,9 @@ def test_botorch_candidates_func_invalid_dimensionality() -> None:
     ) -> torch.Tensor:
         return torch.rand(1, 1, 1)  # Must have one or two dimensions, not three.
 
-    sampler = BoTorchSampler(candidates_func=candidates_func, n_startup_trials=1)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        sampler = BoTorchSampler(candidates_func=candidates_func, n_startup_trials=1)
 
     study = optuna.create_study(direction="minimize", sampler=sampler)
 
@@ -216,7 +229,9 @@ def test_botorch_candidates_func_invalid_candidates_size() -> None:
     ) -> torch.Tensor:
         return torch.rand(n_params - 1)  # Must return candidates for all parameters.
 
-    sampler = BoTorchSampler(candidates_func=candidates_func, n_startup_trials=1)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        sampler = BoTorchSampler(candidates_func=candidates_func, n_startup_trials=1)
 
     study = optuna.create_study(direction="minimize", sampler=sampler)
 
@@ -231,7 +246,9 @@ def test_botorch_constraints_func_invalid_inconsistent_n_constraints() -> None:
         x0 = trial.params["x0"]
         return [x0 - 0.5] * trial.number  # Number of constraints may not change.
 
-    sampler = BoTorchSampler(constraints_func=constraints_func, n_startup_trials=1)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        sampler = BoTorchSampler(constraints_func=constraints_func, n_startup_trials=1)
 
     study = optuna.create_study(direction="minimize", sampler=sampler)
 
@@ -245,7 +262,9 @@ def test_botorch_constraints_func_raises() -> None:
             raise RuntimeError
         return (0.0,)
 
-    sampler = BoTorchSampler(constraints_func=constraints_func)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        sampler = BoTorchSampler(constraints_func=constraints_func)
 
     study = optuna.create_study(direction="minimize", sampler=sampler)
 
@@ -300,11 +319,13 @@ def test_botorch_constraints_func_nan_warning() -> None:
 
         return torch.rand(1)
 
-    sampler = BoTorchSampler(
-        candidates_func=candidates_func,
-        constraints_func=constraints_func,
-        n_startup_trials=1,
-    )
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        sampler = BoTorchSampler(
+            candidates_func=candidates_func,
+            constraints_func=constraints_func,
+            n_startup_trials=1,
+        )
 
     study = optuna.create_study(direction="minimize", sampler=sampler)
 
@@ -343,11 +364,13 @@ def test_botorch_constraints_func_none_warning() -> None:
 
         return torch.rand(1)
 
-    sampler = BoTorchSampler(
-        candidates_func=candidates_func,
-        constraints_func=constraints_func,
-        n_startup_trials=1,
-    )
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        sampler = BoTorchSampler(
+            candidates_func=candidates_func,
+            constraints_func=constraints_func,
+            n_startup_trials=1,
+        )
 
     study = optuna.create_study(direction="minimize", sampler=sampler)
 
@@ -392,21 +415,25 @@ def test_botorch_constraints_func_late() -> None:
 
         return torch.rand(1)
 
-    sampler = BoTorchSampler(
-        candidates_func=candidates_func,
-        n_startup_trials=1,
-    )
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        sampler = BoTorchSampler(
+            candidates_func=candidates_func,
+            n_startup_trials=1,
+        )
 
     study = optuna.create_study(direction="minimize", sampler=sampler)
     study.optimize(lambda t: t.suggest_float("x0", 0, 1), n_trials=2)
 
     assert len(study.trials) == 2
 
-    sampler = BoTorchSampler(
-        candidates_func=candidates_func,
-        constraints_func=constraints_func,
-        n_startup_trials=1,
-    )
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        sampler = BoTorchSampler(
+            candidates_func=candidates_func,
+            constraints_func=constraints_func,
+            n_startup_trials=1,
+        )
 
     study.sampler = sampler
 
@@ -422,7 +449,9 @@ def test_botorch_constraints_func_late() -> None:
 
 def test_botorch_n_startup_trials() -> None:
     independent_sampler = RandomSampler()
-    sampler = BoTorchSampler(n_startup_trials=2, independent_sampler=independent_sampler)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        sampler = BoTorchSampler(n_startup_trials=2, independent_sampler=independent_sampler)
     study = optuna.create_study(directions=["minimize", "maximize"], sampler=sampler)
 
     with patch.object(
@@ -448,7 +477,9 @@ def test_botorch_distributions() -> None:
         x6 = trial.suggest_categorical("x6", [0.1, 0.2, 0.3])
         return x0 + x1 + x2 + x3 + x4 + x5 + x6
 
-    sampler = BoTorchSampler()
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        sampler = BoTorchSampler()
 
     study = optuna.create_study(direction="minimize", sampler=sampler)
     study.optimize(objective, n_trials=3)
@@ -464,7 +495,9 @@ def test_botorch_invalid_different_studies() -> None:
     # study IDs are identically 0.
     storage = RDBStorage("sqlite:///:memory:")
 
-    sampler = BoTorchSampler()
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        sampler = BoTorchSampler()
 
     study = optuna.create_study(direction="minimize", sampler=sampler, storage=storage)
     study.optimize(lambda t: t.suggest_float("x0", 0, 1), n_trials=3)
@@ -489,7 +522,9 @@ def test_call_after_trial_of_independent_sampler() -> None:
 
 @pytest.mark.parametrize("device", [None, torch.device("cpu"), torch.device("cuda:0")])
 def test_device_argument(device: Optional[torch.device]) -> None:
-    sampler = BoTorchSampler(device=device)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        sampler = BoTorchSampler(device=device)
     if not torch.cuda.is_available() and sampler._device.type == "cuda":
         pytest.skip(reason="GPU is unavailable.")
 
@@ -500,7 +535,9 @@ def test_device_argument(device: Optional[torch.device]) -> None:
         x0 = trial.params["x"]
         return [x0 - 0.5]
 
-    sampler = BoTorchSampler(constraints_func=constraints_func, n_startup_trials=1)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        sampler = BoTorchSampler(constraints_func=constraints_func, n_startup_trials=1)
     study = optuna.create_study(sampler=sampler)
     study.optimize(objective, n_trials=3)
 
@@ -516,11 +553,13 @@ def test_device_argument(device: Optional[torch.device]) -> None:
     ],
 )
 def test_botorch_consider_running_trials(candidates_func: Any, n_objectives: int) -> None:
-    sampler = BoTorchSampler(
-        candidates_func=candidates_func,
-        n_startup_trials=1,
-        consider_running_trials=True,
-    )
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        sampler = BoTorchSampler(
+            candidates_func=candidates_func,
+            n_startup_trials=1,
+            consider_running_trials=True,
+        )
 
     def objective(trial: Trial) -> Sequence[float]:
         ret = []
