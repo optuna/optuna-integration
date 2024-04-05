@@ -41,7 +41,8 @@ jobs:
 
     - name: Output dependency tree
       run: |
-        pip install pipdeptree
+        # TODO(not522): Remove a version constraint after resolving pipdeptree problem.
+        pip install pipdeptree==2.16.2
         pipdeptree
 
     - name: black
