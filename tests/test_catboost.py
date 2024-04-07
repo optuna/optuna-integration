@@ -1,4 +1,5 @@
 import types
+import warnings
 
 import numpy as np
 import optuna
@@ -17,7 +18,9 @@ def test_catboost_pruning_callback_call() -> None:
     # The pruner is deactivated.
     study = optuna.create_study(pruner=DeterministicPruner(False))
     trial = study.ask()
-    pruning_callback = CatBoostPruningCallback(trial, "Logloss")
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        pruning_callback = CatBoostPruningCallback(trial, "Logloss")
     info = types.SimpleNamespace(
         iteration=1, metrics={"learn": {"Logloss": [1.0]}, "validation": {"Logloss": [1.0]}}
     )
@@ -26,7 +29,9 @@ def test_catboost_pruning_callback_call() -> None:
     # The pruner is activated.
     study = optuna.create_study(pruner=DeterministicPruner(True))
     trial = study.ask()
-    pruning_callback = CatBoostPruningCallback(trial, "Logloss")
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        pruning_callback = CatBoostPruningCallback(trial, "Logloss")
     info = types.SimpleNamespace(
         iteration=1, metrics={"learn": {"Logloss": [1.0]}, "validation": {"Logloss": [1.0]}}
     )
@@ -48,10 +53,14 @@ def test_catboost_pruning_callback_init_param(metric: str, eval_set_index: int) 
 
         if eval_set_index is None:
             eval_set = [(valid_x, valid_y)]
-            pruning_callback = CatBoostPruningCallback(trial, metric)
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+                pruning_callback = CatBoostPruningCallback(trial, metric)
         else:
             eval_set = [(valid_x, valid_y), (valid_x, valid_y)]
-            pruning_callback = CatBoostPruningCallback(trial, metric, eval_set_index)
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+                pruning_callback = CatBoostPruningCallback(trial, metric, eval_set_index)
 
         param = {
             "objective": "Logloss",
