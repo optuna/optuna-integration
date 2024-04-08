@@ -154,7 +154,7 @@ class MLflowCallback:
                 self._log_metrics(trial.values)
 
                 # This sets the params for MLflow.
-                self._log_params(trial.params)
+                self._log_params(trial)
 
                 # This sets the tags for MLflow.
                 self._set_tags(trial, study)
@@ -313,10 +313,10 @@ class MLflowCallback:
         mlflow.log_metrics(metrics)
 
     @staticmethod
-    def _log_params(params: dict[str, Any]) -> None:
+    def _log_params(trial: optuna.trial.FrozenTrial) -> None:
         """Log the parameters of the trial to MLflow.
 
         Args:
-            params: Trial params.
+            trial: Trial to be logged.
         """
-        mlflow.log_params(params)
+        mlflow.log_params({**trial.params, "number": trial.number})
