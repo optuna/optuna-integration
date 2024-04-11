@@ -146,7 +146,7 @@ class MLflowCallback:
             with mlflow.start_run(
                 run_id=trial.system_attrs.get(RUN_ID_ATTRIBUTE_KEY),
                 experiment_id=self._mlflow_kwargs.get("experiment_id"),
-                run_name=self._mlflow_kwargs.get("run_name") or str(trial.number),
+                run_name=self._mlflow_kwargs.get("run_name", str(trial.number)),
                 nested=self._mlflow_kwargs.get("nested") or False,
                 tags=self._mlflow_kwargs.get("tags"),
             ):
