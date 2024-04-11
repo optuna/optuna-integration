@@ -33,12 +33,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
 
-        # Install distributed to run importance_tests/test_init tests.
-        # TODO(nabenabe0928/2024/03/12): Remove this version constraint once the following PR is merged.
-        # https://github.com/dask/distributed/pull/8575
-        # NOTE(nabenabe0928): dask-expr supports only python>=3.9.
-        pip install --progress-bar off "distributed<2024.3.0"
-
         # NOTE(nabenabe0928): Got "AttributeError: module 'tensorflow' has no attribute 'estimator'".
         pip install "tensorflow<2.16.1"
 
