@@ -207,7 +207,7 @@ class MLflowCallback:
                     study = trial.study
                     self._initialize_experiment(study)
                     nested = self._mlflow_kwargs.get("nested")
-                    run_name = self._mlflow_kwargs.get("run_name") or str(trial.number)
+                    run_name = self._mlflow_kwargs.get("run_name", str(trial.number))
 
                     with mlflow.start_run(run_name=run_name, nested=nested) as run:
                         trial.storage.set_trial_system_attr(
