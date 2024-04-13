@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+import warnings
 
 import numpy as np
 import optuna
@@ -64,7 +65,9 @@ def test_use_existing_or_default_experiment(
         tracking_uri = f"file:{tmpdir}/foo"
         mlflow.set_tracking_uri(tracking_uri)
 
-    mlflc = MLflowCallback(tracking_uri=tracking_uri, create_experiment=False)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        mlflc = MLflowCallback(tracking_uri=tracking_uri, create_experiment=False)
     study = optuna.create_study()
 
     for _ in range(10):
@@ -84,7 +87,9 @@ def test_study_name(tmpdir: py.path.local) -> None:
     study_name = "my_study"
     n_trials = 3
 
-    mlflc = MLflowCallback(tracking_uri=tracking_uri)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        mlflc = MLflowCallback(tracking_uri=tracking_uri)
     study = optuna.create_study(study_name=study_name)
     study.optimize(_objective_func, n_trials=n_trials, callbacks=[mlflc])
 
@@ -104,9 +109,11 @@ def test_use_existing_experiment_by_id(tmpdir: py.path.local) -> None:
     experiment_id = mlflow.create_experiment("foo")
 
     mlflow_kwargs = {"experiment_id": experiment_id}
-    mlflc = MLflowCallback(
-        tracking_uri=tracking_uri, create_experiment=False, mlflow_kwargs=mlflow_kwargs
-    )
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        mlflc = MLflowCallback(
+            tracking_uri=tracking_uri, create_experiment=False, mlflow_kwargs=mlflow_kwargs
+        )
     study = optuna.create_study()
 
     for _ in range(10):
@@ -128,7 +135,9 @@ def test_metric_name(tmpdir: py.path.local) -> None:
     tracking_uri = f"file:{tmpdir}"
     metric_name = "my_metric_name"
 
-    mlflc = MLflowCallback(tracking_uri=tracking_uri, metric_name=metric_name)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        mlflc = MLflowCallback(tracking_uri=tracking_uri, metric_name=metric_name)
     study = optuna.create_study(study_name="my_study")
     study.optimize(_objective_func, n_trials=3, callbacks=[mlflc])
 
@@ -157,7 +166,9 @@ def test_metric_name_multiobjective(
 ) -> None:
     tracking_uri = f"file:{tmpdir}"
 
-    mlflc = MLflowCallback(tracking_uri=tracking_uri, metric_name=names)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        mlflc = MLflowCallback(tracking_uri=tracking_uri, metric_name=names)
     study = optuna.create_study(study_name="my_study", directions=["minimize", "maximize"])
     study.optimize(_multiobjective_func, n_trials=3, callbacks=[mlflc])
 
@@ -178,7 +189,9 @@ def test_run_name(tmpdir: py.path.local, run_name: str | None, expected: str) ->
     tracking_uri = f"file:{tmpdir}"
 
     mlflow_kwargs = {"run_name": run_name}
-    mlflc = MLflowCallback(tracking_uri=tracking_uri, mlflow_kwargs=mlflow_kwargs)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        mlflc = MLflowCallback(tracking_uri=tracking_uri, mlflow_kwargs=mlflow_kwargs)
     study = optuna.create_study()
     study.optimize(_objective_func, n_trials=1, callbacks=[mlflc])
 
@@ -199,7 +212,9 @@ def test_tag_truncation(tmpdir: py.path.local) -> None:
     study_name = "my_study"
     n_trials = 3
 
-    mlflc = MLflowCallback(tracking_uri=tracking_uri)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        mlflc = MLflowCallback(tracking_uri=tracking_uri)
     study = optuna.create_study(study_name=study_name)
     study.optimize(_objective_func_long_user_attr, n_trials=n_trials, callbacks=[mlflc])
 
@@ -227,7 +242,9 @@ def test_nest_trials(tmpdir: py.path.local) -> None:
     mlflow.set_tracking_uri(tracking_uri)
     mlflow.set_experiment(study_name)
 
-    mlflc = MLflowCallback(tracking_uri=tracking_uri, mlflow_kwargs={"nested": True})
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        mlflc = MLflowCallback(tracking_uri=tracking_uri, mlflow_kwargs={"nested": True})
     study = optuna.create_study(study_name=study_name)
 
     n_trials = 3
@@ -255,7 +272,9 @@ def test_multiple_jobs(tmpdir: py.path.local, n_jobs: int) -> None:
     # The race-condition usually happens after first trial for each job.
     n_trials = n_jobs * 2
 
-    mlflc = MLflowCallback(tracking_uri=tracking_uri)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        mlflc = MLflowCallback(tracking_uri=tracking_uri)
     study = optuna.create_study(study_name=study_name)
     study.optimize(_objective_func, n_trials=n_trials, callbacks=[mlflc], n_jobs=n_jobs)
 
@@ -276,7 +295,9 @@ def test_mlflow_callback_fails_when_nest_trials_is_false_and_active_run_exists(
     mlflow.set_tracking_uri(tracking_uri)
     mlflow.set_experiment(study_name)
 
-    mlflc = MLflowCallback(tracking_uri=tracking_uri)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        mlflc = MLflowCallback(tracking_uri=tracking_uri)
     study = optuna.create_study(study_name=study_name)
 
     with mlflow.start_run():
@@ -307,7 +328,11 @@ def test_tag_study_user_attrs(tmpdir: py.path.local, tag_study_user_attrs: bool)
     study_name = "my_study"
     n_trials = 3
 
-    mlflc = MLflowCallback(tracking_uri=tracking_uri, tag_study_user_attrs=tag_study_user_attrs)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        mlflc = MLflowCallback(
+            tracking_uri=tracking_uri, tag_study_user_attrs=tag_study_user_attrs
+        )
     study = optuna.create_study(study_name=study_name)
     study.set_user_attr("my_study_attr", "a")
     study.optimize(_objective_func_long_user_attr, n_trials=n_trials, callbacks=[mlflc])
@@ -335,7 +360,11 @@ def test_tag_trial_user_attrs(tmpdir: py.path.local, tag_trial_user_attrs: bool)
     study_name = "my_study"
     n_trials = 3
 
-    mlflc = MLflowCallback(tracking_uri=tracking_uri, tag_trial_user_attrs=tag_trial_user_attrs)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        mlflc = MLflowCallback(
+            tracking_uri=tracking_uri, tag_trial_user_attrs=tag_trial_user_attrs
+        )
     study = optuna.create_study(study_name=study_name)
     study.optimize(_objective_func, n_trials=n_trials, callbacks=[mlflc])
 
@@ -354,7 +383,9 @@ def test_log_mlflow_tags(tmpdir: py.path.local) -> None:
     expected_tags = {"foo": 0, "bar": 1}
     mlflow_kwargs = {"tags": expected_tags}
 
-    mlflc = MLflowCallback(tracking_uri=tracking_uri, mlflow_kwargs=mlflow_kwargs)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        mlflc = MLflowCallback(tracking_uri=tracking_uri, mlflow_kwargs=mlflow_kwargs)
     study = optuna.create_study()
     study.optimize(_objective_func, n_trials=1, callbacks=[mlflc])
 
@@ -376,7 +407,9 @@ def test_track_in_mlflow_decorator(tmpdir: py.path.local, n_jobs: int) -> None:
     metric_name = "additional_metric"
     metric = 3.14
 
-    mlflc = MLflowCallback(tracking_uri=tracking_uri)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        mlflc = MLflowCallback(tracking_uri=tracking_uri)
 
     def _objective_func(trial: optuna.trial.Trial) -> float:
         """Objective function"""
@@ -388,7 +421,9 @@ def test_track_in_mlflow_decorator(tmpdir: py.path.local, n_jobs: int) -> None:
         mlflow.log_metric(metric_name, metric)
         return (x - 2) ** 2 + (y - 25) ** 2 + z
 
-    tracked_objective = mlflc.track_in_mlflow()(_objective_func)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        tracked_objective = mlflc.track_in_mlflow()(_objective_func)
 
     study = optuna.create_study(study_name=study_name)
     study.optimize(tracked_objective, n_trials=n_trials, callbacks=[mlflc], n_jobs=n_jobs)
@@ -427,7 +462,9 @@ def test_log_metric(
     tracking_uri = f"file:{tmpdir}"
     study_name = "my_study"
 
-    mlflc = MLflowCallback(tracking_uri=tracking_uri, metric_name=names)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        mlflc = MLflowCallback(tracking_uri=tracking_uri, metric_name=names)
     study = optuna.create_study(
         study_name=study_name, directions=["minimize" for _ in range(len(values))]
     )
@@ -454,7 +491,9 @@ def test_log_metric_none(tmpdir: py.path.local) -> None:
     metric_name = "metric"
     study_name = "my_study"
 
-    mlflc = MLflowCallback(tracking_uri=tracking_uri, metric_name=metric_name)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        mlflc = MLflowCallback(tracking_uri=tracking_uri, metric_name=metric_name)
     study = optuna.create_study(study_name=study_name)
     study.optimize(lambda _: np.nan, n_trials=1, callbacks=[mlflc])
 
@@ -478,7 +517,9 @@ def test_log_params(tmpdir: py.path.local) -> None:
     metric_name = "metric"
     study_name = "my_study"
 
-    mlflc = MLflowCallback(tracking_uri=tracking_uri, metric_name=metric_name)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        mlflc = MLflowCallback(tracking_uri=tracking_uri, metric_name=metric_name)
     study = optuna.create_study(study_name=study_name)
     study.enqueue_trial({"x": 1.0, "y": 20.0, "z": 1.0})
     study.optimize(_objective_func, n_trials=1, callbacks=[mlflc])
@@ -505,7 +546,9 @@ def test_log_params(tmpdir: py.path.local) -> None:
 @pytest.mark.parametrize("metrics", [["foo"], ["foo", "bar", "baz"]])
 def test_multiobjective_raises_on_name_mismatch(tmpdir: py.path.local, metrics: list[str]) -> None:
     tracking_uri = f"file:{tmpdir}"
-    mlflc = MLflowCallback(tracking_uri=tracking_uri, metric_name=metrics)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        mlflc = MLflowCallback(tracking_uri=tracking_uri, metric_name=metrics)
     study = optuna.create_study(study_name="my_study", directions=["minimize", "maximize"])
 
     with pytest.raises(ValueError):

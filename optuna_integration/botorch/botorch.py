@@ -239,7 +239,7 @@ def qei_candidates_func(
 
         n_constraints = train_con.size(1)
         objective = ConstrainedMCObjective(
-            objective=lambda Z: Z[..., 0],
+            objective=lambda Z, X: Z[..., 0],
             constraints=[
                 (lambda Z, i=i: Z[..., -n_constraints + i]) for i in range(n_constraints)
             ],
@@ -618,7 +618,7 @@ def qparego_candidates_func(
         train_y = torch.cat([train_obj, train_con], dim=-1)
         n_constraints = train_con.size(1)
         objective = ConstrainedMCObjective(
-            objective=lambda Z: scalarization(Z[..., :n_objectives]),
+            objective=lambda Z, X: scalarization(Z[..., :n_objectives]),
             constraints=[
                 (lambda Z, i=i: Z[..., -n_constraints + i]) for i in range(n_constraints)
             ],
