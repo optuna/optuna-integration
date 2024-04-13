@@ -471,9 +471,7 @@ def test_terminator_cv_score_reporting(mock: MagicMock) -> None:
     est = PCA()
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", ExperimentalWarning)
-        optuna_search = OptunaSearchCV(
-            est, {}, cv=3, error_score="raise", random_state=0
-        )
+        optuna_search = OptunaSearchCV(est, {}, cv=3, error_score="raise", random_state=0)
     optuna_search.fit(X)
 
     for trial in optuna_search.study_.trials:
