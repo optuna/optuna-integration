@@ -58,7 +58,6 @@ document = [
 ]
 all = [
   "botorch",
-  "catalyst",
   "catboost>=0.26; sys_platform!='darwin'",
   "catboost>=0.26,<1.2; sys_platform=='darwin'",
   "cma",
@@ -72,7 +71,6 @@ all = [
   "pandas",
   "pytorch-ignite",
   "scikit-learn>=0.24.2",
-  "scikit-optimize",
   "scipy>=1.9.2; python_version>='3.8'",
   "shap",
   "skorch",
