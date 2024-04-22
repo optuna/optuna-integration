@@ -23,8 +23,7 @@ Optuna-Integration API reference is [here](https://optuna-integration.readthedoc
 * [Chainer](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#chainer)  ([example](https://github.com/optuna/optuna-examples/tree/main/chainer/chainer_integration.py))
 * [ChainerMN](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#chainermn)  ([example](https://github.com/optuna/optuna-examples/tree/main/chainer/chainermn_simple.py))
 * [Dask](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#dask) ([example](https://github.com/optuna/optuna-examples/tree/main/dask/dask_simple.py))
-* [FastAI](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#fast-ai) (
-  V2  ([example](https://github.com/optuna/optuna-examples/tree/main/fastai/fastaiv2_simple.py)))
+* [FastAI](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#fast-ai) ([example](https://github.com/optuna/optuna-examples/tree/main/fastai/fastai_simple.py))
 * [Keras](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#keras)  ([example](https://github.com/optuna/optuna-examples/tree/main/keras))
 * [LightGBM](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#lightgbm) ([example](https://github.com/optuna/optuna-examples/tree/main/lightgbm))
 * [MLflow](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#mlflow)  ([example](https://github.com/optuna/optuna-examples/blob/main/mlflow/))
