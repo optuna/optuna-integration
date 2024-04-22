@@ -62,7 +62,7 @@ all = [
   "catboost>=0.26,<1.2; sys_platform=='darwin'",
   "cma",
   "distributed",
-  "fastai",
+  "fastai>=2.0.0",
   "gpytorch",
   "lightgbm",
   "lightning",
