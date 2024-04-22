@@ -188,7 +188,9 @@ def test_metric_name_multiobjective(
 def test_run_name(tmpdir: py.path.local, run_name: str | None, expected: str) -> None:
     tracking_uri = f"file:{tmpdir}"
 
-    mlflow_kwargs = {"run_name": run_name}
+    mlflow_kwargs = {}
+    if run_name is not None:
+        mlflow_kwargs = {"run_name": run_name}
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
         mlflc = MLflowCallback(tracking_uri=tracking_uri, mlflow_kwargs=mlflow_kwargs)
