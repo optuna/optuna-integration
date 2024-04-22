@@ -5,12 +5,16 @@ from collections.abc import Sequence
 import functools
 import threading
 from typing import Any
+from typing import TYPE_CHECKING
 
 import optuna
 from optuna._experimental import experimental_class
 from optuna._experimental import experimental_func
 from optuna._imports import try_import
-from optuna.study.study import ObjectiveFuncType
+
+
+if TYPE_CHECKING:
+    from optuna.study.study import ObjectiveFuncType
 
 
 with try_import() as _imports:
