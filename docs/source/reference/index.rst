@@ -43,15 +43,6 @@ BoTorch
    optuna_integration.botorch.qnehvi_candidates_func
    optuna_integration.botorch.qparego_candidates_func
 
-Catalyst
---------
-
-.. autosummary::
-   :toctree: generated/
-   :nosignatures:
-
-   optuna_integration.CatalystPruningCallback
-
 CatBoost
 --------
 
@@ -87,7 +78,6 @@ fast.ai
    :toctree: generated/
    :nosignatures:
 
-   optuna_integration.FastAIV1PruningCallback
    optuna_integration.FastAIV2PruningCallback
    optuna_integration.FastAIPruningCallback
 
@@ -149,15 +139,6 @@ PyTorch
    optuna_integration.PyTorchIgnitePruningHandler
    optuna_integration.PyTorchLightningPruningCallback
    optuna_integration.TorchDistributedTrial
-
-scikit-optimize
----------------
-
-.. autosummary::
-   :toctree: generated/
-   :nosignatures:
-
-   optuna_integration.SkoptSampler
 
 SHAP
 ----
