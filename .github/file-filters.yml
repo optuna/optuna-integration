@@ -12,13 +12,6 @@ botorch:
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
 
-catalyst:
-  - 'optuna_integration/catalyst/**'
-  - 'tests/catalyst/**'
-  - '.github/workflows/checks.yml'
-  - '.github/workflows/checks_template.yml'
-  - '.github/file-filters.yml'
-
 catboost:
   - 'optuna_integration/catboost/**'
   - 'tests/catboost/**'
@@ -50,13 +43,6 @@ cma:
 dask:
   - 'optuna_integration/dask/**'
   - 'tests/dask/**'
-  - '.github/workflows/checks.yml'
-  - '.github/workflows/checks_template.yml'
-  - '.github/file-filters.yml'
-
-fastaiv1:
-  - 'optuna_integration/fastaiv1/**'
-  - 'tests/fastaiv1/**'
   - '.github/workflows/checks.yml'
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
@@ -127,13 +113,6 @@ shap:
 sklearn:
   - 'optuna_integration/sklearn/**'
   - 'tests/sklearn/**'
-  - '.github/workflows/checks.yml'
-  - '.github/workflows/checks_template.yml'
-  - '.github/file-filters.yml'
-
-skopt:
-  - 'optuna_integration/skopt/**'
-  - 'tests/skopt/**'
   - '.github/workflows/checks.yml'
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'

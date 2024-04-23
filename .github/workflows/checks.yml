@@ -19,13 +19,11 @@ jobs:
     outputs:
       allennlp: ${{ steps.changes.outputs.allennlp }}
       botorch: ${{ steps.changes.outputs.botorch }}
-      catalyst: ${{ steps.changes.outputs.catalyst }}
       catboost: ${{ steps.changes.outputs.catboost }}
       chainer: ${{ steps.changes.outputs.chainer }}
       chainermn: ${{ steps.changes.outputs.chainermn }}
       cma: ${{ steps.changes.outputs.cma }}
       dask: ${{ steps.changes.outputs.dask }}
-      fastaiv1: ${{ steps.changes.outputs.fastaiv1 }}
       fastaiv2: ${{ steps.changes.outputs.fastaiv2 }}
       keras: ${{ steps.changes.outputs.keras }}
       lightgbm: ${{ steps.changes.outputs.lightgbm }}
@@ -36,7 +34,6 @@ jobs:
       pytorch_lightning: ${{ steps.changes.outputs.pytorch_lightning }}
       shap: ${{ steps.changes.outputs.shap }}
       sklearn: ${{ steps.changes.outputs.sklearn }}
-      skopt: ${{ steps.changes.outputs.skopt }}
       skorch: ${{ steps.changes.outputs.skorch }}
       tensorboard: ${{ steps.changes.outputs.tensorboard }}
       tensorflow: ${{ steps.changes.outputs.tensorflow }}
@@ -63,13 +60,6 @@ jobs:
     uses: ./.github/workflows/checks_template.yml
     with:
       integration_name: 'botorch'
-
-  catalyst:
-    if: needs.changes.outputs.catalyst == 'true'
-    needs: changes
-    uses: ./.github/workflows/checks_template.yml
-    with:
-      integration_name: 'catalyst'
 
   catboost:
     if: needs.changes.outputs.catboost == 'true'
@@ -105,13 +95,6 @@ jobs:
     uses: ./.github/workflows/checks_template.yml
     with:
       integration_name: 'dask'
-
-  fastaiv1:
-    if: needs.changes.outputs.fastaiv1 == 'true'
-    needs: changes
-    uses: ./.github/workflows/checks_template.yml
-    with:
-      integration_name: 'fastaiv1'
 
   fastaiv2:
     if: needs.changes.outputs.fastaiv2 == 'true'
@@ -183,13 +166,6 @@ jobs:
     uses: ./.github/workflows/checks_template.yml
     with:
       integration_name: 'sklearn'
-
-  skopt:
-    if: needs.changes.outputs.skopt == 'true'
-    needs: changes
-    uses: ./.github/workflows/checks_template.yml
-    with:
-      integration_name: 'skopt'
 
   skorch:
     if: needs.changes.outputs.skorch == 'true'

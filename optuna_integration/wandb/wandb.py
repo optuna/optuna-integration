@@ -1,16 +1,22 @@
+from __future__ import annotations
+
 import functools
 from typing import Any
 from typing import Callable
 from typing import Dict
 from typing import Optional
 from typing import Sequence
+from typing import TYPE_CHECKING
 from typing import Union
 
 import optuna
 from optuna._experimental import experimental_class
 from optuna._experimental import experimental_func
 from optuna._imports import try_import
-from optuna.study.study import ObjectiveFuncType
+
+
+if TYPE_CHECKING:
+    from optuna.study.study import ObjectiveFuncType
 
 
 with try_import() as _imports:
