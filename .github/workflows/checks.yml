@@ -13,49 +13,198 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  checks:
+  changes:
     if: (github.event_name == 'schedule' && github.repository == 'optuna/optuna-integration') || (github.event_name != 'schedule')
     runs-on: ubuntu-latest
-
+    outputs:
+      allennlp: ${{ steps.changes.outputs.allennlp }}
+      botorch: ${{ steps.changes.outputs.botorch }}
+      catboost: ${{ steps.changes.outputs.catboost }}
+      chainer: ${{ steps.changes.outputs.chainer }}
+      chainermn: ${{ steps.changes.outputs.chainermn }}
+      cma: ${{ steps.changes.outputs.cma }}
+      dask: ${{ steps.changes.outputs.dask }}
+      fastaiv2: ${{ steps.changes.outputs.fastaiv2 }}
+      keras: ${{ steps.changes.outputs.keras }}
+      lightgbm: ${{ steps.changes.outputs.lightgbm }}
+      mlflow: ${{ steps.changes.outputs.mlflow }}
+      mxnet: ${{ steps.changes.outputs.mxnet }}
+      pytorch_distributed: ${{ steps.changes.outputs.pytorch_distributed }}
+      pytorch_ignite: ${{ steps.changes.outputs.pytorch_ignite }}
+      pytorch_lightning: ${{ steps.changes.outputs.pytorch_lightning }}
+      shap: ${{ steps.changes.outputs.shap }}
+      sklearn: ${{ steps.changes.outputs.sklearn }}
+      skorch: ${{ steps.changes.outputs.skorch }}
+      tensorboard: ${{ steps.changes.outputs.tensorboard }}
+      tensorflow: ${{ steps.changes.outputs.tensorflow }}
+      tfkeras: ${{ steps.changes.outputs.tfkeras }}
+      wandb: ${{ steps.changes.outputs.wandb }}
+      xgboost: ${{ steps.changes.outputs.xgboost }}
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: .github/file-filters.yml
 
-    - uses: actions/setup-python@v4
-      with:
-        python-version: "3.10"
+  allennlp:
+    if: needs.changes.outputs.allennlp == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'allennlp'
 
-    - name: Setup environment
-      run: |
-        sudo apt-get update
+  botorch:
+    if: needs.changes.outputs.botorch == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'botorch'
 
-    - name: Install
-      run: |
-        python -m pip install -U pip
-        pip install --progress-bar off -U .[checking]
-        pip install --progress-bar off -U .[test]
-        pip install --progress-bar off -U .[all]
+  catboost:
+    if: needs.changes.outputs.catboost == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'catboost'
 
-    - name: Output installed packages
-      run: |
-        pip freeze --all
+  chainer:
+    if: needs.changes.outputs.chainer == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'chainer'
 
-    - name: Output dependency tree
-      run: |
-        # TODO(not522): Remove a version constraint after resolving pipdeptree problem.
-        pip install pipdeptree==2.16.2
-        pipdeptree
+  chainermn:
+    if: needs.changes.outputs.chainermn == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'chainermn'
 
-    - name: black
-      run: black . --check --diff
+  cma:
+    if: needs.changes.outputs.cma == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'cma'
 
-    - name: flake8
-      run: flake8 .
+  dask:
+    if: needs.changes.outputs.dask == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'dask'
 
-    - name: isort
-      run: isort . --check --diff
+  fastaiv2:
+    if: needs.changes.outputs.fastaiv2 == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'fastaiv2'
 
-    - name: mypy
-      run: mypy .
+  keras:
+    if: needs.changes.outputs.keras == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'keras'
 
-    - name: blackdoc
-      run: blackdoc . --check --diff
+  lightgbm:
+    if: needs.changes.outputs.lightgbm == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'lightgbm'
+
+  mlflow:
+    if: needs.changes.outputs.mlflow == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'mlflow'
+
+  mxnet:
+    if: needs.changes.outputs.mxnet == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'mxnet'
+      extra_cmds: pip install "numpy<1.24"
+
+  pytorch_distributed:
+    if: needs.changes.outputs.pytorch_distributed == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'pytorch_distributed'
+
+  pytorch_ignite:
+    if: needs.changes.outputs.pytorch_ignite == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'pytorch_ignite'
+
+  pytorch_lightning:
+    if: needs.changes.outputs.pytorch_lightning == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'pytorch_lightning'
+
+  shap:
+    if: needs.changes.outputs.shap == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'shap'
+
+  sklearn:
+    if: needs.changes.outputs.sklearn == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'sklearn'
+
+  skorch:
+    if: needs.changes.outputs.skorch == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'skorch'
+
+  tensorboard:
+    if: needs.changes.outputs.tensorboard == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'tensorboard'
+
+  tensorflow:
+    if: needs.changes.outputs.tensorflow == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'tensorflow'
+
+  tfkeras:
+    if: needs.changes.outputs.tfkeras == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'tfkeras'
+
+  wandb:
+    if: needs.changes.outputs.wandb == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'wandb'
+
+  xgboost:
+    if: needs.changes.outputs.xgboost == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'xgboost'
