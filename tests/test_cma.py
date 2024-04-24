@@ -27,11 +27,6 @@ with try_import():
     import cma
 
 
-def test_cmaes_deprecation_warning() -> None:
-    with pytest.warns(FutureWarning):
-        optuna_integration.CmaEsSampler()
-
-
 class TestPyCmaSampler:
     @staticmethod
     def test_init_cma_opts() -> None:
