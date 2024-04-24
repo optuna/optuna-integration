@@ -136,7 +136,6 @@ pycma
    :toctree: generated/
    :nosignatures:
 
-   optuna_integration.CmaEsSampler
    optuna_integration.PyCmaSampler
 
 PyTorch
