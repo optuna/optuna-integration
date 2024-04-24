@@ -11,7 +11,7 @@ _import_structure = {
     "catboost": ["CatBoostPruningCallback"],
     "chainer": ["ChainerPruningExtension"],
     "chainermn": ["ChainerMNStudy"],
-    "cma": ["CmaEsSampler", "PyCmaSampler"],
+    "cma": ["PyCmaSampler"],
     "dask": ["DaskStorage"],
     "fastaiv2": ["FastAIV2PruningCallback", "FastAIPruningCallback"],
     "keras": ["KerasPruningCallback"],
@@ -39,7 +39,6 @@ __all__ = [
     "CatBoostPruningCallback",
     "ChainerMNStudy",
     "ChainerPruningExtension",
-    "CmaEsSampler",
     "DaskStorage",
     "FastAIPruningCallback",
     "FastAIV2PruningCallback",
@@ -70,7 +69,6 @@ if TYPE_CHECKING:
     from optuna_integration.catboost import CatBoostPruningCallback
     from optuna_integration.chainer import ChainerPruningExtension
     from optuna_integration.chainermn import ChainerMNStudy
-    from optuna_integration.cma import CmaEsSampler
     from optuna_integration.cma import PyCmaSampler
     from optuna_integration.dask import DaskStorage
     from optuna_integration.fastaiv2 import FastAIPruningCallback
