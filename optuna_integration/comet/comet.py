@@ -104,12 +104,14 @@ class CometCallback:
             self._trial_experiments = {}
             study.set_user_attr("trial_experiments", self._trial_experiments)
 
-    def __call__(self, study: optuna.Study, trial: optuna.Trial) -> None:
+    def __call__(self, study: optuna.Study, trial: optuna.FrozenTrial) -> None:
         trial_experiment = self._init_optuna_trial_experiment(study, trial)
 
         trial_experiment.log_parameters(trial.params)
         trial_experiment.log_other("trial_number", trial.number)
         trial_experiment.add_tag(f"trial_number_{trial.number}")
+
+        print(type(trial))
 
         # Check if the study is multi-objective
         if trial.values and len(trial.values) > 1:
