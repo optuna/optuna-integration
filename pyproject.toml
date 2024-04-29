@@ -48,20 +48,12 @@ checking = [
   "typing_extensions>=3.10.0.0",
 ]
 document = [
+    "mlflow",
+    "pandas",
+    "scikit-learn>=0.24.2",
+    "scipy>=1.9.2; python_version>='3.8'",
     "sphinx",
     "sphinx_rtd_theme",
-]
-all = [
-  "catalyst",
-  "catboost>=0.26; sys_platform!='darwin'",
-  "catboost>=0.26,<1.2; sys_platform=='darwin'",
-  "comet_ml>=3.39.3",
-  "fastai",
-  "mxnet",
-  "shap",
-  "skorch",
-  "tensorboard",
-  "tensorflow",
 ]
 
 [tool.setuptools.packages.find]

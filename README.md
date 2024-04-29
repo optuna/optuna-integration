@@ -18,21 +18,30 @@ integrated with many useful tools like PyTorch, sklearn, TensorFlow, etc.
 Optuna-Integration API reference is [here](https://optuna-integration.readthedocs.io/en/stable/reference/index.html).
 
 * [AllenNLP](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#allennlp)  ([example](https://github.com/optuna/optuna-examples/tree/main/allennlp))
-* [Catalyst](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#catalyst)  ([example](https://github.com/optuna/optuna-examples/blob/main/pytorch/catalyst_simple.py))
+* [BoTorch](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#botorch)
 * [CatBoost](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#catboost)  ([example](https://github.com/optuna/optuna-examples/blob/main/catboost/catboost_pruning.py))
 * [Chainer](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#chainer)  ([example](https://github.com/optuna/optuna-examples/tree/main/chainer/chainer_integration.py))
 * [ChainerMN](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#chainermn)  ([example](https://github.com/optuna/optuna-examples/tree/main/chainer/chainermn_simple.py))
-* FastAI ([V1](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#fastaiv1)  ([example](https://github.com/optuna/optuna-examples/tree/main/fastai/fastaiv1_simple.py)), ([V2](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#fastaiv2)  ([example]https://github.com/optuna/optuna-examples/tree/main/fastai/fastaiv2_simple.py)))
+* [Dask](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#dask) ([example](https://github.com/optuna/optuna-examples/tree/main/dask/dask_simple.py))
+* [FastAI](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#fast-ai) ([example](https://github.com/optuna/optuna-examples/tree/main/fastai/fastai_simple.py))
 * [Keras](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#keras)  ([example](https://github.com/optuna/optuna-examples/tree/main/keras))
+* [LightGBM](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#lightgbm) ([example](https://github.com/optuna/optuna-examples/tree/main/lightgbm))
+* [MLflow](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#mlflow)  ([example](https://github.com/optuna/optuna-examples/blob/main/mlflow/))
 * [MXNet](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#mxnet)  ([example](https://github.com/optuna/optuna-examples/tree/main/mxnet))
+* [PyTorch](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#pytorch)  ([example](https://github.com/optuna/optuna-examples/tree/main/pytorch))
+* [pycma](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#pycma)
 * [SHAP](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#shap)
+* [sklearn](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#sklearn)  ([example](https://github.com/optuna/optuna-examples/tree/main/sklearn/sklearn_optuna_search_cv_simple.py))
 * [skorch](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#skorch)  ([example](https://github.com/optuna/optuna-examples/tree/main/pytorch/skorch_simple.py))
 * [TensorBoard](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#tensorboard)  ([example](https://github.com/optuna/optuna-examples/tree/main/tensorboard/tensorboard_simple.py))
 * [tf.keras](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#tensorflow)  ([example](https://github.com/optuna/optuna-examples/tree/main/tfkeras/tfkeras_integration.py))
+* [Weights & Biases](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#wandb)  ([example](https://github.com/optuna/optuna-examples/blob/main/wandb/wandb_integration.py))
+* [XGBoost](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#xgboost)  ([example](https://github.com/optuna/optuna-examples/tree/main/xgboost/xgboost_integration.py))
 
 ## Installation
 
-Optuna-Integration is available at [the Python Package Index](https://pypi.org/project/optuna-integration/) and on [Anaconda Cloud](https://anaconda.org/conda-forge/optuna-integration).
+Optuna-Integration is available at [the Python Package Index](https://pypi.org/project/optuna-integration/) and
+on [Anaconda Cloud](https://anaconda.org/conda-forge/optuna-integration).
 
 ```bash
 # PyPI
@@ -50,10 +59,11 @@ Also, we also provide Optuna docker images on [DockerHub](https://hub.docker.com
 
 ## Communication
 
-- [GitHub Discussions] for questions.
-- [GitHub Issues] for bug reports and feature requests.
+* [GitHub Discussions] for questions.
+* [GitHub Issues] for bug reports and feature requests.
 
 [GitHub Discussions]: https://github.com/optuna/optuna-integration/discussions
+
 [GitHub issues]: https://github.com/optuna/optuna-integration/issues
 
 ## Contribution
