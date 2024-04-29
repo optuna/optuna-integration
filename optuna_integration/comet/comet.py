@@ -140,13 +140,9 @@ class CometCallback:
     def _init_optuna_study_experiment(self, study: optuna.Study) -> comet_ml.APIExperiment:
         # Check if we've already created an APIExperiment for this Study
         experiment_key = study.user_attrs.get("comet_study_experiment_key")
-        print("EXPERIMENT KEY")
-        print(experiment_key)
 
         # Load the existing APIExperiment, if present. Else, make a new APIExperiment
         if experiment_key:
-            print("EXPERIMENT KEY")
-            print(experiment_key)
             study_experiment = comet_ml.APIExperiment(previous_experiment=experiment_key)
         else:
             study_experiment = comet_ml.APIExperiment(
