@@ -136,6 +136,13 @@ class WeightsAndBiasesCallback:
             self._initialize_run()
 
     def __call__(self, study: optuna.study.Study, trial: optuna.trial.FrozenTrial) -> None:
+        # Handle case when trial has been pruned.
+        if trial.values is None:
+            if isinstance(self._metric_name, str):
+                trial.values = [None]
+            else:
+                trial.values = [None] * len(self._metric_name)
+
         if isinstance(self._metric_name, str):
             if len(trial.values) > 1:
                 # Broadcast default name for multi-objective optimization.
