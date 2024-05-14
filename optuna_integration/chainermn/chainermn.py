@@ -199,30 +199,24 @@ class ChainerMNTrial(BaseTrial):
         return self._call_with_mpi(func)
 
     @overload
-    def suggest_categorical(self, name: str, choices: Sequence[None]) -> None:
-        ...  # noqa: E704
+    def suggest_categorical(self, name: str, choices: Sequence[None]) -> None: ...  # noqa: E704
 
     @overload
-    def suggest_categorical(self, name: str, choices: Sequence[bool]) -> bool:
-        ...  # noqa: E704
+    def suggest_categorical(self, name: str, choices: Sequence[bool]) -> bool: ...  # noqa: E704
 
     @overload
-    def suggest_categorical(self, name: str, choices: Sequence[int]) -> int:
-        ...  # noqa: E704
+    def suggest_categorical(self, name: str, choices: Sequence[int]) -> int: ...  # noqa: E704
 
     @overload
-    def suggest_categorical(self, name: str, choices: Sequence[float]) -> float:
-        ...  # noqa: E704
+    def suggest_categorical(self, name: str, choices: Sequence[float]) -> float: ...  # noqa: E704
 
     @overload
-    def suggest_categorical(self, name: str, choices: Sequence[str]) -> str:
-        ...  # noqa: E704
+    def suggest_categorical(self, name: str, choices: Sequence[str]) -> str: ...  # noqa: E704
 
     @overload
     def suggest_categorical(  # noqa: E704
         self, name: str, choices: Sequence[CategoricalChoiceType]
-    ) -> CategoricalChoiceType:
-        ...
+    ) -> CategoricalChoiceType: ...
 
     def suggest_categorical(
         self, name: str, choices: Sequence[CategoricalChoiceType]
