@@ -139,32 +139,34 @@ class WeightsAndBiasesCallback:
         # Handle case when trial has been pruned.
         if trial.values is None:
             if isinstance(self._metric_name, str):
-                trial.values = [None]
+                values = [None]
             else:
-                trial.values = [None] * len(self._metric_name)
+                values = [None] * len(self._metric_name)
+        else:
+            values = trial.values
 
         if isinstance(self._metric_name, str):
-            if len(trial.values) > 1:
+            if len(values) > 1:
                 # Broadcast default name for multi-objective optimization.
-                names = ["{}_{}".format(self._metric_name, i) for i in range(len(trial.values))]
+                names = ["{}_{}".format(self._metric_name, i) for i in range(len(values))]
 
             else:
                 names = [self._metric_name]
 
         else:
-            if len(self._metric_name) != len(trial.values):
+            if len(self._metric_name) != len(values):
                 raise ValueError(
                     "Running multi-objective optimization "
                     "with {} objective values, but {} names specified. "
                     "Match objective values and names, or use default broadcasting.".format(
-                        len(trial.values), len(self._metric_name)
+                        len(values), len(self._metric_name)
                     )
                 )
 
             else:
                 names = [*self._metric_name]
 
-        metrics = {name: value for name, value in zip(names, trial.values)}
+        metrics = {name: value for name, value in zip(names, values)}
 
         if self._as_multirun:
             metrics["trial_number"] = trial.number

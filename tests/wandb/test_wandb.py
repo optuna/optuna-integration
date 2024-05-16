@@ -311,3 +311,33 @@ def test_multiobjective_raises_on_name_mismatch(wandb: mock.MagicMock, metrics: 
 
     with pytest.raises(ValueError):
         study.optimize(_multiobjective_func, n_trials=1, callbacks=[wandbc])
+
+@pytest.mark.parametrize("metrics", [["foo"], ["foo", "bar"]])
+@mock.patch("optuna_integration.wandb.wandb.wandb")
+def test_pruned_trial_before_report_logs_run(wandb: mock.MagicMock, metrics: List[str]) -> None:
+    wandb.sdk.wandb_run.Run = mock.MagicMock
+
+    if len(metrics) == 1:
+        study = optuna.create_study(direction="minimize")
+    else:
+        study = optuna.create_study(directions=["minimize", "maximize"])
+
+    def pruned_objective_func(trial: optuna.trial.Trial):
+        x = trial.suggest_float("x", -10, 10)
+
+        if True:
+            raise optuna.exceptions.TrialPruned()  # Prune the trial before report
+        
+        trial.report(x ** 2, step=0)
+        
+        return x ** 2
+
+    n_trials = 10
+    
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        wandbc = WeightsAndBiasesCallback(metric_name=metrics)
+
+    study.optimize(pruned_objective_func, n_trials=n_trials, callbacks=[wandbc])
+    
+    assert wandb.run.log.call_count == n_trials
