@@ -137,7 +137,9 @@ class WeightsAndBiasesCallback:
 
     def __call__(self, study: optuna.study.Study, trial: optuna.trial.FrozenTrial) -> None:
         # Handle case when trial has been pruned.
-        if trial.values is None:
+        values = trial.values
+
+        if values is None:
             return None
 
         if isinstance(self._metric_name, str):
