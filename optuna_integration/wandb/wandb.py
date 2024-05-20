@@ -137,33 +137,32 @@ class WeightsAndBiasesCallback:
 
     def __call__(self, study: optuna.study.Study, trial: optuna.trial.FrozenTrial) -> None:
         # Handle case when trial has been pruned.
-        values = trial.values
+        metrics = {}
+        values: list = trial.values
 
-        if values is None:
-            return None
+        if values is not None:
+            if isinstance(self._metric_name, str):
+                if len(values) > 1:
+                    # Broadcast default name for multi-objective optimization.
+                    names = ["{}_{}".format(self._metric_name, i) for i in range(len(values))]
 
-        if isinstance(self._metric_name, str):
-            if len(values) > 1:
-                # Broadcast default name for multi-objective optimization.
-                names = ["{}_{}".format(self._metric_name, i) for i in range(len(values))]
+                else:
+                    names = [self._metric_name]
 
             else:
-                names = [self._metric_name]
-
-        else:
-            if len(self._metric_name) != len(values):
-                raise ValueError(
-                    "Running multi-objective optimization "
-                    "with {} objective values, but {} names specified. "
-                    "Match objective values and names, or use default broadcasting.".format(
-                        len(values), len(self._metric_name)
+                if len(self._metric_name) != len(values):
+                    raise ValueError(
+                        "Running multi-objective optimization "
+                        "with {} objective values, but {} names specified. "
+                        "Match objective values and names, or use default broadcasting.".format(
+                            len(values), len(self._metric_name)
+                        )
                     )
-                )
 
-            else:
-                names = [*self._metric_name]
+                else:
+                    names = [*self._metric_name]
 
-        metrics = {name: value for name, value in zip(names, values)}
+            metrics = {name: value for name, value in zip(names, values)}
 
         if self._as_multirun:
             metrics["trial_number"] = trial.number

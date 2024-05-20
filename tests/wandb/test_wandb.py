@@ -340,4 +340,4 @@ def test_pruned_trial_before_report_logs_run(wandb: mock.MagicMock, metrics: Lis
 
     study.optimize(pruned_objective_func, n_trials=n_trials, callbacks=[wandbc])
     
-    assert wandb.run.log.call_count == 0 # no calls for bad runs have been made
+    assert wandb.run.log.call_count == 10
