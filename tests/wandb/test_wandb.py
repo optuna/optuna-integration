@@ -1,4 +1,5 @@
 from typing import Any
+from typing import Callable
 from typing import Dict
 from typing import List
 from typing import Sequence
@@ -312,32 +313,25 @@ def test_multiobjective_raises_on_name_mismatch(wandb: mock.MagicMock, metrics: 
     with pytest.raises(ValueError):
         study.optimize(_multiobjective_func, n_trials=1, callbacks=[wandbc])
 
-@pytest.mark.parametrize("metrics", [["foo"], ["foo", "bar"]])
+
+@pytest.mark.parametrize("exception", [optuna.exceptions.TrialPruned, ValueError])
 @mock.patch("optuna_integration.wandb.wandb.wandb")
-def test_pruned_trial_before_report_logs_run(wandb: mock.MagicMock, metrics: List[str]) -> None:
+def test_none_values(wandb: mock.MagicMock, exception: Callable) -> None:
     wandb.sdk.wandb_run.Run = mock.MagicMock
 
-    if len(metrics) == 1:
-        study = optuna.create_study(direction="minimize")
-    else:
-        study = optuna.create_study(directions=["minimize", "maximize"])
+    study = optuna.create_study()
 
-    def pruned_objective_func(trial: optuna.trial.Trial):
-        x = trial.suggest_float("x", -10, 10)
+    def none_objective_func(trial: optuna.trial.Trial) -> None:
+        trial.suggest_float("x", -10, 10)
+        raise exception()
 
-        if True:
-            raise optuna.exceptions.TrialPruned()  # Prune the trial before report
-        
-        trial.report(x ** 2, step=0)
-        
-        return x ** 2
-
-    n_trials = 10
-    
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
-        wandbc = WeightsAndBiasesCallback(metric_name=metrics)
+        wandbc = WeightsAndBiasesCallback()
 
-    study.optimize(pruned_objective_func, n_trials=n_trials, callbacks=[wandbc])
-    
-    assert wandb.run.log.call_count == 10
+    study.optimize(none_objective_func, n_trials=1, callbacks=[wandbc], catch=(ValueError,))
+
+    logged_keys = list(wandb.run.log.call_args[0][0].keys())
+
+    assert "value" not in logged_keys
+    assert "x" in logged_keys
