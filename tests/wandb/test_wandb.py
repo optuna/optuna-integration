@@ -1,9 +1,10 @@
 from typing import Any
-from typing import Callable
 from typing import Dict
 from typing import List
+from typing import NoReturn
 from typing import Sequence
 from typing import Tuple
+from typing import Type
 from typing import Union
 from unittest import mock
 import warnings
@@ -316,12 +317,12 @@ def test_multiobjective_raises_on_name_mismatch(wandb: mock.MagicMock, metrics: 
 
 @pytest.mark.parametrize("exception", [optuna.exceptions.TrialPruned, ValueError])
 @mock.patch("optuna_integration.wandb.wandb.wandb")
-def test_none_values(wandb: mock.MagicMock, exception: Callable) -> None:
+def test_none_values(wandb: mock.MagicMock, exception: Type[Exception]) -> None:
     wandb.sdk.wandb_run.Run = mock.MagicMock
 
     study = optuna.create_study()
 
-    def none_objective_func(trial: optuna.trial.Trial) -> None:
+    def none_objective_func(trial: optuna.trial.Trial) -> NoReturn:
         trial.suggest_float("x", -10, 10)
         raise exception()
 
