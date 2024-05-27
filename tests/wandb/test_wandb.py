@@ -1,8 +1,10 @@
 from typing import Any
 from typing import Dict
 from typing import List
+from typing import NoReturn
 from typing import Sequence
 from typing import Tuple
+from typing import Type
 from typing import Union
 from unittest import mock
 import warnings
@@ -311,3 +313,26 @@ def test_multiobjective_raises_on_name_mismatch(wandb: mock.MagicMock, metrics: 
 
     with pytest.raises(ValueError):
         study.optimize(_multiobjective_func, n_trials=1, callbacks=[wandbc])
+
+
+@pytest.mark.parametrize("exception", [optuna.exceptions.TrialPruned, ValueError])
+@mock.patch("optuna_integration.wandb.wandb.wandb")
+def test_none_values(wandb: mock.MagicMock, exception: Type[Exception]) -> None:
+    wandb.sdk.wandb_run.Run = mock.MagicMock
+
+    study = optuna.create_study()
+
+    def none_objective_func(trial: optuna.trial.Trial) -> NoReturn:
+        trial.suggest_float("x", -10, 10)
+        raise exception()
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        wandbc = WeightsAndBiasesCallback()
+
+    study.optimize(none_objective_func, n_trials=1, callbacks=[wandbc], catch=(ValueError,))
+
+    logged_keys = list(wandb.run.log.call_args[0][0].keys())
+
+    assert "value" not in logged_keys
+    assert "x" in logged_keys
