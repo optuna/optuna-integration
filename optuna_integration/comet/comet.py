@@ -5,6 +5,7 @@ from typing import Callable
 from typing import Dict
 from typing import Optional
 from typing import Sequence
+from typing import TYPE_CHECKING
 from typing import Union
 
 import optuna
@@ -99,12 +100,14 @@ class CometCallback:
             self.study_experiment.log_other(f"direction_of_objective_{metric_name}", direction_str)
 
         # Dictionary of experiment keys associated with specific Optuna Trials
-        self._trial_experiments = study.user_attrs.get("trial_experiments")
-        if self._trial_experiments is None:
-            self._trial_experiments = {}
-            study.set_user_attr("trial_experiments", self._trial_experiments)
+        trial_experiments = study.user_attrs.get("trial_experiments")
+        if trial_experiments is None:
+            trial_experiments = {}
+            study.set_user_attr("trial_experiments", trial_experiments)
 
-    def __call__(self, study: optuna.Study, trial: optuna.FrozenTrial) -> None:
+        self._trial_experiments = trial_experiments
+
+    def __call__(self, study: optuna.study.Study, trial: optuna.trial.FrozenTrial) -> None:
         trial_experiment = self._init_optuna_trial_experiment(study, trial)
 
         trial_experiment.log_parameters(trial.params)
@@ -139,7 +142,7 @@ class CometCallback:
 
         trial_experiment.end()
 
-    def _init_optuna_study_experiment(self, study: optuna.Study) -> comet_ml.APIExperiment:
+    def _init_optuna_study_experiment(self, study: optuna.Study) -> "comet_ml.APIExperiment":
         # Check if we've already created an APIExperiment for this Study
         experiment_key = study.user_attrs.get("comet_study_experiment_key")
 
@@ -158,8 +161,8 @@ class CometCallback:
         return study_experiment
 
     def _init_optuna_trial_experiment(
-        self, study: optuna.Study, trial: optuna.Trial
-    ) -> comet_ml.Experiment:
+        self, study: optuna.study.Study, trial: optuna.trial.BaseTrial
+    ) -> "comet_ml.Experiment":
 
         # Check to see if the Trial experiment already exists
         experiment_key = self._trial_experiments.get(trial.number)
@@ -194,7 +197,9 @@ class CometCallback:
             @functools.wraps(func)
             def wrapper(trial: optuna.trial.Trial) -> Union[float, Sequence[float]]:
                 experiment = self._init_optuna_trial_experiment(self._study, trial)
-                trial.experiment = experiment
+
+                # Add the experiment to the trial object for easier access for the end-users
+                trial.experiment = experiment  # type: ignore
                 return func(trial)
 
             return wrapper
