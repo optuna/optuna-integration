@@ -143,11 +143,11 @@ def test_log_api_call_count(wandb: mock.MagicMock) -> None:
         warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
         wandbc = WeightsAndBiasesCallback()
 
-    @wandbc.track_in_wandb()
-    def _decorated_objective(trial: optuna.trial.Trial) -> float:
-        result = _objective_func(trial)
-        wandb.run.log({"result": result})
-        return result
+        @wandbc.track_in_wandb()
+        def _decorated_objective(trial: optuna.trial.Trial) -> float:
+            result = _objective_func(trial)
+            wandb.run.log({"result": result})
+            return result
 
     target_n_trials = 10
     study.optimize(_objective_func, n_trials=target_n_trials, callbacks=[wandbc])
@@ -208,11 +208,11 @@ def test_values_registered_on_epoch_with_logging(
         warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
         wandbc = WeightsAndBiasesCallback(metric_name=metric, as_multirun=True)
 
-    @wandbc.track_in_wandb()
-    def _decorated_objective(trial: optuna.trial.Trial) -> float:
-        result = _objective_func(trial)
-        wandb.run.log({"result": result})
-        return result
+        @wandbc.track_in_wandb()
+        def _decorated_objective(trial: optuna.trial.Trial) -> float:
+            result = _objective_func(trial)
+            wandb.run.log({"result": result})
+            return result
 
     study.enqueue_trial({"x": 2, "y": 3})
     study.optimize(_decorated_objective, n_trials=1, callbacks=[wandbc])
@@ -280,11 +280,11 @@ def test_multiobjective_values_registered_on_epoch_with_logging(
         warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
         wandbc = WeightsAndBiasesCallback(as_multirun=True, metric_name=metrics)
 
-    @wandbc.track_in_wandb()
-    def _decorated_objective(trial: optuna.trial.Trial) -> Tuple[float, float]:
-        result0, result1 = _multiobjective_func(trial)
-        wandb.run.log({"result0": result0, "result1": result1})
-        return result0, result1
+        @wandbc.track_in_wandb()
+        def _decorated_objective(trial: optuna.trial.Trial) -> Tuple[float, float]:
+            result0, result1 = _multiobjective_func(trial)
+            wandb.run.log({"result0": result0, "result1": result1})
+            return result0, result1
 
     study = optuna.create_study(directions=["minimize", "maximize"])
     study.enqueue_trial({"x": 2, "y": 3})
