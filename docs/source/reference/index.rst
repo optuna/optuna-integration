@@ -39,9 +39,12 @@ BoTorch
    optuna_integration.botorch.logei_candidates_func
    optuna_integration.botorch.qei_candidates_func
    optuna_integration.botorch.qnei_candidates_func
+   optuna_integration.botorch.qkg_candidates_func
    optuna_integration.botorch.qehvi_candidates_func
    optuna_integration.botorch.qnehvi_candidates_func
    optuna_integration.botorch.qparego_candidates_func
+   optuna_integration.botorch.qhvkg_candidates_func
+
 
 CatBoost
 --------
