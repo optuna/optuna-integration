@@ -104,7 +104,9 @@ def test_botorch_candidates_func() -> None:
         (integration.botorch.logei_candidates_func, 1),
         (integration.botorch.qei_candidates_func, 1),
         (integration.botorch.qnei_candidates_func, 1),
+        (integration.botorch.qkg_candidates_func, 1),
         (integration.botorch.qehvi_candidates_func, 2),
+        (integration.botorch.qhvkg_candidates_func, 2),
         (integration.botorch.qehvi_candidates_func, 7),  # alpha > 0
         (integration.botorch.qparego_candidates_func, 4),
         (integration.botorch.qnehvi_candidates_func, 2),
@@ -139,7 +141,9 @@ def test_botorch_specify_candidates_func(candidates_func: Any, n_objectives: int
     [
         (integration.botorch.logei_candidates_func, 1),
         (integration.botorch.qei_candidates_func, 1),
+        (integration.botorch.qkg_candidates_func, 1),
         (integration.botorch.qehvi_candidates_func, 2),
+        (integration.botorch.qhvkg_candidates_func, 2),
         (integration.botorch.qparego_candidates_func, 4),
         (integration.botorch.qnehvi_candidates_func, 2),
         (integration.botorch.qnehvi_candidates_func, 3),  # alpha > 0
