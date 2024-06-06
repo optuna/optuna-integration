@@ -157,6 +157,11 @@ def test_botorch_specify_candidates_func(candidates_func: Any, n_objectives: int
 def test_botorch_specify_candidates_func_constrained(
     candidates_func: Any, n_objectives: int
 ) -> None:
+    if candidates_func == integration.botorch.qhvkg_candidates_func and version.parse(
+        botorch.version.version
+    ) < version.parse("0.9.5"):
+        pytest.skip("qHypervolumeKnowledgeGradient is not available in botorch <0.9.5.")
+
     n_trials = 4
     n_startup_trials = 2
     constraints_func_call_count = 0
