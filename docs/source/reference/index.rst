@@ -45,7 +45,6 @@ BoTorch
    optuna_integration.botorch.qparego_candidates_func
    optuna_integration.botorch.qhvkg_candidates_func
 
-
 CatBoost
 --------
 
