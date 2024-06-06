@@ -42,6 +42,7 @@ with try_import() as _imports:
     from botorch.models.transforms.outcome import Standardize
     from botorch.optim import optimize_acqf
     from botorch.sampling import SobolQMCNormalSampler
+    from botorch.sampling.list_sampler import ListSampler
     import botorch.version
 
     if version.parse(botorch.version.version) < version.parse("0.8.0"):
@@ -799,6 +800,13 @@ def qhvkg_candidates_func(
         num_fantasies=16,
         X_pending=pending_x,
         objective=objective,
+        sampler=ListSampler(
+            *[
+                SobolQMCNormalSampler(sample_shape=torch.Size([16]))
+                for _ in range(model.num_outputs)
+            ]
+        ),
+        inner_sampler=SobolQMCNormalSampler(sample_shape=torch.Size([32])),
     )
     standard_bounds = torch.zeros_like(bounds)
     standard_bounds[1] = 1
