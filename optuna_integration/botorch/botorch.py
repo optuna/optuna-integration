@@ -1001,41 +1001,16 @@ def qkg_candidates_func(
     train_con: Optional["torch.Tensor"],
     bounds: "torch.Tensor",
     pending_x: Optional["torch.Tensor"],
-    num_fantasies: int = 256,
-    num_restarts: int = 10,
-    raw_samples: int = 512,
-    maxiter: int = 100,
 ) -> "torch.Tensor":
     """Quasi MC-based batch Knowledge Gradient (qKG).
 
-    Args:
-        train_x:
-            Previous parameter configurations. A ``torch.Tensor`` of shape
-            ``(n_trials, n_params)``. ``n_trials`` is the number of already observed trials
-            and ``n_params`` is the number of parameters. ``n_params`` may be larger than the
-            actual number of parameters if categorical parameters are included in the search
-            space, since these parameters are one-hot encoded.
-            Values are not normalized.
-        train_obj:
-            Previously observed objectives. A ``torch.Tensor`` of shape
-            ``(n_trials, n_objectives)``. ``n_trials`` is identical to that of ``train_x``.
-            ``n_objectives`` is the number of objectives. Observations are not normalized.
-        train_con:
-            Objective constraints. A ``torch.Tensor`` of shape ``(n_trials, n_constraints)``.
-            ``n_trials`` is identical to that of ``train_x``. ``n_constraints`` is the number of
-            constraints. A constraint is violated if strictly larger than 0. If no constraints are
-            involved in the optimization, this argument will be :obj:`None`.
-        bounds:
-            Search space bounds. A ``torch.Tensor`` of shape ``(2, n_params)``. ``n_params`` is
-            identical to that of ``train_x``. The first and the second rows correspond to the
-            lower and upper bounds for each parameter respectively.
-        pending_x:
-            Pending parameter configurations. A ``torch.Tensor`` of shape
-            ``(n_pending, n_params)``. ``n_pending`` is the number of the trials which are already
-            suggested all their parameters but have not completed their evaluation, and
-            ``n_params`` is identical to that of ``train_x``.
-    Returns:
-        Next set of candidates. Usually the return value of BoTorch's ``optimize_acqf``.
+    According to Botorch/Ax documentation,
+    this function may perform better than qEI (`qei_candidates_func`).
+    (cf. https://botorch.org/tutorials/one_shot_kg )
+
+    .. seealso::
+        :func:`~optuna_integration.botorch.qei_candidates_func` for argument and return value
+        descriptions.
 
     """
 
@@ -1064,7 +1039,7 @@ def qkg_candidates_func(
 
     acqf = qKnowledgeGradient(
         model=model,
-        num_fantasies=num_fantasies,
+        num_fantasies=256,
         objective=objective,
         X_pending=pending_x,
     )
@@ -1076,9 +1051,9 @@ def qkg_candidates_func(
         acq_function=acqf,
         bounds=standard_bounds,
         q=1,
-        num_restarts=num_restarts,
-        raw_samples=raw_samples,
-        options={"batch_limit": 5, "maxiter": maxiter},
+        num_restarts=10,
+        raw_samples=512,
+        options={"batch_limit": 5, "maxiter": 200},
         sequential=True,
     )
 
@@ -1093,15 +1068,12 @@ def qhvkg_candidates_func(
     train_con: Optional["torch.Tensor"],
     bounds: "torch.Tensor",
     pending_x: Optional["torch.Tensor"],
-    num_fantasies: int = 16,
-    num_restarts: int = 1,
-    raw_samples: int = 1024,
-    maxiter: int = 200,
 ) -> "torch.Tensor":
     """Quasi MC-based batch Hypervolume Knowledge Gradient (qHVKG).
 
-    The default value of ``candidates_func`` in :class:`~optuna_integration.BoTorchSampler`
-    with multi-objective optimization when the number of objectives is three or less.
+    According to Botorch/Ax documentation,
+    this function may perform better than qEHVI (`qehvi_candidates_func`).
+    (cf. https://botorch.org/tutorials/decoupled_mobo )
 
     .. seealso::
         :func:`~optuna_integration.botorch.qei_candidates_func` for argument and return value
@@ -1137,7 +1109,7 @@ def qhvkg_candidates_func(
     acqf = qHypervolumeKnowledgeGradient(
         model=model,
         ref_point=ref_point,
-        num_fantasies=num_fantasies,
+        num_fantasies=16,
         X_pending=pending_x,
         objective=objective,
     )
@@ -1148,9 +1120,9 @@ def qhvkg_candidates_func(
         acq_function=acqf,
         bounds=standard_bounds,
         q=1,
-        num_restarts=num_restarts,
-        raw_samples=raw_samples,
-        options={"batch_limit": 5, "maxiter": maxiter, "nonnegative": True},
+        num_restarts=1,
+        raw_samples=1024,
+        options={"batch_limit": 5, "maxiter": 200, "nonnegative": True},
         sequential=False,
     )
 
