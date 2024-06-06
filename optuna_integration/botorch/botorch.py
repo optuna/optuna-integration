@@ -671,6 +671,142 @@ def qparego_candidates_func(
     return candidates
 
 
+def qkg_candidates_func(
+    train_x: "torch.Tensor",
+    train_obj: "torch.Tensor",
+    train_con: Optional["torch.Tensor"],
+    bounds: "torch.Tensor",
+    pending_x: Optional["torch.Tensor"],
+) -> "torch.Tensor":
+    """Quasi MC-based batch Knowledge Gradient (qKG).
+
+    According to Botorch/Ax documentation,
+    this function may perform better than qEI (`qei_candidates_func`).
+    (cf. https://botorch.org/tutorials/one_shot_kg )
+
+    .. seealso::
+        :func:`~optuna_integration.botorch.qei_candidates_func` for argument and return value
+        descriptions.
+
+    """
+
+    if train_obj.size(-1) != 1:
+        raise ValueError("Objective may only contain single values with qKG.")
+    if train_con is not None:
+        train_y = torch.cat([train_obj, train_con], dim=-1)
+        n_constraints = train_con.size(1)
+        objective = ConstrainedMCObjective(
+            objective=lambda Z, X: Z[..., 0],
+            constraints=[
+                (lambda Z, i=i: Z[..., -n_constraints + i]) for i in range(n_constraints)
+            ],
+        )
+    else:
+        train_y = train_obj
+        objective = None  # Using the default identity objective.
+
+    train_x = normalize(train_x, bounds=bounds)
+    if pending_x is not None:
+        pending_x = normalize(pending_x, bounds=bounds)
+
+    model = SingleTaskGP(train_x, train_y, outcome_transform=Standardize(m=train_y.size(-1)))
+    mll = ExactMarginalLogLikelihood(model.likelihood, model)
+    fit_gpytorch_mll(mll)
+
+    acqf = qKnowledgeGradient(
+        model=model,
+        num_fantasies=256,
+        objective=objective,
+        X_pending=pending_x,
+    )
+
+    standard_bounds = torch.zeros_like(bounds)
+    standard_bounds[1] = 1
+
+    candidates, _ = optimize_acqf(
+        acq_function=acqf,
+        bounds=standard_bounds,
+        q=1,
+        num_restarts=10,
+        raw_samples=512,
+        options={"batch_limit": 5, "maxiter": 200},
+        sequential=True,
+    )
+
+    candidates = unnormalize(candidates.detach(), bounds=bounds)
+
+    return candidates
+
+
+def qhvkg_candidates_func(
+    train_x: "torch.Tensor",
+    train_obj: "torch.Tensor",
+    train_con: Optional["torch.Tensor"],
+    bounds: "torch.Tensor",
+    pending_x: Optional["torch.Tensor"],
+) -> "torch.Tensor":
+    """Quasi MC-based batch Hypervolume Knowledge Gradient (qHVKG).
+
+    According to Botorch/Ax documentation,
+    this function may perform better than qEHVI (`qehvi_candidates_func`).
+    (cf. https://botorch.org/tutorials/decoupled_mobo )
+
+    .. seealso::
+        :func:`~optuna_integration.botorch.qei_candidates_func` for argument and return value
+        descriptions.
+    """
+
+    if train_con is not None:
+        train_y = torch.cat([train_obj, train_con], dim=-1)
+    else:
+        train_y = train_obj
+
+    train_x = normalize(train_x, bounds=bounds)
+    if pending_x is not None:
+        pending_x = normalize(pending_x, bounds=bounds)
+
+    models = [
+        SingleTaskGP(train_x, train_y[..., [i]], outcome_transform=Standardize(m=1))
+        for i in range(train_y.shape[-1])
+    ]
+    model = ModelListGP(*models)
+    mll = SumMarginalLogLikelihood(model.likelihood, model)
+    fit_gpytorch_mll(mll)
+
+    n_constraints = train_con.size(1) if train_con is not None else 0
+    objective = FeasibilityWeightedMCMultiOutputObjective(
+        model,
+        X_baseline=train_x,
+        constraint_idcs=[-n_constraints + i for i in range(n_constraints)],
+    )
+
+    ref_point = train_obj.min(dim=0).values - 1e-8
+
+    acqf = qHypervolumeKnowledgeGradient(
+        model=model,
+        ref_point=ref_point,
+        num_fantasies=16,
+        X_pending=pending_x,
+        objective=objective,
+    )
+    standard_bounds = torch.zeros_like(bounds)
+    standard_bounds[1] = 1
+
+    candidates, _ = optimize_acqf(
+        acq_function=acqf,
+        bounds=standard_bounds,
+        q=1,
+        num_restarts=1,
+        raw_samples=1024,
+        options={"batch_limit": 5, "maxiter": 200, "nonnegative": True},
+        sequential=False,
+    )
+
+    candidates = unnormalize(candidates.detach(), bounds=bounds)
+
+    return candidates
+
+
 def _get_default_candidates_func(
     n_objectives: int,
     has_constraint: bool,
@@ -993,139 +1129,3 @@ class BoTorchSampler(BaseSampler):
         if self._constraints_func is not None:
             _process_constraints_after_trial(self._constraints_func, study, trial, state)
         self._independent_sampler.after_trial(study, trial, state, values)
-
-
-def qkg_candidates_func(
-    train_x: "torch.Tensor",
-    train_obj: "torch.Tensor",
-    train_con: Optional["torch.Tensor"],
-    bounds: "torch.Tensor",
-    pending_x: Optional["torch.Tensor"],
-) -> "torch.Tensor":
-    """Quasi MC-based batch Knowledge Gradient (qKG).
-
-    According to Botorch/Ax documentation,
-    this function may perform better than qEI (`qei_candidates_func`).
-    (cf. https://botorch.org/tutorials/one_shot_kg )
-
-    .. seealso::
-        :func:`~optuna_integration.botorch.qei_candidates_func` for argument and return value
-        descriptions.
-
-    """
-
-    if train_obj.size(-1) != 1:
-        raise ValueError("Objective may only contain single values with qKG.")
-    if train_con is not None:
-        train_y = torch.cat([train_obj, train_con], dim=-1)
-        n_constraints = train_con.size(1)
-        objective = ConstrainedMCObjective(
-            objective=lambda Z, X: Z[..., 0],
-            constraints=[
-                (lambda Z, i=i: Z[..., -n_constraints + i]) for i in range(n_constraints)
-            ],
-        )
-    else:
-        train_y = train_obj
-        objective = None  # Using the default identity objective.
-
-    train_x = normalize(train_x, bounds=bounds)
-    if pending_x is not None:
-        pending_x = normalize(pending_x, bounds=bounds)
-
-    model = SingleTaskGP(train_x, train_y, outcome_transform=Standardize(m=train_y.size(-1)))
-    mll = ExactMarginalLogLikelihood(model.likelihood, model)
-    fit_gpytorch_mll(mll)
-
-    acqf = qKnowledgeGradient(
-        model=model,
-        num_fantasies=256,
-        objective=objective,
-        X_pending=pending_x,
-    )
-
-    standard_bounds = torch.zeros_like(bounds)
-    standard_bounds[1] = 1
-
-    candidates, _ = optimize_acqf(
-        acq_function=acqf,
-        bounds=standard_bounds,
-        q=1,
-        num_restarts=10,
-        raw_samples=512,
-        options={"batch_limit": 5, "maxiter": 200},
-        sequential=True,
-    )
-
-    candidates = unnormalize(candidates.detach(), bounds=bounds)
-
-    return candidates
-
-
-def qhvkg_candidates_func(
-    train_x: "torch.Tensor",
-    train_obj: "torch.Tensor",
-    train_con: Optional["torch.Tensor"],
-    bounds: "torch.Tensor",
-    pending_x: Optional["torch.Tensor"],
-) -> "torch.Tensor":
-    """Quasi MC-based batch Hypervolume Knowledge Gradient (qHVKG).
-
-    According to Botorch/Ax documentation,
-    this function may perform better than qEHVI (`qehvi_candidates_func`).
-    (cf. https://botorch.org/tutorials/decoupled_mobo )
-
-    .. seealso::
-        :func:`~optuna_integration.botorch.qei_candidates_func` for argument and return value
-        descriptions.
-    """
-
-    if train_con is not None:
-        train_y = torch.cat([train_obj, train_con], dim=-1)
-    else:
-        train_y = train_obj
-
-    train_x = normalize(train_x, bounds=bounds)
-    if pending_x is not None:
-        pending_x = normalize(pending_x, bounds=bounds)
-
-    models = [
-        SingleTaskGP(train_x, train_y[..., [i]], outcome_transform=Standardize(m=1))
-        for i in range(train_y.shape[-1])
-    ]
-    model = ModelListGP(*models)
-    mll = SumMarginalLogLikelihood(model.likelihood, model)
-    fit_gpytorch_mll(mll)
-
-    n_constraints = train_con.size(1) if train_con is not None else 0
-    objective = FeasibilityWeightedMCMultiOutputObjective(
-        model,
-        X_baseline=train_x,
-        constraint_idcs=[-n_constraints + i for i in range(n_constraints)],
-    )
-
-    ref_point = train_obj.min(dim=0).values - 1e-8
-
-    acqf = qHypervolumeKnowledgeGradient(
-        model=model,
-        ref_point=ref_point,
-        num_fantasies=16,
-        X_pending=pending_x,
-        objective=objective,
-    )
-    standard_bounds = torch.zeros_like(bounds)
-    standard_bounds[1] = 1
-
-    candidates, _ = optimize_acqf(
-        acq_function=acqf,
-        bounds=standard_bounds,
-        q=1,
-        num_restarts=1,
-        raw_samples=1024,
-        options={"batch_limit": 5, "maxiter": 200, "nonnegative": True},
-        sequential=False,
-    )
-
-    candidates = unnormalize(candidates.detach(), bounds=bounds)
-
-    return candidates
