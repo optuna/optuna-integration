@@ -6,7 +6,8 @@ from .botorch import qei_candidates_func
 from .botorch import qnehvi_candidates_func
 from .botorch import qnei_candidates_func
 from .botorch import qparego_candidates_func
-
+from .botorch import qkg_candidates_func
+from .botorch import qhvkg_candidates_func
 
 __all__ = [
     "BoTorchSampler",
@@ -17,4 +18,6 @@ __all__ = [
     "qnehvi_candidates_func",
     "qnei_candidates_func",
     "qparego_candidates_func",
+    "qkg_candidates_func",
+    "qhvkg_candidates_func"
 ]
