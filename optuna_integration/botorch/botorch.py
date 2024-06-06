@@ -31,9 +31,6 @@ with try_import() as _imports:
     from botorch.acquisition.monte_carlo import qNoisyExpectedImprovement
     from botorch.acquisition.multi_objective import monte_carlo
     from botorch.acquisition.multi_objective.analytic import ExpectedHypervolumeImprovement
-    from botorch.acquisition.multi_objective.hypervolume_knowledge_gradient import (
-        qHypervolumeKnowledgeGradient,
-    )
     from botorch.acquisition.multi_objective.objective import (
         FeasibilityWeightedMCMultiOutputObjective,
     )
@@ -76,6 +73,11 @@ _logger = logging.get_logger(__name__)
 with try_import() as _imports_logei:
     from botorch.acquisition.analytic import LogConstrainedExpectedImprovement
     from botorch.acquisition.analytic import LogExpectedImprovement
+
+with try_import() as _imports_qhvkg:
+    from botorch.acquisition.multi_objective.hypervolume_knowledge_gradient import (
+        qHypervolumeKnowledgeGradient,
+    )
 
 
 @experimental_func("3.3.0")
@@ -757,6 +759,13 @@ def qhvkg_candidates_func(
         :func:`~optuna_integration.botorch.qei_candidates_func` for argument and return value
         descriptions.
     """
+
+    # We need botorch >=0.9.5 for qHypervolumeKnowledgeGradient.
+    if not _imports_qhvkg.is_successful():
+        raise ImportError(
+            "qhvkg_candidates_func requires botorch >=0.9.5. "
+            "Please upgrade botorch or use qehvi_candidates_func as candidates_func instead."
+        )
 
     if train_con is not None:
         train_y = torch.cat([train_obj, train_con], dim=-1)
