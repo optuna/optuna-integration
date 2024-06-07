@@ -733,7 +733,7 @@ def qkg_candidates_func(
         q=1,
         num_restarts=10,
         raw_samples=512,
-        options={"batch_limit": 5, "maxiter": 200},
+        options={"batch_limit": 8, "maxiter": 200},
         sequential=True,
     )
 
@@ -817,7 +817,7 @@ def qhvkg_candidates_func(
         q=1,
         num_restarts=1,
         raw_samples=1024,
-        options={"batch_limit": 5, "maxiter": 200, "nonnegative": True},
+        options={"batch_limit": 4, "maxiter": 200, "nonnegative": True},
         sequential=False,
     )
 
