@@ -3,15 +3,13 @@
 [![Python](https://img.shields.io/badge/python-3.7%20%7C%203.8%20%7C%203.9%20%7C%203.10%20%7C%203.11-blue)](https://www.python.org)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/optuna/optuna-integration)
 [![Codecov](https://codecov.io/gh/optuna/optuna-integration/branch/main/graph/badge.svg)](https://codecov.io/gh/optuna/optuna-integration/branch/main)
-<!-- [![pypi](https://img.shields.io/pypi/v/optuna.svg)](https://pypi.python.org/pypi/optuna-integration) -->
-<!-- [![conda](https://img.shields.io/conda/vn/conda-forge/optuna.svg)](https://anaconda.org/conda-forge/optuna-integration) -->
 [![Read the Docs](https://readthedocs.org/projects/optuna-integration/badge/?version=stable)](https://optuna-integration.readthedocs.io/en/stable/)
 
-[**Docs**](https://optuna-integration.readthedocs.io/en/stable/)
+This package is an integration module of [Optuna](https://github.com/optuna/optuna), an automatic Hyperparameter optimization software framework.
+The modules in this package provide users with extended functionalities for Optuna in combination with third-party libraries such as PyTorch, sklearn, and TensorFlow.
 
-*Optuna-Integration* is an integration module of [Optuna](https://github.com/optuna/optuna).
-This package allows us to use Optuna, an automatic Hyperparameter optimization software framework,
-integrated with many useful tools like PyTorch, sklearn, TensorFlow, etc.
+> [!NOTE]
+> You can find more information in [**our official documentations**](https://optuna-integration.readthedocs.io/en/stable/).
 
 ## Integrations
 
