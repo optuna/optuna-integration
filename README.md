@@ -18,25 +18,25 @@ Here is the table of optuna-integration modules:
 |Third Party Library|API Reference| Example |
 |:--|:--|:--|
 |BoTorch|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#botorch)| Unavailable |
-|CatBoost|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#catboost)|[Example](https://github.com/optuna/optuna-examples/blob/main/catboost/catboost_pruning.py)|
-|Dask|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#dask)|[Example](https://github.com/optuna/optuna-examples/tree/main/dask/dask_simple.py)|
-|FastAI|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#fast-ai)|[Example](https://github.com/optuna/optuna-examples/tree/main/fastai/fastai_simple.py)|
+|CatBoost|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#catboost)|[CatBoostPruningCallback](https://github.com/optuna/optuna-examples/blob/main/catboost/catboost_pruning.py)|
+|Dask|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#dask)|[DaskStorage](https://github.com/optuna/optuna-examples/tree/main/dask/dask_simple.py)|
+|FastAI|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#fast-ai)|[FastAIPruningCallback](https://github.com/optuna/optuna-examples/tree/main/fastai/fastai_simple.py)|
 |Keras|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#keras)|[Example](https://github.com/optuna/optuna-examples/tree/main/keras)|
 |LightGBM|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#lightgbm)|[Example](https://github.com/optuna/optuna-examples/tree/main/lightgbm)|
 |MLflow|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#mlflow)|[Example](https://github.com/optuna/optuna-examples/blob/main/mlflow/)|
-|MXNet|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#mxnet)|[Example](https://github.com/optuna/optuna-examples/tree/main/mxnet)|
+|MXNet|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#mxnet)|Unavailable|
 |PyTorch|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#pytorch)|[Example](https://github.com/optuna/optuna-examples/tree/main/pytorch)|
 |pycma|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#pycma)|Unavailable|
 |SHAP|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#shap)|Unavailable|
-|scikit-learn|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#sklearn)|[Example](https://github.com/optuna/optuna-examples/tree/main/sklearn/sklearn_optuna_search_cv_simple.py)|
-|skorch|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#skorch)|[Example](https://github.com/optuna/optuna-examples/tree/main/pytorch/skorch_simple.py)|
-|TensorBoard|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#tensorboard)|[Example](https://github.com/optuna/optuna-examples/tree/main/tensorboard/tensorboard_simple.py)|
-|tf.keras|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#tensorflow)|[Example](https://github.com/optuna/optuna-examples/tree/main/tfkeras/tfkeras_integration.py)|
-|Weights & Biases|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#wandb)|[Example](https://github.com/optuna/optuna-examples/blob/main/wandb/wandb_integration.py)|
-|XGBoost|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#xgboost)|[Example](https://github.com/optuna/optuna-examples/tree/main/xgboost/xgboost_integration.py)|
+|scikit-learn|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#sklearn)|[OptunaSearchCV](https://github.com/optuna/optuna-examples/tree/main/sklearn/sklearn_optuna_search_cv_simple.py)|
+|skorch|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#skorch)|[SkorchPruningCallback](https://github.com/optuna/optuna-examples/tree/main/pytorch/skorch_simple.py)|
+|TensorBoard|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#tensorboard)|[TensorBoardCallback](https://github.com/optuna/optuna-examples/tree/main/tensorboard/tensorboard_simple.py)|
+|tf.keras|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#tensorflow)|[TFKerasPruningCallback](https://github.com/optuna/optuna-examples/tree/main/tfkeras/tfkeras_integration.py)|
+|Weights & Biases|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#wandb)|[WeightsAndBiasesCallback](https://github.com/optuna/optuna-examples/blob/main/wandb/wandb_integration.py)|
+|XGBoost|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#xgboost)|[XGBoostPruningCallback](https://github.com/optuna/optuna-examples/tree/main/xgboost/xgboost_integration.py)|
 |AllenNLP*|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#allennlp)|[Example](https://github.com/optuna/optuna-examples/tree/main/allennlp)|
-|Chainer*|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#chainer)|[Example](https://github.com/optuna/optuna-examples/tree/main/chainer/chainer_integration.py)|
-|ChainerMN*| [Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#chainermn) | [Example](https://github.com/optuna/optuna-examples/tree/main/chainer/chainermn_simple.py) |
+|Chainer*|[Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#chainer)|[ChainerPruningExtension](https://github.com/optuna/optuna-examples/tree/main/chainer/chainer_integration.py)|
+|ChainerMN*| [Link](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#chainermn) | [ChainerMNStudy](https://github.com/optuna/optuna-examples/tree/main/chainer/chainermn_simple.py) |
 
 > [!WARNING]
 > `*` shows deprecated modules and they might be removed in the future.
