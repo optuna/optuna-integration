@@ -78,5 +78,18 @@ For general guidelines how to contribute to the project, take a look at [CONTRIB
 
 ## Reference
 
-Takuya Akiba, Shotaro Sano, Toshihiko Yanase, Takeru Ohta, and Masanori Koyama. 2019.
-Optuna: A Next-generation Hyperparameter Optimization Framework. In KDD ([arXiv](https://arxiv.org/abs/1907.10902)).
+If you use Optuna in one of your research projects, please cite [our KDD paper](https://doi.org/10.1145/3292500.3330701) "Optuna: A Next-generation Hyperparameter Optimization Framework":
+
+<details open>
+<summary>BibTeX</summary>
+
+```bibtex
+@inproceedings{akiba2019optuna,
+  title={{O}ptuna: A Next-Generation Hyperparameter Optimization Framework},
+  author={Akiba, Takuya and Sano, Shotaro and Yanase, Toshihiko and Ohta, Takeru and Koyama, Masanori},
+  booktitle={The 25th ACM SIGKDD International Conference on Knowledge Discovery \& Data Mining},
+  pages={2623--2631},
+  year={2019}
+}
+```
+</details>
