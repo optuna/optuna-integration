@@ -24,14 +24,17 @@ $ pip install optuna-integration
 $ conda install -c conda-forge optuna-integration
 ```
 
-Optuna-Integration supports from Python 3.7 to Python 3.11.
+> [!IMPORTANT]
+> As dependencies of all the modules are large and complicated, the commands above separately install the common dependencies.
+> Dependencies for each module are described in `requirements.txt` in the corresponding directory.
 
 > [!NOTE]
+> Optuna-Integration supports from Python 3.7 to Python 3.11.
 > Optuna Docker image is also provided at [DockerHub](https://hub.docker.com/r/optuna/optuna).
 
 ## Integration Modules
 
-Here is the table of optuna-integration modules:
+Here is the table of `optuna-integration` modules:
 
 |Third Party Library| Example |
 |:--|:--|
