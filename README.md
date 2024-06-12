@@ -25,8 +25,8 @@ $ conda install -c conda-forge optuna-integration
 ```
 
 > [!IMPORTANT]
-> As dependencies of all the modules are large and complicated, the commands above separately install the common dependencies.
-> Dependencies for each module are described in `requirements.txt` in the corresponding directory.
+> As dependencies of all the modules are large and complicated, the commands above install only the common dependencies.
+> Dependencies for each module are described in `requirements.txt` in the corresponding directory and we kindly ask users to separately install them.
 
 > [!NOTE]
 > Optuna-Integration supports from Python 3.7 to Python 3.11.
