@@ -11,6 +11,24 @@ The modules in this package provide users with extended functionalities for Optu
 > [!NOTE]
 > You can find more information in [**our official documentations**](https://optuna-integration.readthedocs.io/en/stable/) and [**API reference**](https://optuna-integration.readthedocs.io/en/stable/reference/index.html).
 
+## Installation
+
+Optuna-Integration is available via [pip](https://pypi.org/project/optuna-integration/) and
+on [conda](https://anaconda.org/conda-forge/optuna-integration).
+
+```bash
+# PyPI
+$ pip install optuna-integration
+
+# Anaconda Cloud
+$ conda install -c conda-forge optuna-integration
+```
+
+Optuna-Integration supports from Python 3.7 to Python 3.11.
+
+> [!NOTE]
+> Optuna Docker image is also provided at [DockerHub](https://hub.docker.com/r/optuna/optuna).
+
 ## Integration Modules
 
 Here is the table of optuna-integration modules:
@@ -42,25 +60,6 @@ Here is the table of optuna-integration modules:
 
 > [!WARNING]
 > `*` shows deprecated modules and they might be removed in the future.
-
-## Installation
-
-Optuna-Integration is available at [the Python Package Index](https://pypi.org/project/optuna-integration/) and
-on [Anaconda Cloud](https://anaconda.org/conda-forge/optuna-integration).
-
-```bash
-# PyPI
-$ pip install optuna-integration
-```
-
-```bash
-# Anaconda Cloud
-$ conda install -c conda-forge optuna-integration
-```
-
-Optuna-Integration supports from Python 3.7 to Python 3.10.
-
-Also, we also provide Optuna docker images on [DockerHub](https://hub.docker.com/r/optuna/optuna).
 
 ## Communication
 
