@@ -114,8 +114,8 @@ sklearn = [
     "scipy",
 ]
 skorch = [
-    skorch,
-    # torch,  # Required for running test_skorch.
+    "skorch",
+    # "torch",  # Required for running test_skorch.
 ]
 tensorboard = [
     "tensorboard",
