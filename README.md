@@ -27,7 +27,12 @@ $ conda install -c conda-forge optuna-integration
 > [!IMPORTANT]
 > As dependencies of all the modules are large and complicated, the commands above install only the common dependencies.
 > Dependencies for each module are described in `requirements.txt` in the corresponding directory and we kindly ask users to separately install them.
-> Another option is to install the dependencies of your integration of interest via pip, e.g., by `pip install optuna-integration[botorch]` for `optuna_integration.botorch`.
+> Another option is to install the dependencies of your integration of interest via pip.
+> For example, if you would like to install the dependencies of `optuna_integration.botorch` and `optuna_integration.lightgbm`, you can install them via:
+
+```shell
+$ pip install optuna-integration[botorch,lightgbm]
+```
 
 > [!NOTE]
 > Optuna-Integration supports from Python 3.7 to Python 3.11.
