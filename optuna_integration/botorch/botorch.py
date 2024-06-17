@@ -674,7 +674,7 @@ def qparego_candidates_func(
     return candidates
 
 
-@experimental_func("3.7.0")
+@experimental_func("4.0.0")
 def qkg_candidates_func(
     train_x: "torch.Tensor",
     train_obj: "torch.Tensor",
@@ -742,7 +742,7 @@ def qkg_candidates_func(
     return candidates
 
 
-@experimental_func("3.7.0")
+@experimental_func("4.0.0")
 def qhvkg_candidates_func(
     train_x: "torch.Tensor",
     train_obj: "torch.Tensor",
