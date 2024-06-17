@@ -1,7 +1,7 @@
 import json
+import random
 import typing
 from unittest import mock
-import random
 
 import optuna
 import pytest
