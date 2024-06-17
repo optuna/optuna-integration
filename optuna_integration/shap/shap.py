@@ -44,6 +44,7 @@ class ShapleyImportanceEvaluator(BaseImportanceEvaluator):
             The maximum depth of each tree in the random forest.
         seed:
             Seed for the random forest.
+            a
     """
 
     def __init__(self, *, n_trees: int = 64, max_depth: int = 64, seed: int | None = None) -> None:
