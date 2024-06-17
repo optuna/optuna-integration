@@ -11,7 +11,6 @@ import numpy
 import optuna
 from optuna import distributions
 from optuna import logging
-from optuna._deprecated import deprecated_class
 from optuna._imports import try_import
 from optuna.distributions import BaseDistribution
 from optuna.distributions import CategoricalDistribution
@@ -32,8 +31,6 @@ _logger = logging.get_logger(__name__)
 
 _EPS = 1e-10
 
-_cma_deprecated_msg = "This class is renamed to :class:`~optuna_integration.PyCmaSampler`."
-
 
 class PyCmaSampler(BaseSampler):
     """A Sampler using cma library as the backend.
@@ -46,8 +43,8 @@ class PyCmaSampler(BaseSampler):
     especially if the number of trials running in parallel exceeds the population size.
 
     .. note::
-        :class:`~optuna_integration.CmaEsSampler` is deprecated and renamed to
-        :class:`~optuna_integration.PyCmaSampler` in v2.0.0. Please use
+        :class:`~optuna_integration.CmaEsSampler` was renamed to
+        :class:`~optuna_integration.PyCmaSampler` in v4.0.0. Please use
         :class:`~optuna_integration.PyCmaSampler` instead of
         :class:`~optuna_integration.CmaEsSampler`.
 
@@ -468,30 +465,3 @@ class _Optimizer:
             v = int(numpy.round(cma_param_value))
             return dist.choices[v]
         return cma_param_value
-
-
-@deprecated_class("2.0.0", "4.0.0", text=_cma_deprecated_msg)
-class CmaEsSampler(PyCmaSampler):
-    """Wrapper class of PyCmaSampler for backward compatibility."""
-
-    def __init__(
-        self,
-        x0: Optional[Dict[str, Any]] = None,
-        sigma0: Optional[float] = None,
-        cma_stds: Optional[Dict[str, float]] = None,
-        seed: Optional[int] = None,
-        cma_opts: Optional[Dict[str, Any]] = None,
-        n_startup_trials: int = 1,
-        independent_sampler: Optional[BaseSampler] = None,
-        warn_independent_sampling: bool = True,
-    ) -> None:
-        super().__init__(
-            x0=x0,
-            sigma0=sigma0,
-            cma_stds=cma_stds,
-            seed=seed,
-            cma_opts=cma_opts,
-            n_startup_trials=n_startup_trials,
-            independent_sampler=independent_sampler,
-            warn_independent_sampling=warn_independent_sampling,
-        )

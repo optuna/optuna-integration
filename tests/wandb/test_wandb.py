@@ -1,8 +1,10 @@
 from typing import Any
 from typing import Dict
 from typing import List
+from typing import NoReturn
 from typing import Sequence
 from typing import Tuple
+from typing import Type
 from typing import Union
 from unittest import mock
 import warnings
@@ -141,11 +143,11 @@ def test_log_api_call_count(wandb: mock.MagicMock) -> None:
         warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
         wandbc = WeightsAndBiasesCallback()
 
-    @wandbc.track_in_wandb()
-    def _decorated_objective(trial: optuna.trial.Trial) -> float:
-        result = _objective_func(trial)
-        wandb.run.log({"result": result})
-        return result
+        @wandbc.track_in_wandb()
+        def _decorated_objective(trial: optuna.trial.Trial) -> float:
+            result = _objective_func(trial)
+            wandb.run.log({"result": result})
+            return result
 
     target_n_trials = 10
     study.optimize(_objective_func, n_trials=target_n_trials, callbacks=[wandbc])
@@ -206,11 +208,11 @@ def test_values_registered_on_epoch_with_logging(
         warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
         wandbc = WeightsAndBiasesCallback(metric_name=metric, as_multirun=True)
 
-    @wandbc.track_in_wandb()
-    def _decorated_objective(trial: optuna.trial.Trial) -> float:
-        result = _objective_func(trial)
-        wandb.run.log({"result": result})
-        return result
+        @wandbc.track_in_wandb()
+        def _decorated_objective(trial: optuna.trial.Trial) -> float:
+            result = _objective_func(trial)
+            wandb.run.log({"result": result})
+            return result
 
     study.enqueue_trial({"x": 2, "y": 3})
     study.optimize(_decorated_objective, n_trials=1, callbacks=[wandbc])
@@ -278,11 +280,11 @@ def test_multiobjective_values_registered_on_epoch_with_logging(
         warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
         wandbc = WeightsAndBiasesCallback(as_multirun=True, metric_name=metrics)
 
-    @wandbc.track_in_wandb()
-    def _decorated_objective(trial: optuna.trial.Trial) -> Tuple[float, float]:
-        result0, result1 = _multiobjective_func(trial)
-        wandb.run.log({"result0": result0, "result1": result1})
-        return result0, result1
+        @wandbc.track_in_wandb()
+        def _decorated_objective(trial: optuna.trial.Trial) -> Tuple[float, float]:
+            result0, result1 = _multiobjective_func(trial)
+            wandb.run.log({"result0": result0, "result1": result1})
+            return result0, result1
 
     study = optuna.create_study(directions=["minimize", "maximize"])
     study.enqueue_trial({"x": 2, "y": 3})
@@ -311,3 +313,26 @@ def test_multiobjective_raises_on_name_mismatch(wandb: mock.MagicMock, metrics: 
 
     with pytest.raises(ValueError):
         study.optimize(_multiobjective_func, n_trials=1, callbacks=[wandbc])
+
+
+@pytest.mark.parametrize("exception", [optuna.exceptions.TrialPruned, ValueError])
+@mock.patch("optuna_integration.wandb.wandb.wandb")
+def test_none_values(wandb: mock.MagicMock, exception: Type[Exception]) -> None:
+    wandb.sdk.wandb_run.Run = mock.MagicMock
+
+    study = optuna.create_study()
+
+    def none_objective_func(trial: optuna.trial.Trial) -> NoReturn:
+        trial.suggest_float("x", -10, 10)
+        raise exception()
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+        wandbc = WeightsAndBiasesCallback()
+
+    study.optimize(none_objective_func, n_trials=1, callbacks=[wandbc], catch=(ValueError,))
+
+    logged_keys = list(wandb.run.log.call_args[0][0].keys())
+
+    assert "value" not in logged_keys
+    assert "x" in logged_keys

@@ -309,7 +309,7 @@ def qnei_candidates_func(
 
         n_constraints = train_con.size(1)
         objective = ConstrainedMCObjective(
-            objective=lambda Z: Z[..., 0],
+            objective=lambda Z, X: Z[..., 0],
             constraints=[
                 (lambda Z, i=i: Z[..., -n_constraints + i]) for i in range(n_constraints)
             ],
