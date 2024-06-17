@@ -11,7 +11,6 @@ import numpy
 import optuna
 from optuna import distributions
 from optuna import logging
-from optuna._deprecated import deprecated_class
 from optuna._imports import try_import
 from optuna.distributions import BaseDistribution
 from optuna.distributions import CategoricalDistribution
