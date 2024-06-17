@@ -6,6 +6,9 @@ on:
       integration_name:
         required: true
         type: string
+      deprecated:
+        required: true
+        type: boolean
       extra_cmds:
         required: false
         type: string
@@ -27,10 +30,9 @@ jobs:
           pip install --progress-bar off -U .[test]
 
       - name: Install dependencies
+        if: ${{ !inputs.deprecated }}
         run: |
-          if [ ${{ inputs.deprecated }} == "false" ]; then
-            pip install --progress-bar off .[${{ inputs.integration_name }}]
-          fi
+          pip install --progress-bar off .[${{ inputs.integration_name }}]
 
       - name: black
         run: |
@@ -85,11 +87,12 @@ jobs:
 
         # Install optuna from optuna master
         pip install git+https://github.com/optuna/optuna@master
-
         pip install --progress-bar off .[test]
-        if [ ${{ inputs.deprecated }} == "false" ]; then
-          pip install --progress-bar off .[${{ inputs.integration_name }}]
-        fi
+
+    - name: Install Integration Dependencies
+      if: ${{ !inputs.deprecated }}
+      run: |
+        pip install --progress-bar off .[${{ inputs.integration_name }}]
 
     - name: Extra commands
       run: |
