@@ -1,6 +1,7 @@
 import json
 import typing
 from unittest import mock
+import random
 
 import optuna
 import pytest
@@ -106,8 +107,8 @@ def test_comet_callback_track_in_comet_decorator(
 
     @comet_callback.track_in_comet()
     def your_objective(trial: mock.MagicMock) -> float:
-        x = trial.suggest_float("x", -5, 5)
-        y = trial.suggest_float("y", -5, 5)
+        x = random.uniform(-5, 5) 
+        y = random.uniform(-5, 5) 
         trial.experiment.log_other("extra_info", "test")
         return (x - 2) ** 2, (y + 2) ** 2
 
