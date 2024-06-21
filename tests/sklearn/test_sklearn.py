@@ -24,6 +24,7 @@ from sklearn.exceptions import ConvergenceWarning
 from sklearn.exceptions import NotFittedError
 from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import SGDClassifier
+from sklearn.model_selection import PredefinedSplit
 from sklearn.neighbors import KernelDensity
 from sklearn.tree import DecisionTreeRegressor
 
@@ -476,3 +477,25 @@ def test_terminator_cv_score_reporting(mock: MagicMock) -> None:
 
     for trial in optuna_search.study_.trials:
         assert (trial.system_attrs[_CROSS_VALIDATION_SCORES_KEY] == scores["test_score"]).all()
+
+
+@pytest.mark.filterwarnings("ignore::UserWarning")
+@patch("optuna_integration.sklearn.sklearn.cross_validate")
+def test_single_cv_split_terminator_warning(mock: MagicMock) -> None:
+    scores = {
+        "fit_time": np.array([2.01]),
+        "score_time": np.array([0.33]),
+        "test_score": np.array([0.04]),
+    }
+    mock.return_value = scores
+
+    X, _ = make_blobs(n_samples=10)
+    est = PCA()
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", ExperimentalWarning)
+        single_cv_split = PredefinedSplit([-1] * 5 + [0] * 5)
+        optuna_search = OptunaSearchCV(
+            est, {}, cv=single_cv_split, error_score="raise", random_state=0
+        )
+    with pytest.warns(UserWarning):
+        optuna_search.fit(X)

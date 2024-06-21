@@ -12,6 +12,7 @@ from time import time
 from typing import Any
 from typing import List
 from typing import Union
+import warnings
 
 import numpy as np
 from optuna import distributions
@@ -263,7 +264,13 @@ class _Objective:
 
         test_scores = scores["test_score"]
         scores_list = test_scores if isinstance(test_scores, list) else test_scores.tolist()
-        report_cross_validation_scores(trial, scores_list)
+        try:
+            report_cross_validation_scores(trial, scores_list)
+        except ValueError as e:
+            warn_msg = (
+                "Failed to report cross validation scores for TerminatorCallback, with error: {}"
+            ).format(e)
+            warnings.warn(warn_msg)
 
         return trial.user_attrs["mean_test_score"]
 
