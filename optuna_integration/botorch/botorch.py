@@ -271,9 +271,7 @@ def qei_candidates_func(
         n_constraints = train_con.size(1)
         objective, kwargs = _create_objective_and_kwargs(
             objective=lambda Z, X: Z[..., 0],
-            constraints=[
-                (lambda Z, i=i: Z[..., -n_constraints + i]) for i in range(n_constraints)
-            ],
+            constraints=[lambda Z: Z[..., -n_constraints + i] for i in range(n_constraints)],
         )
     else:
         train_y = train_obj
@@ -343,9 +341,7 @@ def qnei_candidates_func(
         n_constraints = train_con.size(1)
         objective, kwargs = _create_objective_and_kwargs(
             objective=lambda Z, X: Z[..., 0],
-            constraints=[
-                (lambda Z, i=i: Z[..., -n_constraints + i]) for i in range(n_constraints)
-            ],
+            constraints=[lambda Z: Z[..., -n_constraints + i] for i in range(n_constraints)],
         )
     else:
         train_y = train_obj
@@ -417,9 +413,7 @@ def qehvi_candidates_func(
         n_constraints = train_con.size(1)
         additional_qehvi_kwargs = {
             "objective": IdentityMCMultiOutputObjective(outcomes=list(range(n_objectives))),
-            "constraints": [
-                (lambda Z, i=i: Z[..., -n_constraints + i]) for i in range(n_constraints)
-            ],
+            "constraints": [lambda Z: Z[..., -n_constraints + i] for i in range(n_constraints)],
         }
     else:
         train_y = train_obj
@@ -654,9 +648,7 @@ def qparego_candidates_func(
         n_constraints = train_con.size(1)
         objective, kwargs = _create_objective_and_kwargs(
             objective=lambda Z, X: scalarization(Z[..., :n_objectives]),
-            constraints=[
-                (lambda Z, i=i: Z[..., -n_constraints + i]) for i in range(n_constraints)
-            ],
+            constraints=[lambda Z: Z[..., -n_constraints + i] for i in range(n_constraints)],
         )
     else:
         train_y = train_obj
