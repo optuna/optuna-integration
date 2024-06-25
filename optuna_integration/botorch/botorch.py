@@ -1,10 +1,10 @@
 from typing import Any
-from typing import Tuple
 from typing import Callable
 from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Sequence
+from typing import Tuple
 from typing import Union
 import warnings
 
@@ -37,9 +37,9 @@ with try_import() as _imports:
         FeasibilityWeightedMCMultiOutputObjective,
     )
     from botorch.acquisition.multi_objective.objective import IdentityMCMultiOutputObjective
-    from botorch.acquisition.objective import MCAcquisitionObjective
     from botorch.acquisition.objective import ConstrainedMCObjective
     from botorch.acquisition.objective import GenericMCObjective
+    from botorch.acquisition.objective import MCAcquisitionObjective
     from botorch.models import ModelListGP
     from botorch.models import SingleTaskGP
     from botorch.models.transforms.outcome import Standardize
