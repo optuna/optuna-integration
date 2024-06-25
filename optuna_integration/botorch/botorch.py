@@ -26,17 +26,23 @@ from packaging import version
 
 
 with try_import() as _imports:
+    from botorch.acquisition.knowledge_gradient import qKnowledgeGradient
     from botorch.acquisition.monte_carlo import qExpectedImprovement
     from botorch.acquisition.monte_carlo import qNoisyExpectedImprovement
     from botorch.acquisition.multi_objective import monte_carlo
     from botorch.acquisition.multi_objective.analytic import ExpectedHypervolumeImprovement
+    from botorch.acquisition.multi_objective.objective import (
+        FeasibilityWeightedMCMultiOutputObjective,
+    )
     from botorch.acquisition.multi_objective.objective import IdentityMCMultiOutputObjective
     from botorch.acquisition.objective import ConstrainedMCObjective
     from botorch.acquisition.objective import GenericMCObjective
+    from botorch.models import ModelListGP
     from botorch.models import SingleTaskGP
     from botorch.models.transforms.outcome import Standardize
     from botorch.optim import optimize_acqf
     from botorch.sampling import SobolQMCNormalSampler
+    from botorch.sampling.list_sampler import ListSampler
     import botorch.version
 
     if version.parse(botorch.version.version) < version.parse("0.8.0"):
@@ -52,6 +58,7 @@ with try_import() as _imports:
             return SobolQMCNormalSampler(torch.Size((num_samples,)))
 
     from gpytorch.mlls import ExactMarginalLogLikelihood
+    from gpytorch.mlls.sum_marginal_log_likelihood import SumMarginalLogLikelihood
     import torch
 
     from botorch.utils.multi_objective.box_decompositions import NondominatedPartitioning
@@ -67,6 +74,11 @@ _logger = logging.get_logger(__name__)
 with try_import() as _imports_logei:
     from botorch.acquisition.analytic import LogConstrainedExpectedImprovement
     from botorch.acquisition.analytic import LogExpectedImprovement
+
+with try_import() as _imports_qhvkg:
+    from botorch.acquisition.multi_objective.hypervolume_knowledge_gradient import (
+        qHypervolumeKnowledgeGradient,
+    )
 
 
 @experimental_func("3.3.0")
@@ -655,6 +667,158 @@ def qparego_candidates_func(
         raw_samples=1024,
         options={"batch_limit": 5, "maxiter": 200},
         sequential=True,
+    )
+
+    candidates = unnormalize(candidates.detach(), bounds=bounds)
+
+    return candidates
+
+
+@experimental_func("4.0.0")
+def qkg_candidates_func(
+    train_x: "torch.Tensor",
+    train_obj: "torch.Tensor",
+    train_con: Optional["torch.Tensor"],
+    bounds: "torch.Tensor",
+    pending_x: Optional["torch.Tensor"],
+) -> "torch.Tensor":
+    """Quasi MC-based batch Knowledge Gradient (qKG).
+
+    According to Botorch/Ax documentation,
+    this function may perform better than qEI (`qei_candidates_func`).
+    (cf. https://botorch.org/tutorials/one_shot_kg )
+
+    .. seealso::
+        :func:`~optuna_integration.botorch.qei_candidates_func` for argument and return value
+        descriptions.
+
+    """
+
+    if train_obj.size(-1) != 1:
+        raise ValueError("Objective may only contain single values with qKG.")
+    if train_con is not None:
+        train_y = torch.cat([train_obj, train_con], dim=-1)
+        n_constraints = train_con.size(1)
+        objective = ConstrainedMCObjective(
+            objective=lambda Z, X: Z[..., 0],
+            constraints=[
+                (lambda Z, i=i: Z[..., -n_constraints + i]) for i in range(n_constraints)
+            ],
+        )
+    else:
+        train_y = train_obj
+        objective = None  # Using the default identity objective.
+
+    train_x = normalize(train_x, bounds=bounds)
+    if pending_x is not None:
+        pending_x = normalize(pending_x, bounds=bounds)
+
+    model = SingleTaskGP(train_x, train_y, outcome_transform=Standardize(m=train_y.size(-1)))
+    mll = ExactMarginalLogLikelihood(model.likelihood, model)
+    fit_gpytorch_mll(mll)
+
+    acqf = qKnowledgeGradient(
+        model=model,
+        num_fantasies=256,
+        objective=objective,
+        X_pending=pending_x,
+    )
+
+    standard_bounds = torch.zeros_like(bounds)
+    standard_bounds[1] = 1
+
+    candidates, _ = optimize_acqf(
+        acq_function=acqf,
+        bounds=standard_bounds,
+        q=1,
+        num_restarts=10,
+        raw_samples=512,
+        options={"batch_limit": 8, "maxiter": 200},
+        sequential=True,
+    )
+
+    candidates = unnormalize(candidates.detach(), bounds=bounds)
+
+    return candidates
+
+
+@experimental_func("4.0.0")
+def qhvkg_candidates_func(
+    train_x: "torch.Tensor",
+    train_obj: "torch.Tensor",
+    train_con: Optional["torch.Tensor"],
+    bounds: "torch.Tensor",
+    pending_x: Optional["torch.Tensor"],
+) -> "torch.Tensor":
+    """Quasi MC-based batch Hypervolume Knowledge Gradient (qHVKG).
+
+    According to Botorch/Ax documentation,
+    this function may perform better than qEHVI (`qehvi_candidates_func`).
+    (cf. https://botorch.org/tutorials/decoupled_mobo )
+
+    .. seealso::
+        :func:`~optuna_integration.botorch.qei_candidates_func` for argument and return value
+        descriptions.
+    """
+
+    # We need botorch >=0.9.5 for qHypervolumeKnowledgeGradient.
+    if not _imports_qhvkg.is_successful():
+        raise ImportError(
+            "qhvkg_candidates_func requires botorch >=0.9.5. "
+            "Please upgrade botorch or use qehvi_candidates_func as candidates_func instead."
+        )
+
+    if train_con is not None:
+        train_y = torch.cat([train_obj, train_con], dim=-1)
+    else:
+        train_y = train_obj
+
+    train_x = normalize(train_x, bounds=bounds)
+    if pending_x is not None:
+        pending_x = normalize(pending_x, bounds=bounds)
+
+    models = [
+        SingleTaskGP(train_x, train_y[..., [i]], outcome_transform=Standardize(m=1))
+        for i in range(train_y.shape[-1])
+    ]
+    model = ModelListGP(*models)
+    mll = SumMarginalLogLikelihood(model.likelihood, model)
+    fit_gpytorch_mll(mll)
+
+    n_constraints = train_con.size(1) if train_con is not None else 0
+    objective = FeasibilityWeightedMCMultiOutputObjective(
+        model,
+        X_baseline=train_x,
+        constraint_idcs=[-n_constraints + i for i in range(n_constraints)],
+    )
+
+    ref_point = train_obj.min(dim=0).values - 1e-8
+
+    acqf = qHypervolumeKnowledgeGradient(
+        model=model,
+        ref_point=ref_point,
+        num_fantasies=16,
+        X_pending=pending_x,
+        objective=objective,
+        sampler=ListSampler(
+            *[
+                SobolQMCNormalSampler(sample_shape=torch.Size([16]))
+                for _ in range(model.num_outputs)
+            ]
+        ),
+        inner_sampler=SobolQMCNormalSampler(sample_shape=torch.Size([32])),
+    )
+    standard_bounds = torch.zeros_like(bounds)
+    standard_bounds[1] = 1
+
+    candidates, _ = optimize_acqf(
+        acq_function=acqf,
+        bounds=standard_bounds,
+        q=1,
+        num_restarts=1,
+        raw_samples=1024,
+        options={"batch_limit": 4, "maxiter": 200, "nonnegative": True},
+        sequential=False,
     )
 
     candidates = unnormalize(candidates.detach(), bounds=bounds)

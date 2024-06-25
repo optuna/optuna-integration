@@ -104,7 +104,9 @@ def test_botorch_candidates_func() -> None:
         (integration.botorch.logei_candidates_func, 1),
         (integration.botorch.qei_candidates_func, 1),
         (integration.botorch.qnei_candidates_func, 1),
+        (integration.botorch.qkg_candidates_func, 1),
         (integration.botorch.qehvi_candidates_func, 2),
+        (integration.botorch.qhvkg_candidates_func, 2),
         (integration.botorch.qehvi_candidates_func, 7),  # alpha > 0
         (integration.botorch.qparego_candidates_func, 4),
         (integration.botorch.qnehvi_candidates_func, 2),
@@ -116,6 +118,11 @@ def test_botorch_specify_candidates_func(candidates_func: Any, n_objectives: int
         botorch.version.version
     ) < version.parse("0.8.1"):
         pytest.skip("LogExpectedImprovement is not available in botorch <0.8.1.")
+
+    if candidates_func == integration.botorch.qhvkg_candidates_func and version.parse(
+        botorch.version.version
+    ) < version.parse("0.9.5"):
+        pytest.skip("qHypervolumeKnowledgeGradient is not available in botorch <0.9.5.")
 
     n_trials = 4
     n_startup_trials = 2
@@ -139,8 +146,10 @@ def test_botorch_specify_candidates_func(candidates_func: Any, n_objectives: int
     [
         (integration.botorch.logei_candidates_func, 1),
         (integration.botorch.qei_candidates_func, 1),
+        (integration.botorch.qkg_candidates_func, 1),
         (integration.botorch.qnei_candidates_func, 1),
         (integration.botorch.qehvi_candidates_func, 2),
+        (integration.botorch.qhvkg_candidates_func, 2),
         (integration.botorch.qparego_candidates_func, 4),
         (integration.botorch.qnehvi_candidates_func, 2),
         (integration.botorch.qnehvi_candidates_func, 3),  # alpha > 0
@@ -149,6 +158,11 @@ def test_botorch_specify_candidates_func(candidates_func: Any, n_objectives: int
 def test_botorch_specify_candidates_func_constrained(
     candidates_func: Any, n_objectives: int
 ) -> None:
+    if candidates_func == integration.botorch.qhvkg_candidates_func and version.parse(
+        botorch.version.version
+    ) < version.parse("0.9.5"):
+        pytest.skip("qHypervolumeKnowledgeGradient is not available in botorch <0.9.5.")
+
     n_trials = 4
     n_startup_trials = 2
     constraints_func_call_count = 0

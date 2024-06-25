@@ -60,9 +60,11 @@ botorch = [
     "botorch<0.10.0",
 ]
 catboost = [
+    "numpy<2.0.0",  # TODO(nabe): Remove this constraint once this issue is resolved. https://github.com/numpy/numpy/issues/26710
     "catboost",
 ]
 cma = [
+    "numpy<2.0.0",  # TODO(nabe): Remove this constraint once this issue is resolved. https://github.com/numpy/numpy/issues/26710
     "cma",
 ]
 dask = [
@@ -106,6 +108,7 @@ pytorch-lightning = [
     "lightning",
 ]
 shap = [
+    "numpy<2.0.0",  # TODO(nabe): Remove this constraint once this issue is resolved. https://github.com/numpy/numpy/issues/26710
     "shap",
 ]
 sklearn = [
