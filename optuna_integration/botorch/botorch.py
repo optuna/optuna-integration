@@ -297,7 +297,7 @@ def qei_candidates_func(
         sampler=_get_sobol_qmc_normal_sampler(256),
         objective=objective,
         X_pending=pending_x,
-        **kwargs
+        **kwargs,
     )
 
     standard_bounds = torch.zeros_like(bounds)
@@ -367,7 +367,7 @@ def qnei_candidates_func(
         sampler=_get_sobol_qmc_normal_sampler(256),
         objective=objective,
         X_pending=pending_x,
-        **kwargs
+        **kwargs,
     )
 
     standard_bounds = torch.zeros_like(bounds)
@@ -678,7 +678,7 @@ def qparego_candidates_func(
         sampler=_get_sobol_qmc_normal_sampler(256),
         objective=objective,
         X_pending=pending_x,
-        **kwargs
+        **kwargs,
     )
 
     standard_bounds = torch.zeros_like(bounds)
