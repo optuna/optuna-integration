@@ -1,6 +1,8 @@
 from typing import Any
+from typing import Tuple
 from typing import Callable
 from typing import Dict
+from typing import List
 from typing import Optional
 from typing import Sequence
 from typing import Union
@@ -35,6 +37,7 @@ with try_import() as _imports:
         FeasibilityWeightedMCMultiOutputObjective,
     )
     from botorch.acquisition.multi_objective.objective import IdentityMCMultiOutputObjective
+    from botorch.acquisition.objective import MCAcquisitionObjective
     from botorch.acquisition.objective import ConstrainedMCObjective
     from botorch.acquisition.objective import GenericMCObjective
     from botorch.models import ModelListGP
@@ -56,6 +59,22 @@ with try_import() as _imports:
 
         def _get_sobol_qmc_normal_sampler(num_samples: int) -> SobolQMCNormalSampler:
             return SobolQMCNormalSampler(torch.Size((num_samples,)))
+
+    if version.parse(botorch.version.version) < version.parse("0.9.0"):
+
+        def _create_objective_and_kwargs(
+            objective: Callable[["torch.Tensor", Optional["torch.Tensor"]], "torch.Tensor"],
+            constraints: List[Callable[["torch.Tensor"], "torch.Tensor"]],
+        ) -> Tuple[MCAcquisitionObjective, Dict[str, Any]]:
+            return ConstrainedMCObjective(objective=objective, constraints=constraints), {}
+
+    else:
+
+        def _create_objective_and_kwargs(
+            objective: Callable[["torch.Tensor", Optional["torch.Tensor"]], "torch.Tensor"],
+            constraints: List[Callable[["torch.Tensor"], "torch.Tensor"]],
+        ) -> Tuple[MCAcquisitionObjective, Dict[str, Any]]:
+            return GenericMCObjective(objective), {"constraints": constraints}
 
     from gpytorch.mlls import ExactMarginalLogLikelihood
     from gpytorch.mlls.sum_marginal_log_likelihood import SumMarginalLogLikelihood
@@ -250,7 +269,7 @@ def qei_candidates_func(
             best_f = train_obj_feas.max()
 
         n_constraints = train_con.size(1)
-        objective = ConstrainedMCObjective(
+        objective, kwargs = _create_objective_and_kwargs(
             objective=lambda Z, X: Z[..., 0],
             constraints=[
                 (lambda Z, i=i: Z[..., -n_constraints + i]) for i in range(n_constraints)
@@ -262,6 +281,7 @@ def qei_candidates_func(
         best_f = train_obj.max()
 
         objective = None  # Using the default identity objective.
+        kwargs = {}
 
     train_x = normalize(train_x, bounds=bounds)
     if pending_x is not None:
@@ -277,6 +297,7 @@ def qei_candidates_func(
         sampler=_get_sobol_qmc_normal_sampler(256),
         objective=objective,
         X_pending=pending_x,
+        **kwargs
     )
 
     standard_bounds = torch.zeros_like(bounds)
@@ -320,7 +341,7 @@ def qnei_candidates_func(
         train_y = torch.cat([train_obj, train_con], dim=-1)
 
         n_constraints = train_con.size(1)
-        objective = ConstrainedMCObjective(
+        objective, kwargs = _create_objective_and_kwargs(
             objective=lambda Z, X: Z[..., 0],
             constraints=[
                 (lambda Z, i=i: Z[..., -n_constraints + i]) for i in range(n_constraints)
@@ -330,6 +351,7 @@ def qnei_candidates_func(
         train_y = train_obj
 
         objective = None  # Using the default identity objective.
+        kwargs = {}
 
     train_x = normalize(train_x, bounds=bounds)
     if pending_x is not None:
@@ -345,6 +367,7 @@ def qnei_candidates_func(
         sampler=_get_sobol_qmc_normal_sampler(256),
         objective=objective,
         X_pending=pending_x,
+        **kwargs
     )
 
     standard_bounds = torch.zeros_like(bounds)
@@ -629,7 +652,7 @@ def qparego_candidates_func(
     if train_con is not None:
         train_y = torch.cat([train_obj, train_con], dim=-1)
         n_constraints = train_con.size(1)
-        objective = ConstrainedMCObjective(
+        objective, kwargs = _create_objective_and_kwargs(
             objective=lambda Z, X: scalarization(Z[..., :n_objectives]),
             constraints=[
                 (lambda Z, i=i: Z[..., -n_constraints + i]) for i in range(n_constraints)
@@ -639,6 +662,7 @@ def qparego_candidates_func(
         train_y = train_obj
 
         objective = GenericMCObjective(scalarization)
+        kwargs = {}
 
     train_x = normalize(train_x, bounds=bounds)
     if pending_x is not None:
@@ -654,6 +678,7 @@ def qparego_candidates_func(
         sampler=_get_sobol_qmc_normal_sampler(256),
         objective=objective,
         X_pending=pending_x,
+        **kwargs
     )
 
     standard_bounds = torch.zeros_like(bounds)
