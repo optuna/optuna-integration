@@ -23,6 +23,7 @@ jobs:
       chainer: ${{ steps.changes.outputs.chainer }}
       chainermn: ${{ steps.changes.outputs.chainermn }}
       cma: ${{ steps.changes.outputs.cma }}
+      comet: ${{ steps.changes.outputs.comet }}
       dask: ${{ steps.changes.outputs.dask }}
       fastaiv2: ${{ steps.changes.outputs.fastaiv2 }}
       keras: ${{ steps.changes.outputs.keras }}
@@ -88,6 +89,13 @@ jobs:
     uses: ./.github/workflows/checks_template.yml
     with:
       integration_name: 'cma'
+
+  comet:
+    if: needs.changes.outputs.comet == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'comet'
 
   dask:
     if: needs.changes.outputs.dask == 'true'
