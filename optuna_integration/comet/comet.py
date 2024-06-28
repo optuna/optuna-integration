@@ -1,12 +1,9 @@
+from __future__ import annotations
+
+from collections.abc import Callable
+from collections.abc import Sequence
 import functools
 import json
-from typing import Any
-from typing import Callable
-from typing import Dict
-from typing import Optional
-from typing import Sequence
-from typing import TYPE_CHECKING
-from typing import Union
 
 import optuna
 from optuna.study.study import ObjectiveFuncType
@@ -20,61 +17,87 @@ with try_import() as _imports:
 
 class CometCallback:
     """
-    A callback for logging Optuna study trials to a Comet ML Experiment. Comet ML must be installed to run.
+    A callback for logging Optuna study trials to a Comet ML Experiment.
+    Comet ML must be installed to run.
 
-    This callback is intended for use with Optuna's study.optimize() method. It ensures that all trials
-    from an Optuna study are logged to a single Comet Experiment, facilitating organized tracking
-    of hyperparameter optimization. The callback supports both single and multi-objective optimization.
+    This callback is intended for use with Optuna's study.optimize() method. It ensures that
+    all trials from an Optuna study are logged to a single Comet Experiment, facilitating organized
+    tracking of hyperparameter optimization.
+    The callback supports both single and multi-objective optimization.
 
-    In a distributed training context, where trials from the same study might occur on different machines,
-    this callback ensures consistency by logging to the same Comet Experiment using an experiment key
-    stored within the study's user attributes.
+    In a distributed training context, where trials from the same study might occur on different
+    machines, this callback ensures consistency by logging to the same Comet Experiment using
+    an experiment key stored within the study's user attributes.
 
-    By default, Trials are logged as Comet Experiments, which will automatically log code, system metrics,
-    and many other values. However, it also adds some computational overhead (potentially a few seconds).
+    By default, Trials are logged as Comet Experiments, which will automatically log code,
+    system metrics, and many other values.
+    However, it also adds some computational overhead (potentially a few seconds).
 
-    Parameters:
-    - study (optuna.study.Study): The Optuna study object to which the callback is attached.
-    - workspace (str) - Optional: The workspace in Comet ML where the project resides.
-    - project_name (str) - Optional: The name of the project in Comet ML where the experiment will be logged. Defaults to "general"
-    - metric_names ([str]) - Optional: A list of the names of your objective metrics.
+    Args:
+        study:
+            The Optuna study object to which the callback is attached.
+        workspace:
+            The workspace in Comet ML where the project resides.
+        project_name:
+            The name of the project in Comet ML where the experiment will be logged.
+            Defaults to ``general``.
+        metric_names:
+            A list of the names of your objective metrics.
 
-    Usage:
-    ```
-    study = optuna.create_study(directions=["minimize", "maximize"])
-    comet_callback = CometCallback(study, metric_names=["accuracy", "top_k_accuracy"],
-                                     project_name="your_project_name", workspace="your_workspace")
-    study.optimize(your_objective_function, n_trials=100, callbacks=[comet_callback])
-    ```
+    Example:
 
-    Note:
-    The callback checks for an existing Comet Experiment key in the study's user attributes. If present, it initializes
-    an ExistingExperiment; otherwise, it creates a new APIExperiment and stores its key in the study for future reference.
+        Here is an example.
 
-    You will need a Comet API key to log data to Comet.
+        .. code::
 
-    You can also log extra data directly to your Trial's Experiment via the objective function by using
-    the @CometCallback.track_in_comet decorator, which exposes an `experiment` property on your trial, like so:
-    ```
-    study = optuna.create_study(directions=["minimize", "maximize"])
-    comet_callback = CometCallback(study, metric_names=["accuracy", "top_k_accuracy"],
-                                     project_name="your_project_name", workspace="your_workspace")
+            study = optuna.create_study(directions=["maximize", "maximize"])
+            comet_callback = CometCallback(
+                study,
+                metric_names=["accuracy", "top_k_accuracy"],
+                project_name="your_project_name",
+                workspace="your_workspace",
+            )
+            study.optimize(your_objective_function, n_trials=100, callbacks=[comet_callback])
 
-    @comet_callback.track_in_comet()
-    def your_objective(trial):
-        trial.experiment.log_other("foo", "bar")
-        # Rest of your objective function...
+    .. note:
+        The callback checks for an existing Comet Experiment key in the study's user attributes.
+        If present, it initializes an ExistingExperiment; otherwise,
+        it creates a new APIExperiment and stores its key in the study for future reference.
 
-    study.optimize(your_objective, n_trials=100, callbacks=[comet_callback])
+        You will need a Comet API key to log data to Comet.
+
+        You can also log extra data directly to your Trial's Experiment via the objective function
+        by using the ``@CometCallback.track_in_comet`` decorator,
+        which exposes an ``experiment`` property on your trial, like so:
+
+        .. code::
+
+            study = optuna.create_study(directions=["maximize", "maximize"])
+            comet_callback = CometCallback(
+                study,
+                metric_names=["accuracy", "top_k_accuracy"],
+                project_name="your_project_name",
+                workspace="your_workspace",
+            )
+
+
+            @comet_callback.track_in_comet()
+            def your_objective(trial):
+                trial.experiment.log_other("foo", "bar")
+                # Rest of your objective function...
+
+
+            study.optimize(your_objective, n_trials=100, callbacks=[comet_callback])
+
     """
 
     def __init__(
         self,
         study: optuna.study.Study,
-        workspace: Optional[str] = None,
-        project_name: Optional[str] = "general",
-        metric_names: Optional[Sequence[str]] = None,
-    ) -> None:
+        workspace: str | None = None,
+        project_name: str | None = "general",
+        metric_names: Sequence[str] | None = None,
+    ):
         self._project_name = project_name
         self._workspace = workspace
         self._study = study
@@ -195,7 +218,7 @@ class CometCallback:
     def track_in_comet(self) -> Callable:
         def decorator(func: ObjectiveFuncType) -> ObjectiveFuncType:
             @functools.wraps(func)
-            def wrapper(trial: optuna.trial.Trial) -> Union[float, Sequence[float]]:
+            def wrapper(trial: optuna.trial.Trial) -> float | Sequence[float]:
                 experiment = self._init_optuna_trial_experiment(self._study, trial)
 
                 # Add the experiment to the trial object for easier access for the end-users
