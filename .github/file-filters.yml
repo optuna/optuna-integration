@@ -40,6 +40,13 @@ cma:
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
 
+comet:
+  - 'optuna_integration/comet/**'
+  - 'tests/comet/**'
+  - '.github/workflows/checks.yml'
+  - '.github/workflows/checks_template.yml'
+  - '.github/file-filters.yml'
+
 dask:
   - 'optuna_integration/dask/**'
   - 'tests/dask/**'
