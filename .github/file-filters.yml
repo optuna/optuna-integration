@@ -4,6 +4,7 @@ allennlp:
   - '.github/workflows/checks.yml'
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
+  - 'pyproject.toml'
 
 botorch:
   - 'optuna_integration/botorch/**'
@@ -11,6 +12,7 @@ botorch:
   - '.github/workflows/checks.yml'
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
+  - 'pyproject.toml'
 
 catboost:
   - 'optuna_integration/catboost/**'
@@ -18,6 +20,7 @@ catboost:
   - '.github/workflows/checks.yml'
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
+  - 'pyproject.toml'
 
 chainer:
   - 'optuna_integration/chainer/**'
@@ -25,6 +28,7 @@ chainer:
   - '.github/workflows/checks.yml'
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
+  - 'pyproject.toml'
 
 chainermn:
   - 'optuna_integration/chainermn/**'
@@ -32,6 +36,7 @@ chainermn:
   - '.github/workflows/checks.yml'
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
+  - 'pyproject.toml'
 
 cma:
   - 'optuna_integration/cma/**'
@@ -39,6 +44,7 @@ cma:
   - '.github/workflows/checks.yml'
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
+  - 'pyproject.toml'
 
 comet:
   - 'optuna_integration/comet/**'
@@ -46,6 +52,7 @@ comet:
   - '.github/workflows/checks.yml'
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
+  - 'pyproject.toml'
 
 dask:
   - 'optuna_integration/dask/**'
@@ -53,6 +60,7 @@ dask:
   - '.github/workflows/checks.yml'
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
+  - 'pyproject.toml'
 
 fastaiv2:
   - 'optuna_integration/fastaiv2/**'
@@ -60,6 +68,7 @@ fastaiv2:
   - '.github/workflows/checks.yml'
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
+  - 'pyproject.toml'
 
 keras:
   - 'optuna_integration/keras/**'
@@ -67,6 +76,7 @@ keras:
   - '.github/workflows/checks.yml'
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
+  - 'pyproject.toml'
 
 lightgbm:
   - 'optuna_integration/lightgbm/**'
@@ -74,6 +84,7 @@ lightgbm:
   - '.github/workflows/checks.yml'
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
+  - 'pyproject.toml'
 
 mlflow:
   - 'optuna_integration/mlflow/**'
@@ -81,6 +92,7 @@ mlflow:
   - '.github/workflows/checks.yml'
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
+  - 'pyproject.toml'
 
 mxnet:
   - 'optuna_integration/mxnet/**'
@@ -88,6 +100,7 @@ mxnet:
   - '.github/workflows/checks.yml'
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
+  - 'pyproject.toml'
 
 pytorch_distributed:
   - 'optuna_integration/pytorch_distributed/**'
@@ -95,6 +108,7 @@ pytorch_distributed:
   - '.github/workflows/checks.yml'
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
+  - 'pyproject.toml'
 
 pytorch_ignite:
   - 'optuna_integration/pytorch_ignite/**'
@@ -102,6 +116,7 @@ pytorch_ignite:
   - '.github/workflows/checks.yml'
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
+  - 'pyproject.toml'
 
 pytorch_lightning:
   - 'optuna_integration/pytorch_lightning/**'
@@ -109,6 +124,7 @@ pytorch_lightning:
   - '.github/workflows/checks.yml'
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
+  - 'pyproject.toml'
 
 shap:
   - 'optuna_integration/shap/**'
@@ -116,6 +132,7 @@ shap:
   - '.github/workflows/checks.yml'
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
+  - 'pyproject.toml'
 
 sklearn:
   - 'optuna_integration/sklearn/**'
@@ -123,6 +140,7 @@ sklearn:
   - '.github/workflows/checks.yml'
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
+  - 'pyproject.toml'
 
 skorch:
   - 'optuna_integration/skorch/**'
@@ -130,6 +148,7 @@ skorch:
   - '.github/workflows/checks.yml'
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
+  - 'pyproject.toml'
 
 tensorboard:
   - 'optuna_integration/tensorboard/**'
@@ -137,6 +156,7 @@ tensorboard:
   - '.github/workflows/checks.yml'
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
+  - 'pyproject.toml'
 
 tensorflow:
   - 'optuna_integration/tensorflow/**'
@@ -144,6 +164,7 @@ tensorflow:
   - '.github/workflows/checks.yml'
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
+  - 'pyproject.toml'
 
 tfkeras:
   - 'optuna_integration/tfkeras/**'
@@ -151,6 +172,7 @@ tfkeras:
   - '.github/workflows/checks.yml'
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
+  - 'pyproject.toml'
 
 wandb:
   - 'optuna_integration/wandb/**'
@@ -158,6 +180,7 @@ wandb:
   - '.github/workflows/checks.yml'
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
+  - 'pyproject.toml'
 
 xgboost:
   - 'optuna_integration/xgboost/**'
@@ -165,3 +188,4 @@ xgboost:
   - '.github/workflows/checks.yml'
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
+  - 'pyproject.toml'
