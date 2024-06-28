@@ -1,7 +1,7 @@
+from __future__ import annotations
+
 import json
 import random
-import typing
-from typing import Tuple
 from unittest import mock
 
 import optuna
@@ -15,7 +15,7 @@ def _objective_func(trial: optuna.trial.Trial) -> float:
     return (x - 2) ** 2 + (y - 25) ** 2
 
 
-def _multiobjective_func(trial: optuna.trial.Trial) -> typing.Tuple[float, float]:
+def _multiobjective_func(trial: optuna.trial.Trial) -> tuple[float, float]:
     x = trial.suggest_float("x", -10, 10)
     y = trial.suggest_float("y", 1, 10, log=True)
     first_objective = (x - 2) ** 2 + (y - 25) ** 2
@@ -90,7 +90,7 @@ def test_comet_callback_track_in_comet_decorator(
     )
 
     @comet_callback.track_in_comet()
-    def your_objective(trial: mock.MagicMock) -> Tuple[float, float]:
+    def your_objective(trial: mock.MagicMock) -> tuple[float, float]:
         x = random.uniform(-5, 5)
         y = random.uniform(-5, 5)
         trial.experiment.log_other("extra_info", "test")
