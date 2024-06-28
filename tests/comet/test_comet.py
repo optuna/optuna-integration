@@ -62,9 +62,7 @@ def test_comet_callback_experiment_key_reuse(
 ) -> None:
     study = optuna.create_study(direction="minimize")
     study.set_user_attr("comet_study_experiment_key", "existing_experiment_key")
-    _ = CometCallback(
-        study, project_name="optuna_test_reuse", workspace="workspace_reuse"
-    )
+    _ = CometCallback(study, project_name="optuna_test_reuse", workspace="workspace_reuse")
 
     # Simulate optimization to check if the existing experiment key is reused
     optuna_trial = optuna.trial.create_trial(
