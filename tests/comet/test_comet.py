@@ -51,7 +51,7 @@ def test_comet_callback_initialization(
     study = optuna.create_study(direction="minimize")
     CometCallback(study, project_name="optuna_test_init", workspace="workspace_init")
 
-    # First call to APIExperiment upon initialization
+    # First call to APIExperiment upon initialization.
     api_experiment_mock.assert_called_once()
 
 
@@ -64,7 +64,7 @@ def test_comet_callback_experiment_key_reuse(
     study.set_user_attr("comet_study_experiment_key", "existing_experiment_key")
     _ = CometCallback(study, project_name="optuna_test_reuse", workspace="workspace_reuse")
 
-    # Simulate optimization to check if the existing experiment key is reused
+    # Simulate optimization to check if the existing experiment key is reused.
     optuna_trial = optuna.trial.create_trial(
         params={"x": 2.5},
         distributions={"x": optuna.distributions.UniformDistribution(-5, 5)},
@@ -116,7 +116,7 @@ def test_best_trials_logged(
     study.optimize(_objective_func, n_trials=n_trials, callbacks=[comet_callback])
 
     best_trials = [trial.number for trial in study.best_trials]
-    # Check if the logging of the best_trials was performed
+    # Check if the logging of the best_trials was performed.
     api_experiment_mock.return_value.log_other.assert_called_with(
         "best_trials", json.dumps(best_trials)
     )
