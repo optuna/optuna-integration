@@ -1,11 +1,10 @@
+from __future__ import annotations
+
 import json
 import random
-import typing
-from typing import Tuple
 from unittest import mock
 
 import optuna
-import pytest
 
 from optuna_integration.comet import CometCallback
 
@@ -13,26 +12,12 @@ from optuna_integration.comet import CometCallback
 def _objective_func(trial: optuna.trial.Trial) -> float:
     x = trial.suggest_float("x", -10, 10)
     y = trial.suggest_float("y", 1, 10, log=True)
-
-    params = {
-        "min_samples_leaf": trial.suggest_int("min_samples_leaf", 2, 10),
-        "max_depth": trial.suggest_int("max_depth", 5, 20),
-        "min_samples_split": trial.suggest_int("min_samples_split", 2, 10),
-    }
-
     return (x - 2) ** 2 + (y - 25) ** 2
 
 
-def _multiobjective_func(trial: optuna.trial.Trial) -> typing.Tuple[float, float]:
+def _multiobjective_func(trial: optuna.trial.Trial) -> tuple[float, float]:
     x = trial.suggest_float("x", -10, 10)
     y = trial.suggest_float("y", 1, 10, log=True)
-
-    params = {
-        "min_samples_leaf": trial.suggest_int("min_samples_leaf", 2, 10),
-        "max_depth": trial.suggest_int("max_depth", 5, 20),
-        "min_samples_split": trial.suggest_int("min_samples_split", 2, 10),
-    }
-
     first_objective = (x - 2) ** 2 + (y - 25) ** 2
     second_objective = (x - 2) ** 3 + (y - 25) ** 3
     return first_objective, second_objective
@@ -77,9 +62,7 @@ def test_comet_callback_experiment_key_reuse(
 ) -> None:
     study = optuna.create_study(direction="minimize")
     study.set_user_attr("comet_study_experiment_key", "existing_experiment_key")
-    comet_callback = CometCallback(
-        study, project_name="optuna_test_reuse", workspace="workspace_reuse"
-    )
+    _ = CometCallback(study, project_name="optuna_test_reuse", workspace="workspace_reuse")
 
     # Simulate optimization to check if the existing experiment key is reused
     optuna_trial = optuna.trial.create_trial(
@@ -107,7 +90,7 @@ def test_comet_callback_track_in_comet_decorator(
     )
 
     @comet_callback.track_in_comet()
-    def your_objective(trial: mock.MagicMock) -> Tuple[float, float]:
+    def your_objective(trial: mock.MagicMock) -> tuple[float, float]:
         x = random.uniform(-5, 5)
         y = random.uniform(-5, 5)
         trial.experiment.log_other("extra_info", "test")
