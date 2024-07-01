@@ -64,6 +64,15 @@ Chainer
    optuna_integration.ChainerPruningExtension
    optuna_integration.ChainerMNStudy
 
+Comet
+-----
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   optuna_integration.CometCallback
+
 Dask
 ----
 
@@ -157,7 +166,7 @@ sklearn
    :toctree: generated/
    :nosignatures:
 
-    optuna_integration.OptunaSearchCV
+   optuna_integration.OptunaSearchCV
 
 skorch
 ------
@@ -166,7 +175,7 @@ skorch
    :toctree: generated/
    :nosignatures:
 
-    optuna_integration.SkorchPruningCallback
+   optuna_integration.SkorchPruningCallback
 
 TensorBoard
 -----------
