@@ -56,6 +56,103 @@ document = [
     "sphinx",
     "sphinx_rtd_theme",
 ]
+allennlp = [
+    "allennlp",
+    "jsonnet",
+    "numpy<2.0.0",
+    "psutil",
+]
+chainer = [
+    "chainer",
+    "numpy<2.0.0",
+]
+chainermn = [
+    "chainermn",
+    "numpy<2.0.0",
+]
+botorch = [
+    "botorch<0.10.0",
+]
+catboost = [
+    "numpy<2.0.0",  # TODO(nabe): Remove this constraint once this issue is resolved. https://github.com/numpy/numpy/issues/26710
+    "catboost",
+]
+cma = [
+    "numpy<2.0.0",  # TODO(nabe): Remove this constraint once this issue is resolved. https://github.com/numpy/numpy/issues/26710
+    "cma",
+]
+comet = [
+    "comet_ml>=3.39.3",
+]
+dask = [
+    "distributed",
+]
+fastai = [
+    "fastai>=2.0.0",
+]
+fastaiv2 = [
+    "fastai>=2.0.0",
+]
+keras = [
+    "tensorflow",
+]
+lightgbm = [
+    "lightgbm",
+    "scikit-learn",
+]
+mlflow = [
+    "mlflow",
+]
+mxnet = [
+    "mxnet",
+]
+pytorch_distributed = [
+    "gpytorch",
+]
+pytorch-distributed = [
+    "gpytorch",
+]
+pytorch_ignite = [
+    "pytorch-ignite",
+]
+pytorch-ignite = [
+    "pytorch-ignite",
+]
+pytorch_lightning = [
+    "lightning",
+]
+pytorch-lightning = [
+    "lightning",
+]
+shap = [
+    "numpy<2.0.0",  # TODO(nabe): Remove this constraint once this issue is resolved. https://github.com/numpy/numpy/issues/26710
+    "shap",
+]
+sklearn = [
+    "pandas",
+    "scikit-learn",
+    "scipy",
+]
+skorch = [
+    "skorch",
+    # "torch",  # Required for running test_skorch.
+]
+tensorboard = [
+    "tensorboard",
+    "tensorflow",
+]
+tensorflow = [
+    "tensorflow<=2.15.0",
+]
+tfkeras = [
+    "tensorflow",
+]
+wandb = [
+    "wandb",
+]
+xgboost = [
+    "xgboost",
+]
 
 [tool.setuptools.packages.find]
 # where = ["."]
