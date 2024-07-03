@@ -102,6 +102,7 @@ jobs:
     uses: ./.github/workflows/checks_template.yml
     with:
       integration_name: 'comet'
+      deprecated: false
 
   dask:
     if: needs.changes.outputs.dask == 'true'
