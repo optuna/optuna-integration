@@ -276,12 +276,6 @@ class TestLightGBMTuner:
         )
         return runner
 
-    def test_deprecated_args(self) -> None:
-        dummy_dataset = lgb.Dataset(None)
-
-        with pytest.warns(FutureWarning):
-            LightGBMTuner({}, dummy_dataset, valid_sets=[dummy_dataset])
-
     def test_no_eval_set_args(self) -> None:
         params: dict[str, Any] = {}
         train_set = lgb.Dataset(None)
@@ -752,12 +746,6 @@ class TestLightGBMTunerCV:
             params, train_set, callbacks=[early_stopping(stopping_rounds=2)], **kwargs
         )
         return runner
-
-    def test_deprecated_args(self) -> None:
-        dummy_dataset = lgb.Dataset(None)
-
-        with pytest.warns(FutureWarning):
-            LightGBMTunerCV({}, dummy_dataset)
 
     @pytest.mark.parametrize(
         "metric, study_direction",
