@@ -363,7 +363,6 @@ class _LightGBMBaseTuner(_BaseTuner):
         sample_size: int | None = None,
         study: optuna.study.Study | None = None,
         optuna_callbacks: list[Callable[[Study, FrozenTrial], None]] | None = None,
-        verbosity: int | None = None,
         show_progress_bar: bool = True,
         model_dir: str | None = None,
         *,
@@ -384,7 +383,6 @@ class _LightGBMBaseTuner(_BaseTuner):
             callbacks=callbacks,
             time_budget=time_budget,
             sample_size=sample_size,
-            verbosity=verbosity,
             show_progress_bar=show_progress_bar,
         )
         self._parse_args(*args, **kwargs)
@@ -425,15 +423,6 @@ class _LightGBMBaseTuner(_BaseTuner):
                     "Please set 'minimize' as the direction."
                 )
 
-        if verbosity is not None:
-            warnings.warn(
-                "`verbosity` argument is deprecated and will be removed in the future. "
-                "The removal of this feature is currently scheduled for v4.0.0, "
-                "but this schedule is subject to change. Please use optuna.logging.set_verbosity()"
-                " instead.",
-                FutureWarning,
-            )
-
         if self._model_dir is not None and not os.path.exists(self._model_dir):
             os.mkdir(self._model_dir)
 
@@ -461,7 +450,7 @@ class _LightGBMBaseTuner(_BaseTuner):
     def _parse_args(self, *args: Any, **kwargs: Any) -> None:
         self.auto_options = {
             option_name: kwargs.get(option_name)
-            for option_name in ["time_budget", "sample_size", "verbosity", "show_progress_bar"]
+            for option_name in ["time_budget", "sample_size", "show_progress_bar"]
         }
 
         # Split options.
@@ -476,16 +465,6 @@ class _LightGBMBaseTuner(_BaseTuner):
 
     def run(self) -> None:
         """Perform the hyperparameter-tuning with given parameters."""
-        verbosity = self.auto_options["verbosity"]
-        if verbosity is not None:
-            if verbosity > 1:
-                optuna.logging.set_verbosity(optuna.logging.DEBUG)
-            elif verbosity == 1:
-                optuna.logging.set_verbosity(optuna.logging.INFO)
-            elif verbosity == 0:
-                optuna.logging.set_verbosity(optuna.logging.WARNING)
-            else:
-                optuna.logging.set_verbosity(optuna.logging.CRITICAL)
 
         # Handling aliases.
         _handling_alias_parameters(self.lgbm_params)
@@ -719,17 +698,6 @@ class LightGBMTuner(_LightGBMBaseTuner):
             exist, it will be created. The filenames of the boosters will be
             ``{model_dir}/{trial_number}.pkl`` (e.g., ``./boosters/0.pkl``).
 
-        verbosity:
-            A verbosity level to change Optuna's logging level. The level is aligned to
-            `LightGBM's verbosity`_ .
-
-            .. warning::
-                Deprecated in v2.0.0. ``verbosity`` argument will be removed in the future.
-                The removal of this feature is currently scheduled for v4.0.0,
-                but this schedule is subject to change.
-
-                Please use :func:`~optuna.logging.set_verbosity` instead.
-
         show_progress_bar:
             Flag to show progress bars or not. To disable progress bar, set this :obj:`False`.
 
@@ -768,7 +736,6 @@ class LightGBMTuner(_LightGBMBaseTuner):
         study: optuna.study.Study | None = None,
         optuna_callbacks: list[Callable[[Study, FrozenTrial], None]] | None = None,
         model_dir: str | None = None,
-        verbosity: int | None = None,
         show_progress_bar: bool = True,
         *,
         optuna_seed: int | None = None,
@@ -785,7 +752,6 @@ class LightGBMTuner(_LightGBMBaseTuner):
             sample_size=sample_size,
             study=study,
             optuna_callbacks=optuna_callbacks,
-            verbosity=verbosity,
             show_progress_bar=show_progress_bar,
             model_dir=model_dir,
             optuna_seed=optuna_seed,
@@ -904,17 +870,6 @@ class LightGBMTunerCV(_LightGBMBaseTuner):
             created. The filenames of the boosters will be ``{model_dir}/{trial_number}.pkl``
             (e.g., ``./boosters/0.pkl``).
 
-        verbosity:
-            A verbosity level to change Optuna's logging level. The level is aligned to
-            `LightGBM's verbosity`_ .
-
-            .. warning::
-                Deprecated in v2.0.0. ``verbosity`` argument will be removed in the future.
-                The removal of this feature is currently scheduled for v4.0.0,
-                but this schedule is subject to change.
-
-                Please use :func:`~optuna.logging.set_verbosity` instead.
-
         show_progress_bar:
             Flag to show progress bars or not. To disable progress bar, set this :obj:`False`.
 
@@ -964,7 +919,6 @@ class LightGBMTunerCV(_LightGBMBaseTuner):
         sample_size: int | None = None,
         study: optuna.study.Study | None = None,
         optuna_callbacks: list[Callable[[Study, FrozenTrial], None]] | None = None,
-        verbosity: int | None = None,
         show_progress_bar: bool = True,
         model_dir: str | None = None,
         return_cvbooster: bool = False,
@@ -983,7 +937,6 @@ class LightGBMTunerCV(_LightGBMBaseTuner):
             sample_size=sample_size,
             study=study,
             optuna_callbacks=optuna_callbacks,
-            verbosity=verbosity,
             show_progress_bar=show_progress_bar,
             model_dir=model_dir,
             optuna_seed=optuna_seed,

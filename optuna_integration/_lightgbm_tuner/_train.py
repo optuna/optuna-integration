@@ -31,7 +31,6 @@ def train(
     study: Study | None = None,
     optuna_callbacks: list[Callable[[Study, FrozenTrial], None]] | None = None,
     model_dir: str | None = None,
-    verbosity: int | None = None,
     show_progress_bar: bool = True,
     *,
     optuna_seed: int | None = None,
@@ -82,17 +81,6 @@ def train(
             exist, it will be created. The filenames of the boosters will be
             ``{model_dir}/{trial_number}.pkl`` (e.g., ``./boosters/0.pkl``).
 
-        verbosity:
-            A verbosity level to change Optuna's logging level. The level is aligned to
-            `LightGBM's verbosity`_ .
-
-            .. warning::
-                Deprecated in v2.0.0. ``verbosity`` argument will be removed in the future.
-                The removal of this feature is currently scheduled for v4.0.0,
-                but this schedule is subject to change.
-
-                Please use :func:`~optuna.logging.set_verbosity` instead.
-
         show_progress_bar:
             Flag to show progress bars or not. To disable progress bar, set this :obj:`False`.
 
@@ -131,7 +119,6 @@ def train(
         study=study,
         optuna_callbacks=optuna_callbacks,
         model_dir=model_dir,
-        verbosity=verbosity,
         show_progress_bar=show_progress_bar,
         optuna_seed=optuna_seed,
     )

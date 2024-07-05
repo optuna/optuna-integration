@@ -276,12 +276,6 @@ class TestLightGBMTuner:
         )
         return runner
 
-    def test_deprecated_args(self) -> None:
-        dummy_dataset = lgb.Dataset(None)
-
-        with pytest.warns(FutureWarning):
-            LightGBMTuner({}, dummy_dataset, valid_sets=[dummy_dataset], verbosity=1)
-
     def test_no_eval_set_args(self) -> None:
         params: dict[str, Any] = {}
         train_set = lgb.Dataset(None)
@@ -542,44 +536,6 @@ class TestLightGBMTuner:
             tuner2.tune_regularization_factors()
         assert n_trials == len(study.trials)
 
-    @pytest.mark.parametrize(
-        "verbosity, level",
-        [
-            (None, optuna.logging.INFO),
-            (-2, optuna.logging.CRITICAL),
-            (-1, optuna.logging.CRITICAL),
-            (0, optuna.logging.WARNING),
-            (1, optuna.logging.INFO),
-            (2, optuna.logging.DEBUG),
-        ],
-    )
-    def test_run_verbosity(self, verbosity: int, level: int) -> None:
-        # We need to reconstruct our default handler to properly capture stderr.
-        optuna.logging._reset_library_root_logger()
-        optuna.logging.set_verbosity(optuna.logging.INFO)
-
-        params: dict = {"verbose": -1}
-        dataset = lgb.Dataset(np.zeros((10, 10)))
-
-        study = optuna.create_study()
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore", category=FutureWarning)
-            tuner = LightGBMTuner(
-                params,
-                dataset,
-                valid_sets=dataset,
-                study=study,
-                verbosity=verbosity,
-                callbacks=[log_evaluation(-1)],
-                time_budget=1,
-            )
-
-        with mock.patch.object(_BaseTuner, "_get_booster_best_score", return_value=1.0):
-            tuner.run()
-
-        assert optuna.logging.get_verbosity() == level
-        assert tuner.lgbm_params["verbose"] == -1
-
     @pytest.mark.parametrize("show_progress_bar, expected", [(True, 6), (False, 0)])
     def test_run_show_progress_bar(self, show_progress_bar: bool, expected: int) -> None:
         params: dict = {"verbose": -1}
@@ -791,12 +747,6 @@ class TestLightGBMTunerCV:
         )
         return runner
 
-    def test_deprecated_args(self) -> None:
-        dummy_dataset = lgb.Dataset(None)
-
-        with pytest.warns(FutureWarning):
-            LightGBMTunerCV({}, dummy_dataset, verbosity=1)
-
     @pytest.mark.parametrize(
         "metric, study_direction",
         [
@@ -922,38 +872,6 @@ class TestLightGBMTunerCV:
         with mock.patch.object(_OptunaObjectiveCV, "_get_cv_scores", return_value=[1.0]):
             tuner2.tune_regularization_factors()
         assert n_trials == len(study.trials)
-
-    @pytest.mark.parametrize(
-        "verbosity, level",
-        [
-            (None, optuna.logging.INFO),
-            (-2, optuna.logging.CRITICAL),
-            (-1, optuna.logging.CRITICAL),
-            (0, optuna.logging.WARNING),
-            (1, optuna.logging.INFO),
-            (2, optuna.logging.DEBUG),
-        ],
-    )
-    def test_run_verbosity(self, verbosity: int, level: int) -> None:
-        # We need to reconstruct our default handler to properly capture stderr.
-        optuna.logging._reset_library_root_logger()
-        optuna.logging.set_verbosity(optuna.logging.INFO)
-
-        params: dict = {"verbose": -1}
-        dataset = lgb.Dataset(np.zeros((10, 10)))
-
-        study = optuna.create_study()
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore", category=FutureWarning)
-            tuner = LightGBMTunerCV(
-                params, dataset, study=study, verbosity=verbosity, time_budget=1
-            )
-
-        with mock.patch.object(_OptunaObjectiveCV, "_get_cv_scores", return_value=[1.0]):
-            tuner.run()
-
-        assert optuna.logging.get_verbosity() == level
-        assert tuner.lgbm_params["verbose"] == -1
 
     @pytest.mark.parametrize("show_progress_bar, expected", [(True, 6), (False, 0)])
     def test_run_show_progress_bar(self, show_progress_bar: bool, expected: int) -> None:
