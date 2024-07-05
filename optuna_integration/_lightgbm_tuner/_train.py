@@ -31,8 +31,8 @@ def train(
     study: Study | None = None,
     optuna_callbacks: list[Callable[[Study, FrozenTrial], None]] | None = None,
     model_dir: str | None = None,
-    show_progress_bar: bool = True,
     *,
+    show_progress_bar: bool = True,
     optuna_seed: int | None = None,
 ) -> "lgb.Booster":
     """Wrapper of LightGBM Training API to tune hyperparameters.
