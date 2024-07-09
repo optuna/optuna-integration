@@ -71,8 +71,8 @@ if TYPE_CHECKING:
     from optuna_integration.catboost import CatBoostPruningCallback
     from optuna_integration.chainer import ChainerPruningExtension
     from optuna_integration.chainermn import ChainerMNStudy
-    from optuna_integration.comet import CometCallback
     from optuna_integration.cma import PyCmaSampler
+    from optuna_integration.comet import CometCallback
     from optuna_integration.dask import DaskStorage
     from optuna_integration.fastaiv2 import FastAIPruningCallback
     from optuna_integration.fastaiv2 import FastAIV2PruningCallback

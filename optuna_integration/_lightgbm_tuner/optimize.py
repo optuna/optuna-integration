@@ -363,9 +363,9 @@ class _LightGBMBaseTuner(_BaseTuner):
         sample_size: int | None = None,
         study: optuna.study.Study | None = None,
         optuna_callbacks: list[Callable[[Study, FrozenTrial], None]] | None = None,
+        *,
         show_progress_bar: bool = True,
         model_dir: str | None = None,
-        *,
         optuna_seed: int | None = None,
     ) -> None:
         _imports.check()
@@ -736,8 +736,8 @@ class LightGBMTuner(_LightGBMBaseTuner):
         study: optuna.study.Study | None = None,
         optuna_callbacks: list[Callable[[Study, FrozenTrial], None]] | None = None,
         model_dir: str | None = None,
-        show_progress_bar: bool = True,
         *,
+        show_progress_bar: bool = True,
         optuna_seed: int | None = None,
     ) -> None:
         super().__init__(
@@ -919,10 +919,10 @@ class LightGBMTunerCV(_LightGBMBaseTuner):
         sample_size: int | None = None,
         study: optuna.study.Study | None = None,
         optuna_callbacks: list[Callable[[Study, FrozenTrial], None]] | None = None,
+        *,
         show_progress_bar: bool = True,
         model_dir: str | None = None,
         return_cvbooster: bool = False,
-        *,
         optuna_seed: int | None = None,
     ) -> None:
         super().__init__(

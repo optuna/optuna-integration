@@ -6,7 +6,6 @@ from tempfile import TemporaryDirectory
 from typing import Any
 from typing import TYPE_CHECKING
 from unittest import mock
-import warnings
 
 import numpy as np
 import optuna
