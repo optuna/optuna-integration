@@ -21,7 +21,7 @@ CV_FLAGS = [False, True]
 def test_lightgbm_pruning_callback_call(cv: bool) -> None:
     callback_env = partial(
         lgb.callback.CallbackEnv,
-        model="test",
+        model="test",  # test
         params={},
         begin_iteration=0,
         end_iteration=1,
