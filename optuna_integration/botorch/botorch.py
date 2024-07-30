@@ -1,10 +1,8 @@
 from typing import Any
 from typing import Callable
 from typing import Dict
-from typing import List
 from typing import Optional
 from typing import Sequence
-from typing import Tuple
 from typing import Union
 import warnings
 
@@ -59,22 +57,6 @@ with try_import() as _imports:
 
         def _get_sobol_qmc_normal_sampler(num_samples: int) -> SobolQMCNormalSampler:
             return SobolQMCNormalSampler(torch.Size((num_samples,)))
-
-    if version.parse(botorch.version.version) < version.parse("0.9.0"):
-
-        def _create_objective_and_kwargs(
-            objective: Callable[["torch.Tensor", Optional["torch.Tensor"]], "torch.Tensor"],
-            constraints: List[Callable[["torch.Tensor"], "torch.Tensor"]],
-        ) -> Tuple[MCAcquisitionObjective, Dict[str, Any]]:
-            return ConstrainedMCObjective(objective=objective, constraints=constraints), {}
-
-    else:
-
-        def _create_objective_and_kwargs(
-            objective: Callable[["torch.Tensor", Optional["torch.Tensor"]], "torch.Tensor"],
-            constraints: List[Callable[["torch.Tensor"], "torch.Tensor"]],
-        ) -> Tuple[MCAcquisitionObjective, Dict[str, Any]]:
-            return GenericMCObjective(objective), {"constraints": constraints}
 
     from gpytorch.mlls import ExactMarginalLogLikelihood
     from gpytorch.mlls.sum_marginal_log_likelihood import SumMarginalLogLikelihood
@@ -254,6 +236,11 @@ def qei_candidates_func(
     if train_obj.size(-1) != 1:
         raise ValueError("Objective may only contain single values with qEI.")
     if train_con is not None:
+        if version.parse(botorch.version.version) < version.parse("0.9.0"):
+            raise ImportError(
+                "qei_candidates_func requires botorch >=0.9.0. for constrained problems."
+                "Please upgrade botorch"
+            )       
         train_y = torch.cat([train_obj, train_con], dim=-1)
 
         is_feas = (train_con <= 0).all(dim=-1)
@@ -269,10 +256,10 @@ def qei_candidates_func(
             best_f = train_obj_feas.max()
 
         n_constraints = train_con.size(1)
-        objective, kwargs = _create_objective_and_kwargs(
-            objective=lambda Z, X: Z[..., 0],
-            constraints=[lambda Z: Z[..., -n_constraints + i] for i in range(n_constraints)],
-        )
+        objective = GenericMCObjective(lambda Z, X: Z[..., 0])
+        kwargs = {
+            "constraints": [lambda Z: Z[..., -n_constraints + i] for i in range(n_constraints)],
+        }
     else:
         train_y = train_obj
 
@@ -336,13 +323,18 @@ def qnei_candidates_func(
     if train_obj.size(-1) != 1:
         raise ValueError("Objective may only contain single values with qNEI.")
     if train_con is not None:
+        if version.parse(botorch.version.version) < version.parse("0.9.0"):
+            raise ImportError(
+                "qnei_candidates_func requires botorch >=0.9.0. for constrained problems."
+                "Please upgrade botorch"
+            )
         train_y = torch.cat([train_obj, train_con], dim=-1)
 
         n_constraints = train_con.size(1)
-        objective, kwargs = _create_objective_and_kwargs(
-            objective=lambda Z, X: Z[..., 0],
-            constraints=[lambda Z: Z[..., -n_constraints + i] for i in range(n_constraints)],
-        )
+        objective = GenericMCObjective(lambda Z, X: Z[..., 0])
+        kwargs = {
+            "constraints": [lambda Z: Z[..., -n_constraints + i] for i in range(n_constraints)],
+        }
     else:
         train_y = train_obj
 
@@ -644,12 +636,18 @@ def qparego_candidates_func(
     scalarization = get_chebyshev_scalarization(weights=weights, Y=train_obj)
 
     if train_con is not None:
+        if version.parse(botorch.version.version) < version.parse("0.9.0"):
+            raise ImportError(
+                "qparego_candidates_func requires botorch >=0.9.0. for constrained problems."
+                "Please upgrade botorch"
+            )
+
         train_y = torch.cat([train_obj, train_con], dim=-1)
         n_constraints = train_con.size(1)
-        objective, kwargs = _create_objective_and_kwargs(
-            objective=lambda Z, X: scalarization(Z[..., :n_objectives]),
-            constraints=[lambda Z: Z[..., -n_constraints + i] for i in range(n_constraints)],
-        )
+        objective = GenericMCObjective(lambda Z, X: scalarization(Z[..., :n_objectives]))
+        kwargs = {
+            "constraints": [lambda Z: Z[..., -n_constraints + i] for i in range(n_constraints)],
+        }
     else:
         train_y = train_obj
 
