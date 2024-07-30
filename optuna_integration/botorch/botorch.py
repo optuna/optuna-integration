@@ -37,7 +37,6 @@ with try_import() as _imports:
     from botorch.acquisition.multi_objective.objective import IdentityMCMultiOutputObjective
     from botorch.acquisition.objective import ConstrainedMCObjective
     from botorch.acquisition.objective import GenericMCObjective
-    from botorch.acquisition.objective import MCAcquisitionObjective
     from botorch.models import ModelListGP
     from botorch.models import SingleTaskGP
     from botorch.models.transforms.outcome import Standardize
@@ -240,7 +239,7 @@ def qei_candidates_func(
             raise ImportError(
                 "qei_candidates_func requires botorch >=0.9.0. for constrained problems."
                 "Please upgrade botorch"
-            )       
+            )
         train_y = torch.cat([train_obj, train_con], dim=-1)
 
         is_feas = (train_con <= 0).all(dim=-1)
