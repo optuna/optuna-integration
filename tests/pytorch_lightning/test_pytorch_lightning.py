@@ -58,8 +58,10 @@ class Model(LightningModule):
         accuracy = sum(self.validation_step_outputs) / len(self.validation_step_outputs)
         self.log("accuracy", accuracy)
 
-    def configure_optimizers(self) -> "torch.optim.Optimizer":
-        return torch.optim.SGD(self._model.parameters(), lr=1e-2)
+    # TODO(not522): Remove this type-ignore after the PyTorch fix is released.
+    # See https://github.com/pytorch/pytorch/pull/131959.
+    def configure_optimizers(self) -> "torch.optim.Optimizer":  # type: ignore[name-defined]
+        return torch.optim.SGD(self._model.parameters(), lr=1e-2)  # type: ignore[attr-defined]
 
     def train_dataloader(self) -> "torch.utils.data.DataLoader":
         return self._generate_dummy_dataset()
