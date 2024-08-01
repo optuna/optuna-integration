@@ -42,12 +42,6 @@ class PyCmaSampler(BaseSampler):
     Note that parallel execution of trials may affect the optimization performance of CMA-ES,
     especially if the number of trials running in parallel exceeds the population size.
 
-    .. note::
-        :class:`~optuna_integration.CmaEsSampler` was renamed to
-        :class:`~optuna_integration.PyCmaSampler` in v4.0.0. Please use
-        :class:`~optuna_integration.PyCmaSampler` instead of
-        :class:`~optuna_integration.CmaEsSampler`.
-
     Args:
 
         x0:
