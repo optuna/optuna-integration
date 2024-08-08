@@ -163,6 +163,13 @@ def test_botorch_specify_candidates_func_constrained(
     ) < version.parse("0.9.5"):
         pytest.skip("qHypervolumeKnowledgeGradient is not available in botorch <0.9.5.")
 
+    if candidates_func in [
+        integration.botorch.qei_candidates_func,
+        integration.botorch.qnei_candidates_func,
+        integration.botorch.qparego_candidates_func,
+    ] and version.parse(botorch.version.version) < version.parse("0.9.0"):
+        pytest.skip("MC EI acquisition functions require botorch >=0.9.0.")
+
     n_trials = 4
     n_startup_trials = 2
     constraints_func_call_count = 0
