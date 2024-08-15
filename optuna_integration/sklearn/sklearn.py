@@ -10,6 +10,7 @@ from numbers import Integral
 from numbers import Number
 from time import time
 from typing import Any
+from typing import List
 from typing import Union
 import warnings
 
@@ -50,11 +51,11 @@ with try_import() as _imports:
 if not _imports.is_successful():
     BaseEstimator = object  # NOQA
 
-ArrayLikeType = Union[list, np.ndarray, "pd.Series", "spmatrix"]
-OneDimArrayLikeType = Union[list[float], np.ndarray, "pd.Series"]
-TwoDimArrayLikeType = Union[list[list[float]], np.ndarray, "pd.DataFrame", "spmatrix"]
-IterableType = Union[list, "pd.DataFrame", np.ndarray, "pd.Series", "spmatrix", None]
-IndexableType = Iterable | None
+ArrayLikeType = Union[List, np.ndarray, "pd.Series", "spmatrix"]
+OneDimArrayLikeType = Union[List[float], np.ndarray, "pd.Series"]
+TwoDimArrayLikeType = Union[List[List[float]], np.ndarray, "pd.DataFrame", "spmatrix"]
+IterableType = Union[List, "pd.DataFrame", np.ndarray, "pd.Series", "spmatrix", None]
+IndexableType = Union[Iterable, None]
 
 _logger = logging.get_logger(__name__)
 
