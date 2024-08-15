@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from collections import OrderedDict
 import math
-import typing
 from unittest.mock import patch
 
 import numpy as np
@@ -17,7 +16,7 @@ with try_import():
     import tensorflow as tf
 
 
-def fixed_value_input_fn() -> typing.Tuple[typing.Dict[str, "tf.Tensor"], "tf.Tensor"]:
+def fixed_value_input_fn() -> tuple[dict[str, "tf.Tensor"], "tf.Tensor"]:
     x_train = np.zeros([16, 20])
     y_train = np.zeros(16)
     dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train))
