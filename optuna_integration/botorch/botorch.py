@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from typing import Any
 from collections.abc import Callable
 from collections.abc import Sequence
+from typing import Any
 import warnings
 
 import numpy
@@ -974,7 +974,7 @@ class BoTorchSampler(BaseSampler):
         self,
         study: Study,
         trial: FrozenTrial,
-    ) -> Dict[str, BaseDistribution]:
+    ) -> dict[str, BaseDistribution]:
         if self._study_id is None:
             self._study_id = study._study_id
         if self._study_id != study._study_id:
@@ -982,7 +982,7 @@ class BoTorchSampler(BaseSampler):
             # because `InMemoryStorage.create_new_study` always returns the same study ID.
             raise RuntimeError("BoTorchSampler cannot handle multiple studies.")
 
-        search_space: Dict[str, BaseDistribution] = {}
+        search_space: dict[str, BaseDistribution] = {}
         for name, distribution in self._search_space.calculate(study).items():
             if distribution.single():
                 # built-in `candidates_func` cannot handle distributions that contain just a
@@ -997,8 +997,8 @@ class BoTorchSampler(BaseSampler):
         self,
         study: Study,
         trial: FrozenTrial,
-        search_space: Dict[str, BaseDistribution],
-    ) -> Dict[str, Any]:
+        search_space: dict[str, BaseDistribution],
+    ) -> dict[str, Any]:
         assert isinstance(search_space, dict)
 
         if len(search_space) == 0:

@@ -1,10 +1,10 @@
-
 from __future__ import annotations
+
+from collections.abc import Container
+from collections.abc import Sequence
 import math
 import random
 from typing import Any
-from collections.abc import Container
-from collections.abc import Sequence
 
 import numpy
 import optuna
