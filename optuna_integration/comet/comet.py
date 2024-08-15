@@ -6,6 +6,8 @@ import functools
 import json
 
 import optuna
+from optuna._experimental import experimental_class
+from optuna._experimental import experimental_func
 from optuna.study.study import ObjectiveFuncType
 
 from optuna_integration._imports import try_import
@@ -15,6 +17,7 @@ with try_import() as _imports:
     import comet_ml
 
 
+@experimental_class("4.0.0")
 class CometCallback:
     """
     A callback for logging Optuna study trials to a Comet ML Experiment.
@@ -213,6 +216,7 @@ class CometCallback:
         setattr(comet_ml, "active_experiment", experiment)
         return experiment
 
+    @experimental_func("4.0.0")
     def track_in_comet(self) -> Callable:
         def decorator(func: ObjectiveFuncType) -> ObjectiveFuncType:
             @functools.wraps(func)
