@@ -10,6 +10,7 @@ from numbers import Integral
 from numbers import Number
 from time import time
 from typing import Any
+from typing import Union
 import warnings
 
 import numpy as np
@@ -30,6 +31,7 @@ from optuna.trial import Trial
 with try_import() as _imports:
     import pandas as pd
     import scipy as sp
+    from scipy.sparse import spmatrix
 
     import sklearn
     from sklearn.base import BaseEstimator
@@ -48,10 +50,10 @@ with try_import() as _imports:
 if not _imports.is_successful():
     BaseEstimator = object  # NOQA
 
-ArrayLikeType = list | np.ndarray | "pd.Series" | "spmatrix"
-OneDimArrayLikeType = list[float] | np.ndarray | "pd.Series"
-TwoDimArrayLikeType = list[list[float]] | np.ndarray | "pd.DataFrame" | "spmatrix"
-IterableType = list | "pd.DataFrame" | np.ndarray | "pd.Series" | "spmatrix" | None
+ArrayLikeType = Union[list, np.ndarray, "pd.Series", "spmatrix"]
+OneDimArrayLikeType = Union[list[float], np.ndarray, "pd.Series"]
+TwoDimArrayLikeType = Union[list[list[float]], np.ndarray, "pd.DataFrame", "spmatrix"]
+IterableType = Union[list, "pd.DataFrame", np.ndarray, "pd.Series", "spmatrix", None]
 IndexableType = Iterable | None
 
 _logger = logging.get_logger(__name__)
