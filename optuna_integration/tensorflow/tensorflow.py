@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import optuna
 
 from optuna_integration._imports import try_import

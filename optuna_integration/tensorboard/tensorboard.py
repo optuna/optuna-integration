@@ -1,5 +1,6 @@
+from __future__ import annotations
+
 import os
-from typing import Dict
 
 import optuna
 from optuna._experimental import experimental_class
@@ -38,7 +39,7 @@ class TensorBoardCallback:
         _imports.check()
         self._dirname = dirname
         self._metric_name = metric_name
-        self._hp_params: Dict[str, hp.HParam] = {}
+        self._hp_params: dict[str, hp.HParam] = {}
 
     def __call__(self, study: optuna.study.Study, trial: optuna.trial.FrozenTrial) -> None:
         if len(self._hp_params) == 0:
@@ -62,7 +63,7 @@ class TensorBoardCallback:
             tf.summary.scalar(self._metric_name, trial_value, step=trial.number)
 
     def _add_distributions(
-        self, distributions: Dict[str, optuna.distributions.BaseDistribution]
+        self, distributions: dict[str, optuna.distributions.BaseDistribution]
     ) -> None:
         supported_distributions = (
             optuna.distributions.CategoricalDistribution,

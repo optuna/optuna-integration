@@ -10,8 +10,6 @@ from numbers import Integral
 from numbers import Number
 from time import time
 from typing import Any
-from typing import List
-from typing import Union
 import warnings
 
 import numpy as np
@@ -32,7 +30,6 @@ from optuna.trial import Trial
 with try_import() as _imports:
     import pandas as pd
     import scipy as sp
-    from scipy.sparse import spmatrix
 
     import sklearn
     from sklearn.base import BaseEstimator
@@ -51,11 +48,11 @@ with try_import() as _imports:
 if not _imports.is_successful():
     BaseEstimator = object  # NOQA
 
-ArrayLikeType = Union[List, np.ndarray, "pd.Series", "spmatrix"]
-OneDimArrayLikeType = Union[List[float], np.ndarray, "pd.Series"]
-TwoDimArrayLikeType = Union[List[List[float]], np.ndarray, "pd.DataFrame", "spmatrix"]
-IterableType = Union[List, "pd.DataFrame", np.ndarray, "pd.Series", "spmatrix", None]
-IndexableType = Union[Iterable, None]
+ArrayLikeType = list | np.ndarray | "pd.Series" | "spmatrix"
+OneDimArrayLikeType = list[float] | np.ndarray | "pd.Series"
+TwoDimArrayLikeType = list[list[float]] | np.ndarray | "pd.DataFrame" | "spmatrix"
+IterableType = list | "pd.DataFrame" | np.ndarray | "pd.Series" | "spmatrix" | None
+IndexableType = Iterable | None
 
 _logger = logging.get_logger(__name__)
 
@@ -866,7 +863,7 @@ class OptunaSearchCV(BaseEstimator):
 
         self.sample_indices_ = np.arange(n_samples)
 
-        if type(max_samples) is float:
+        if isinstance(max_samples, float):
             max_samples = int(max_samples * n_samples)
 
         if max_samples < n_samples:

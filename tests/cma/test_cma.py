@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 import logging
 import math
 from typing import Any
-from typing import Dict
 from unittest.mock import call
 from unittest.mock import patch
 import warnings
@@ -163,7 +164,7 @@ class TestPyCmaSampler:
 class TestOptimizer:
     @staticmethod
     @pytest.fixture
-    def search_space() -> Dict[str, BaseDistribution]:
+    def search_space() -> dict[str, BaseDistribution]:
         return {
             "c": CategoricalDistribution(("a", "b")),
             "d": FloatDistribution(-1, 9, step=2),
@@ -176,7 +177,7 @@ class TestOptimizer:
 
     @staticmethod
     @pytest.fixture
-    def x0() -> Dict[str, Any]:
+    def x0() -> dict[str, Any]:
         return {
             "c": "a",
             "d": -1,
@@ -188,7 +189,7 @@ class TestOptimizer:
         }
 
     @staticmethod
-    def test_init(search_space: Dict[str, BaseDistribution], x0: Dict[str, Any]) -> None:
+    def test_init(search_space: dict[str, BaseDistribution], x0: dict[str, Any]) -> None:
         # TODO(c-bata): Avoid exact assertion checks
         eps = 1e-10
 
@@ -224,8 +225,8 @@ class TestOptimizer:
     @staticmethod
     @pytest.mark.parametrize("direction", [StudyDirection.MINIMIZE, StudyDirection.MAXIMIZE])
     def test_tell(
-        search_space: Dict[str, BaseDistribution],
-        x0: Dict[str, Any],
+        search_space: dict[str, BaseDistribution],
+        x0: dict[str, Any],
         direction: StudyDirection,
     ) -> None:
         optimizer = _Optimizer(search_space, x0, 0.2, None, {"popsize": 3, "seed": 1})
@@ -242,7 +243,7 @@ class TestOptimizer:
     @staticmethod
     @pytest.mark.parametrize("state", [TrialState.FAIL, TrialState.RUNNING, TrialState.PRUNED])
     def test_tell_filter_by_state(
-        search_space: Dict[str, BaseDistribution], x0: Dict[str, Any], state: TrialState
+        search_space: dict[str, BaseDistribution], x0: dict[str, Any], state: TrialState
     ) -> None:
         optimizer = _Optimizer(search_space, x0, 0.2, None, {"popsize": 2, "seed": 1})
 
@@ -259,7 +260,7 @@ class TestOptimizer:
 
     @staticmethod
     def test_tell_filter_by_distribution(
-        search_space: Dict[str, BaseDistribution], x0: Dict[str, Any]
+        search_space: dict[str, BaseDistribution], x0: dict[str, Any]
     ) -> None:
         optimizer = _Optimizer(search_space, x0, 0.2, None, {"popsize": 2, "seed": 1})
 
@@ -270,7 +271,7 @@ class TestOptimizer:
         assert 1 == optimizer.tell(trials, StudyDirection.MINIMIZE)
 
     @staticmethod
-    def test_ask(search_space: Dict[str, BaseDistribution], x0: Dict[str, Any]) -> None:
+    def test_ask(search_space: dict[str, BaseDistribution], x0: dict[str, Any]) -> None:
         trials = [
             _create_frozen_trial(params=x0, param_distributions=search_space, number=i)
             for i in range(3)
@@ -319,7 +320,7 @@ class TestOptimizer:
         assert params2 != params3
 
     @staticmethod
-    def test_is_compatible(search_space: Dict[str, BaseDistribution], x0: Dict[str, Any]) -> None:
+    def test_is_compatible(search_space: dict[str, BaseDistribution], x0: dict[str, Any]) -> None:
         optimizer = _Optimizer(search_space, x0, 0.1, None, {})
 
         # Compatible.

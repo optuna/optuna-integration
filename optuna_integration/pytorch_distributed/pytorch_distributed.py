@@ -1,13 +1,12 @@
 from __future__ import annotations
 
+from collections.abc import Callable
+from collections.abc import Sequence
 from datetime import datetime
 import functools
 import pickle
 from typing import Any
-from typing import Callable
-from typing import Optional
 from typing import overload
-from typing import Sequence
 from typing import TYPE_CHECKING
 from typing import TypeVar
 
@@ -34,7 +33,7 @@ if TYPE_CHECKING:
 
 _suggest_deprecated_msg = "Use suggest_float{args} instead."
 
-_g_pg: Optional["ProcessGroup"] = None
+_g_pg: "ProcessGroup" | None = None
 
 
 def broadcast_properties(f: "Callable[_P, _T]") -> "Callable[_P, _T]":
@@ -161,7 +160,7 @@ class TorchDistributedTrial(optuna.trial.BaseTrial):
         low: float,
         high: float,
         *,
-        step: Optional[float] = None,
+        step: float | None = None,
         log: bool = False,
     ) -> float:
         def func() -> float:

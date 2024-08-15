@@ -1,4 +1,6 @@
-from typing import Iterable
+from __future__ import annotations
+
+from collections.abc import Iterable
 from unittest.mock import patch
 
 import optuna

@@ -1,11 +1,10 @@
+
+from __future__ import annotations
 import math
 import random
 from typing import Any
-from typing import Container
-from typing import Dict
-from typing import List
-from typing import Optional
-from typing import Sequence
+from collections.abc import Container
+from collections.abc import Sequence
 
 import numpy
 import optuna
@@ -105,13 +104,13 @@ class PyCmaSampler(BaseSampler):
 
     def __init__(
         self,
-        x0: Optional[Dict[str, Any]] = None,
-        sigma0: Optional[float] = None,
-        cma_stds: Optional[Dict[str, float]] = None,
-        seed: Optional[int] = None,
-        cma_opts: Optional[Dict[str, Any]] = None,
+        x0: dict[str, Any] | None = None,
+        sigma0: float | None = None,
+        cma_stds: dict[str, float] | None = None,
+        seed: int | None = None,
+        cma_opts: dict[str, Any] | None = None,
         n_startup_trials: int = 1,
-        independent_sampler: Optional[BaseSampler] = None,
+        independent_sampler: BaseSampler | None = None,
         warn_independent_sampling: bool = True,
     ) -> None:
         _imports.check()
@@ -135,7 +134,7 @@ class PyCmaSampler(BaseSampler):
 
     def infer_relative_search_space(
         self, study: Study, trial: FrozenTrial
-    ) -> Dict[str, BaseDistribution]:
+    ) -> dict[str, BaseDistribution]:
         search_space = {}
         for name, distribution in self._search_space.calculate(study).items():
             if distribution.single():
@@ -169,8 +168,8 @@ class PyCmaSampler(BaseSampler):
         )
 
     def sample_relative(
-        self, study: Study, trial: FrozenTrial, search_space: Dict[str, BaseDistribution]
-    ) -> Dict[str, float]:
+        self, study: Study, trial: FrozenTrial, search_space: dict[str, BaseDistribution]
+    ) -> dict[str, float]:
         self._raise_error_if_multi_objective(study)
 
         if len(search_space) == 0:
@@ -208,8 +207,8 @@ class PyCmaSampler(BaseSampler):
         return optimizer.ask(trials, last_told_trial_number)
 
     @staticmethod
-    def _initialize_x0(search_space: Dict[str, BaseDistribution]) -> Dict[str, Any]:
-        x0: Dict[str, Any] = {}
+    def _initialize_x0(search_space: dict[str, BaseDistribution]) -> dict[str, Any]:
+        x0: dict[str, Any] = {}
         for name, distribution in search_space.items():
             if isinstance(distribution, FloatDistribution):
                 if distribution.log:
@@ -235,7 +234,7 @@ class PyCmaSampler(BaseSampler):
         return x0
 
     @staticmethod
-    def _initialize_sigma0(search_space: Dict[str, BaseDistribution]) -> float:
+    def _initialize_sigma0(search_space: dict[str, BaseDistribution]) -> float:
         sigma0s = []
         for name, distribution in search_space.items():
             if isinstance(distribution, (IntDistribution, FloatDistribution)):
@@ -274,7 +273,7 @@ class PyCmaSampler(BaseSampler):
         study: Study,
         trial: FrozenTrial,
         state: TrialState,
-        values: Optional[Sequence[float]],
+        values: Sequence[float] | None,
     ) -> None:
         self._independent_sampler.after_trial(study, trial, state, values)
 
@@ -282,11 +281,11 @@ class PyCmaSampler(BaseSampler):
 class _Optimizer:
     def __init__(
         self,
-        search_space: Dict[str, BaseDistribution],
-        x0: Dict[str, Any],
+        search_space: dict[str, BaseDistribution],
+        x0: dict[str, Any],
         sigma0: float,
-        cma_stds: Optional[Dict[str, float]],
-        cma_opts: Dict[str, Any],
+        cma_stds: dict[str, float] | None,
+        cma_opts: dict[str, Any],
     ) -> None:
         self._search_space = search_space
         self._param_names = list(sorted(self._search_space.keys()))
@@ -336,7 +335,7 @@ class _Optimizer:
 
         self._es = cma.CMAEvolutionStrategy(initial_cma_params, sigma0, cma_opts)
 
-    def tell(self, trials: List[FrozenTrial], study_direction: StudyDirection) -> int:
+    def tell(self, trials: list[FrozenTrial], study_direction: StudyDirection) -> int:
         complete_trials = self._collect_target_trials(trials, target_states={TrialState.COMPLETE})
 
         popsize = self._es.popsize
@@ -362,7 +361,7 @@ class _Optimizer:
             self._es.tell(xs, ys)
         return last_told_trial_number
 
-    def ask(self, trials: List[FrozenTrial], last_told_trial_number: int) -> Dict[str, Any]:
+    def ask(self, trials: list[FrozenTrial], last_told_trial_number: int) -> dict[str, Any]:
         individual_index = len(self._collect_target_trials(trials, last_told_trial_number))
         popsize = self._es.popsize
 
@@ -402,10 +401,10 @@ class _Optimizer:
 
     def _collect_target_trials(
         self,
-        trials: List[FrozenTrial],
+        trials: list[FrozenTrial],
         last_told: int = -1,
-        target_states: Optional[Container[TrialState]] = None,
-    ) -> List[FrozenTrial]:
+        target_states: Container[TrialState] | None = None,
+    ) -> list[FrozenTrial]:
         target_trials = [t for t in trials if t.number > last_told]
         target_trials = [t for t in target_trials if self._is_compatible(t)]
         if target_states is not None:
@@ -415,7 +414,7 @@ class _Optimizer:
 
     @staticmethod
     def _to_cma_params(
-        search_space: Dict[str, BaseDistribution], param_name: str, optuna_param_value: Any
+        search_space: dict[str, BaseDistribution], param_name: str, optuna_param_value: Any
     ) -> float:
         dist = search_space[param_name]
 
@@ -433,7 +432,7 @@ class _Optimizer:
 
     @staticmethod
     def _to_optuna_params(
-        search_space: Dict[str, BaseDistribution], param_name: str, cma_param_value: float
+        search_space: dict[str, BaseDistribution], param_name: str, cma_param_value: float
     ) -> Any:
         dist = search_space[param_name]
         if isinstance(dist, FloatDistribution):
