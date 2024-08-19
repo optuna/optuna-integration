@@ -80,6 +80,19 @@ with try_import() as _imports_qhvkg:
     )
 
 
+def _validate_botorch_version_for_constrained_opt(func_name: str) -> None:
+    if version.parse(botorch.version.version) < version.parse("0.9.0"):
+        raise ImportError(
+            f"{func_name} requires botorch>=0.9.0 for constrained problems, but got "
+            f"botorch={botorch.version.version}.\n"
+            "Please run ``pip install botorch --upgrade``."
+        )
+
+
+def _get_constraint_funcs(n_constraints: int) -> list[Callable[["torch.Tensor"], "torch.Tensor"]]:
+    return [lambda Z: Z[..., -n_constraints + i] for i in range(n_constraints)]
+
+
 @experimental_func("3.3.0")
 def logei_candidates_func(
     train_x: "torch.Tensor",
@@ -234,11 +247,7 @@ def qei_candidates_func(
     if train_obj.size(-1) != 1:
         raise ValueError("Objective may only contain single values with qEI.")
     if train_con is not None:
-        if version.parse(botorch.version.version) < version.parse("0.9.0"):
-            raise ImportError(
-                "qei_candidates_func requires botorch >=0.9.0. for constrained problems."
-                "Please upgrade botorch"
-            )
+        _validate_botorch_version_for_constrained_opt("qei_candidates_func")
         train_y = torch.cat([train_obj, train_con], dim=-1)
 
         is_feas = (train_con <= 0).all(dim=-1)
@@ -256,7 +265,7 @@ def qei_candidates_func(
         n_constraints = train_con.size(1)
         additonal_qei_kwargs = {
             "objective": GenericMCObjective(lambda Z, X: Z[..., 0]),
-            "constraints": [lambda Z: Z[..., -n_constraints + i] for i in range(n_constraints)],
+            "constraints": _get_constraint_funcs(n_constraints),
         }
     else:
         train_y = train_obj
@@ -319,17 +328,13 @@ def qnei_candidates_func(
     if train_obj.size(-1) != 1:
         raise ValueError("Objective may only contain single values with qNEI.")
     if train_con is not None:
-        if version.parse(botorch.version.version) < version.parse("0.9.0"):
-            raise ImportError(
-                "qnei_candidates_func requires botorch >=0.9.0. for constrained problems."
-                "Please upgrade botorch"
-            )
+        _validate_botorch_version_for_constrained_opt("qnei_candidates_func")
         train_y = torch.cat([train_obj, train_con], dim=-1)
 
         n_constraints = train_con.size(1)
         additional_qnei_kwargs = {
             "objective": GenericMCObjective(lambda Z, X: Z[..., 0]),
-            "constraints": [lambda Z: Z[..., -n_constraints + i] for i in range(n_constraints)],
+            "constraints": _get_constraint_funcs(n_constraints),
         }
     else:
         train_y = train_obj
@@ -399,7 +404,7 @@ def qehvi_candidates_func(
         n_constraints = train_con.size(1)
         additional_qehvi_kwargs = {
             "objective": IdentityMCMultiOutputObjective(outcomes=list(range(n_objectives))),
-            "constraints": [lambda Z: Z[..., -n_constraints + i] for i in range(n_constraints)],
+            "constraints": _get_constraint_funcs(n_constraints),
         }
     else:
         train_y = train_obj
@@ -547,9 +552,7 @@ def qnehvi_candidates_func(
         n_constraints = train_con.size(1)
         additional_qnehvi_kwargs = {
             "objective": IdentityMCMultiOutputObjective(outcomes=list(range(n_objectives))),
-            "constraints": [
-                (lambda Z, i=i: Z[..., -n_constraints + i]) for i in range(n_constraints)
-            ],
+            "constraints": _get_constraint_funcs(n_constraints),
         }
     else:
         train_y = train_obj
@@ -630,23 +633,18 @@ def qparego_candidates_func(
     scalarization = get_chebyshev_scalarization(weights=weights, Y=train_obj)
 
     if train_con is not None:
-        if version.parse(botorch.version.version) < version.parse("0.9.0"):
-            raise ImportError(
-                "qparego_candidates_func requires botorch >=0.9.0. for constrained problems."
-                "Please upgrade botorch"
-            )
-
+        _validate_botorch_version_for_constrained_opt("qparego_candidates_func")
         train_y = torch.cat([train_obj, train_con], dim=-1)
         n_constraints = train_con.size(1)
         objective = GenericMCObjective(lambda Z, X: scalarization(Z[..., :n_objectives]))
-        additional_kwargs = {
-            "constraints": [lambda Z: Z[..., -n_constraints + i] for i in range(n_constraints)],
+        additional_qei_kwargs = {
+            "constraints": _get_constraint_funcs(n_constraints),
         }
     else:
         train_y = train_obj
 
         objective = GenericMCObjective(scalarization)
-        additional_kwargs = {}
+        additional_qei_kwargs = {}
 
     train_x = normalize(train_x, bounds=bounds)
     if pending_x is not None:
@@ -662,7 +660,7 @@ def qparego_candidates_func(
         sampler=_get_sobol_qmc_normal_sampler(256),
         objective=objective,
         X_pending=pending_x,
-        **additional_kwargs,
+        **additional_qei_kwargs,
     )
 
     standard_bounds = torch.zeros_like(bounds)
@@ -710,9 +708,7 @@ def qkg_candidates_func(
         n_constraints = train_con.size(1)
         objective = ConstrainedMCObjective(
             objective=lambda Z, X: Z[..., 0],
-            constraints=[
-                (lambda Z, i=i: Z[..., -n_constraints + i]) for i in range(n_constraints)
-            ],
+            constraints=_get_constraint_funcs(n_constraints),
         )
     else:
         train_y = train_obj

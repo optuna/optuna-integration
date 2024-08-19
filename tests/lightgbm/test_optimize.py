@@ -286,7 +286,7 @@ class TestLightGBMTuner:
                 callbacks=[early_stopping(stopping_rounds=2)],
             )
 
-        assert excinfo.type == ValueError
+        assert excinfo.type is ValueError
         assert str(excinfo.value) == "`valid_sets` is required."
 
     @pytest.mark.parametrize(
@@ -314,7 +314,7 @@ class TestLightGBMTuner:
                 study=study,
             )
 
-        assert excinfo.type == ValueError
+        assert excinfo.type is ValueError
         assert str(excinfo.value).startswith("Study direction is inconsistent with the metric")
 
     def test_with_minimum_required_args(self) -> None:
@@ -769,7 +769,7 @@ class TestLightGBMTunerCV:
                 study=study,
             )
 
-        assert excinfo.type == ValueError
+        assert excinfo.type is ValueError
         assert str(excinfo.value).startswith("Study direction is inconsistent with the metric")
 
     def test_with_minimum_required_args(self) -> None:
