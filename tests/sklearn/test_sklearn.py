@@ -112,8 +112,8 @@ def test_optuna_search_properties() -> None:
     assert np.allclose(optuna_search.classes_, np.array([0, 1, 2]))
     assert optuna_search.n_trials_ == 10
     assert optuna_search.user_attrs_ == {"dataset": "blobs"}
-    assert type(optuna_search.predict_log_proba(X)) == np.ndarray
-    assert type(optuna_search.predict_proba(X)) == np.ndarray
+    assert isinstance(optuna_search.predict_log_proba(X), np.ndarray)
+    assert isinstance(optuna_search.predict_proba(X), np.ndarray)
 
 
 @pytest.mark.filterwarnings("ignore::UserWarning")
@@ -139,8 +139,8 @@ def test_optuna_search_transforms() -> None:
             est, {}, cv=3, error_score="raise", random_state=0, return_train_score=True
         )
     optuna_search.fit(X)
-    assert type(optuna_search.transform(X)) == np.ndarray
-    assert type(optuna_search.inverse_transform(X)) == np.ndarray
+    assert isinstance(optuna_search.transform(X), np.ndarray)
+    assert isinstance(optuna_search.inverse_transform(X), np.ndarray)
 
 
 def test_optuna_search_invalid_estimator() -> None:
