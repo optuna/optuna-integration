@@ -1,8 +1,8 @@
 from __future__ import annotations
 
+from collections.abc import Callable
 import os
 from typing import Any
-from typing import Callable
 
 from optuna import load_study
 from optuna import pruners

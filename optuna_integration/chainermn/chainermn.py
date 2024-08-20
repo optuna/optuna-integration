@@ -1,10 +1,10 @@
 from __future__ import annotations
 
+from collections.abc import Callable
+from collections.abc import Sequence
 from datetime import datetime
 from typing import Any
-from typing import Callable
 from typing import overload
-from typing import Sequence
 import warnings
 
 from optuna import TrialPruned

@@ -1,6 +1,6 @@
+from __future__ import annotations
+
 from typing import Any
-from typing import Dict
-from typing import Optional
 import warnings
 
 import optuna
@@ -41,7 +41,7 @@ class TFKerasPruningCallback(Callback):
         self._trial = trial
         self._monitor = monitor
 
-    def on_epoch_end(self, epoch: int, logs: Optional[Dict[str, Any]] = None) -> None:
+    def on_epoch_end(self, epoch: int, logs: dict[str, Any] | None = None) -> None:
         logs = logs or {}
         current_score = logs.get(self._monitor)
 

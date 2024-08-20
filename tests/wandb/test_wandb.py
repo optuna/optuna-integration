@@ -1,11 +1,8 @@
+from __future__ import annotations
+
+from collections.abc import Sequence
 from typing import Any
-from typing import Dict
-from typing import List
 from typing import NoReturn
-from typing import Sequence
-from typing import Tuple
-from typing import Type
-from typing import Union
 from unittest import mock
 import warnings
 
@@ -21,7 +18,7 @@ def _objective_func(trial: optuna.trial.Trial) -> float:
     return (x - 2) ** 2 + (y - 25) ** 2
 
 
-def _multiobjective_func(trial: optuna.trial.Trial) -> Tuple[float, float]:
+def _multiobjective_func(trial: optuna.trial.Trial) -> tuple[float, float]:
     x = trial.suggest_float("x", low=-10, high=10)
     y = trial.suggest_float("y", low=1, high=10, log=True)
     first_objective = (x - 2) ** 2 + (y - 25) ** 2
@@ -87,7 +84,7 @@ def test_run_initialized(wandb: mock.MagicMock) -> None:
 def test_attributes_set_on_epoch(wandb: mock.MagicMock, as_multirun: bool) -> None:
     wandb.sdk.wandb_run.Run = mock.MagicMock
 
-    expected_config: Dict[str, Any] = {"direction": ["MINIMIZE"]}
+    expected_config: dict[str, Any] = {"direction": ["MINIMIZE"]}
     trial_params = {"x": 1.1, "y": 2.2}
     expected_config_with_params = {**expected_config, **trial_params}
 
@@ -113,7 +110,7 @@ def test_attributes_set_on_epoch(wandb: mock.MagicMock, as_multirun: bool) -> No
 def test_multiobjective_attributes_set_on_epoch(wandb: mock.MagicMock, as_multirun: bool) -> None:
     wandb.sdk.wandb_run.Run = mock.MagicMock
 
-    expected_config: Dict[str, Any] = {"direction": ["MINIMIZE", "MAXIMIZE"]}
+    expected_config: dict[str, Any] = {"direction": ["MINIMIZE", "MAXIMIZE"]}
     trial_params = {"x": 1.1, "y": 2.2}
     expected_config_with_params = {**expected_config, **trial_params}
 
@@ -173,7 +170,7 @@ def test_log_api_call_count(wandb: mock.MagicMock) -> None:
 )
 @mock.patch("optuna_integration.wandb.wandb.wandb")
 def test_values_registered_on_epoch(
-    wandb: mock.MagicMock, metric: str, as_multirun: bool, expected: List[str]
+    wandb: mock.MagicMock, metric: str, as_multirun: bool, expected: list[str]
 ) -> None:
     def assert_call_args(log_func: mock.MagicMock, as_multirun: bool) -> None:
         call_args = log_func.call_args
@@ -199,7 +196,7 @@ def test_values_registered_on_epoch(
 @pytest.mark.parametrize("metric,expected", [("foo", ["x", "y", "foo", "trial_number"])])
 @mock.patch("optuna_integration.wandb.wandb.wandb")
 def test_values_registered_on_epoch_with_logging(
-    wandb: mock.MagicMock, metric: str, expected: List[str]
+    wandb: mock.MagicMock, metric: str, expected: list[str]
 ) -> None:
     wandb.sdk.wandb_run.Run = mock.MagicMock
 
@@ -239,9 +236,9 @@ def test_values_registered_on_epoch_with_logging(
 @mock.patch("optuna_integration.wandb.wandb.wandb")
 def test_multiobjective_values_registered_on_epoch(
     wandb: mock.MagicMock,
-    metrics: Union[str, Sequence[str]],
+    metrics: str | Sequence[str],
     as_multirun: bool,
-    expected: List[str],
+    expected: list[str],
 ) -> None:
     def assert_call_args(log_func: mock.MagicMock, as_multirun: bool) -> None:
         call_args = log_func.call_args
@@ -274,14 +271,14 @@ def test_multiobjective_values_registered_on_epoch(
 )
 @mock.patch("optuna_integration.wandb.wandb.wandb")
 def test_multiobjective_values_registered_on_epoch_with_logging(
-    wandb: mock.MagicMock, metrics: Union[str, Sequence[str]], expected: List[str]
+    wandb: mock.MagicMock, metrics: str | Sequence[str], expected: list[str]
 ) -> None:
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
         wandbc = WeightsAndBiasesCallback(as_multirun=True, metric_name=metrics)
 
         @wandbc.track_in_wandb()
-        def _decorated_objective(trial: optuna.trial.Trial) -> Tuple[float, float]:
+        def _decorated_objective(trial: optuna.trial.Trial) -> tuple[float, float]:
             result0, result1 = _multiobjective_func(trial)
             wandb.run.log({"result0": result0, "result1": result1})
             return result0, result1
@@ -303,7 +300,7 @@ def test_multiobjective_values_registered_on_epoch_with_logging(
 
 @pytest.mark.parametrize("metrics", [["foo"], ["foo", "bar", "baz"]])
 @mock.patch("optuna_integration.wandb.wandb.wandb")
-def test_multiobjective_raises_on_name_mismatch(wandb: mock.MagicMock, metrics: List[str]) -> None:
+def test_multiobjective_raises_on_name_mismatch(wandb: mock.MagicMock, metrics: list[str]) -> None:
     wandb.sdk.wandb_run.Run = mock.MagicMock
 
     study = optuna.create_study(directions=["minimize", "maximize"])
@@ -317,7 +314,7 @@ def test_multiobjective_raises_on_name_mismatch(wandb: mock.MagicMock, metrics: 
 
 @pytest.mark.parametrize("exception", [optuna.exceptions.TrialPruned, ValueError])
 @mock.patch("optuna_integration.wandb.wandb.wandb")
-def test_none_values(wandb: mock.MagicMock, exception: Type[Exception]) -> None:
+def test_none_values(wandb: mock.MagicMock, exception: type[Exception]) -> None:
     wandb.sdk.wandb_run.Run = mock.MagicMock
 
     study = optuna.create_study()

@@ -1,4 +1,4 @@
-from typing import List
+from __future__ import annotations
 
 import pytest
 
@@ -110,7 +110,7 @@ def test_handling_alias_parameter_duplication() -> None:
         ),
     ],
 )
-def test_handling_alias_metrics(aliases: List[str], expect: str) -> None:
+def test_handling_alias_metrics(aliases: list[str], expect: str) -> None:
     if len(aliases) > 0:
         for alias in aliases:
             lgbm_params = {"metric": alias}

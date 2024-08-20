@@ -866,7 +866,7 @@ class OptunaSearchCV(BaseEstimator):
 
         self.sample_indices_ = np.arange(n_samples)
 
-        if type(max_samples) is float:
+        if isinstance(max_samples, float):
             max_samples = int(max_samples * n_samples)
 
         if max_samples < n_samples:

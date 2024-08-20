@@ -1,7 +1,7 @@
+from __future__ import annotations
+
+from collections.abc import Sequence
 from typing import Any
-from typing import Optional
-from typing import Sequence
-from typing import Tuple
 from unittest.mock import patch
 import warnings
 
@@ -67,9 +67,9 @@ def test_botorch_candidates_func() -> None:
     def candidates_func(
         train_x: torch.Tensor,
         train_obj: torch.Tensor,
-        train_con: Optional[torch.Tensor],
+        train_con: torch.Tensor | None,
         bounds: torch.Tensor,
-        running_x: Optional[torch.Tensor],
+        running_x: torch.Tensor | None,
     ) -> torch.Tensor:
         assert train_con is None
 
@@ -203,9 +203,9 @@ def test_botorch_candidates_func_invalid_batch_size() -> None:
     def candidates_func(
         train_x: torch.Tensor,
         train_obj: torch.Tensor,
-        train_con: Optional[torch.Tensor],
+        train_con: torch.Tensor | None,
         bounds: torch.Tensor,
-        running_x: Optional[torch.Tensor],
+        running_x: torch.Tensor | None,
     ) -> torch.Tensor:
         return torch.rand(2, 1)  # Must have the batch size one, not two.
 
@@ -223,9 +223,9 @@ def test_botorch_candidates_func_invalid_dimensionality() -> None:
     def candidates_func(
         train_x: torch.Tensor,
         train_obj: torch.Tensor,
-        train_con: Optional[torch.Tensor],
+        train_con: torch.Tensor | None,
         bounds: torch.Tensor,
-        running_x: Optional[torch.Tensor],
+        running_x: torch.Tensor | None,
     ) -> torch.Tensor:
         return torch.rand(1, 1, 1)  # Must have one or two dimensions, not three.
 
@@ -245,9 +245,9 @@ def test_botorch_candidates_func_invalid_candidates_size() -> None:
     def candidates_func(
         train_x: torch.Tensor,
         train_obj: torch.Tensor,
-        train_con: Optional[torch.Tensor],
+        train_con: torch.Tensor | None,
         bounds: torch.Tensor,
-        running_x: Optional[torch.Tensor],
+        running_x: torch.Tensor | None,
     ) -> torch.Tensor:
         return torch.rand(n_params - 1)  # Must return candidates for all parameters.
 
@@ -298,7 +298,7 @@ def test_botorch_constraints_func_raises() -> None:
     for trial in study.trials:
         sys_con = trial.system_attrs[_CONSTRAINTS_KEY]
 
-        expected_sys_con: Optional[Tuple[int]]
+        expected_sys_con: tuple[int] | None
 
         if trial.number == 0:
             expected_sys_con = (0,)
@@ -321,9 +321,9 @@ def test_botorch_constraints_func_nan_warning() -> None:
     def candidates_func(
         train_x: torch.Tensor,
         train_obj: torch.Tensor,
-        train_con: Optional[torch.Tensor],
+        train_con: torch.Tensor | None,
         bounds: torch.Tensor,
-        running_x: Optional[torch.Tensor],
+        running_x: torch.Tensor | None,
     ) -> torch.Tensor:
         trial_number = train_x.size(0)
 
@@ -374,9 +374,9 @@ def test_botorch_constraints_func_none_warning() -> None:
     def candidates_func(
         train_x: torch.Tensor,
         train_obj: torch.Tensor,
-        train_con: Optional[torch.Tensor],
+        train_con: torch.Tensor | None,
         bounds: torch.Tensor,
-        running_x: Optional[torch.Tensor],
+        running_x: torch.Tensor | None,
     ) -> torch.Tensor:
         # `train_con` should be `None` if `constraints_func` always fails.
         assert train_con is None
@@ -419,9 +419,9 @@ def test_botorch_constraints_func_late() -> None:
     def candidates_func(
         train_x: torch.Tensor,
         train_obj: torch.Tensor,
-        train_con: Optional[torch.Tensor],
+        train_con: torch.Tensor | None,
         bounds: torch.Tensor,
-        running_x: Optional[torch.Tensor],
+        running_x: torch.Tensor | None,
     ) -> torch.Tensor:
         trial_number = train_x.size(0)
 
@@ -543,7 +543,7 @@ def test_call_after_trial_of_independent_sampler() -> None:
 
 
 @pytest.mark.parametrize("device", [None, torch.device("cpu"), torch.device("cuda:0")])
-def test_device_argument(device: Optional[torch.device]) -> None:
+def test_device_argument(device: torch.device | None) -> None:
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
         sampler = BoTorchSampler(device=device)

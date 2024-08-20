@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import optuna
 from packaging import version
 

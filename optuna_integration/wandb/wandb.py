@@ -1,13 +1,10 @@
 from __future__ import annotations
 
+from collections.abc import Callable
+from collections.abc import Sequence
 import functools
 from typing import Any
-from typing import Callable
-from typing import Dict
-from typing import Optional
-from typing import Sequence
 from typing import TYPE_CHECKING
-from typing import Union
 
 import optuna
 from optuna._experimental import experimental_class
@@ -115,8 +112,8 @@ class WeightsAndBiasesCallback:
 
     def __init__(
         self,
-        metric_name: Union[str, Sequence[str]] = "value",
-        wandb_kwargs: Optional[Dict[str, Any]] = None,
+        metric_name: str | Sequence[str] = "value",
+        wandb_kwargs: dict[str, Any] | None = None,
         as_multirun: bool = False,
     ) -> None:
         _imports.check()
@@ -227,7 +224,7 @@ class WeightsAndBiasesCallback:
 
         def decorator(func: ObjectiveFuncType) -> ObjectiveFuncType:
             @functools.wraps(func)
-            def wrapper(trial: optuna.trial.Trial) -> Union[float, Sequence[float]]:
+            def wrapper(trial: optuna.trial.Trial) -> float | Sequence[float]:
                 run = wandb.run  # Uses global run when `as_multirun` is set to False.
                 if not run:
                     run = self._initialize_run()

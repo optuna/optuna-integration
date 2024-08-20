@@ -1,11 +1,8 @@
 from __future__ import annotations
 
+from collections.abc import Callable
+from collections.abc import Sequence
 from typing import Any
-from typing import Callable
-from typing import Dict
-from typing import Optional
-from typing import Sequence
-from typing import Union
 import warnings
 
 import numpy
@@ -100,9 +97,9 @@ def _get_constraint_funcs(n_constraints: int) -> list[Callable[["torch.Tensor"],
 def logei_candidates_func(
     train_x: "torch.Tensor",
     train_obj: "torch.Tensor",
-    train_con: Optional["torch.Tensor"],
+    train_con: "torch.Tensor" | None,
     bounds: "torch.Tensor",
-    pending_x: Optional["torch.Tensor"],
+    pending_x: "torch.Tensor" | None,
 ) -> "torch.Tensor":
     """Log Expected Improvement (LogEI).
 
@@ -210,9 +207,9 @@ def logei_candidates_func(
 def qei_candidates_func(
     train_x: "torch.Tensor",
     train_obj: "torch.Tensor",
-    train_con: Optional["torch.Tensor"],
+    train_con: "torch.Tensor" | None,
     bounds: "torch.Tensor",
-    pending_x: Optional["torch.Tensor"],
+    pending_x: "torch.Tensor" | None,
 ) -> "torch.Tensor":
     """Quasi MC-based batch Expected Improvement (qEI).
 
@@ -315,9 +312,9 @@ def qei_candidates_func(
 def qnei_candidates_func(
     train_x: "torch.Tensor",
     train_obj: "torch.Tensor",
-    train_con: Optional["torch.Tensor"],
+    train_con: "torch.Tensor" | None,
     bounds: "torch.Tensor",
-    pending_x: Optional["torch.Tensor"],
+    pending_x: "torch.Tensor" | None,
 ) -> "torch.Tensor":
     """Quasi MC-based batch Noisy Expected Improvement (qNEI).
 
@@ -382,9 +379,9 @@ def qnei_candidates_func(
 def qehvi_candidates_func(
     train_x: "torch.Tensor",
     train_obj: "torch.Tensor",
-    train_con: Optional["torch.Tensor"],
+    train_con: "torch.Tensor" | None,
     bounds: "torch.Tensor",
-    pending_x: Optional["torch.Tensor"],
+    pending_x: "torch.Tensor" | None,
 ) -> "torch.Tensor":
     """Quasi MC-based batch Expected Hypervolume Improvement (qEHVI).
 
@@ -467,9 +464,9 @@ def qehvi_candidates_func(
 def ehvi_candidates_func(
     train_x: "torch.Tensor",
     train_obj: "torch.Tensor",
-    train_con: Optional["torch.Tensor"],
+    train_con: "torch.Tensor" | None,
     bounds: "torch.Tensor",
-    pending_x: Optional["torch.Tensor"],
+    pending_x: "torch.Tensor" | None,
 ) -> "torch.Tensor":
     """Expected Hypervolume Improvement (EHVI).
 
@@ -532,9 +529,9 @@ def ehvi_candidates_func(
 def qnehvi_candidates_func(
     train_x: "torch.Tensor",
     train_obj: "torch.Tensor",
-    train_con: Optional["torch.Tensor"],
+    train_con: "torch.Tensor" | None,
     bounds: "torch.Tensor",
-    pending_x: Optional["torch.Tensor"],
+    pending_x: "torch.Tensor" | None,
 ) -> "torch.Tensor":
     """Quasi MC-based batch Noisy Expected Hypervolume Improvement (qNEHVI).
 
@@ -616,9 +613,9 @@ def qnehvi_candidates_func(
 def qparego_candidates_func(
     train_x: "torch.Tensor",
     train_obj: "torch.Tensor",
-    train_con: Optional["torch.Tensor"],
+    train_con: "torch.Tensor" | None,
     bounds: "torch.Tensor",
-    pending_x: Optional["torch.Tensor"],
+    pending_x: "torch.Tensor" | None,
 ) -> "torch.Tensor":
     """Quasi MC-based extended ParEGO (qParEGO) for constrained multi-objective optimization.
 
@@ -688,9 +685,9 @@ def qparego_candidates_func(
 def qkg_candidates_func(
     train_x: "torch.Tensor",
     train_obj: "torch.Tensor",
-    train_con: Optional["torch.Tensor"],
+    train_con: "torch.Tensor" | None,
     bounds: "torch.Tensor",
-    pending_x: Optional["torch.Tensor"],
+    pending_x: "torch.Tensor" | None,
 ) -> "torch.Tensor":
     """Quasi MC-based batch Knowledge Gradient (qKG).
 
@@ -754,9 +751,9 @@ def qkg_candidates_func(
 def qhvkg_candidates_func(
     train_x: "torch.Tensor",
     train_obj: "torch.Tensor",
-    train_con: Optional["torch.Tensor"],
+    train_con: "torch.Tensor" | None,
     bounds: "torch.Tensor",
-    pending_x: Optional["torch.Tensor"],
+    pending_x: "torch.Tensor" | None,
 ) -> "torch.Tensor":
     """Quasi MC-based batch Hypervolume Knowledge Gradient (qHVKG).
 
@@ -842,9 +839,9 @@ def _get_default_candidates_func(
     [
         "torch.Tensor",
         "torch.Tensor",
-        Optional["torch.Tensor"],
+        "torch.Tensor" | None,
         "torch.Tensor",
-        Optional["torch.Tensor"],
+        "torch.Tensor" | None,
     ],
     "torch.Tensor",
 ]:
@@ -936,24 +933,25 @@ class BoTorchSampler(BaseSampler):
     def __init__(
         self,
         *,
-        candidates_func: Optional[
+        candidates_func: (
             Callable[
                 [
                     "torch.Tensor",
                     "torch.Tensor",
-                    Optional["torch.Tensor"],
+                    "torch.Tensor" | None,
                     "torch.Tensor",
-                    Optional["torch.Tensor"],
+                    "torch.Tensor" | None,
                 ],
                 "torch.Tensor",
             ]
-        ] = None,
-        constraints_func: Optional[Callable[[FrozenTrial], Sequence[float]]] = None,
+            | None
+        ) = None,
+        constraints_func: Callable[[FrozenTrial], Sequence[float]] | None = None,
         n_startup_trials: int = 10,
         consider_running_trials: bool = False,
-        independent_sampler: Optional[BaseSampler] = None,
-        seed: Optional[int] = None,
-        device: Optional["torch.device"] = None,
+        independent_sampler: BaseSampler | None = None,
+        seed: int | None = None,
+        device: "torch.device" | None = None,
     ):
         _imports.check()
 
@@ -964,7 +962,7 @@ class BoTorchSampler(BaseSampler):
         self._n_startup_trials = n_startup_trials
         self._seed = seed
 
-        self._study_id: Optional[int] = None
+        self._study_id: int | None = None
         self._search_space = IntersectionSearchSpace()
         self._device = device or torch.device("cpu")
 
@@ -972,7 +970,7 @@ class BoTorchSampler(BaseSampler):
         self,
         study: Study,
         trial: FrozenTrial,
-    ) -> Dict[str, BaseDistribution]:
+    ) -> dict[str, BaseDistribution]:
         if self._study_id is None:
             self._study_id = study._study_id
         if self._study_id != study._study_id:
@@ -980,7 +978,7 @@ class BoTorchSampler(BaseSampler):
             # because `InMemoryStorage.create_new_study` always returns the same study ID.
             raise RuntimeError("BoTorchSampler cannot handle multiple studies.")
 
-        search_space: Dict[str, BaseDistribution] = {}
+        search_space: dict[str, BaseDistribution] = {}
         for name, distribution in self._search_space.calculate(study).items():
             if distribution.single():
                 # built-in `candidates_func` cannot handle distributions that contain just a
@@ -995,8 +993,8 @@ class BoTorchSampler(BaseSampler):
         self,
         study: Study,
         trial: FrozenTrial,
-        search_space: Dict[str, BaseDistribution],
-    ) -> Dict[str, Any]:
+        search_space: dict[str, BaseDistribution],
+    ) -> dict[str, Any]:
         assert isinstance(search_space, dict)
 
         if len(search_space) == 0:
@@ -1015,12 +1013,12 @@ class BoTorchSampler(BaseSampler):
 
         trans = _SearchSpaceTransform(search_space)
         n_objectives = len(study.directions)
-        values: Union[numpy.ndarray, torch.Tensor] = numpy.empty(
+        values: numpy.ndarray | torch.Tensor = numpy.empty(
             (n_trials, n_objectives), dtype=numpy.float64
         )
-        params: Union[numpy.ndarray, torch.Tensor]
-        con: Optional[Union[numpy.ndarray, torch.Tensor]] = None
-        bounds: Union[numpy.ndarray, torch.Tensor] = trans.bounds
+        params: numpy.ndarray | torch.Tensor
+        con: numpy.ndarray | torch.Tensor | None = None
+        bounds: numpy.ndarray | torch.Tensor = trans.bounds
         params = numpy.empty((n_trials, trans.bounds.shape[0]), dtype=numpy.float64)
         for trial_idx, trial in enumerate(trials):
             if trial.state == TrialState.COMPLETE:
@@ -1151,7 +1149,7 @@ class BoTorchSampler(BaseSampler):
         study: Study,
         trial: FrozenTrial,
         state: TrialState,
-        values: Optional[Sequence[float]],
+        values: Sequence[float] | None,
     ) -> None:
         if self._constraints_func is not None:
             _process_constraints_after_trial(self._constraints_func, study, trial, state)
