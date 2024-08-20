@@ -216,7 +216,6 @@ class CometCallback:
         setattr(comet_ml, "active_experiment", experiment)
         return experiment
 
-    @experimental_func("4.0.0")
     def track_in_comet(self) -> Callable:
         def decorator(func: ObjectiveFuncType) -> ObjectiveFuncType:
             @functools.wraps(func)
