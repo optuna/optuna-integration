@@ -7,7 +7,6 @@ import json
 
 import optuna
 from optuna._experimental import experimental_class
-from optuna._experimental import experimental_func
 from optuna.study.study import ObjectiveFuncType
 
 from optuna_integration._imports import try_import
