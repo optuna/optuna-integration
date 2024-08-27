@@ -6,6 +6,7 @@ import functools
 import json
 
 import optuna
+from optuna._experimental import experimental_class
 from optuna.study.study import ObjectiveFuncType
 
 from optuna_integration._imports import try_import
@@ -15,6 +16,7 @@ with try_import() as _imports:
     import comet_ml
 
 
+@experimental_class("4.0.0")
 class CometCallback:
     """
     A callback for logging Optuna study trials to a Comet ML Experiment.
