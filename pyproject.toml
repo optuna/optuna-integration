@@ -6,7 +6,6 @@ build-backend = "setuptools.build_meta"
 name = "optuna-integration"
 description = "Integration libraries of Optuna."
 readme = "README.md"
-license = { file = "LICENSE" }
 classifiers = [
   "Development Status :: 5 - Production/Stable",
   "Intended Audience :: Science/Research",
