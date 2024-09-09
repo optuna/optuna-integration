@@ -461,12 +461,12 @@ def test_callbacks() -> None:
 
 
 @pytest.mark.parametrize("catch", [(ValueError,), ()])
-def test_catch(catch) -> None:
+def test_catch(catch: tuple) -> None:
 
     class MockDististribution(distributions.BaseDistribution):
 
         def _contains(self) -> None:  # type: ignore
-            return ValueError
+            raise ValueError
 
         def single(self) -> None:  # type: ignore
             raise ValueError
