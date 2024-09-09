@@ -24,8 +24,9 @@ from sklearn.exceptions import ConvergenceWarning
 from sklearn.exceptions import NotFittedError
 from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import SGDClassifier
+from sklearn.metrics import make_scorer
+from sklearn.metrics import r2_score
 from sklearn.model_selection import PredefinedSplit
-from sklearn.metrics import r2_score, make_scorer
 from sklearn.neighbors import KernelDensity
 from sklearn.tree import DecisionTreeRegressor
 
