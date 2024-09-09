@@ -459,7 +459,7 @@ def test_callbacks() -> None:
         assert callback.call_count == n_trials
 
 
-@pytest.mark.parametrize("catch", [(ValueError, ), ()])
+@pytest.mark.parametrize("catch", [(ValueError,), ()])
 def test_catch(catch):
 
     class MockDististribution(distributions.BaseDistribution):
