@@ -17,7 +17,6 @@ from optuna_integration import OptunaSearchCV
 from optuna_integration.sklearn.sklearn import _is_arraylike
 from optuna_integration.sklearn.sklearn import _make_indexable
 from optuna_integration.sklearn.sklearn import _num_samples
-from sklearn.base import BaseEstimator
 from sklearn.datasets import make_blobs
 from sklearn.datasets import make_regression
 from sklearn.decomposition import PCA
@@ -460,40 +459,45 @@ def test_callbacks() -> None:
         assert callback.call_count == n_trials
 
 
-@pytest.mark.parametrize("catch", [(FloatingPointError,), ()])
+@pytest.mark.parametrize("catch", [(ValueError, ), ()])
 def test_catch(catch):
+
+    class MockDististribution(distributions.BaseDistribution):
+
+        def _contains(self):
+            return ValueError
+
+        def single(self):
+            raise ValueError
+
+        def to_internal_repr(self):
+            raise ValueError
+
+    est = SGDClassifier(max_iter=5, tol=1e-03)
     X, y = make_blobs(n_samples=10)
-    
-    class MockEstimator(BaseEstimator):
-        def __init__(self, param: int = 1):
-            self.param = param
-
-        def fit(self, X, y):
-            raise FloatingPointError
-
-    est = MockEstimator()
-    param_dist = {"param": distributions.IntDistribution(1, 10)}
+    param_dist = {"param": MockDististribution()}
     n_trials = 3
 
-    optuna_search = OptunaSearchCV(
-        est,
-        param_dist,
-        cv=3,
-        max_iter=5,
-        n_trials=n_trials,
-        error_score=0,
-        refit=False,
-        scoring=make_scorer(r2_score),
-        catch=catch,
-    )
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", ExperimentalWarning)
+        optuna_search = OptunaSearchCV(
+            est,
+            param_dist,
+            cv=3,
+            max_iter=5,
+            n_trials=n_trials,
+            error_score=0,
+            refit=False,
+            scoring=make_scorer(r2_score),
+            catch=catch,
+        )
 
     if catch:
         optuna_search.fit(X, y)
-        assert optuna_search.n_trials_ == n_trials
+        assert optuna_search.n_trials_ == 3
     else:
-        with pytest.raises(FloatingPointError):
+        with pytest.raises(ValueError):
             optuna_search.fit(X, y)
-    
 
 
 @pytest.mark.filterwarnings("ignore::UserWarning")
