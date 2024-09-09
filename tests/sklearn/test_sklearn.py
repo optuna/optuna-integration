@@ -461,17 +461,17 @@ def test_callbacks() -> None:
 
 
 @pytest.mark.parametrize("catch", [(ValueError,), ()])
-def test_catch(catch):
+def test_catch(catch) -> None:
 
     class MockDististribution(distributions.BaseDistribution):
 
-        def _contains(self):
+        def _contains(self) -> None:  # type: ignore
             return ValueError
 
-        def single(self):
+        def single(self) -> None:  # type: ignore
             raise ValueError
 
-        def to_internal_repr(self):
+        def to_internal_repr(self) -> None:  # type: ignore
             raise ValueError
 
     est = SGDClassifier(max_iter=5, tol=1e-03)
