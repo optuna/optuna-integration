@@ -501,6 +501,10 @@ class OptunaSearchCV(BaseEstimator):
                 See the tutorial of `Callback for Study.optimize <https://optuna.readthedocs.io/en/stable/tutorial/20_recipes/007_optuna_callback.html#optuna-callback>`_
                 for how to use and implement callback functions.
 
+        catch:
+            Tuple of exceptions to catch such that a study continues to run even when a trial raises one of the exceptions specified in this argument.
+            Default is an empty tuple, i.e. the study will stop for any exception except for :class:`~optuna.exceptions.TrialPruned`.
+
     Attributes:
         best_estimator_:
             Estimator that was chosen by the search. This is present only if
