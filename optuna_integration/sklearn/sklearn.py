@@ -501,6 +501,11 @@ class OptunaSearchCV(BaseEstimator):
                 See the tutorial of `Callback for Study.optimize <https://optuna.readthedocs.io/en/stable/tutorial/20_recipes/007_optuna_callback.html#optuna-callback>`_
                 for how to use and implement callback functions.
 
+        catch:
+            A study continues to run even when a trial raises one of the exceptions specified
+            in this argument. Default is an empty tuple, i.e. the study will stop for any
+            exception except for :class:`~optuna.exceptions.TrialPruned`.
+
     Attributes:
         best_estimator_:
             Estimator that was chosen by the search. This is present only if
@@ -733,6 +738,7 @@ class OptunaSearchCV(BaseEstimator):
         timeout: float | None = None,
         verbose: int = 0,
         callbacks: list[Callable[[study_module.Study, FrozenTrial], None]] | None = None,
+        catch: Iterable[type[Exception]] | type[Exception] = (),
     ) -> None:
         _imports.check()
 
@@ -767,6 +773,7 @@ class OptunaSearchCV(BaseEstimator):
         self.timeout = timeout
         self.verbose = verbose
         self.callbacks = callbacks
+        self.catch = catch
 
     def _check_is_fitted(self) -> None:
         attributes = ["n_splits_", "sample_indices_", "scorer_", "study_"]
@@ -925,6 +932,7 @@ class OptunaSearchCV(BaseEstimator):
             n_trials=self.n_trials,
             timeout=self.timeout,
             callbacks=self.callbacks,
+            catch=self.catch,
         )
 
         _logger.info("Finished hyperparameter search!")

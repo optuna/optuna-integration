@@ -24,6 +24,8 @@ from sklearn.exceptions import ConvergenceWarning
 from sklearn.exceptions import NotFittedError
 from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import SGDClassifier
+from sklearn.metrics import make_scorer
+from sklearn.metrics import r2_score
 from sklearn.model_selection import PredefinedSplit
 from sklearn.neighbors import KernelDensity
 from sklearn.tree import DecisionTreeRegressor
@@ -456,6 +458,47 @@ def test_callbacks() -> None:
         for trial in optuna_search.trials_:
             callback.assert_any_call(optuna_search.study_, trial)
         assert callback.call_count == n_trials
+
+
+@pytest.mark.parametrize("catch", [(ValueError,), ()])
+def test_catch(catch: tuple) -> None:
+
+    class MockDististribution(distributions.BaseDistribution):
+
+        def _contains(self) -> None:  # type: ignore
+            raise ValueError
+
+        def single(self) -> None:  # type: ignore
+            raise ValueError
+
+        def to_internal_repr(self) -> None:  # type: ignore
+            raise ValueError
+
+    est = SGDClassifier(max_iter=5, tol=1e-03)
+    X, y = make_blobs(n_samples=10)
+    param_dist = {"param": MockDististribution()}
+    n_trials = 3
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", ExperimentalWarning)
+        optuna_search = OptunaSearchCV(
+            est,
+            param_dist,
+            cv=3,
+            max_iter=5,
+            n_trials=n_trials,
+            error_score=0,
+            refit=False,
+            scoring=make_scorer(r2_score),
+            catch=catch,
+        )
+
+    if catch:
+        optuna_search.fit(X, y)
+        assert optuna_search.n_trials_ == 3
+    else:
+        with pytest.raises(ValueError):
+            optuna_search.fit(X, y)
 
 
 @pytest.mark.filterwarnings("ignore::UserWarning")
