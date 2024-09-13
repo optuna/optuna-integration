@@ -12,6 +12,10 @@ on:
       extra_cmds:
         required: false
         type: string
+      python_matrix:
+        required: false
+        type: string
+        default: "['3.8', '3.9', '3.10', '3.11']"
 jobs:
   checks:
     runs-on: ubuntu-latest
@@ -74,7 +78,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.8', '3.9', '3.10', '3.11']
+        python-version: ${{ fromJSON(inputs.python_matrix) }}
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
