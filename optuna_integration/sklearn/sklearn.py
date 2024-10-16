@@ -715,8 +715,8 @@ class OptunaSearchCV(BaseEstimator):
     ) -> None:
         _imports.check()
 
-        if not isinstance(param_distributions, dict):
-            raise TypeError("param_distributions must be a dictionary.")
+        if not isinstance(param_distributions, Mapping):
+            raise TypeError("param_distributions must be a mapping.")
 
         # Rejecting deprecated distributions as they may cause cryptic error
         # when cloning OptunaSearchCV instance.
@@ -736,7 +736,11 @@ class OptunaSearchCV(BaseEstimator):
         self.max_iter = max_iter
         self.n_trials = n_trials
         self.n_jobs = n_jobs if n_jobs else 1
-        self.param_distributions = param_distributions
+        self.param_distributions = (
+            param_distributions
+            if isinstance(param_distributions, dict)
+            else dict(param_distributions)
+        )
         self.random_state = random_state
         self.refit = refit
         self.return_train_score = return_train_score
