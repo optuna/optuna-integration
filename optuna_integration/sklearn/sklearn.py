@@ -283,7 +283,7 @@ class _Objective:
             if y is not None:
                 classes = np.unique(y)
             else:
-                classes = None
+                classes = np.array([None])
 
             partial_fit_params.setdefault("classes", classes)
 
