@@ -280,7 +280,10 @@ class _Objective:
         if is_classifier(estimator):
             partial_fit_params = self.fit_params.copy()
             y = self.y.values if isinstance(self.y, pd.Series) else self.y
-            classes = np.unique(y)
+            if y is not None:
+                classes = np.unique(y)
+            else:
+                classes = np.array([None])
 
             partial_fit_params.setdefault("classes", classes)
 
