@@ -1,47 +1,30 @@
 from __future__ import annotations
 
-from collections.abc import Callable
-from collections.abc import Iterable
-from collections.abc import Mapping
-from logging import DEBUG
-from logging import INFO
-from logging import WARNING
-from numbers import Integral
-from numbers import Number
-from time import time
-from typing import Any
-from typing import List
-from typing import Union
 import warnings
+from collections.abc import Callable, Iterable, Mapping
+from logging import DEBUG, INFO, WARNING
+from numbers import Integral, Number
+from time import time
+from typing import Any, List, Union
 
 import numpy as np
-from optuna import distributions
-from optuna import logging
-from optuna import samplers
+from optuna import TrialPruned, distributions, logging, samplers
 from optuna import study as study_module
-from optuna import TrialPruned
 from optuna._experimental import experimental_class
 from optuna._imports import try_import
 from optuna.distributions import _convert_old_distribution_to_new_distribution
 from optuna.study import StudyDirection
 from optuna.terminator import report_cross_validation_scores
-from optuna.trial import FrozenTrial
-from optuna.trial import Trial
-
+from optuna.trial import FrozenTrial, Trial
 
 with try_import() as _imports:
     import pandas as pd
     import scipy as sp
-    from scipy.sparse import spmatrix
-
     import sklearn
-    from sklearn.base import BaseEstimator
-    from sklearn.base import clone
-    from sklearn.base import is_classifier
+    from scipy.sparse import spmatrix
+    from sklearn.base import BaseEstimator, clone, is_classifier
     from sklearn.metrics import check_scoring
-    from sklearn.model_selection import BaseCrossValidator
-    from sklearn.model_selection import check_cv
-    from sklearn.model_selection import cross_validate
+    from sklearn.model_selection import BaseCrossValidator, check_cv, cross_validate
     from sklearn.utils import _safe_indexing as sklearn_safe_indexing
     from sklearn.utils import check_random_state
     from sklearn.utils.metaestimators import _safe_split
@@ -789,9 +772,7 @@ class OptunaSearchCV(BaseEstimator):
 
         return self
 
-    def decision_function(
-        self, X: Any, *args: Any, **kwargs: Any
-    ) -> OneDimArrayLikeType | TwoDimArrayLikeType:
+    def decision_function(self, X: Any) -> OneDimArrayLikeType | TwoDimArrayLikeType:
         """Call ``decision_function`` on the best estimator.
 
         This is available only if the underlying estimator supports
@@ -800,7 +781,7 @@ class OptunaSearchCV(BaseEstimator):
 
         self._check_is_fitted()
 
-        return self.best_estimator_.decision_function(X, *args, **kwargs)
+        return self.best_estimator_.decision_function(X)
 
     def fit(
         self,
@@ -916,9 +897,7 @@ class OptunaSearchCV(BaseEstimator):
 
         return self
 
-    def predict(
-        self, X: Any, *args: Any, **kwargs: Any
-    ) -> Union[OneDimArrayLikeType | TwoDimArrayLikeType]:
+    def predict(self, X: Any) -> Union[OneDimArrayLikeType | TwoDimArrayLikeType]:
         """Call ``predict`` on the best estimator.
 
         This is available only if the underlying estimator supports ``predict``
@@ -926,9 +905,9 @@ class OptunaSearchCV(BaseEstimator):
         """
         self._check_is_fitted()
 
-        return self.best_estimator_.predict(X, *args, **kwargs)
+        return self.best_estimator_.predict(X)
 
-    def predict_log_proba(self, X: Any, *args: Any, **kwargs: Any) -> TwoDimArrayLikeType:
+    def predict_log_proba(self, X: Any) -> TwoDimArrayLikeType:
         """Call ``predict_log_proba`` on the best estimator.
 
         This is available only if the underlying estimator supports
@@ -937,9 +916,9 @@ class OptunaSearchCV(BaseEstimator):
 
         self._check_is_fitted()
 
-        return self.best_estimator_.predict_log_proba(X, *args, **kwargs)
+        return self.best_estimator_.predict_log_proba(X)
 
-    def predict_proba(self, X: Any, *args: Any, **kwargs: Any) -> TwoDimArrayLikeType:
+    def predict_proba(self, X: Any) -> TwoDimArrayLikeType:
         """Call ``predict_proba`` on the best estimator.
 
         This is available only if the underlying estimator supports
@@ -948,7 +927,7 @@ class OptunaSearchCV(BaseEstimator):
 
         self._check_is_fitted()
 
-        return self.best_estimator_.predict_proba(X, *args, **kwargs)
+        return self.best_estimator_.predict_proba(X)
 
     def score(
         self,
