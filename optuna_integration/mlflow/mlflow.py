@@ -153,7 +153,7 @@ class MLflowCallback:
                 with self._lock:
                     study = trial.study
                     self._initialize_experiment(study)
-                    nested = self._mlflow_kwargs.get("nested")
+                    nested = bool(self._mlflow_kwargs.get("nested"))
                     run_name = self._mlflow_kwargs.get("run_name", str(trial.number))
 
                     with mlflow.start_run(run_name=run_name, nested=nested) as run:
