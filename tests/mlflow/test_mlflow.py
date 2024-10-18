@@ -127,7 +127,7 @@ def test_use_existing_experiment_by_id(tmpdir: py.path.local) -> None:
     assert experiment.experiment_id == experiment_id
     assert experiment.name == "foo"
 
-    runs = mlfl_client.search_runs(experiment_id)
+    runs = mlfl_client.search_runs(experiment_id)  # type: ignore
     assert len(runs) == 10
 
 
