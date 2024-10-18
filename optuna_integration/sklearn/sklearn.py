@@ -1,30 +1,47 @@
 from __future__ import annotations
 
-import warnings
-from collections.abc import Callable, Iterable, Mapping
-from logging import DEBUG, INFO, WARNING
-from numbers import Integral, Number
+from collections.abc import Callable
+from collections.abc import Iterable
+from collections.abc import Mapping
+from logging import DEBUG
+from logging import INFO
+from logging import WARNING
+from numbers import Integral
+from numbers import Number
 from time import time
-from typing import Any, List, Union
+from typing import Any
+from typing import List
+from typing import Union
+import warnings
 
 import numpy as np
-from optuna import TrialPruned, distributions, logging, samplers
+from optuna import distributions
+from optuna import logging
+from optuna import samplers
 from optuna import study as study_module
+from optuna import TrialPruned
 from optuna._experimental import experimental_class
 from optuna._imports import try_import
 from optuna.distributions import _convert_old_distribution_to_new_distribution
 from optuna.study import StudyDirection
 from optuna.terminator import report_cross_validation_scores
-from optuna.trial import FrozenTrial, Trial
+from optuna.trial import FrozenTrial
+from optuna.trial import Trial
+
 
 with try_import() as _imports:
     import pandas as pd
     import scipy as sp
-    import sklearn
     from scipy.sparse import spmatrix
-    from sklearn.base import BaseEstimator, clone, is_classifier
+
+    import sklearn
+    from sklearn.base import BaseEstimator
+    from sklearn.base import clone
+    from sklearn.base import is_classifier
     from sklearn.metrics import check_scoring
-    from sklearn.model_selection import BaseCrossValidator, check_cv, cross_validate
+    from sklearn.model_selection import BaseCrossValidator
+    from sklearn.model_selection import check_cv
+    from sklearn.model_selection import cross_validate
     from sklearn.utils import _safe_indexing as sklearn_safe_indexing
     from sklearn.utils import check_random_state
     from sklearn.utils.metaestimators import _safe_split
