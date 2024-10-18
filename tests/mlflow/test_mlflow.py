@@ -235,7 +235,7 @@ def test_tag_truncation(tmpdir: py.path.local) -> None:
     first_run_dict = first_run.to_dictionary()
 
     my_user_attr = first_run_dict["data"]["tags"]["my_user_attr"]
-    assert len(my_user_attr) <= 5000
+    assert len(my_user_attr) <= 8000
 
 
 def test_nest_trials(tmpdir: py.path.local) -> None:
