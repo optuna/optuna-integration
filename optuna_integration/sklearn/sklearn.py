@@ -622,18 +622,6 @@ class OptunaSearchCV(BaseEstimator):
         return self.study_.user_attrs
 
     @property
-    def decision_function(self) -> Callable[..., OneDimArrayLikeType | TwoDimArrayLikeType]:
-        """Call ``decision_function`` on the best estimator.
-
-        This is available only if the underlying estimator supports
-        ``decision_function`` and ``refit`` is set to :obj:`True`.
-        """
-
-        self._check_is_fitted()
-
-        return self.best_estimator_.decision_function
-
-    @property
     def inverse_transform(self) -> Callable[..., TwoDimArrayLikeType]:
         """Call ``inverse_transform`` on the best estimator.
 
@@ -644,42 +632,6 @@ class OptunaSearchCV(BaseEstimator):
         self._check_is_fitted()
 
         return self.best_estimator_.inverse_transform
-
-    @property
-    def predict(self) -> Callable[..., OneDimArrayLikeType | TwoDimArrayLikeType]:
-        """Call ``predict`` on the best estimator.
-
-        This is available only if the underlying estimator supports ``predict``
-        and ``refit`` is set to :obj:`True`.
-        """
-
-        self._check_is_fitted()
-
-        return self.best_estimator_.predict
-
-    @property
-    def predict_log_proba(self) -> Callable[..., TwoDimArrayLikeType]:
-        """Call ``predict_log_proba`` on the best estimator.
-
-        This is available only if the underlying estimator supports
-        ``predict_log_proba`` and ``refit`` is set to :obj:`True`.
-        """
-
-        self._check_is_fitted()
-
-        return self.best_estimator_.predict_log_proba
-
-    @property
-    def predict_proba(self) -> Callable[..., TwoDimArrayLikeType]:
-        """Call ``predict_proba`` on the best estimator.
-
-        This is available only if the underlying estimator supports
-        ``predict_proba`` and ``refit`` is set to :obj:`True`.
-        """
-
-        self._check_is_fitted()
-
-        return self.best_estimator_.predict_proba
 
     @property
     def score_samples(self) -> Callable[..., OneDimArrayLikeType]:
@@ -745,8 +697,8 @@ class OptunaSearchCV(BaseEstimator):
     ) -> None:
         _imports.check()
 
-        if not isinstance(param_distributions, dict):
-            raise TypeError("param_distributions must be a dictionary.")
+        if not isinstance(param_distributions, Mapping):
+            raise TypeError("param_distributions must be a mapping.")
 
         # Rejecting deprecated distributions as they may cause cryptic error
         # when cloning OptunaSearchCV instance.
@@ -766,7 +718,11 @@ class OptunaSearchCV(BaseEstimator):
         self.max_iter = max_iter
         self.n_trials = n_trials
         self.n_jobs = n_jobs if n_jobs else 1
-        self.param_distributions = param_distributions
+        self.param_distributions = (
+            param_distributions
+            if isinstance(param_distributions, dict)
+            else dict(param_distributions)
+        )
         self.random_state = random_state
         self.refit = refit
         self.return_train_score = return_train_score
@@ -832,6 +788,17 @@ class OptunaSearchCV(BaseEstimator):
         _logger.info("Finished refitting! (elapsed time: {:.3f} sec.)".format(self.refit_time_))
 
         return self
+
+    def decision_function(self, X: Any) -> OneDimArrayLikeType | TwoDimArrayLikeType:
+        """Call ``decision_function`` on the best estimator.
+
+        This is available only if the underlying estimator supports
+        ``decision_function`` and ``refit`` is set to :obj:`True`.
+        """
+
+        self._check_is_fitted()
+
+        return self.best_estimator_.decision_function(X)
 
     def fit(
         self,
@@ -946,6 +913,38 @@ class OptunaSearchCV(BaseEstimator):
         _logger.setLevel(old_level)
 
         return self
+
+    def predict(self, X: Any) -> Union[OneDimArrayLikeType | TwoDimArrayLikeType]:
+        """Call ``predict`` on the best estimator.
+
+        This is available only if the underlying estimator supports ``predict``
+        and ``refit`` is set to :obj:`True`.
+        """
+        self._check_is_fitted()
+
+        return self.best_estimator_.predict(X)
+
+    def predict_log_proba(self, X: Any) -> TwoDimArrayLikeType:
+        """Call ``predict_log_proba`` on the best estimator.
+
+        This is available only if the underlying estimator supports
+        ``predict_log_proba`` and ``refit`` is set to :obj:`True`.
+        """
+
+        self._check_is_fitted()
+
+        return self.best_estimator_.predict_log_proba(X)
+
+    def predict_proba(self, X: Any) -> TwoDimArrayLikeType:
+        """Call ``predict_proba`` on the best estimator.
+
+        This is available only if the underlying estimator supports
+        ``predict_proba`` and ``refit`` is set to :obj:`True`.
+        """
+
+        self._check_is_fitted()
+
+        return self.best_estimator_.predict_proba(X)
 
     def score(
         self,
