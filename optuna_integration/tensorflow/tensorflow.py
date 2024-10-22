@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import optuna
+from optuna._deprecated import deprecated_class
 
 from optuna_integration._imports import try_import
 
@@ -15,6 +16,15 @@ if not _imports.is_successful():
     SessionRunHook = object  # NOQA
 
 
+@deprecated_class(
+    "4.0.0",
+    "5.0.0",
+    text=(
+        "Use :class:`~optuna_integration.KerasPruningCallback`, "
+        "since [TensorFlow recommends migrating from Estimator to Kras APIs]"
+        "(https://www.tensorflow.org/guide/migrate/migrating_estimator)."
+    ),
+)
 class TensorFlowPruningHook(SessionRunHook):
     """TensorFlow SessionRunHook to prune unpromising trials.
 

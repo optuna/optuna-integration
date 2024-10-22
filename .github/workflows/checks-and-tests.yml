@@ -218,6 +218,7 @@ jobs:
     with:
       integration_name: 'tensorflow'
       deprecated: false
+      python_matrix: "['3.8', '3.9', '3.10', '3.11']"
 
   tfkeras:
     if: needs.changes.outputs.tfkeras == 'true'
