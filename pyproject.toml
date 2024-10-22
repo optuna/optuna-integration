@@ -141,7 +141,7 @@ tensorboard = [
     "tensorflow",
 ]
 tensorflow = [
-    "tensorflow<=2.15.0"
+    "tensorflow<=2.15.0",
 ]
 tfkeras = [
     "tensorflow",
