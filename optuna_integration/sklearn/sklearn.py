@@ -621,8 +621,9 @@ class OptunaSearchCV(BaseEstimator):
 
         return self.study_.user_attrs
 
-    @property
-    def decision_function(self) -> Callable[..., OneDimArrayLikeType | TwoDimArrayLikeType]:
+    def decision_function(
+        self, X: TwoDimArrayLikeType
+    ) -> OneDimArrayLikeType | TwoDimArrayLikeType:
         """Call ``decision_function`` on the best estimator.
 
         This is available only if the underlying estimator supports
@@ -631,7 +632,7 @@ class OptunaSearchCV(BaseEstimator):
 
         self._check_is_fitted()
 
-        return self.best_estimator_.decision_function
+        return self.best_estimator_.decision_function(X)
 
     @property
     def inverse_transform(self) -> Callable[..., TwoDimArrayLikeType]:
@@ -645,8 +646,7 @@ class OptunaSearchCV(BaseEstimator):
 
         return self.best_estimator_.inverse_transform
 
-    @property
-    def predict(self) -> Callable[..., OneDimArrayLikeType | TwoDimArrayLikeType]:
+    def predict(self, X: TwoDimArrayLikeType) -> OneDimArrayLikeType | TwoDimArrayLikeType:
         """Call ``predict`` on the best estimator.
 
         This is available only if the underlying estimator supports ``predict``
@@ -655,10 +655,9 @@ class OptunaSearchCV(BaseEstimator):
 
         self._check_is_fitted()
 
-        return self.best_estimator_.predict
+        return self.best_estimator_.predict(X)
 
-    @property
-    def predict_log_proba(self) -> Callable[..., TwoDimArrayLikeType]:
+    def predict_log_proba(self, X: TwoDimArrayLikeType) -> TwoDimArrayLikeType:
         """Call ``predict_log_proba`` on the best estimator.
 
         This is available only if the underlying estimator supports
@@ -667,10 +666,9 @@ class OptunaSearchCV(BaseEstimator):
 
         self._check_is_fitted()
 
-        return self.best_estimator_.predict_log_proba
+        return self.best_estimator_.predict_log_proba(X)
 
-    @property
-    def predict_proba(self) -> Callable[..., TwoDimArrayLikeType]:
+    def predict_proba(self, X: TwoDimArrayLikeType) -> TwoDimArrayLikeType:
         """Call ``predict_proba`` on the best estimator.
 
         This is available only if the underlying estimator supports
@@ -679,7 +677,7 @@ class OptunaSearchCV(BaseEstimator):
 
         self._check_is_fitted()
 
-        return self.best_estimator_.predict_proba
+        return self.best_estimator_.predict_proba(X)
 
     @property
     def score_samples(self) -> Callable[..., OneDimArrayLikeType]:
