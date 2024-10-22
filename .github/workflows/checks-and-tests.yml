@@ -151,7 +151,6 @@ jobs:
     uses: ./.github/workflows/checks_template.yml
     with:
       integration_name: 'mxnet'
-      extra_cmds: pip install "numpy<1.24"
       deprecated: false
 
   pytorch_distributed:
