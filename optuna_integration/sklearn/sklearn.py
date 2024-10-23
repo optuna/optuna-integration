@@ -622,7 +622,7 @@ class OptunaSearchCV(BaseEstimator):
         return self.study_.user_attrs
 
     def decision_function(
-        self, X: TwoDimArrayLikeType
+        self, X: TwoDimArrayLikeType, **params: Any
     ) -> OneDimArrayLikeType | TwoDimArrayLikeType:
         """Call ``decision_function`` on the best estimator.
 
@@ -632,7 +632,7 @@ class OptunaSearchCV(BaseEstimator):
 
         self._check_is_fitted()
 
-        return self.best_estimator_.decision_function(X)
+        return self.best_estimator_.decision_function(X, **params)
 
     @property
     def inverse_transform(self) -> Callable[..., TwoDimArrayLikeType]:
@@ -646,7 +646,9 @@ class OptunaSearchCV(BaseEstimator):
 
         return self.best_estimator_.inverse_transform
 
-    def predict(self, X: TwoDimArrayLikeType) -> OneDimArrayLikeType | TwoDimArrayLikeType:
+    def predict(
+        self, X: TwoDimArrayLikeType, **params: Any
+    ) -> OneDimArrayLikeType | TwoDimArrayLikeType:
         """Call ``predict`` on the best estimator.
 
         This is available only if the underlying estimator supports ``predict``
@@ -655,9 +657,9 @@ class OptunaSearchCV(BaseEstimator):
 
         self._check_is_fitted()
 
-        return self.best_estimator_.predict(X)
+        return self.best_estimator_.predict(X, **params)
 
-    def predict_log_proba(self, X: TwoDimArrayLikeType) -> TwoDimArrayLikeType:
+    def predict_log_proba(self, X: TwoDimArrayLikeType, **params: Any) -> TwoDimArrayLikeType:
         """Call ``predict_log_proba`` on the best estimator.
 
         This is available only if the underlying estimator supports
@@ -666,9 +668,9 @@ class OptunaSearchCV(BaseEstimator):
 
         self._check_is_fitted()
 
-        return self.best_estimator_.predict_log_proba(X)
+        return self.best_estimator_.predict_log_proba(X, **params)
 
-    def predict_proba(self, X: TwoDimArrayLikeType) -> TwoDimArrayLikeType:
+    def predict_proba(self, X: TwoDimArrayLikeType, **params: Any) -> TwoDimArrayLikeType:
         """Call ``predict_proba`` on the best estimator.
 
         This is available only if the underlying estimator supports
@@ -677,7 +679,7 @@ class OptunaSearchCV(BaseEstimator):
 
         self._check_is_fitted()
 
-        return self.best_estimator_.predict_proba(X)
+        return self.best_estimator_.predict_proba(X, **params)
 
     @property
     def score_samples(self) -> Callable[..., OneDimArrayLikeType]:
