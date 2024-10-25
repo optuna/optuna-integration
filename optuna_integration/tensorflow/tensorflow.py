@@ -17,8 +17,8 @@ if not _imports.is_successful():
 
 
 @deprecated_class(
-    "4.0.0",
-    "5.0.0",
+    "4.1.0",
+    "6.0.0",
     text=(
         "Use :class:`~optuna_integration.KerasPruningCallback`, "
         "since [TensorFlow recommends migrating from Estimator to Kras APIs]"
