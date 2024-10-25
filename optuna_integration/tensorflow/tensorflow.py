@@ -21,8 +21,9 @@ if not _imports.is_successful():
     "6.0.0",
     text=(
         "Use :class:`~optuna_integration.KerasPruningCallback` instead, "
-        "because TensorFlow recommends migrating from Estimator to Kras APIs. "
-        "For more details, please check `the TensorFlow migration guide <https://www.tensorflow.org/guide/migrate/migrating_estimator>`__."
+        "because TensorFlow recommends migrating from Estimator to Keras APIs. "
+        "For more details, please check `the TensorFlow migration guide "
+        "<https://www.tensorflow.org/guide/migrate/migrating_estimator>`__."
     ),
 )
 class TensorFlowPruningHook(SessionRunHook):
