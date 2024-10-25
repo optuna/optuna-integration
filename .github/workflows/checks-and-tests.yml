@@ -145,16 +145,6 @@ jobs:
       integration_name: 'mlflow'
       deprecated: false
 
-  mxnet:
-    if: needs.changes.outputs.mxnet == 'true'
-    needs: changes
-    uses: ./.github/workflows/checks_template.yml
-    with:
-      integration_name: 'mxnet'
-      extra_cmds: pip install "numpy<1.24"
-      deprecated: false
-      python_matrix: "['3.8', '3.9', '3.10', '3.11']"
-
   pytorch_distributed:
     if: needs.changes.outputs.pytorch_distributed == 'true'
     needs: changes
@@ -211,15 +201,6 @@ jobs:
     with:
       integration_name: 'tensorboard'
       deprecated: false
-
-  tensorflow:
-    if: needs.changes.outputs.tensorflow == 'true'
-    needs: changes
-    uses: ./.github/workflows/checks_template.yml
-    with:
-      integration_name: 'tensorflow'
-      deprecated: false
-      python_matrix: "['3.8', '3.9', '3.10', '3.11']"
 
   tfkeras:
     if: needs.changes.outputs.tfkeras == 'true'
