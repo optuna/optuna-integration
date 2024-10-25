@@ -29,7 +29,6 @@ jobs:
       keras: ${{ steps.changes.outputs.keras }}
       lightgbm: ${{ steps.changes.outputs.lightgbm }}
       mlflow: ${{ steps.changes.outputs.mlflow }}
-      mxnet: ${{ steps.changes.outputs.mxnet }}
       pytorch_distributed: ${{ steps.changes.outputs.pytorch_distributed }}
       pytorch_ignite: ${{ steps.changes.outputs.pytorch_ignite }}
       pytorch_lightning: ${{ steps.changes.outputs.pytorch_lightning }}
@@ -37,7 +36,6 @@ jobs:
       sklearn: ${{ steps.changes.outputs.sklearn }}
       skorch: ${{ steps.changes.outputs.skorch }}
       tensorboard: ${{ steps.changes.outputs.tensorboard }}
-      tensorflow: ${{ steps.changes.outputs.tensorflow }}
       tfkeras: ${{ steps.changes.outputs.tfkeras }}
       wandb: ${{ steps.changes.outputs.wandb }}
       xgboost: ${{ steps.changes.outputs.xgboost }}
