@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import optuna
+from optuna._deprecated import deprecated_class
 from optuna._imports import try_import
 
 
@@ -8,6 +9,15 @@ with try_import() as _imports:
     import mxnet as mx
 
 
+@deprecated_class(
+    "4.1.0",
+    "6.0.0",
+    text=(
+        "MXNet development ended. "
+        "For more details, please check `the MXNet website "
+        "<https://mxnet.apache.org/versions/1.9.1>`__."
+    ),
+)
 class MXNetPruningCallback:
     """MXNet callback to prune unpromising trials.
 
