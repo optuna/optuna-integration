@@ -45,7 +45,7 @@ class KerasPruningCallback(Callback):
         self, 
         trial: optuna.trial.Trial, 
         monitor: str,
-        fold: int,
+        fold: int = 0,
         interval: int = 1
     ) -> None:
         super().__init__()
