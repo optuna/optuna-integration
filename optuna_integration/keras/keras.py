@@ -3,7 +3,9 @@ from __future__ import annotations
 import warnings
 
 import optuna
+
 from optuna_integration._imports import try_import
+
 
 with try_import() as _imports:
     from keras.callbacks import Callback
