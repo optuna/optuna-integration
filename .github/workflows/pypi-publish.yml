@@ -51,17 +51,21 @@ jobs:
       run: |
         python -m build
 
-    - name: Verify the distributions
-      run: twine check dist/*
-
     - name: Publish distribution to TestPyPI
       # The following upload action cannot be executed in the forked repository.
       if: (github.event_name == 'schedule') || (github.event_name == 'release')
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
         repository-url: https://test.pypi.org/legacy/
+        # Temporary workaround to avoid the Twine's bug for attestations support.
+        # See https://github.com/pypa/gh-action-pypi-publish/issues/283
+        attestations: false
 
     - name: Publish distribution to PyPI
       # The following upload action cannot be executed in the forked repository.
       if: github.event_name == 'release'
       uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        # Temporary workaround to avoid the Twine's bug for attestations support.
+        # See https://github.com/pypa/gh-action-pypi-publish/issues/283
+        attestations: false
