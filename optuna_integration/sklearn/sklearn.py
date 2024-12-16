@@ -263,7 +263,7 @@ class _Objective:
         self._store_scores(trial, scores)
 
         test_scores = scores["test_score"]
-        scores_list = test_scores if isinstance(test_scores, list) else [v for v in test_scores]
+        scores_list = test_scores if isinstance(test_scores, list) else list(test_scores.tolist())
         try:
             report_cross_validation_scores(trial, scores_list)
         except ValueError as e:
@@ -303,12 +303,17 @@ class _Objective:
 
         for step in range(self.max_iter):
             for i, (train, test) in enumerate(self.cv.split(self.X, self.y, groups=self.groups)):
-                _out = self._partial_fit_and_score(estimators[i], train, test, partial_fit_params)
-                out = np.asarray(_out, dtype=np.float64)
+                out = list(
+                    np.asarray(
+                        self._partial_fit_and_score(
+                            estimators[i], train, test, partial_fit_params
+                        ),
+                        dtype=float,
+                    ).tolist()
+                )
 
                 if self.return_train_score:
-                    scores["train_score"][i] = out[0]
-                    out = out[1:]
+                    scores["train_score"][i] = out.pop(0)
 
                 scores["test_score"][i] = out[0]
                 scores["fit_time"][i] += out[1]
