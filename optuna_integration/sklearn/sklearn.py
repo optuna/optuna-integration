@@ -641,7 +641,9 @@ class OptunaSearchCV(BaseEstimator):
 
         return self.best_estimator_.decision_function(X, **kwargs)
 
-    def inverse_transform(self, X: TwoDimArrayLikeType, **kwargs: Any) -> TwoDimArrayLikeType:
+    def inverse_transform(
+        self, X: TwoDimArrayLikeType, *args: Any, **kwargs: Any
+    ) -> TwoDimArrayLikeType:
         """Call ``inverse_transform`` on the best estimator.
 
         This is available only if the underlying estimator supports
@@ -652,7 +654,7 @@ class OptunaSearchCV(BaseEstimator):
 
         self._check_is_fitted()
 
-        return self.best_estimator_.inverse_transform(X, **kwargs)
+        return self.best_estimator_.inverse_transform(X, *args, **kwargs)
 
     def predict(
         self, X: TwoDimArrayLikeType, **kwargs: Any
@@ -709,7 +711,7 @@ class OptunaSearchCV(BaseEstimator):
 
         return self.study_.set_user_attr
 
-    def transform(self, X: TwoDimArrayLikeType, **kwargs: Any) -> TwoDimArrayLikeType:
+    def transform(self, X: TwoDimArrayLikeType, *args: Any, **kwargs: Any) -> TwoDimArrayLikeType:
         """Call ``transform`` on the best estimator.
 
         This is available only if the underlying estimator supports
@@ -720,7 +722,7 @@ class OptunaSearchCV(BaseEstimator):
 
         self._check_is_fitted()
 
-        return self.best_estimator_.transform(X, **kwargs)
+        return self.best_estimator_.transform(X, *args, **kwargs)
 
     @property
     def trials_dataframe(self) -> Callable[..., "pd.DataFrame"]:
