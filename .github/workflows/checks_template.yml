@@ -19,6 +19,7 @@ on:
 jobs:
   checks:
     runs-on: ubuntu-latest
+    if: ${{ !inputs.deprecated }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -34,7 +35,6 @@ jobs:
           pip install --progress-bar off -U .[test]
 
       - name: Install Integration Dependencies
-        if: ${{ !inputs.deprecated }}
         run: |
           pip install --progress-bar off .[${{ inputs.integration_name }}]
 
@@ -79,6 +79,7 @@ jobs:
     strategy:
       matrix:
         python-version: ${{ fromJSON(inputs.python_matrix) }}
+    if: ${{ !inputs.deprecated }}
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
@@ -94,7 +95,6 @@ jobs:
         pip install --progress-bar off .[test]
 
     - name: Install Integration Dependencies
-      if: ${{ !inputs.deprecated }}
       run: |
         pip install --progress-bar off .[${{ inputs.integration_name }}]
 
