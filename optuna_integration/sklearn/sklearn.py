@@ -641,17 +641,18 @@ class OptunaSearchCV(BaseEstimator):
 
         return self.best_estimator_.decision_function(X, **kwargs)
 
-    @property
-    def inverse_transform(self) -> Callable[..., TwoDimArrayLikeType]:
+    def inverse_transform(self, X: TwoDimArrayLikeType) -> TwoDimArrayLikeType:
         """Call ``inverse_transform`` on the best estimator.
 
         This is available only if the underlying estimator supports
         ``inverse_transform`` and ``refit`` is set to :obj:`True`.
+        Note that we support the argument detailed in
+        https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.FunctionTransformer.html#sklearn.preprocessing.FunctionTransformer.inverse_transform
         """
 
         self._check_is_fitted()
 
-        return self.best_estimator_.inverse_transform
+        return self.best_estimator_.inverse_transform(X)
 
     def predict(
         self, X: TwoDimArrayLikeType, **kwargs: Any
@@ -708,17 +709,18 @@ class OptunaSearchCV(BaseEstimator):
 
         return self.study_.set_user_attr
 
-    @property
-    def transform(self) -> Callable[..., TwoDimArrayLikeType]:
+    def transform(self, X: TwoDimArrayLikeType) -> TwoDimArrayLikeType:
         """Call ``transform`` on the best estimator.
 
         This is available only if the underlying estimator supports
         ``transform`` and ``refit`` is set to :obj:`True`.
+        Note that we support the argument detailed in
+        https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.FunctionTransformer.html#sklearn.preprocessing.FunctionTransformer.transform
         """
 
         self._check_is_fitted()
 
-        return self.best_estimator_.transform
+        return self.best_estimator_.transform(X)
 
     @property
     def trials_dataframe(self) -> Callable[..., "pd.DataFrame"]:
