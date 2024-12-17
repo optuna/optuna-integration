@@ -263,7 +263,7 @@ class _Objective:
         self._store_scores(trial, scores)
 
         test_scores = scores["test_score"]
-        scores_list = test_scores if isinstance(test_scores, list) else [v for v in test_scores]
+        scores_list = test_scores if isinstance(test_scores, list) else list(test_scores.tolist())
         try:
             report_cross_validation_scores(trial, scores_list)
         except ValueError as e:
@@ -303,12 +303,17 @@ class _Objective:
 
         for step in range(self.max_iter):
             for i, (train, test) in enumerate(self.cv.split(self.X, self.y, groups=self.groups)):
-                _out = self._partial_fit_and_score(estimators[i], train, test, partial_fit_params)
-                out = np.asarray(_out, dtype=np.float64)
+                out = list(
+                    np.asarray(
+                        self._partial_fit_and_score(
+                            estimators[i], train, test, partial_fit_params
+                        ),
+                        dtype=float,
+                    ).tolist()
+                )
 
                 if self.return_train_score:
-                    scores["train_score"][i] = out[0]
-                    out = out[1:]
+                    scores["train_score"][i] = out.pop(0)
 
                 scores["test_score"][i] = out[0]
                 scores["fit_time"][i] += out[1]
@@ -636,17 +641,20 @@ class OptunaSearchCV(BaseEstimator):
 
         return self.best_estimator_.decision_function(X, **kwargs)
 
-    @property
-    def inverse_transform(self) -> Callable[..., TwoDimArrayLikeType]:
+    def inverse_transform(
+        self, X: TwoDimArrayLikeType, *args: Any, **kwargs: Any
+    ) -> TwoDimArrayLikeType:
         """Call ``inverse_transform`` on the best estimator.
 
         This is available only if the underlying estimator supports
         ``inverse_transform`` and ``refit`` is set to :obj:`True`.
+        Please check the following to know more about ``inverse_transform``:
+        https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.FunctionTransformer.html#sklearn.preprocessing.FunctionTransformer.inverse_transform
         """
 
         self._check_is_fitted()
 
-        return self.best_estimator_.inverse_transform
+        return self.best_estimator_.inverse_transform(X, *args, **kwargs)
 
     def predict(
         self, X: TwoDimArrayLikeType, **kwargs: Any
@@ -703,17 +711,18 @@ class OptunaSearchCV(BaseEstimator):
 
         return self.study_.set_user_attr
 
-    @property
-    def transform(self) -> Callable[..., TwoDimArrayLikeType]:
+    def transform(self, X: TwoDimArrayLikeType, *args: Any, **kwargs: Any) -> TwoDimArrayLikeType:
         """Call ``transform`` on the best estimator.
 
         This is available only if the underlying estimator supports
         ``transform`` and ``refit`` is set to :obj:`True`.
+        Please check the following to know more about ``transform``:
+        https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.FunctionTransformer.html#sklearn.preprocessing.FunctionTransformer.transform
         """
 
         self._check_is_fitted()
 
-        return self.best_estimator_.transform
+        return self.best_estimator_.transform(X, *args, **kwargs)
 
     @property
     def trials_dataframe(self) -> Callable[..., "pd.DataFrame"]:
