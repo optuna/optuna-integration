@@ -648,7 +648,7 @@ class OptunaSearchCV(BaseEstimator):
 
         This is available only if the underlying estimator supports
         ``inverse_transform`` and ``refit`` is set to :obj:`True`.
-        Note that we support the argument detailed in
+        Please check the following to know more about ``inverse_transform``:
         https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.FunctionTransformer.html#sklearn.preprocessing.FunctionTransformer.inverse_transform
         """
 
@@ -716,7 +716,7 @@ class OptunaSearchCV(BaseEstimator):
 
         This is available only if the underlying estimator supports
         ``transform`` and ``refit`` is set to :obj:`True`.
-        Note that we support the argument detailed in
+        Please check the following to know more about ``transform``:
         https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.FunctionTransformer.html#sklearn.preprocessing.FunctionTransformer.transform
         """
 
