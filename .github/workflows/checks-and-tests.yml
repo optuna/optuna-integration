@@ -189,7 +189,8 @@ jobs:
     uses: ./.github/workflows/checks_template.yml
     with:
       integration_name: 'skorch'
-      extra_cmds: pip install torch
+      # TODO: Remove the version constraint once https://github.com/uber/causalml/issues/808 is resolved.
+      extra_cmds: pip install torch "scikit-learn<1.6.0"
       deprecated: false
 
   tensorboard:
