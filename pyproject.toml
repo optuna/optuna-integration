@@ -36,6 +36,8 @@ test = [
   "pytest",
   "coverage",
   "fakeredis[lua]",
+  "grpcio",
+  "protobuf>=5.28.1",
 ]
 checking = [
   "black",
