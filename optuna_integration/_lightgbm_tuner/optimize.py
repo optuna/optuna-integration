@@ -59,6 +59,14 @@ _DEFAULT_LIGHTGBM_PARAMETERS = {
 _logger = optuna.logging.get_logger(__name__)
 
 
+def _get_custom_objective(lgbm_kwargs: dict[str, Any]) -> str | None:
+    objective = lgbm_kwargs.get("objective")
+    if objective is not None and not isinstance(objective, str):
+        return objective
+    else:
+        return None
+
+
 class _BaseTuner:
     def __init__(
         self,
@@ -267,8 +275,14 @@ class _OptunaObjective(_BaseTuner):
             trial._trial_id, _AVERAGE_ITERATION_TIME_KEY, average_iteration_time
         )
         trial.storage.set_trial_system_attr(trial._trial_id, _STEP_NAME_KEY, self.step_name)
+        lgbm_params = copy.deepcopy(self.lgbm_params)
+        custom_objective = _get_custom_objective(lgbm_params)
+        if custom_objective is not None:
+            # NOTE(nabenabe): If custom_objective is not None, custom_objective is not
+            # serializable, so we store its name instead. 
+            lgbm_params["objective"] = custom_objective.__name__
         trial.storage.set_trial_system_attr(
-            trial._trial_id, _LGBM_PARAMS_KEY, json.dumps(self.lgbm_params)
+            trial._trial_id, _LGBM_PARAMS_KEY, json.dumps(lgbm_params)
         )
 
         self.trial_count += 1
@@ -391,6 +405,7 @@ class _LightGBMBaseTuner(_BaseTuner):
         self._best_booster_with_trial_number: tuple[lgb.Booster | lgb.CVBooster, int] | None = None
         self._model_dir = model_dir
         self._optuna_seed = optuna_seed
+        self._custom_objective = _get_custom_objective(params)
 
         # Should not alter data since `min_child_samples` is tuned.
         # https://lightgbm.readthedocs.io/en/latest/Parameters.html#feature_pre_filter
@@ -439,13 +454,18 @@ class _LightGBMBaseTuner(_BaseTuner):
     def best_params(self) -> dict[str, Any]:
         """Return parameters of the best booster."""
         try:
-            return json.loads(self.study.best_trial.system_attrs[_LGBM_PARAMS_KEY])
+            params = json.loads(self.study.best_trial.system_attrs[_LGBM_PARAMS_KEY])
         except ValueError:
             # Return the default score because no trials have completed.
             params = copy.deepcopy(_DEFAULT_LIGHTGBM_PARAMETERS)
             # self.lgbm_params may contain parameters given by users.
             params.update(self.lgbm_params)
-            return params
+
+        if self._custom_objective is not None:
+            # NOTE(nabenabe): custom_objective is not serializable, so we store it separately.
+            params["objective"] = self._custom_objective
+
+        return params
 
     def _parse_args(self, *args: Any, **kwargs: Any) -> None:
         self.auto_options = {
