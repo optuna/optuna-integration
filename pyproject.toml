@@ -156,6 +156,9 @@ xgboost = [
     "xgboost",
 ]
 
+[project.urls]
+repository = "https://github.com/optuna/optuna-integration"
+
 [tool.setuptools.packages.find]
 # where = ["."]
 include = ["optuna_integration*"]
