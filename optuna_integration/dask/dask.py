@@ -455,7 +455,7 @@ class DaskStorage(BaseStorage):
         register:
             Whether or not to register this storage instance with the cluster scheduler.
             Most common usage of this storage class will not need to specify this argument.
-            Defaults to ``True``.
+            Defaults to :obj:`True`.
 
     """
 
