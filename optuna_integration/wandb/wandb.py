@@ -37,7 +37,7 @@ class WeightsAndBiasesCallback:
     .. note::
         Users who want to run multiple Optuna studies within the same process
         should call ``wandb.finish()`` between subsequent calls to
-        :meth:`~optuna.study.Study.optimize`. Calling ``wandb.finish()`` is not necessary
+        :meth:`optuna.study.Study.optimize`. Calling ``wandb.finish()`` is not necessary
         if you are running one Optuna study per process.
 
     .. note::
