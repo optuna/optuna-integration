@@ -30,7 +30,7 @@ class TensorBoardCallback:
             Directory to store TensorBoard logs.
         metric_name:
             Name of the metric. Since the metric itself is just a number,
-            `metric_name` can be used to give it a name. So you know later
+            ``metric_name`` can be used to give it a name. So you know later
             if it was roc-auc or accuracy.
 
     """
