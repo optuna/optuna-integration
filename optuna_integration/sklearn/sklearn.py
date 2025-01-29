@@ -153,7 +153,7 @@ class _Objective:
 
         error_score:
             Value to assign to the score if an error occurs in fitting. If
-            'raise', the error is raised. If numeric,
+            ``"raise"``, the error is raised. If numeric,
             :class:`sklearn.exceptions.FitFailedWarning` is raised. This does not
             affect the refit step, which will always raise the error.
 
@@ -429,7 +429,7 @@ class OptunaSearchCV(BaseEstimator):
 
         error_score:
             Value to assign to the score if an error occurs in fitting. If
-            'raise', the error is raised. If numeric,
+            ``"raise"``, the error is raised. If numeric,
             :class:`sklearn.exceptions.FitFailedWarning` is raised. This does not
             affect the refit step, which will always raise the error.
 
