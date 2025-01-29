@@ -926,7 +926,7 @@ class BoTorchSampler(BaseSampler):
         seed:
             Seed for random number generator.
         device:
-            A ``torch.device`` to store input and output data of BoTorch. Please set a CUDA device
+            A :class:`torch.device` to store input and output data of BoTorch. Please set a CUDA device
             if you fasten sampling.
     """
 
