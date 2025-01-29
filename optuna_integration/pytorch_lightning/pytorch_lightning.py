@@ -52,7 +52,7 @@ class PyTorchLightningPruningCallback(Callback):
 
     .. note::
         If you would like to use PyTorchLightningPruningCallback in a distributed training
-        environment, you need to evoke `PyTorchLightningPruningCallback.check_pruned()`
+        environment, you need to evoke ``PyTorchLightningPruningCallback.check_pruned()``
         manually so that :class:`~optuna.exceptions.TrialPruned` is properly handled.
     """
 
@@ -148,7 +148,7 @@ class PyTorchLightningPruningCallback(Callback):
         """Raise :class:`optuna.TrialPruned` manually if pruned.
 
         Currently, ``intermediate_values`` are not properly propagated between processes due to
-        storage cache. Therefore, necessary information is kept in trial_system_attrs when the
+        storage cache. Therefore, necessary information is kept in ``trial.system_attrs`` when the
         trial runs in a distributed situation. Please call this method right after calling
         ``lightning.pytorch.Trainer.fit()``.
         If a callback doesn't have any backend storage for DDP, this method does nothing.

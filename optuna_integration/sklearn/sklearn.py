@@ -153,8 +153,8 @@ class _Objective:
 
         error_score:
             Value to assign to the score if an error occurs in fitting. If
-            'raise', the error is raised. If numeric,
-            ``sklearn.exceptions.FitFailedWarning`` is raised. This does not
+            ``"raise"``, the error is raised. If numeric,
+            :class:`sklearn.exceptions.FitFailedWarning` is raised. This does not
             affect the refit step, which will always raise the error.
 
         fit_params:
@@ -420,8 +420,8 @@ class OptunaSearchCV(BaseEstimator):
 
             For integer, if ``estimator`` is a classifier and ``y`` is
             either binary or multiclass,
-            ``sklearn.model_selection.StratifiedKFold`` is used. otherwise,
-            ``sklearn.model_selection.KFold`` is used.
+            :class:`sklearn.model_selection.StratifiedKFold` is used. otherwise,
+            :class:`sklearn.model_selection.KFold` is used.
 
         enable_pruning:
             If :obj:`True`, pruning is performed in the case where the
@@ -429,8 +429,8 @@ class OptunaSearchCV(BaseEstimator):
 
         error_score:
             Value to assign to the score if an error occurs in fitting. If
-            'raise', the error is raised. If numeric,
-            ``sklearn.exceptions.FitFailedWarning`` is raised. This does not
+            ``"raise"``, the error is raised. If numeric,
+            :class:`sklearn.exceptions.FitFailedWarning` is raised. This does not
             affect the refit step, which will always raise the error.
 
         max_iter:
@@ -457,9 +457,9 @@ class OptunaSearchCV(BaseEstimator):
         random_state:
             Seed of the pseudo random number generator. If int, this is the
             seed used by the random number generator. If
-            ``numpy.random.RandomState`` object, this is the random number
+            :class:`numpy.random.RandomState` object, this is the random number
             generator. If :obj:`None`, the global random state from
-            ``numpy.random`` is used.
+            :mod:`numpy.random` is used.
 
         refit:
             If :obj:`True`, refit the estimator with the best found
@@ -648,8 +648,7 @@ class OptunaSearchCV(BaseEstimator):
 
         This is available only if the underlying estimator supports
         ``inverse_transform`` and ``refit`` is set to :obj:`True`.
-        Please check the following to know more about ``inverse_transform``:
-        https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.FunctionTransformer.html#sklearn.preprocessing.FunctionTransformer.inverse_transform
+        Please check the following to know more about :meth:`sklearn.preprocessing.FunctionTransformer.inverse_transform`.
         """
 
         self._check_is_fitted()
@@ -716,8 +715,7 @@ class OptunaSearchCV(BaseEstimator):
 
         This is available only if the underlying estimator supports
         ``transform`` and ``refit`` is set to :obj:`True`.
-        Please check the following to know more about ``transform``:
-        https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.FunctionTransformer.html#sklearn.preprocessing.FunctionTransformer.transform
+        Please check the following to know more about :meth:`sklearn.preprocessing.FunctionTransformer.transform`
         """
 
         self._check_is_fitted()
