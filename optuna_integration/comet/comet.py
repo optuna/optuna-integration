@@ -22,7 +22,7 @@ class CometCallback:
     A callback for logging Optuna study trials to a Comet ML Experiment.
     Comet ML must be installed to run.
 
-    This callback is intended for use with Optuna's :meth:`~optuna.study.Study.optimize` method. It ensures that
+    This callback is intended for use with :meth:`optuna.study.Study.optimize` method. It ensures that
     all trials from an Optuna study are logged to a single Comet Experiment, facilitating organized
     tracking of hyperparameter optimization.
     The callback supports both single and multi-objective optimization.
