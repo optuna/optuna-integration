@@ -32,7 +32,7 @@ def test_lightgbm_pruning_callback_call(cv: bool) -> None:
     )
 
     if cv:
-        env = callback_env(evaluation_result_list=[(("cv_agg", "binary_error", 1.0, False, 1.0))])
+        env = callback_env(evaluation_result_list=[("cv_agg", "binary_error", 1.0, False, 1.0)])
     else:
         env = callback_env(evaluation_result_list=[("validation", "binary_error", 1.0, False)])
 
