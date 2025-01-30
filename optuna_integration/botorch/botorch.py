@@ -124,8 +124,8 @@ def logei_candidates_func(
             constraints. A constraint is violated if strictly larger than 0. If no constraints are
             involved in the optimization, this argument will be :obj:`None`.
         bounds:
-            Search space bounds. A :class:`torch.Tensor` of shape ``(2, n_params)``. ``n_params`` is
-            identical to that of ``train_x``. The first and the second rows correspond to the
+            Search space bounds. A :class:`torch.Tensor` of shape ``(2, n_params)``. ``n_params``
+            is identical to that of ``train_x``. The first and the second rows correspond to the
             lower and upper bounds for each parameter respectively.
         pending_x:
             Pending parameter configurations. A :class:`torch.Tensor` of shape
@@ -231,8 +231,8 @@ def qei_candidates_func(
             constraints. A constraint is violated if strictly larger than 0. If no constraints are
             involved in the optimization, this argument will be :obj:`None`.
         bounds:
-            Search space bounds. A :class:`torch.Tensor` of shape ``(2, n_params)``. ``n_params`` is
-            identical to that of ``train_x``. The first and the second rows correspond to the
+            Search space bounds. A :class:`torch.Tensor` of shape ``(2, n_params)``. ``n_params``
+            is identical to that of ``train_x``. The first and the second rows correspond to the
             lower and upper bounds for each parameter respectively.
         pending_x:
             Pending parameter configurations. A :class:`torch.Tensor` of shape
@@ -926,8 +926,8 @@ class BoTorchSampler(BaseSampler):
         seed:
             Seed for random number generator.
         device:
-            A :class:`torch.device` to store input and output data of BoTorch. Please set a CUDA device
-            if you fasten sampling.
+            A :class:`torch.device` to store input and output data of BoTorch. Please set a CUDA
+            device for faster sampling.
     """
 
     def __init__(
