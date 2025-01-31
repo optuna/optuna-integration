@@ -74,6 +74,15 @@ jobs:
             blackdoc tests/${{ inputs.integration_name }} --check --diff
           fi
 
+      - name: Flake8
+        run: |
+          if [ -e optuna_integration/${{ inputs.integration_name }} ]; then
+            flake8 optuna_integration/${{ inputs.integration_name }}
+          fi
+          if [ -e tests/${{ inputs.integration_name }} ]; then
+            flake8 tests/${{ inputs.integration_name }}
+          fi
+
   tests:
     runs-on: ubuntu-latest
     strategy:
