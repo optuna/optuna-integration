@@ -93,8 +93,11 @@ Please install some required packages at first.
 # Install required packages to test.
 pip install ".[test]"
 
-# Install required packages on which integration modules depend.
-pip install ".[allennlp, chainer, chainermn, botorch, catboost, cma, comet, dask, fastai, fastaiv2, keras, lightgbm, mlflow, mxnet, pytorch_distributed, pytorch_ignite, pytorch_lightning, shap, sklearn, skorch, tensorboard, tensorflow, tfkeras, wandb, xgboost]"
+# Install required packages on which each integration module depends.
+pip install ".[${INTEGRATION_MODULE_NAME}]"
+
+# For example, for optuna_integration/cma,
+pip install ".[cma]"
 ```
 
 You can run your tests as follows:
