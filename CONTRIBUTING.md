@@ -67,10 +67,10 @@ $ black .
 $ isort .
 
 # flake8 type checking
-$ flake8 tests optuna/integration
+$ flake8 tests optuna_integration
 
 # mypy type checking
-$ mypy tests optuna/integration 
+$ mypy tests optuna_integration 
 ```
 
 ### Documentation
@@ -94,7 +94,7 @@ Please install some required packages at first.
 pip install ".[test]"
 
 # Install required packages on which integration modules depend.
-pip install ".[all]"
+pip install ".[allennlp, chainer, chainermn, botorch, catboost, cma, comet, dask, fastai, fastaiv2, keras, lightgbm, mlflow, mxnet, pytorch_distributed, pytorch_ignite, pytorch_lightning, shap, sklearn, skorch, tensorboard, tensorflow, tfkeras, wandb, xgboost]"
 ```
 
 You can run your tests as follows:
