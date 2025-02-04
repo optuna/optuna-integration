@@ -27,6 +27,7 @@ with try_import():
     from lightgbm import log_evaluation
     import sklearn.datasets
     from sklearn.model_selection import KFold
+    from sklearn.model_selection import GroupKFold
     from sklearn.model_selection import train_test_split
 
 
@@ -749,7 +750,7 @@ class TestLightGBMTuner:
             params,
             train_dataset,
             valid_sets=valid_dataset,
-            callbacks=[early_stopping(stopping_rounds=3), log_evaluation(-1)],
+            callbacks=[early_stopping(stopping_rounds=3)],
             optuna_seed=10,
             feval = custom_eval,
         )
@@ -1050,25 +1051,18 @@ class TestLightGBMTunerCV:
             assert first_trial.params == second_trial.params
 
     def test_custom_objective(self) -> None:
-        def custom_loss(y, data):
-            grad = np.ones_like(y)
-            hess = np.ones_like(y)
+        def custom_loss(preds, train_data):
+            grad = np.ones_like(preds)
+            hess = np.ones_like(preds)
             return grad, hess
 
-        def custom_eval(y, data):
+        def custom_eval(preds, train_data):
             return 'custom', 1.0, False
 
         X_trn = np.random.uniform(10, size=(10, 5))
         y_trn = np.random.randint(2, size=10)
         train_dataset = lgb.Dataset(X_trn, label=y_trn)
-        valid_dataset = lgb.Dataset(X_trn, label=y_trn)
 
-        iris = sklearn.datasets.load_iris()
-        X_trainval, X_test, y_trainval, y_test = train_test_split(
-            iris.data, iris.target, random_state=0
-        )
-        train = lgb.Dataset(X_trainval, y_trainval)
-        
         params = {
             "objective": custom_loss,
             "metric": "custom",
@@ -1077,8 +1071,8 @@ class TestLightGBMTunerCV:
             params,
             train_dataset,
             callbacks=[early_stopping(stopping_rounds=3)],
-            optuna_seed=10,
             folds=KFold(n_splits=3),
+            optuna_seed=10,
             feval = custom_eval
         )
 
