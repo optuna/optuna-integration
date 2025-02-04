@@ -11,6 +11,8 @@ import copy
 import json
 import os
 import pickle
+import copy
+from pickle import PickleError
 import time
 from typing import Any
 from typing import cast
@@ -27,6 +29,7 @@ import tqdm
 from optuna_integration._lightgbm_tuner.alias import _handling_alias_metrics
 from optuna_integration._lightgbm_tuner.alias import _handling_alias_parameters
 
+import numpy
 
 with try_import() as _imports:
     import lightgbm as lgb
@@ -59,9 +62,18 @@ _DEFAULT_LIGHTGBM_PARAMETERS = {
 _logger = optuna.logging.get_logger(__name__)
 
 
-def _get_custom_objective(lgbm_kwargs: dict[str, Any]) -> str | None:
+def _get_custom_objective(lgbm_kwargs: dict[str, Any]) -> Callable[..., Any] | None:
     objective = lgbm_kwargs.get("objective")
     if objective is not None and not isinstance(objective, str):
+
+        # def _objective(*args: Any, **kwargs: Any) -> Any:
+        #     return objective(*args, **kwargs)
+        
+        # try:
+        #     pickle.dumps(_objective)
+        # except PickleError:
+        #     _logger.warning("The objective function is not picklable, so it will not be saved ")
+        #     return None
         return objective
     else:
         return None
@@ -279,7 +291,7 @@ class _OptunaObjective(_BaseTuner):
         custom_objective = _get_custom_objective(lgbm_params)
         if custom_objective is not None:
             # NOTE(nabenabe): If custom_objective is not None, custom_objective is not
-            # serializable, so we store its name instead. 
+            # serializable, so we store its name instead.
             lgbm_params["objective"] = custom_objective.__name__
         trial.storage.set_trial_system_attr(
             trial._trial_id, _LGBM_PARAMS_KEY, json.dumps(lgbm_params)
