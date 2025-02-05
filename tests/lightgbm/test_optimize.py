@@ -12,6 +12,7 @@ import optuna
 from optuna._imports import try_import
 from optuna.study import Study
 import pytest
+import pickle
 
 import optuna_integration
 from optuna_integration._lightgbm_tuner.optimize import _BaseTuner
@@ -729,12 +730,12 @@ class TestLightGBMTuner:
             assert first_trial.params == second_trial.params
 
     def test_custom_objective(self) -> None:
-        def custom_loss(y, data):
-            grad = np.ones_like(y)
-            hess = np.ones_like(y)
+        def custom_objective(preds, train_data):
+            grad = np.ones_like(preds)
+            hess = np.ones_like(preds)
             return grad, hess
 
-        def custom_eval(y, data):
+        def custom_eval(preds, train_data):
             return 'custom', 1.0, False
 
         X_trn = np.random.uniform(10, size=(10, 5))
@@ -743,7 +744,7 @@ class TestLightGBMTuner:
         valid_dataset = lgb.Dataset(X_trn, label=y_trn)
         
         params = {
-            "objective": custom_loss,
+            "objective": custom_objective,
             "metric": "custom",
         }
         tuner = lgb.LightGBMTuner(
@@ -757,6 +758,30 @@ class TestLightGBMTuner:
 
         tuner.run()
         assert tuner.best_score == 1.0
+        pickle.dumps(tuner) # This line generates the error
+
+    def test_unpicklable_custom_objective(self) -> None:
+        dataset = lgb.Dataset(np.zeros((10, 10)))
+
+        def custom_objective(preds, train_data):
+            grad = np.ones_like(preds)
+            hess = np.ones_like(preds)
+            return grad, hess
+
+        def custom_eval(preds, train_data):
+            return
+        
+        params = {
+            "objective": custom_objective,
+            "metric": "custom",
+        }
+        tuner = lgb.LightGBMTuner(
+            params,
+            dataset,
+            valid_sets=dataset,
+        )
+            
+        pickle.dumps(tuner)
 
 class TestLightGBMTunerCV:
     def _get_tunercv_object(
@@ -1051,7 +1076,7 @@ class TestLightGBMTunerCV:
             assert first_trial.params == second_trial.params
 
     def test_custom_objective(self) -> None:
-        def custom_loss(preds, train_data):
+        def custom_objective(preds, train_data):
             grad = np.ones_like(preds)
             hess = np.ones_like(preds)
             return grad, hess
@@ -1064,7 +1089,7 @@ class TestLightGBMTunerCV:
         train_dataset = lgb.Dataset(X_trn, label=y_trn)
 
         params = {
-            "objective": custom_loss,
+            "objective": custom_objective,
             "metric": "custom",
         }
         tuner = lgb.LightGBMTunerCV(
