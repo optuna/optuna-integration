@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Generator
 import contextlib
+import pickle
 from tempfile import TemporaryDirectory
 from typing import Any
 from typing import TYPE_CHECKING
@@ -12,7 +13,6 @@ import optuna
 from optuna._imports import try_import
 from optuna.study import Study
 import pytest
-import pickle
 
 import optuna_integration
 from optuna_integration._lightgbm_tuner.optimize import _BaseTuner
@@ -28,7 +28,6 @@ with try_import():
     from lightgbm import log_evaluation
     import sklearn.datasets
     from sklearn.model_selection import KFold
-    from sklearn.model_selection import GroupKFold
     from sklearn.model_selection import train_test_split
 
 
@@ -253,13 +252,16 @@ class TestBaseTuner:
         with pytest.raises(ValueError):
             tuner._metric_with_eval_at("ndcg")
 
-def custom_objective(preds, train_data):
+
+def custom_objective(preds: np.ndarray, train_data: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     grad = np.ones_like(preds)
     hess = np.ones_like(preds)
     return grad, hess
 
-def custom_eval(preds, train_data):
-    return 'custom', 1.0, False
+
+def custom_eval(preds: np.ndarray, train_data: np.ndarray) -> tuple[str, float, bool]:
+    return "custom", 1.0, False
+
 
 class TestLightGBMTuner:
     def _get_tuner_object(
@@ -741,7 +743,7 @@ class TestLightGBMTuner:
         y_trn = np.random.randint(2, size=10)
         train_dataset = lgb.Dataset(X_trn, label=y_trn)
         valid_dataset = lgb.Dataset(X_trn, label=y_trn)
-        
+
         params = {
             "objective": custom_objective,
             "metric": "custom",
@@ -752,7 +754,7 @@ class TestLightGBMTuner:
             valid_sets=valid_dataset,
             callbacks=[early_stopping(stopping_rounds=3)],
             optuna_seed=10,
-            feval = custom_eval,
+            feval=custom_eval,
         )
 
         tuner.run()
@@ -760,7 +762,7 @@ class TestLightGBMTuner:
 
     def test_pickle_custom_objective(self) -> None:
         dataset = lgb.Dataset(np.zeros((10, 10)))
-        
+
         params = {
             "objective": custom_objective,
             "metric": "custom",
@@ -770,8 +772,9 @@ class TestLightGBMTuner:
             dataset,
             valid_sets=dataset,
         )
-            
+
         pickle.dumps(tuner)
+
 
 class TestLightGBMTunerCV:
     def _get_tunercv_object(
@@ -1079,7 +1082,7 @@ class TestLightGBMTunerCV:
             train_dataset,
             callbacks=[early_stopping(stopping_rounds=3)],
             optuna_seed=10,
-            feval = custom_eval
+            feval=custom_eval,
         )
 
         tuner.run()
@@ -1087,7 +1090,7 @@ class TestLightGBMTunerCV:
 
     def test_pickle_custom_objective(self) -> None:
         dataset = lgb.Dataset(np.zeros((10, 10)))
-        
+
         params = {
             "objective": custom_objective,
             "metric": "custom",
@@ -1096,5 +1099,5 @@ class TestLightGBMTunerCV:
             params,
             dataset,
         )
-            
+
         pickle.dumps(tuner)
