@@ -253,6 +253,13 @@ class TestBaseTuner:
         with pytest.raises(ValueError):
             tuner._metric_with_eval_at("ndcg")
 
+def custom_objective(preds, train_data):
+    grad = np.ones_like(preds)
+    hess = np.ones_like(preds)
+    return grad, hess
+
+def custom_eval(preds, train_data):
+    return 'custom', 1.0, False
 
 class TestLightGBMTuner:
     def _get_tuner_object(
@@ -730,14 +737,6 @@ class TestLightGBMTuner:
             assert first_trial.params == second_trial.params
 
     def test_custom_objective(self) -> None:
-        def custom_objective(preds, train_data):
-            grad = np.ones_like(preds)
-            hess = np.ones_like(preds)
-            return grad, hess
-
-        def custom_eval(preds, train_data):
-            return 'custom', 1.0, False
-
         X_trn = np.random.uniform(10, size=(10, 5))
         y_trn = np.random.randint(2, size=10)
         train_dataset = lgb.Dataset(X_trn, label=y_trn)
@@ -758,18 +757,9 @@ class TestLightGBMTuner:
 
         tuner.run()
         assert tuner.best_score == 1.0
-        pickle.dumps(tuner) # This line generates the error
 
-    def test_unpicklable_custom_objective(self) -> None:
+    def test_pickle_custom_objective(self) -> None:
         dataset = lgb.Dataset(np.zeros((10, 10)))
-
-        def custom_objective(preds, train_data):
-            grad = np.ones_like(preds)
-            hess = np.ones_like(preds)
-            return grad, hess
-
-        def custom_eval(preds, train_data):
-            return
         
         params = {
             "objective": custom_objective,
@@ -1076,14 +1066,6 @@ class TestLightGBMTunerCV:
             assert first_trial.params == second_trial.params
 
     def test_custom_objective(self) -> None:
-        def custom_objective(preds, train_data):
-            grad = np.ones_like(preds)
-            hess = np.ones_like(preds)
-            return grad, hess
-
-        def custom_eval(preds, train_data):
-            return 'custom', 1.0, False
-
         X_trn = np.random.uniform(10, size=(10, 5))
         y_trn = np.random.randint(2, size=10)
         train_dataset = lgb.Dataset(X_trn, label=y_trn)
@@ -1096,10 +1078,23 @@ class TestLightGBMTunerCV:
             params,
             train_dataset,
             callbacks=[early_stopping(stopping_rounds=3)],
-            folds=KFold(n_splits=3),
             optuna_seed=10,
             feval = custom_eval
         )
 
         tuner.run()
         assert tuner.best_score == 1.0
+
+    def test_pickle_custom_objective(self) -> None:
+        dataset = lgb.Dataset(np.zeros((10, 10)))
+        
+        params = {
+            "objective": custom_objective,
+            "metric": "custom",
+        }
+        tuner = lgb.LightGBMTunerCV(
+            params,
+            dataset,
+        )
+            
+        pickle.dumps(tuner)
