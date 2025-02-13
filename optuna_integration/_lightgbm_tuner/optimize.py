@@ -14,6 +14,7 @@ import pickle
 import time
 from typing import Any
 from typing import cast
+from typing import Protocol
 import warnings
 
 import numpy as np
@@ -58,8 +59,11 @@ _DEFAULT_LIGHTGBM_PARAMETERS = {
 
 _logger = optuna.logging.get_logger(__name__)
 
+class _CustomObjectiveType(Protocol):
+    def __call__(self, preds: np.ndarray, train: "lgb.Dataset") -> tuple[np.ndarray, np.ndarray]:
+        raise NotImplementedError
 
-def _get_custom_objective(lgbm_kwargs: dict[str, Any]) -> Callable[..., Any] | None:
+def _get_custom_objective(lgbm_kwargs: dict[str, Any]) -> _CustomObjectiveType | None:
     objective = lgbm_kwargs.get("objective")
     if objective is not None and not isinstance(objective, str):
         return objective
