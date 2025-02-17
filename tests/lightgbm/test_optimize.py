@@ -1075,14 +1075,6 @@ class TestLightGBMTunerCV:
 
     def test_pickle_custom_objective(self) -> None:
         dataset = lgb.Dataset(np.zeros((10, 10)))
-
-        params = {
-            "objective": custom_objective,
-            "metric": "custom",
-        }
-        tuner = lgb.LightGBMTunerCV(
-            params,
-            dataset,
-        )
-
+        params = {"objective": custom_objective, "metric": "custom"}
+        tuner = lgb.LightGBMTunerCV(params, dataset)
         pickle.dumps(tuner)
