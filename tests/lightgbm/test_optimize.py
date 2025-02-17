@@ -744,10 +744,7 @@ class TestLightGBMTuner:
         train_dataset = lgb.Dataset(X_trn, label=y_trn)
         valid_dataset = lgb.Dataset(X_trn, label=y_trn)
 
-        params = {
-            "objective": custom_objective,
-            "metric": "custom",
-        }
+        params = {"objective": custom_objective, "metric": "custom"}
         tuner = lgb.LightGBMTuner(
             params,
             train_dataset,
