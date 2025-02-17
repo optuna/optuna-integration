@@ -133,6 +133,8 @@ jobs:
     uses: ./.github/workflows/checks_template.yml
     with:
       integration_name: 'lightgbm'
+      # TODO: Remove the version constraint once https://github.com/optuna/optuna-integration/issues/204 is resolved.
+      extra_cmds: pip install torch "lightgbm<=4.5.0"
       deprecated: false
 
   mlflow:
