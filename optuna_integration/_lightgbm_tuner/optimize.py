@@ -285,7 +285,9 @@ class _OptunaObjective(_BaseTuner):
             # NOTE(nabenabe): If custom_objective is not None, custom_objective is not
             # serializable, so we store its name instead.
             lgbm_params["objective"] = (
-                custom_objective.__name__ if hasattr(custom_objective, ".__name__") else str(custom_objective)
+                custom_objective.__name__
+                if hasattr(custom_objective, "__name__")
+                else str(custom_objective)
             )
         trial.storage.set_trial_system_attr(
             trial._trial_id, _LGBM_PARAMS_KEY, json.dumps(lgbm_params)
