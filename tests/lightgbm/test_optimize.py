@@ -1064,10 +1064,7 @@ class TestLightGBMTunerCV:
         y_trn = np.random.randint(2, size=10)
         train_dataset = lgb.Dataset(X_trn, label=y_trn)
 
-        params = {
-            "objective": custom_objective,
-            "metric": "custom",
-        }
+        params = {"objective": custom_objective, "metric": "custom"}
         tuner = lgb.LightGBMTunerCV(
             params,
             train_dataset,
