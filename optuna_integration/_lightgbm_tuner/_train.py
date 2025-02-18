@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from typing import Any
+from typing import Optional
 
 from optuna._imports import try_import
 from optuna.study import Study
@@ -22,8 +23,8 @@ def train(
     valid_sets: list["lgb.Dataset"] | tuple["lgb.Dataset", ...] | "lgb.Dataset" | None = None,
     valid_names: Any | None = None,
     feval: Callable[..., Any] | None = None,
-    feature_name: str = "auto",
-    categorical_feature: str = "auto",
+    feature_name: str | None = None,
+    categorical_feature: str | None = None,
     keep_training_booster: bool = False,
     callbacks: list[Callable[..., Any]] | None = None,
     time_budget: int | None = None,
