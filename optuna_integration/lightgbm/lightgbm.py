@@ -77,7 +77,7 @@ class LightGBMPruningCallback:
 
         # The structure of each member of `evaluation_result_list` as of LightGBM v4.6.0.
         # [
-        #     (<dataset_name>, <metric_name>, mean(<values>), <is_higher_better>, std_dev(<values>))
+        #     (<dataset_name>, <metric_name>, avg(<values>), <is_higher_better>, std_dev(<values>))
         # ]
         for evaluation_result in evaluation_result_list:
             valid_name, metric, current_score, is_higher_better = evaluation_result[:4]
