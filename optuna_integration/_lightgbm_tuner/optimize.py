@@ -385,8 +385,8 @@ class _LightGBMBaseTuner(_BaseTuner):
         )
 
         deprecated_arg_warning = (
-            "Support for lgb.cv with argument {deprecated_arg} was removed from lightgbm 4.6.0 "
-            "and will not be supported by optuna in the future."
+            "Support for lgb.train and lgb.cv with argument {deprecated_arg} was removed "
+            "from lightgbm 4.6.0 and will not be supported by optuna in the future."
         )
         if feature_name:
             warnings.warn(deprecated_arg_warning.format(deprecated_arg="feature_name"))
@@ -678,6 +678,12 @@ class LightGBMTuner(_LightGBMBaseTuner):
         For ``params``, please check `the official documentation for LightGBM
         <https://lightgbm.readthedocs.io/en/latest/Parameters.html>`_.
 
+    .. warning::
+        Arguments ``feature_name`` and ``categorical_feature`` were deprecated in v4.2.2 and
+        will be removed in the future. The removal of these arguments is currently scheduled
+        for v6.0.0, but this schedule is subject to change.
+        See https://github.com/optuna/optuna-integration/releases/tag/v4.2.2.
+
     The arguments that only :class:`~optuna_integration.lightgbm.LightGBMTuner` has are
     listed below:
 
@@ -848,6 +854,12 @@ class LightGBMTunerCV(_LightGBMBaseTuner):
         ``metrics``, ``init_model`` and ``eval_train_metric``.
         For ``params``, please check `the official documentation for LightGBM
         <https://lightgbm.readthedocs.io/en/latest/Parameters.html>`_.
+
+    .. warning::
+        Arguments ``feature_name`` and ``categorical_feature`` were deprecated in v4.2.2 and
+        will be removed in the future. The removal of these arguments is currently scheduled
+        for v6.0.0, but this schedule is subject to change.
+        See https://github.com/optuna/optuna-integration/releases/tag/v4.2.2.
 
     The arguments that only :class:`~optuna_integration.lightgbm.LightGBMTunerCV` has are
     listed below:
