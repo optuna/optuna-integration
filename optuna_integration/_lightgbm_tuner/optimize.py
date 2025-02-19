@@ -384,7 +384,10 @@ class _LightGBMBaseTuner(_BaseTuner):
             show_progress_bar=show_progress_bar,
         )
 
-        deprecated_arg_warning = "Support for lgb.cv with argument {deprecated_arg} was removed from lightgbm 4.6.0 and will not be supported by optuna in the future."
+        deprecated_arg_warning = (
+            "Support for lgb.cv with argument {deprecated_arg} was removed from lightgbm 4.6.0 "
+            "and will not be supported by optuna in the future."
+        )
         if feature_name:
             warnings.warn(deprecated_arg_warning.format(deprecated_arg="feature_name"))
             kwargs["feature_name"] = feature_name
