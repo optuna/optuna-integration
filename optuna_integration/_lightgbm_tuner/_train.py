@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from typing import Any
-from typing import Optional
 
 from optuna._imports import try_import
 from optuna.study import Study
