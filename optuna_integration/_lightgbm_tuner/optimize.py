@@ -357,8 +357,8 @@ class _LightGBMBaseTuner(_BaseTuner):
         callbacks: list[Callable[..., Any]] | None = None,
         num_boost_round: int = 1000,
         feval: Callable[..., Any] | None = None,
-        feature_name: str = "auto",
-        categorical_feature: str = "auto",
+        feature_name: str | None = None,
+        categorical_feature: str | None = None,
         time_budget: int | None = None,
         sample_size: int | None = None,
         study: optuna.study.Study | None = None,
@@ -378,13 +378,23 @@ class _LightGBMBaseTuner(_BaseTuner):
         kwargs: dict[str, Any] = dict(
             num_boost_round=num_boost_round,
             feval=feval,
-            feature_name=feature_name,
-            categorical_feature=categorical_feature,
             callbacks=callbacks,
             time_budget=time_budget,
             sample_size=sample_size,
             show_progress_bar=show_progress_bar,
         )
+
+        deprecated_arg_warning = (
+            "Support for lgb.train and lgb.cv with argument {deprecated_arg} was removed "
+            "from lightgbm 4.6.0 and will not be supported by optuna in the future."
+        )
+        if feature_name:
+            warnings.warn(deprecated_arg_warning.format(deprecated_arg="feature_name"))
+            kwargs["feature_name"] = feature_name
+        if categorical_feature:
+            warnings.warn(deprecated_arg_warning.format(deprecated_arg="categorical_feature"))
+            kwargs["categorical_feature"] = categorical_feature
+
         self._parse_args(*args, **kwargs)
         self._start_time: float | None = None
         self._optuna_callbacks = optuna_callbacks
@@ -668,6 +678,12 @@ class LightGBMTuner(_LightGBMBaseTuner):
         For ``params``, please check `the official documentation for LightGBM
         <https://lightgbm.readthedocs.io/en/latest/Parameters.html>`_.
 
+    .. warning::
+        Arguments ``feature_name`` and ``categorical_feature`` were deprecated in v4.2.2 and
+        will be removed in the future. The removal of these arguments is currently scheduled
+        for v6.0.0, but this schedule is subject to change.
+        See https://github.com/optuna/optuna-integration/releases/tag/v4.2.2.
+
     The arguments that only :class:`~optuna_integration.lightgbm.LightGBMTuner` has are
     listed below:
 
@@ -726,8 +742,8 @@ class LightGBMTuner(_LightGBMBaseTuner):
         valid_sets: list["lgb.Dataset"] | tuple["lgb.Dataset", ...] | "lgb.Dataset" | None = None,
         valid_names: Any | None = None,
         feval: Callable[..., Any] | None = None,
-        feature_name: str = "auto",
-        categorical_feature: str = "auto",
+        feature_name: str | None = None,
+        categorical_feature: str | None = None,
         keep_training_booster: bool = False,
         callbacks: list[Callable[..., Any]] | None = None,
         time_budget: int | None = None,
@@ -839,6 +855,12 @@ class LightGBMTunerCV(_LightGBMBaseTuner):
         For ``params``, please check `the official documentation for LightGBM
         <https://lightgbm.readthedocs.io/en/latest/Parameters.html>`_.
 
+    .. warning::
+        Arguments ``feature_name`` and ``categorical_feature`` were deprecated in v4.2.2 and
+        will be removed in the future. The removal of these arguments is currently scheduled
+        for v6.0.0, but this schedule is subject to change.
+        See https://github.com/optuna/optuna-integration/releases/tag/v4.2.2.
+
     The arguments that only :class:`~optuna_integration.lightgbm.LightGBMTunerCV` has are
     listed below:
 
@@ -909,8 +931,8 @@ class LightGBMTunerCV(_LightGBMBaseTuner):
         stratified: bool = True,
         shuffle: bool = True,
         feval: Callable[..., Any] | None = None,
-        feature_name: str = "auto",
-        categorical_feature: str = "auto",
+        feature_name: str | None = None,
+        categorical_feature: str | None = None,
         fpreproc: Callable[..., Any] | None = None,
         seed: int = 0,
         callbacks: list[Callable[..., Any]] | None = None,
