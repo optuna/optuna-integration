@@ -16,10 +16,10 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
-import pkg_resources
+from importlib.metadata import version
 
 
-__version__ = pkg_resources.get_distribution("optuna-integration").version
+__version__ = version("optuna-integration")
 
 # -- Project information -----------------------------------------------------
 
@@ -42,6 +42,7 @@ release = __version__
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    "notfound.extension",
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
     "sphinx.ext.doctest",
@@ -167,6 +168,7 @@ intersphinx_mapping = {
     "lightgbm": ("https://lightgbm.readthedocs.io/en/latest", None),
     "matplotlib": ("https://matplotlib.org/stable", None),
     "numpy": ("https://numpy.org/doc/stable", None),
+    "optuna": ("https://optuna.readthedocs.io/en/stable", None),
     "scipy": ("https://docs.scipy.org/doc/scipy", None),
     "sklearn": ("https://scikit-learn.org/stable", None),
     "torch": ("https://pytorch.org/docs/stable", None),

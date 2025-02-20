@@ -1,3 +1,5 @@
+# flake8: noqa
+
 from __future__ import annotations
 
 from collections.abc import Callable
@@ -22,9 +24,9 @@ class CometCallback:
     A callback for logging Optuna study trials to a Comet ML Experiment.
     Comet ML must be installed to run.
 
-    This callback is intended for use with Optuna's ``study.optimize()`` method. It ensures that
-    all trials from an Optuna study are logged to a single Comet Experiment, facilitating organized
-    tracking of hyperparameter optimization.
+    This callback is intended for use with :meth:`optuna.study.Study.optimize` method. It ensures
+    that all trials from an Optuna study are logged to a single Comet Experiment, facilitating
+    organized tracking of hyperparameter optimization.
     The callback supports both single and multi-objective optimization.
 
     In a distributed training context, where trials from the same study might occur on different
@@ -42,7 +44,7 @@ class CometCallback:
             The workspace in Comet ML where the project resides.
         project_name:
             The name of the project in Comet ML where the experiment will be logged.
-            Defaults to ``general``.
+            Defaults to ``"general"``.
         metric_names:
             A list of the names of your objective metrics.
 

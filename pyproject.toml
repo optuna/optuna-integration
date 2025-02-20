@@ -56,6 +56,7 @@ document = [
     "scikit-learn>=0.24.2",
     "scipy>=1.9.2; python_version>='3.8'",
     "sphinx",
+    "sphinx-notfound-page",
     "sphinx_rtd_theme",
 ]
 allennlp = [
@@ -155,6 +156,9 @@ wandb = [
 xgboost = [
     "xgboost",
 ]
+
+[project.urls]
+repository = "https://github.com/optuna/optuna-integration"
 
 [tool.setuptools.packages.find]
 # where = ["."]

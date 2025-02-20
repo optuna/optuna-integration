@@ -75,6 +75,10 @@ class LightGBMPruningCallback:
         if evaluation_result_list is None:
             return None
 
+        # The structure of each member of `evaluation_result_list` as of LightGBM v4.6.0.
+        # [
+        #     (<dataset_name>, <metric_name>, avg(<values>), <is_higher_better>, std_dev(<values>))
+        # ]
         for evaluation_result in evaluation_result_list:
             valid_name, metric, current_score, is_higher_better = evaluation_result[:4]
             # The prefix "valid " is added to metric name since LightGBM v4.0.0.
@@ -99,12 +103,11 @@ class LightGBMPruningCallback:
                 and len(evaluation_result_list[0]) == 5
             )
             if is_cv:
-                target_valid_name = "cv_agg"
+                target_valid_name = "valid"
             else:
                 target_valid_name = self._valid_name
 
             evaluation_result = self._find_evaluation_result(target_valid_name, env)
-
             if evaluation_result is None:
                 raise ValueError(
                     'The entry associated with the validation name "{}" and the metric name "{}" '

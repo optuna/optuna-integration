@@ -67,10 +67,10 @@ $ black .
 $ isort .
 
 # flake8 type checking
-$ flake8 tests optuna/integration
+$ flake8 tests optuna_integration
 
 # mypy type checking
-$ mypy tests optuna/integration 
+$ mypy tests optuna_integration 
 ```
 
 ### Documentation
@@ -93,8 +93,11 @@ Please install some required packages at first.
 # Install required packages to test.
 pip install ".[test]"
 
-# Install required packages on which integration modules depend.
-pip install ".[all]"
+# Install required packages on which each integration module depends.
+pip install ".[${INTEGRATION_MODULE_NAME}]"
+
+# For example, for optuna_integration/cma,
+pip install ".[cma]"
 ```
 
 You can run your tests as follows:

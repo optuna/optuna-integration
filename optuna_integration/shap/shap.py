@@ -34,8 +34,8 @@ class ShapleyImportanceEvaluator(BaseImportanceEvaluator):
 
         This evaluator requires the `sklearn <https://scikit-learn.org/stable/>`_ Python package
         and `SHAP <https://shap.readthedocs.io/en/stable/index.html>`_.
-        The model for the SHAP calculation is based on `sklearn.ensemble.RandomForestClassifier
-        <https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html>`_.
+        The model for the SHAP calculation is based on
+        :class:`sklearn.ensemble.RandomForestClassifier`.
 
     Args:
         n_trees:

@@ -1,3 +1,5 @@
+# flake8: noqa
+
 from __future__ import annotations
 
 from collections.abc import Callable
@@ -108,27 +110,27 @@ def logei_candidates_func(
 
     Args:
         train_x:
-            Previous parameter configurations. A ``torch.Tensor`` of shape
+            Previous parameter configurations. A :class:`torch.Tensor` of shape
             ``(n_trials, n_params)``. ``n_trials`` is the number of already observed trials
             and ``n_params`` is the number of parameters. ``n_params`` may be larger than the
             actual number of parameters if categorical parameters are included in the search
             space, since these parameters are one-hot encoded.
             Values are not normalized.
         train_obj:
-            Previously observed objectives. A ``torch.Tensor`` of shape
+            Previously observed objectives. A :class:`torch.Tensor` of shape
             ``(n_trials, n_objectives)``. ``n_trials`` is identical to that of ``train_x``.
             ``n_objectives`` is the number of objectives. Observations are not normalized.
         train_con:
-            Objective constraints. A ``torch.Tensor`` of shape ``(n_trials, n_constraints)``.
+            Objective constraints. A :class:`torch.Tensor` of shape ``(n_trials, n_constraints)``.
             ``n_trials`` is identical to that of ``train_x``. ``n_constraints`` is the number of
             constraints. A constraint is violated if strictly larger than 0. If no constraints are
             involved in the optimization, this argument will be :obj:`None`.
         bounds:
-            Search space bounds. A ``torch.Tensor`` of shape ``(2, n_params)``. ``n_params`` is
-            identical to that of ``train_x``. The first and the second rows correspond to the
+            Search space bounds. A :class:`torch.Tensor` of shape ``(2, n_params)``. ``n_params``
+            is identical to that of ``train_x``. The first and the second rows correspond to the
             lower and upper bounds for each parameter respectively.
         pending_x:
-            Pending parameter configurations. A ``torch.Tensor`` of shape
+            Pending parameter configurations. A :class:`torch.Tensor` of shape
             ``(n_pending, n_params)``. ``n_pending`` is the number of the trials which are already
             suggested all their parameters but have not completed their evaluation, and
             ``n_params`` is identical to that of ``train_x``.
@@ -215,27 +217,27 @@ def qei_candidates_func(
 
     Args:
         train_x:
-            Previous parameter configurations. A ``torch.Tensor`` of shape
+            Previous parameter configurations. A :class:`torch.Tensor` of shape
             ``(n_trials, n_params)``. ``n_trials`` is the number of already observed trials
             and ``n_params`` is the number of parameters. ``n_params`` may be larger than the
             actual number of parameters if categorical parameters are included in the search
             space, since these parameters are one-hot encoded.
             Values are not normalized.
         train_obj:
-            Previously observed objectives. A ``torch.Tensor`` of shape
+            Previously observed objectives. A :class:`torch.Tensor` of shape
             ``(n_trials, n_objectives)``. ``n_trials`` is identical to that of ``train_x``.
             ``n_objectives`` is the number of objectives. Observations are not normalized.
         train_con:
-            Objective constraints. A ``torch.Tensor`` of shape ``(n_trials, n_constraints)``.
+            Objective constraints. A :class:`torch.Tensor` of shape ``(n_trials, n_constraints)``.
             ``n_trials`` is identical to that of ``train_x``. ``n_constraints`` is the number of
             constraints. A constraint is violated if strictly larger than 0. If no constraints are
             involved in the optimization, this argument will be :obj:`None`.
         bounds:
-            Search space bounds. A ``torch.Tensor`` of shape ``(2, n_params)``. ``n_params`` is
-            identical to that of ``train_x``. The first and the second rows correspond to the
+            Search space bounds. A :class:`torch.Tensor` of shape ``(2, n_params)``. ``n_params``
+            is identical to that of ``train_x``. The first and the second rows correspond to the
             lower and upper bounds for each parameter respectively.
         pending_x:
-            Pending parameter configurations. A ``torch.Tensor`` of shape
+            Pending parameter configurations. A :class:`torch.Tensor` of shape
             ``(n_pending, n_params)``. ``n_pending`` is the number of the trials which are already
             suggested all their parameters but have not completed their evaluation, and
             ``n_params`` is identical to that of ``train_x``.
@@ -882,8 +884,8 @@ class BoTorchSampler(BaseSampler):
         candidates_func:
             An optional function that suggests the next candidates. It must take the training
             data, the objectives, the constraints, the search space bounds and return the next
-            candidates. The arguments are of type ``torch.Tensor``. The return value must be a
-            ``torch.Tensor``. However, if ``constraints_func`` is omitted, constraints will be
+            candidates. The arguments are of type :class:`torch.Tensor`. The return value must be a
+            :class:`torch.Tensor`. However, if ``constraints_func`` is omitted, constraints will be
             :obj:`None`. For any constraints that failed to compute, the tensor will contain
             NaN.
 
@@ -926,8 +928,8 @@ class BoTorchSampler(BaseSampler):
         seed:
             Seed for random number generator.
         device:
-            A ``torch.device`` to store input and output data of BoTorch. Please set a CUDA device
-            if you fasten sampling.
+            A :class:`torch.device` to store input and output data of BoTorch. Please set a CUDA
+            device for faster sampling.
     """
 
     def __init__(
