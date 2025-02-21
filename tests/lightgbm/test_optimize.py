@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Generator
 import contextlib
+import pickle
 from tempfile import TemporaryDirectory
 from typing import Any
 from typing import TYPE_CHECKING
@@ -250,6 +251,16 @@ class TestBaseTuner:
         tuner = _BaseTuner(lgbm_params={"metric": "ndcg", "eval_at": "1"})
         with pytest.raises(ValueError):
             tuner._metric_with_eval_at("ndcg")
+
+
+def custom_objective(preds: np.ndarray, train_data: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    grad = np.ones_like(preds)
+    hess = np.ones_like(preds)
+    return grad, hess
+
+
+def custom_eval(preds: np.ndarray, train_data: np.ndarray) -> tuple[str, float, bool]:
+    return "custom", 1.0, False
 
 
 class TestLightGBMTuner:
@@ -727,6 +738,31 @@ class TestLightGBMTuner:
             assert first_trial.value == second_trial.value
             assert first_trial.params == second_trial.params
 
+    def test_custom_objective(self) -> None:
+        X_trn = np.random.uniform(10, size=(10, 5))
+        y_trn = np.random.randint(2, size=10)
+        train_dataset = lgb.Dataset(X_trn, label=y_trn)
+        valid_dataset = lgb.Dataset(X_trn, label=y_trn)
+
+        params = {"objective": custom_objective, "metric": "custom"}
+        tuner = lgb.LightGBMTuner(
+            params,
+            train_dataset,
+            valid_sets=valid_dataset,
+            callbacks=[early_stopping(stopping_rounds=3)],
+            optuna_seed=10,
+            feval=custom_eval,
+        )
+
+        tuner.run()
+        assert tuner.best_score == 1.0
+
+    def test_pickle_custom_objective(self) -> None:
+        dataset = lgb.Dataset(np.zeros((10, 10)))
+        params = {"objective": custom_objective, "metric": "custom"}
+        tuner = lgb.LightGBMTuner(params, dataset, valid_sets=dataset)
+        pickle.dumps(tuner)
+
 
 class TestLightGBMTunerCV:
     def _get_tunercv_object(
@@ -1019,3 +1055,26 @@ class TestLightGBMTunerCV:
         for first_trial, second_trial in zip(first_try_trials, second_try_trials):
             assert first_trial.value == second_trial.value
             assert first_trial.params == second_trial.params
+
+    def test_custom_objective(self) -> None:
+        X_trn = np.random.uniform(10, size=(10, 5))
+        y_trn = np.random.randint(2, size=10)
+        train_dataset = lgb.Dataset(X_trn, label=y_trn)
+
+        params = {"objective": custom_objective, "metric": "custom"}
+        tuner = lgb.LightGBMTunerCV(
+            params,
+            train_dataset,
+            callbacks=[early_stopping(stopping_rounds=3)],
+            optuna_seed=10,
+            feval=custom_eval,
+        )
+
+        tuner.run()
+        assert tuner.best_score == 1.0
+
+    def test_pickle_custom_objective(self) -> None:
+        dataset = lgb.Dataset(np.zeros((10, 10)))
+        params = {"objective": custom_objective, "metric": "custom"}
+        tuner = lgb.LightGBMTunerCV(params, dataset)
+        pickle.dumps(tuner)
