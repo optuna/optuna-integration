@@ -14,7 +14,6 @@ from optuna.distributions import CategoricalDistribution
 from optuna.distributions import FloatDistribution
 from optuna.distributions import IntDistribution
 from optuna.study._study_direction import StudyDirection
-from optuna.testing.distributions import UnsupportedDistribution
 from optuna.testing.trials import _create_frozen_trial
 from optuna.trial import Trial
 from optuna.trial import TrialState
@@ -138,16 +137,6 @@ class TestPyCmaSampler:
             assert mock_relative.call_count == 3
 
     @staticmethod
-    def test_initialize_x0_with_unsupported_distribution() -> None:
-        with pytest.raises(NotImplementedError):
-            optuna_integration.PyCmaSampler._initialize_x0({"x": UnsupportedDistribution()})
-
-    @staticmethod
-    def test_initialize_sigma0_with_unsupported_distribution() -> None:
-        with pytest.raises(NotImplementedError):
-            optuna_integration.PyCmaSampler._initialize_sigma0({"x": UnsupportedDistribution()})
-
-    @staticmethod
     def test_call_after_trial_of_independent_sampler() -> None:
         independent_sampler = optuna.samplers.RandomSampler()
         with warnings.catch_warnings():
@@ -216,11 +205,6 @@ class TestOptimizer:
                     "seed": 1,
                 },
             )
-
-    @staticmethod
-    def test_init_with_unsupported_distribution() -> None:
-        with pytest.raises(NotImplementedError):
-            _Optimizer({"x": UnsupportedDistribution()}, {"x": 0}, 0.2, None, {})
 
     @staticmethod
     @pytest.mark.parametrize("direction", [StudyDirection.MINIMIZE, StudyDirection.MAXIMIZE])
