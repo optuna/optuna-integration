@@ -555,9 +555,12 @@ class _LightGBMBaseTuner(_BaseTuner):
     def tune_feature_fraction_stage2(self, n_trials: int = 6) -> None:
         param_name = "feature_fraction"
         best_feature_fraction = self.best_params[param_name]
-        param_values = np.linspace(
-            best_feature_fraction - 0.08, best_feature_fraction + 0.08, n_trials
-        ).tolist()
+        param_values: list[float] = cast(
+            list[float],
+            np.linspace(
+                best_feature_fraction - 0.08, best_feature_fraction + 0.08, n_trials
+            ).tolist(),
+        )
         param_values = [val for val in param_values if val >= 0.4 and val <= 1.0]
 
         sampler = optuna.samplers.GridSampler({param_name: param_values}, seed=self._optuna_seed)
