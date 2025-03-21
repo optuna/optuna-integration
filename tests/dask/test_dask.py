@@ -7,6 +7,7 @@ import warnings
 
 import numpy as np
 import optuna
+from optuna.storages import InMemoryStorage
 from optuna.testing.tempfile_pool import NamedTemporaryFilePool
 from optuna.trial import Trial
 import pytest
@@ -108,8 +109,7 @@ def test_get_base_storage(client: "Client", storage_specifier: str) -> None:
             warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
             dask_storage = DaskStorage(url)
         storage = dask_storage.get_base_storage()
-        expected_type = type(optuna.storages.get_storage(url))
-        assert type(storage) is expected_type
+        assert type(storage) is InMemoryStorage
 
 
 @pytest.mark.parametrize("direction", ["maximize", "minimize"])
