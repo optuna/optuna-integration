@@ -16,6 +16,7 @@ from optuna.distributions import BaseDistribution
 from optuna.distributions import distribution_to_json
 from optuna.distributions import json_to_distribution
 from optuna.storages import BaseStorage
+from optuna.storages import InMemoryStorage
 from optuna.study import StudyDirection
 from optuna.study._frozen import FrozenStudy
 from optuna.trial import FrozenTrial
@@ -512,10 +513,26 @@ class DaskStorage(BaseStorage):
 
         This is a convenience method to extract the Optuna storage instance stored on
         the Dask scheduler process to the local Python process.
+
+        If the storage is not InMemoryStorage, it will be converted to InMemoryStorage
+        before being copied to the local. Please note that it is not possible to get
+        exactly the same instance, as study_id and trial_id may change.
         """
 
         def _get_base_storage(dask_scheduler: distributed.Scheduler, name: str) -> BaseStorage:
-            return dask_scheduler.extensions["optuna"].storages[name]
+            storage = dask_scheduler.extensions["optuna"].storages[name]
+            if isinstance(storage, InMemoryStorage):
+                return storage
+
+            new_in_memory_storage = InMemoryStorage()
+            for study in storage.get_all_studies():
+                optuna.copy_study(
+                    from_study_name=study.study_name,
+                    from_storage=storage,
+                    to_storage=new_in_memory_storage,
+                    to_study_name=study.study_name,
+                )
+            return new_in_memory_storage
 
         return self.client.run_on_scheduler(  # type: ignore[no-untyped-call]
             _get_base_storage, name=self.name
