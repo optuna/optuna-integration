@@ -14,6 +14,7 @@ import pickle
 import time
 from typing import Any
 from typing import cast
+from typing import List
 from typing import Protocol
 import warnings
 
@@ -556,7 +557,7 @@ class _LightGBMBaseTuner(_BaseTuner):
         param_name = "feature_fraction"
         best_feature_fraction = self.best_params[param_name]
         param_values: list[float] = cast(
-            list[float],
+            List[float],
             np.linspace(
                 best_feature_fraction - 0.08, best_feature_fraction + 0.08, n_trials
             ).tolist(),
