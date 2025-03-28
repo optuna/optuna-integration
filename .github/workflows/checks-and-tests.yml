@@ -223,4 +223,6 @@ jobs:
     uses: ./.github/workflows/checks_template.yml
     with:
       integration_name: 'xgboost'
+      # TODO: Remove the version constraint once https://github.com/optuna/optuna-integration/issues/216 is resolved.
+      extra_cmds: pip install "xgboost<3.0.0"
       deprecated: false
