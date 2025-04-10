@@ -41,33 +41,68 @@ class PyCmaSampler(BaseSampler):
     Note that parallel execution of trials may affect the optimization performance of CMA-ES,
     especially if the number of trials running in parallel exceeds the population size.
 
+    ```python
+    import matplotlib.pyplot as plt
+    import optuna
+    from optuna.integration import PyCmaSampler
+
+    def objective(trial):
+        x = trial.suggest_float("x", -5, 5)
+        y = trial.suggest_float("y", -5, 5)
+        return x**2 + y**2
+
+    # Set up study with CMA-ES
+    sampler = PyCmaSampler(seed=42)
+    study = optuna.create_study(sampler=sampler, direction="minimize")
+    study.optimize(objective, n_trials=50)
+
+    # Print results
+    print("\\nBest trial:")
+    print(f"  Value (minimum f(x,y)): {study.best_value:.5f}")
+    print(f"  Params: {study.best_params}")
+
+    # Plot the results
+    fig1 = optuna.visualization.matplotlib.plot_param_importances(study).figure
+    fig1.set_size_inches(8, 5)
+    fig1.tight_layout()
+    fig1.savefig("param_importance.png", dpi=300)
+    plt.close(fig1)
+
+    fig2 = optuna.visualization.matplotlib.plot_contour(study, params=["x", "y"]).figure
+    fig2.set_size_inches(8, 5)
+    fig2.suptitle("Contour Plot: f(x, y) = x² + y²")
+    fig2.tight_layout()
+    fig2.savefig("contour_plot.png", dpi=300)
+    plt.close(fig2)
+    ```
+
     Args:
 
         x0:
             A dictionary of an initial parameter values for CMA-ES. By default, the mean of ``low``
-            and ``high`` for each distribution is used.
-            Please refer to cma.CMAEvolutionStrategy_ for further details of ``x0``.
+            and ``high`` for each distribution is used. Please refer to `cma.CMAEvolutionStrategy`_
+            for further details of ``x0``.
 
         sigma0:
             Initial standard deviation of CMA-ES. By default, ``sigma0`` is set to
             ``min_range / 6``, where ``min_range`` denotes the minimum range of the distributions
             in the search space. If distribution is categorical, ``min_range`` is
-            ``len(choices) - 1``.
-            Please refer to cma.CMAEvolutionStrategy_ for further details of ``sigma0``.
+            ``len(choices) - 1``. Please refer to `cma.CMAEvolutionStrategy`_ for further details
+            of ``sigma0``.
 
         cma_stds:
-            A dictionary of multipliers of sigma0 for each parameters. The default value is 1.0.
-            Please refer to cma.CMAEvolutionStrategy_ for further details of ``cma_stds``.
+            A dictionary of multipliers of sigma0 for each parameter. The default value is 1.0.
+            Please refer to `cma.CMAEvolutionStrategy`_ for further details of ``cma_stds``.
 
         seed:
             A random seed for CMA-ES.
 
         cma_opts:
-            Options passed to the constructor of cma.CMAEvolutionStrategy_ class.
+            Options passed to the constructor of `cma.CMAEvolutionStrategy`_ class.
 
-            Note that default option is cma_default_options_,
-            but ``BoundaryHandler``, ``bounds``, ``CMA_stds`` and ``seed`` arguments in
-            ``cma_opts`` will be ignored because it is added by
+            Note that the default option is `cma_default_options`_.
+            However, ``BoundaryHandler``, ``bounds``, ``CMA_stds`` and ``seed`` arguments in
+            ``cma_opts`` will be ignored because they are added by
             :class:`~optuna_integration.PyCmaSampler` automatically.
 
         n_startup_trials:
