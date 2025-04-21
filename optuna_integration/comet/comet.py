@@ -18,7 +18,8 @@ with try_import() as _imports:
 
 @experimental_class("4.0.0")
 class CometCallback:
-    """A callback for logging Optuna study trials to a Comet ML Experiment.
+    """
+    A callback for logging Optuna study trials to a Comet ML Experiment.
     Comet ML must be installed to run.
 
     This callback is intended for use with :meth:`optuna.study.Study.optimize` method. It ensures

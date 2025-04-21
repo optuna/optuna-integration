@@ -101,7 +101,8 @@ def logei_candidates_func(
     bounds: "torch.Tensor",
     pending_x: "torch.Tensor" | None,
 ) -> "torch.Tensor":
-    """Log Expected Improvement (LogEI).
+    """
+    Log Expected Improvement (LogEI).
 
     The default value of ``candidates_func`` in :class:`~optuna_integration.BoTorchSampler`
     with single-objective optimization.
@@ -211,7 +212,8 @@ def qei_candidates_func(
     bounds: "torch.Tensor",
     pending_x: "torch.Tensor" | None,
 ) -> "torch.Tensor":
-    """Quasi MC-based batch Expected Improvement (qEI).
+    """
+    Quasi MC-based batch Expected Improvement (qEI).
 
     Args:
         train_x:
@@ -316,7 +318,8 @@ def qnei_candidates_func(
     bounds: "torch.Tensor",
     pending_x: "torch.Tensor" | None,
 ) -> "torch.Tensor":
-    """Quasi MC-based batch Noisy Expected Improvement (qNEI).
+    """
+    Quasi MC-based batch Noisy Expected Improvement (qNEI).
 
     This function may perform better than qEI (`qei_candidates_func`) when
     the evaluated values of objective function are noisy.
@@ -383,7 +386,8 @@ def qehvi_candidates_func(
     bounds: "torch.Tensor",
     pending_x: "torch.Tensor" | None,
 ) -> "torch.Tensor":
-    """Quasi MC-based batch Expected Hypervolume Improvement (qEHVI).
+    """
+    Quasi MC-based batch Expected Hypervolume Improvement (qEHVI).
 
     The default value of ``candidates_func`` in :class:`~optuna_integration.BoTorchSampler`
     with multi-objective optimization when the number of objectives is three or less.
@@ -468,7 +472,8 @@ def ehvi_candidates_func(
     bounds: "torch.Tensor",
     pending_x: "torch.Tensor" | None,
 ) -> "torch.Tensor":
-    """Expected Hypervolume Improvement (EHVI).
+    """
+    Expected Hypervolume Improvement (EHVI).
 
     The default value of ``candidates_func`` in :class:`~optuna_integration.BoTorchSampler`
     with multi-objective optimization without constraints.
@@ -533,7 +538,8 @@ def qnehvi_candidates_func(
     bounds: "torch.Tensor",
     pending_x: "torch.Tensor" | None,
 ) -> "torch.Tensor":
-    """Quasi MC-based batch Noisy Expected Hypervolume Improvement (qNEHVI).
+    """
+    Quasi MC-based batch Noisy Expected Hypervolume Improvement (qNEHVI).
 
     According to Botorch/Ax documentation,
     this function may perform better than qEHVI (`qehvi_candidates_func`).
@@ -617,7 +623,8 @@ def qparego_candidates_func(
     bounds: "torch.Tensor",
     pending_x: "torch.Tensor" | None,
 ) -> "torch.Tensor":
-    """Quasi MC-based extended ParEGO (qParEGO) for constrained multi-objective optimization.
+    """
+    Quasi MC-based extended ParEGO (qParEGO) for constrained multi-objective optimization.
 
     The default value of ``candidates_func`` in :class:`~optuna_integration.BoTorchSampler`
     with multi-objective optimization when the number of objectives is larger than three.
@@ -689,7 +696,8 @@ def qkg_candidates_func(
     bounds: "torch.Tensor",
     pending_x: "torch.Tensor" | None,
 ) -> "torch.Tensor":
-    """Quasi MC-based batch Knowledge Gradient (qKG).
+    """
+    Quasi MC-based batch Knowledge Gradient (qKG).
 
     According to Botorch/Ax documentation,
     this function may perform better than qEI (`qei_candidates_func`).
@@ -755,7 +763,8 @@ def qhvkg_candidates_func(
     bounds: "torch.Tensor",
     pending_x: "torch.Tensor" | None,
 ) -> "torch.Tensor":
-    """Quasi MC-based batch Hypervolume Knowledge Gradient (qHVKG).
+    """
+    Quasi MC-based batch Hypervolume Knowledge Gradient (qHVKG).
 
     According to Botorch/Ax documentation,
     this function may perform better than qEHVI (`qehvi_candidates_func`).
@@ -859,7 +868,8 @@ def _get_default_candidates_func(
 
 @experimental_class("2.4.0")
 class BoTorchSampler(BaseSampler):
-    """A sampler that uses BoTorch, a Bayesian optimization library built on top of PyTorch.
+    """
+    A sampler that uses BoTorch, a Bayesian optimization library built on top of PyTorch.
 
     This sampler allows using BoTorch's optimization algorithms from Optuna to suggest parameter
     configurations. Parameters are transformed to continuous space and passed to BoTorch, and then
