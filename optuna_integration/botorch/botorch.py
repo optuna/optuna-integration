@@ -31,7 +31,7 @@ with try_import() as _imports:
     from botorch.acquisition.multi_objective import monte_carlo
     from botorch.acquisition.multi_objective.analytic import ExpectedHypervolumeImprovement
     from botorch.acquisition.multi_objective.objective import (
-        FeasibilityWeightedMCMultiOutputObjective,
+        FeasibilityWeightedMCMultiOutputObjective
     )
     from botorch.acquisition.multi_objective.objective import IdentityMCMultiOutputObjective
     from botorch.acquisition.objective import ConstrainedMCObjective
@@ -76,7 +76,7 @@ with try_import() as _imports_logei:
 
 with try_import() as _imports_qhvkg:
     from botorch.acquisition.multi_objective.hypervolume_knowledge_gradient import (
-        qHypervolumeKnowledgeGradient,
+        qHypervolumeKnowledgeGradient
     )
 
 
