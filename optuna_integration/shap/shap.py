@@ -26,24 +26,71 @@ with try_import() as _imports:
 class ShapleyImportanceEvaluator(BaseImportanceEvaluator):
     """Shapley (SHAP) parameter importance evaluator.
 
-    This evaluator fits a random forest regression model that predicts the objective values
-    of :class:`~optuna.trial.TrialState.COMPLETE` trials given their parameter configurations.
-    Feature importances are then computed as the mean absolute SHAP values.
+        Example:
+            import matplotlib.pyplot as plt
+    import optuna
+    from optuna.integration import ShapleyImportanceEvaluator
 
-    .. note::
+    # -----------------------------
+    # Step 1: Define Objective Function
+    # -----------------------------
+    print("Setting up the quadratic function optimization...")
 
-        This evaluator requires the `sklearn <https://scikit-learn.org/stable/>`_ Python package
-        and `SHAP <https://shap.readthedocs.io/en/stable/index.html>`_.
-        The model for the SHAP calculation is based on
-        :class:`sklearn.ensemble.RandomForestClassifier`.
+    def objective(trial):
+        x = trial.suggest_float("x", -5, 5)
+        y = trial.suggest_float("y", -5, 5)
+        return x ** 2 + y ** 2
 
-    Args:
-        n_trees:
-            Number of trees in the random forest.
-        max_depth:
-            The maximum depth of each tree in the random forest.
-        seed:
-            Seed for the random forest.
+    # -----------------------------
+    # Step 2: Run Optuna Study
+    # -----------------------------
+    print("Running hyperparameter optimization...")
+    study = optuna.create_study(direction="minimize")  # minimize x^2 + y^2
+    study.optimize(objective, n_trials=50)
+
+    print("\nBest trial:")
+    print(f"  Value (minimum f(x,y)): {study.best_value:.5f}")
+    print(f"  Params: {study.best_params}")
+
+    # -----------------------------
+    # Step 3: Analyze Importance using ShapleyImportanceEvaluator
+    # -----------------------------
+    print("\nEvaluating parameter importances...")
+    evaluator = ShapleyImportanceEvaluator()
+    importances = evaluator.evaluate(study)
+
+    # Sort and plot the importances
+    importances = dict(sorted(importances.items(), key=lambda item: item[1], reverse=True))
+
+    plt.figure(figsize=(8, 5))
+    plt.barh(list(importances.keys()), list(importances.values()))
+    plt.gca().invert_yaxis()
+    plt.xlabel("Importance (estimated with SHAP)")
+    plt.title("Feature Importances via Optuna ShapleyImportanceEvaluator (f(x, y) = x² + y²)")
+    plt.tight_layout()
+    plt.savefig("shap_optuna_importance.png", dpi=300)
+    print("Optuna SHAP-based importance plot saved as 'shap_optuna_importance.png'")
+
+
+        This evaluator fits a random forest regression model that predicts the objective values
+        of :class:`~optuna.trial.TrialState.COMPLETE` trials given their parameter configurations.
+        Feature importances are then computed as the mean absolute SHAP values.
+
+        .. note::
+
+            This evaluator requires the
+            `sklearn <https://scikit-learn.org/stable/>`_ Python package
+            and `SHAP <https://shap.readthedocs.io/en/stable/index.html>`_.
+            The model for the SHAP calculation is based on
+            :class:`sklearn.ensemble.RandomForestClassifier`.
+
+        Args:
+            n_trees:
+                Number of trees in the random forest.
+            max_depth:
+                The maximum depth of each tree in the random forest.
+            seed:
+                Seed for the random forest.
     """
 
     def __init__(self, *, n_trees: int = 64, max_depth: int = 64, seed: int | None = None) -> None:
