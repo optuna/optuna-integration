@@ -43,9 +43,9 @@ class PyCmaSampler(BaseSampler):
 
 
         def objective(trial):
-        x = trial.suggest_float("x", -5, 5)
-        y = trial.suggest_float("y", -5, 5)
-        return x**2 + y**2
+            x = trial.suggest_float("x", -5, 5)
+            y = trial.suggest_float("y", -5, 5)
+            return x**2 + y**2
 
 
         # Set up study with CMA-ES
