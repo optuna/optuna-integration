@@ -75,34 +75,34 @@ class PyCmaSampler(BaseSampler):
     fig2.savefig("contour_plot.png", dpi=300)
     plt.close(fig2)
     ```
-    
+
     Args:
 
         x0:
             A dictionary of an initial parameter values for CMA-ES. By default, the mean of ``low``
-            and ``high`` for each distribution is used.
-            Please refer to cma.CMAEvolutionStrategy_ for further details of ``x0``.
+            and ``high`` for each distribution is used. Please refer to `cma.CMAEvolutionStrategy`_
+            for further details of ``x0``.
 
         sigma0:
             Initial standard deviation of CMA-ES. By default, ``sigma0`` is set to
             ``min_range / 6``, where ``min_range`` denotes the minimum range of the distributions
             in the search space. If distribution is categorical, ``min_range`` is
-            ``len(choices) - 1``.
-            Please refer to cma.CMAEvolutionStrategy_ for further details of ``sigma0``.
+            ``len(choices) - 1``. Please refer to `cma.CMAEvolutionStrategy`_ for further details
+            of ``sigma0``.
 
         cma_stds:
-            A dictionary of multipliers of sigma0 for each parameters. The default value is 1.0.
-            Please refer to cma.CMAEvolutionStrategy_ for further details of ``cma_stds``.
+            A dictionary of multipliers of sigma0 for each parameter. The default value is 1.0.
+            Please refer to `cma.CMAEvolutionStrategy`_ for further details of ``cma_stds``.
 
         seed:
             A random seed for CMA-ES.
 
         cma_opts:
-            Options passed to the constructor of cma.CMAEvolutionStrategy_ class.
+            Options passed to the constructor of `cma.CMAEvolutionStrategy`_ class.
 
-            Note that default option is cma_default_options_,
-            but ``BoundaryHandler``, ``bounds``, ``CMA_stds`` and ``seed`` arguments in
-            ``cma_opts`` will be ignored because it is added by
+            Note that the default option is `cma_default_options`_.
+            However, ``BoundaryHandler``, ``bounds``, ``CMA_stds`` and ``seed`` arguments in
+            ``cma_opts`` will be ignored because they are added by
             :class:`~optuna_integration.PyCmaSampler` automatically.
 
         n_startup_trials:
