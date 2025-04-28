@@ -26,8 +26,8 @@ with try_import() as _imports:
 class ShapleyImportanceEvaluator(BaseImportanceEvaluator):
     """Shapley (SHAP) parameter importance evaluator.
 
-        Example:
-            import matplotlib.pyplot as plt
+    Example:
+    import matplotlib.pyplot as plt
     import optuna
     from optuna.integration import ShapleyImportanceEvaluator
 
