@@ -37,44 +37,45 @@ class PyCmaSampler(BaseSampler):
     Example:
 
         Optimize a simple quadratic function by using :class:`~optuna_integration.PyCmaSampler`.
-        import matplotlib.pyplot as plt
-        import optuna
-        from optuna.integration import PyCmaSampler
-
-
-        def objective(trial):
-            x = trial.suggest_float("x", -5, 5)
-            y = trial.suggest_float("y", -5, 5)
-            return x**2 + y**2
-
-
-        # Set up study with CMA-ES
-        sampler = PyCmaSampler(seed=42)
-        study = optuna.create_study(sampler=sampler, direction="minimize")
-        study.optimize(objective, n_trials=50)
-
-        # Print results
-        print("\nBest trial:")
-        print(f"  Value (minimum f(x,y)): {study.best_value:.5f}")
-        print(f"  Params: {study.best_params}")
-
-        # Plot the results
-        fig1 = optuna.visualization.matplotlib.plot_param_importances(study).figure
-        fig1.set_size_inches(8, 5)
-        fig1.tight_layout()
-        fig1.savefig("param_importance.png", dpi=300)
-        plt.close(fig1)
-
-        fig2 = optuna.visualization.matplotlib.plot_contour(study, params=["x", "y"]).figure
-        fig2.set_size_inches(8, 5)
-        fig2.suptitle("Contour Plot: f(x, y) = x² + y²")
-        fig2.tight_layout()
-        fig2.savefig("contour_plot.png", dpi=300)
-        plt.close(fig2)
 
     Note that parallel execution of trials may affect the optimization performance of CMA-ES,
     especially if the number of trials running in parallel exceeds the population size.
 
+    ```python
+    import matplotlib.pyplot as plt
+    import optuna
+    from optuna.integration import PyCmaSampler
+
+    def objective(trial):
+        x = trial.suggest_float("x", -5, 5)
+        y = trial.suggest_float("y", -5, 5)
+        return x**2 + y**2
+
+    # Set up study with CMA-ES
+    sampler = PyCmaSampler(seed=42)
+    study = optuna.create_study(sampler=sampler, direction="minimize")
+    study.optimize(objective, n_trials=50)
+
+    # Print results
+    print("\\nBest trial:")
+    print(f"  Value (minimum f(x,y)): {study.best_value:.5f}")
+    print(f"  Params: {study.best_params}")
+
+    # Plot the results
+    fig1 = optuna.visualization.matplotlib.plot_param_importances(study).figure
+    fig1.set_size_inches(8, 5)
+    fig1.tight_layout()
+    fig1.savefig("param_importance.png", dpi=300)
+    plt.close(fig1)
+
+    fig2 = optuna.visualization.matplotlib.plot_contour(study, params=["x", "y"]).figure
+    fig2.set_size_inches(8, 5)
+    fig2.suptitle("Contour Plot: f(x, y) = x² + y²")
+    fig2.tight_layout()
+    fig2.savefig("contour_plot.png", dpi=300)
+    plt.close(fig2)
+    ```
+    
     Args:
 
         x0:
