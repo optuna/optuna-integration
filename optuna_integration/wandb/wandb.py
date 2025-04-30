@@ -178,11 +178,11 @@ class WeightsAndBiasesCallback:
         run.log({**trial.params, **metrics}, step=step)
 
         if self._as_multirun:
-            run.config.update({**attributes, **trial.params})
+            run.config.update({**attributes, **trial.params})  # type: ignore[no-untyped-call]
             run.tags = tuple(self._wandb_kwargs.get("tags", ())) + (study.study_name,)
             run.finish()
         else:
-            run.config.update(attributes)
+            run.config.update(attributes)  # type: ignore[no-untyped-call]
 
     @experimental_func("3.0.0")
     def track_in_wandb(self) -> Callable:
