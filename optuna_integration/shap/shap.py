@@ -26,7 +26,7 @@ with try_import() as _imports:
 class ShapleyImportanceEvaluator(BaseImportanceEvaluator):
     """Shapley (SHAP) parameter importance evaluator.
 
-    Example:
+    ```python
     import optuna
     from optuna.integration import ShapleyImportanceEvaluator
 
@@ -41,6 +41,7 @@ class ShapleyImportanceEvaluator(BaseImportanceEvaluator):
     print("\nBest trial:")
     print(f"  Value (minimum f(x,y)): {study.best_value:.5f}")
     print(f"  Params: {study.best_params}")
+    ```
 
     This evaluator fits a random forest regression model that predicts the objective values
     of :class:`~optuna.trial.TrialState.COMPLETE` trials given their parameter configurations.
