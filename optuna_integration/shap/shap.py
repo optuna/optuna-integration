@@ -55,13 +55,13 @@ class ShapleyImportanceEvaluator(BaseImportanceEvaluator):
     of :class:`~optuna.trial.TrialState.COMPLETE` trials given their parameter configurations.
     Feature importances are then computed as the mean absolute SHAP values.
 
-        .. note::
+    .. note::
 
-            This evaluator requires the
-            `sklearn <https://scikit-learn.org/stable/>`_ Python package
-            and `SHAP <https://shap.readthedocs.io/en/stable/index.html>`_.
-            The model for the SHAP calculation is based on
-            :class:`sklearn.ensemble.RandomForestClassifier`.
+        This evaluator requires the
+        `sklearn <https://scikit-learn.org/stable/>`_ Python package
+        and `SHAP <https://shap.readthedocs.io/en/stable/index.html>`_.
+        The model for the SHAP calculation is based on
+        :class:`sklearn.ensemble.RandomForestClassifier`.
 
     Args:
         n_trees:
