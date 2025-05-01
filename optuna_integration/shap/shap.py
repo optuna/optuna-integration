@@ -27,7 +27,6 @@ class ShapleyImportanceEvaluator(BaseImportanceEvaluator):
     """Shapley (SHAP) parameter importance evaluator.
 
     Example:
-    import matplotlib.pyplot as plt
     import optuna
     from optuna.integration import ShapleyImportanceEvaluator
 
@@ -52,29 +51,9 @@ class ShapleyImportanceEvaluator(BaseImportanceEvaluator):
     print(f"  Value (minimum f(x,y)): {study.best_value:.5f}")
     print(f"  Params: {study.best_params}")
 
-    # -----------------------------
-    # Step 3: Analyze Importance using ShapleyImportanceEvaluator
-    # -----------------------------
-    print("\nEvaluating parameter importances...")
-    evaluator = ShapleyImportanceEvaluator()
-    importances = evaluator.evaluate(study)
-
-    # Sort and plot the importances
-    importances = dict(sorted(importances.items(), key=lambda item: item[1], reverse=True))
-
-    plt.figure(figsize=(8, 5))
-    plt.barh(list(importances.keys()), list(importances.values()))
-    plt.gca().invert_yaxis()
-    plt.xlabel("Importance (estimated with SHAP)")
-    plt.title("Feature Importances via Optuna ShapleyImportanceEvaluator (f(x, y) = x² + y²)")
-    plt.tight_layout()
-    plt.savefig("shap_optuna_importance.png", dpi=300)
-    print("Optuna SHAP-based importance plot saved as 'shap_optuna_importance.png'")
-
-
-        This evaluator fits a random forest regression model that predicts the objective values
-        of :class:`~optuna.trial.TrialState.COMPLETE` trials given their parameter configurations.
-        Feature importances are then computed as the mean absolute SHAP values.
+    This evaluator fits a random forest regression model that predicts the objective values
+    of :class:`~optuna.trial.TrialState.COMPLETE` trials given their parameter configurations.
+    Feature importances are then computed as the mean absolute SHAP values.
 
         .. note::
 
@@ -84,13 +63,13 @@ class ShapleyImportanceEvaluator(BaseImportanceEvaluator):
             The model for the SHAP calculation is based on
             :class:`sklearn.ensemble.RandomForestClassifier`.
 
-        Args:
-            n_trees:
-                Number of trees in the random forest.
-            max_depth:
-                The maximum depth of each tree in the random forest.
-            seed:
-                Seed for the random forest.
+    Args:
+        n_trees:
+            Number of trees in the random forest.
+        max_depth:
+            The maximum depth of each tree in the random forest.
+        seed:
+            Seed for the random forest.
     """
 
     def __init__(self, *, n_trees: int = 64, max_depth: int = 64, seed: int | None = None) -> None:
