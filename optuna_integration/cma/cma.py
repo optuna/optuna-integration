@@ -42,7 +42,6 @@ class PyCmaSampler(BaseSampler):
     especially if the number of trials running in parallel exceeds the population size.
 
     ```python
-    import matplotlib.pyplot as plt
     import optuna
     from optuna.integration import PyCmaSampler
 
@@ -53,27 +52,14 @@ class PyCmaSampler(BaseSampler):
 
     # Set up study with CMA-ES
     sampler = PyCmaSampler(seed=42)
-    study = optuna.create_study(sampler=sampler, direction="minimize")
+    study = optuna.create_study(sampler=sampler)
     study.optimize(objective, n_trials=50)
 
     # Print results
     print("\\nBest trial:")
-    print(f"  Value (minimum f(x,y)): {study.best_value:.5f}")
+    print(f"  Value (minimum f(x,y)): {study.best_value:.5e}")
     print(f"  Params: {study.best_params}")
 
-    # Plot the results
-    fig1 = optuna.visualization.matplotlib.plot_param_importances(study).figure
-    fig1.set_size_inches(8, 5)
-    fig1.tight_layout()
-    fig1.savefig("param_importance.png", dpi=300)
-    plt.close(fig1)
-
-    fig2 = optuna.visualization.matplotlib.plot_contour(study, params=["x", "y"]).figure
-    fig2.set_size_inches(8, 5)
-    fig2.suptitle("Contour Plot: f(x, y) = x² + y²")
-    fig2.tight_layout()
-    fig2.savefig("contour_plot.png", dpi=300)
-    plt.close(fig2)
     ```
 
     Args:
