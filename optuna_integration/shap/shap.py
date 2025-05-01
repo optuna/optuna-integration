@@ -30,20 +30,11 @@ class ShapleyImportanceEvaluator(BaseImportanceEvaluator):
     import optuna
     from optuna.integration import ShapleyImportanceEvaluator
 
-    # -----------------------------
-    # Step 1: Define Objective Function
-    # -----------------------------
-    print("Setting up the quadratic function optimization...")
-
     def objective(trial):
         x = trial.suggest_float("x", -5, 5)
         y = trial.suggest_float("y", -5, 5)
         return x ** 2 + y ** 2
 
-    # -----------------------------
-    # Step 2: Run Optuna Study
-    # -----------------------------
-    print("Running hyperparameter optimization...")
     study = optuna.create_study(direction="minimize")  # minimize x^2 + y^2
     study.optimize(objective, n_trials=50)
 
