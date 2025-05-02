@@ -38,7 +38,7 @@ class ShapleyImportanceEvaluator(BaseImportanceEvaluator):
             return x**2 + y**2
 
 
-        study = optuna.create_study(direction="minimize")  # minimize x^2 + y^2
+        study = optuna.create_study(direction="minimize") 
         study.optimize(objective, n_trials=50)
 
         print("\nBest trial:")
