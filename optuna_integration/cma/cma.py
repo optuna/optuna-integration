@@ -41,26 +41,24 @@ class PyCmaSampler(BaseSampler):
     Note that parallel execution of trials may affect the optimization performance of CMA-ES,
     especially if the number of trials running in parallel exceeds the population size.
 
-    ```python
-    import optuna
-    from optuna.integration import PyCmaSampler
+    .. testcode::
+        import optuna
+        from optuna.integration import PyCmaSampler
 
-    def objective(trial):
-        x = trial.suggest_float("x", -5, 5)
-        y = trial.suggest_float("y", -5, 5)
-        return x**2 + y**2
+        def objective(trial):
+            x = trial.suggest_float("x", -5, 5)
+            y = trial.suggest_float("y", -5, 5)
+            return x**2 + y**2
 
-    # Set up study with CMA-ES
-    sampler = PyCmaSampler(seed=42)
-    study = optuna.create_study(sampler=sampler)
-    study.optimize(objective, n_trials=50)
+        # Set up study with CMA-ES
+        sampler = PyCmaSampler(seed=42)
+        study = optuna.create_study(sampler=sampler)
+        study.optimize(objective, n_trials=50)
 
-    # Print results
-    print("\\nBest trial:")
-    print(f"  Value (minimum f(x,y)): {study.best_value:.5e}")
-    print(f"  Params: {study.best_params}")
-
-    ```
+        # Print results
+        print("\\nBest trial:")
+        print(f"  Value (minimum f(x,y)): {study.best_value:.5e}")
+        print(f"  Params: {study.best_params}")
 
     Args:
 
