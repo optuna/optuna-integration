@@ -26,6 +26,26 @@ with try_import() as _imports:
 class ShapleyImportanceEvaluator(BaseImportanceEvaluator):
     """Shapley (SHAP) parameter importance evaluator.
 
+    .. testcode::
+
+        import optuna
+        from optuna.integration import ShapleyImportanceEvaluator
+
+
+        def objective(trial):
+            x = trial.suggest_float("x", -5, 5)
+            y = trial.suggest_float("y", -5, 5)
+            return x**2 + y**2
+
+
+        study = optuna.create_study(direction="minimize")
+        study.optimize(objective, n_trials=50)
+
+        print("\nBest trial:")
+        print(f"  Value (minimum f(x,y)): {study.best_value:.5f}")
+        print(f"  Params: {study.best_params}")
+
+
     This evaluator fits a random forest regression model that predicts the objective values
     of :class:`~optuna.trial.TrialState.COMPLETE` trials given their parameter configurations.
     Feature importances are then computed as the mean absolute SHAP values.
