@@ -30,6 +30,7 @@ class ShapleyImportanceEvaluator(BaseImportanceEvaluator):
 
         import optuna
         from optuna.integration import ShapleyImportanceEvaluator
+        from optuna.visualization import plot_param_importances
 
 
         def objective(trial):
@@ -45,6 +46,8 @@ class ShapleyImportanceEvaluator(BaseImportanceEvaluator):
         print(f"  Value (minimum f(x,y)): {study.best_value:.5f}")
         print(f"  Params: {study.best_params}")
 
+        fig = plot_param_importances(study)
+        fig.show()
 
     This evaluator fits a random forest regression model that predicts the objective values
     of :class:`~optuna.trial.TrialState.COMPLETE` trials given their parameter configurations.
