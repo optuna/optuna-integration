@@ -41,7 +41,7 @@ class ShapleyImportanceEvaluator(BaseImportanceEvaluator):
 
         study = optuna.create_study(direction="minimize")
         study.optimize(objective, n_trials=50)
-        fig = plot_param_importances(study)
+        fig = plot_param_importances(study, evaluator=ShapleyImportanceEvaluator())
         fig.show()
 
     This evaluator fits a random forest regression model that predicts the objective values
