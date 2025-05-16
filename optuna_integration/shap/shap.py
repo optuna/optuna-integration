@@ -41,11 +41,6 @@ class ShapleyImportanceEvaluator(BaseImportanceEvaluator):
 
         study = optuna.create_study(direction="minimize")
         study.optimize(objective, n_trials=50)
-
-        print("\nBest trial:")
-        print(f"  Value (minimum f(x,y)): {study.best_value:.5f}")
-        print(f"  Params: {study.best_params}")
-
         fig = plot_param_importances(study)
         fig.show()
 
