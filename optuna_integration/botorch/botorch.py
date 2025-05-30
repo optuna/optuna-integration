@@ -1077,6 +1077,7 @@ class BoTorchSampler(BaseSampler):
         bounds = torch.from_numpy(bounds).to(self._device)
 
         if con is not None:
+            assert isinstance(con, torch.Tensor)
             if con.dim() == 1:
                 con.unsqueeze_(-1)
         bounds.transpose_(0, 1)
