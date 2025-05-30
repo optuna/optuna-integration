@@ -36,6 +36,9 @@ jobs:
           pip install --progress-bar off -U .[checking]
           pip install --progress-bar off -U .[test]
 
+          # TODO(HideakiImamura): Remove the version constraint on mypy.
+          pip install --progress-bar off -U "mypy<1.16.0"
+
       - name: Install Integration Dependencies
         run: |
           pip install --progress-bar off .[${{ inputs.integration_name }}]
