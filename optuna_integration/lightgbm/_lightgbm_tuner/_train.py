@@ -7,8 +7,8 @@ from optuna._imports import try_import
 from optuna.study import Study
 from optuna.trial import FrozenTrial
 
-from optuna_integration._lightgbm_tuner.optimize import _imports
-from optuna_integration._lightgbm_tuner.optimize import LightGBMTuner
+from optuna_integration.lightgbm._lightgbm_tuner.optimize import _imports
+from optuna_integration.lightgbm._lightgbm_tuner.optimize import LightGBMTuner
 
 
 with try_import():
