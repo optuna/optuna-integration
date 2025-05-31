@@ -18,6 +18,7 @@ jobs:
     if: (github.event_name == 'schedule' && github.repository == 'optuna/optuna-integration') || (github.event_name != 'schedule')
     runs-on: ubuntu-latest
     outputs:
+      _lightgbm_tuner: ${{ steps.changes.outputs._lightgbm_tuner }}
       allennlp: ${{ steps.changes.outputs.allennlp }}
       botorch: ${{ steps.changes.outputs.botorch }}
       catboost: ${{ steps.changes.outputs.catboost }}
@@ -46,6 +47,14 @@ jobs:
         id: changes
         with:
           filters: .github/file-filters.yml
+
+  _lightgbm_tuner:
+    if: needs.changes.outputs._lightgbm_tuner == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: '_lightgbm_tuner'
+      deprecated: false
 
   allennlp:
     if: needs.changes.outputs.allennlp == 'true'
