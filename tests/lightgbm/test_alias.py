@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import pytest
 
-from optuna_integration._lightgbm_tuner.alias import _handling_alias_metrics
-from optuna_integration._lightgbm_tuner.alias import _handling_alias_parameters
+from optuna_integration.lightgbm._lightgbm_tuner.alias import _handling_alias_metrics
+from optuna_integration.lightgbm._lightgbm_tuner.alias import _handling_alias_parameters
 
 
 def test__handling_alias_parameters() -> None:
