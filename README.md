@@ -55,8 +55,8 @@ Here is the table of `optuna-integration` modules:
 |[PyTorch Distributed](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#pytorch)|[TorchDistributedTrial](https://github.com/optuna/optuna-examples/blob/main/pytorch/pytorch_distributed_simple.py)|
 |[PyTorch Ignite](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#pytorch)|[PyTorchIgnitePruningHandler](https://github.com/optuna/optuna-examples/blob/main/pytorch/pytorch_ignite_simple.py)|
 |[PyTorch Lightning](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#pytorch)|[PyTorchLightningPruningCallback](https://github.com/optuna/optuna-examples/blob/main/pytorch/pytorch_lightning_simple.py)|
-|[pycma](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#pycma)|Unavailable|
-|[SHAP](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#shap)|Unavailable|
+|[pycma](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#pycma)|[PyCma Sampler](https://github.com/optuna/optuna-integration/blob/main/optuna_integration/cma/cma.py#L46)|
+|[SHAP](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#shap)|[SHAP Importance Evaluator](https://github.com/optuna/optuna-integration/blob/main/optuna_integration/shap/shap.py#L31)|
 |[scikit-learn](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#sklearn)|[OptunaSearchCV](https://github.com/optuna/optuna-examples/tree/main/sklearn/sklearn_optuna_search_cv_simple.py)|
 |[skorch](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#skorch)|[SkorchPruningCallback](https://github.com/optuna/optuna-examples/tree/main/pytorch/skorch_simple.py)|
 |[TensorBoard](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#tensorboard)|[TensorBoardCallback](https://github.com/optuna/optuna-examples/tree/main/tensorboard/tensorboard_simple.py)|
