@@ -642,7 +642,7 @@ class TestLightGBMTuner:
         def objective(trial: optuna.trial.Trial, value: float) -> float:
             trial.storage.set_trial_system_attr(
                 trial._trial_id,
-                optuna_integration.lightgbm.optimize._STEP_NAME_KEY,
+                optuna_integration.lightgbm._lightgbm_tuner.optimize._STEP_NAME_KEY,
                 "step{:.0f}".format(value),
             )
             return trial.suggest_float("x", value, value)
