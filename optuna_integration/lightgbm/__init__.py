@@ -27,7 +27,6 @@ if _imports.is_successful():
 
     # API from lightgbm_tuner.
     for api_name in _names_from_tuners:
-        print(tuner.__dict__.keys())
         setattr(sys.modules[__name__], api_name, tuner.__dict__[api_name])
 else:
     # To create docstring of train.

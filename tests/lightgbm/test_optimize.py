@@ -15,7 +15,6 @@ from optuna.study import Study
 import pytest
 
 import optuna_integration
-import optuna_integration.lightgbm
 import optuna_integration.lightgbm as lgb
 from optuna_integration.lightgbm._lightgbm_tuner.optimize import _BaseTuner
 from optuna_integration.lightgbm._lightgbm_tuner.optimize import _OptunaObjective
