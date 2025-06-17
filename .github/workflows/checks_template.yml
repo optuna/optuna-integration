@@ -105,6 +105,11 @@ jobs:
         pip install git+https://github.com/optuna/optuna@master
         pip install --progress-bar off .[test]
 
+        if [ "${{ matrix.python-version }}" = "3.8" ] ; then
+          # TODO(nabe): Remove this line once Python 3.8 is dropped.
+          pip install --upgrade "fakeredis[lua]<2.30.0"
+        fi
+
     - name: Install Integration Dependencies
       run: |
         pip install --progress-bar off .[${{ inputs.integration_name }}]
