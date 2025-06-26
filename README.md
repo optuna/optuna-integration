@@ -51,12 +51,11 @@ Here is the table of `optuna-integration` modules:
 |[Keras](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#keras)|[KerasPruningCallback](https://github.com/optuna/optuna-examples/blob/main/keras/keras_integration.py)|
 |[LightGBM](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#lightgbm)|[LightGBMPruningCallback](https://github.com/optuna/optuna-examples/blob/main/lightgbm/lightgbm_integration.py) / [LightGBMTuner](https://github.com/optuna/optuna-examples/blob/main/lightgbm/lightgbm_tuner_simple.py)|
 |[MLflow](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#mlflow)|[MLflowCallback](https://github.com/optuna/optuna-examples/blob/main/mlflow/keras_mlflow.py)|
-|[MXNet](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#mxnet)|Unavailable|
 |[PyTorch Distributed](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#pytorch)|[TorchDistributedTrial](https://github.com/optuna/optuna-examples/blob/main/pytorch/pytorch_distributed_simple.py)|
 |[PyTorch Ignite](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#pytorch)|[PyTorchIgnitePruningHandler](https://github.com/optuna/optuna-examples/blob/main/pytorch/pytorch_ignite_simple.py)|
 |[PyTorch Lightning](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#pytorch)|[PyTorchLightningPruningCallback](https://github.com/optuna/optuna-examples/blob/main/pytorch/pytorch_lightning_simple.py)|
-|[pycma](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#pycma)|Unavailable|
-|[SHAP](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#shap)|Unavailable|
+|[pycma](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#pycma)|[PyCma Sampler](https://github.com/optuna/optuna-integration/blob/v4.4.0/optuna_integration/cma/cma.py#L44-L64)|
+|[SHAP](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#shap)|[SHAP Importance Evaluator](https://github.com/optuna/optuna-integration/blob/v4.4.0/optuna_integration/shap/shap.py#L29-L45)|
 |[scikit-learn](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#sklearn)|[OptunaSearchCV](https://github.com/optuna/optuna-examples/tree/main/sklearn/sklearn_optuna_search_cv_simple.py)|
 |[skorch](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#skorch)|[SkorchPruningCallback](https://github.com/optuna/optuna-examples/tree/main/pytorch/skorch_simple.py)|
 |[TensorBoard](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#tensorboard)|[TensorBoardCallback](https://github.com/optuna/optuna-examples/tree/main/tensorboard/tensorboard_simple.py)|
@@ -66,6 +65,7 @@ Here is the table of `optuna-integration` modules:
 |[AllenNLP](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#allennlp)*|[AllenNLPPruningCallback](https://github.com/optuna/optuna-examples/blob/main/allennlp/allennlp_simple.py)|
 |[Chainer](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#chainer)*|[ChainerPruningExtension](https://github.com/optuna/optuna-examples/tree/main/chainer/chainer_integration.py)|
 |[ChainerMN](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#chainermn)* | [ChainerMNStudy](https://github.com/optuna/optuna-examples/tree/main/chainer/chainermn_simple.py) |
+|[MXNet](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#mxnet)*|Unavailable|
 
 > [!WARNING]
 > `*` shows deprecated modules and they might be removed in the future.
