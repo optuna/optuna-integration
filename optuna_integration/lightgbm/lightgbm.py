@@ -121,15 +121,15 @@ class LightGBMPruningCallback:
             if is_higher_better:
                 if self._trial.study.direction != optuna.study.StudyDirection.MAXIMIZE:
                     raise ValueError(
-                        "The intermediate values are inconsistent with the objective values"
-                        "in terms of study directions. Please specify a metric to be minimized"
+                        "The intermediate values are inconsistent with the objective values "
+                        "in terms of study directions. Please specify a metric to be minimized "
                         "for LightGBMPruningCallback."
                     )
             else:
                 if self._trial.study.direction != optuna.study.StudyDirection.MINIMIZE:
                     raise ValueError(
-                        "The intermediate values are inconsistent with the objective values"
-                        "in terms of study directions. Please specify a metric to be"
+                        "The intermediate values are inconsistent with the objective values "
+                        "in terms of study directions. Please specify a metric to be "
                         "maximized for LightGBMPruningCallback."
                     )
 
