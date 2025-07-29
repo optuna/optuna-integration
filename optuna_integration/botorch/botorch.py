@@ -436,7 +436,7 @@ def qehvi_candidates_func(
 
     ref_point_list = ref_point.tolist()
 
-    acqf = monte_carlo.qExpectedHypervolumeImprovement(
+    acqf = monte_carlo.qLogExpectedHypervolumeImprovement(
         model=model,
         ref_point=ref_point_list,
         partitioning=partitioning,
