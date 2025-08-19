@@ -4,6 +4,8 @@ from types import ModuleType
 from typing import Any
 from typing import TYPE_CHECKING
 
+from optuna_integration.version import __version__
+
 
 _import_structure = {
     "allennlp": ["AllenNLPExecutor", "AllenNLPPruningCallback"],
@@ -28,12 +30,14 @@ _import_structure = {
     "tensorboard": ["TensorBoardCallback"],
     "tensorflow": ["TensorFlowPruningHook"],
     "tfkeras": ["TFKerasPruningCallback"],
+    "version": ["__version__"],
     "wandb": ["WeightsAndBiasesCallback"],
     "xgboost": ["XGBoostPruningCallback"],
 }
 
 
 __all__ = [
+    "__version__",
     "AllenNLPExecutor",
     "AllenNLPPruningCallback",
     "BoTorchSampler",
