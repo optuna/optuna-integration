@@ -28,12 +28,14 @@ _import_structure = {
     "tensorboard": ["TensorBoardCallback"],
     "tensorflow": ["TensorFlowPruningHook"],
     "tfkeras": ["TFKerasPruningCallback"],
+    "version": ["__version__"],
     "wandb": ["WeightsAndBiasesCallback"],
     "xgboost": ["XGBoostPruningCallback"],
 }
 
 
 __all__ = [
+    "__version__",
     "AllenNLPExecutor",
     "AllenNLPPruningCallback",
     "BoTorchSampler",
