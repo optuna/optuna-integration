@@ -30,6 +30,7 @@ _import_structure = {
     "tensorboard": ["TensorBoardCallback"],
     "tensorflow": ["TensorFlowPruningHook"],
     "tfkeras": ["TFKerasPruningCallback"],
+    "version": ["__version__"],
     "wandb": ["WeightsAndBiasesCallback"],
     "xgboost": ["XGBoostPruningCallback"],
 }
@@ -117,8 +118,6 @@ else:
                 _class_to_module[value] = key
 
         def __getattr__(self, name: str) -> Any:
-            if name == "__version__":
-                return __version__
             if name in self._modules:
                 value = self._get_module(name)
             elif name in self._class_to_module.keys():
