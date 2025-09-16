@@ -321,7 +321,7 @@ class _Objective:
 
             intermediate_value = np.nanmean(scores["test_score"])
 
-            trial.report(intermediate_value, step=step)
+            trial.report(float(intermediate_value), step=step)
 
             if trial.should_prune():
                 self._store_scores(trial, scores)
