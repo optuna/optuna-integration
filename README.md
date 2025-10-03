@@ -4,7 +4,6 @@
 [![pypi](https://img.shields.io/pypi/v/optuna-integration.svg)](https://pypi.python.org/pypi/optuna-integration)
 [![conda](https://img.shields.io/conda/vn/conda-forge/optuna-integration.svg)](https://anaconda.org/conda-forge/optuna-integration)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/optuna/optuna-integration)
-[![Codecov](https://codecov.io/gh/optuna/optuna-integration/branch/main/graph/badge.svg)](https://codecov.io/gh/optuna/optuna-integration/branch/main)
 [![Read the Docs](https://readthedocs.org/projects/optuna-integration/badge/?version=stable)](https://optuna-integration.readthedocs.io/en/stable/)
 
 This package is an integration module of [Optuna](https://github.com/optuna/optuna), an automatic Hyperparameter optimization software framework.
