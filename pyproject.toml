@@ -197,7 +197,3 @@ order_by_type = 'False'
 
 [tool.pytest.ini_options]
 addopts = "--color=yes"
-
-[tool.coverage.run]
-concurrency = ["multiprocessing", "thread"]
-source = ["optuna/"]
