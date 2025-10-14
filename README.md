@@ -1,6 +1,6 @@
 # Optuna-Integration
 
-[![Python](https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12-blue)](https://www.python.org)
+[![Python](https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue)](https://www.python.org)
 [![pypi](https://img.shields.io/pypi/v/optuna-integration.svg)](https://pypi.python.org/pypi/optuna-integration)
 [![conda](https://img.shields.io/conda/vn/conda-forge/optuna-integration.svg)](https://anaconda.org/conda-forge/optuna-integration)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/optuna/optuna-integration)
@@ -34,7 +34,7 @@ $ conda install -c conda-forge optuna-integration
 > ```
 
 > [!NOTE]
-> Optuna-Integration supports from Python 3.9 to Python 3.12.
+> Optuna-Integration supports from Python 3.9 to Python 3.13.
 > Optuna Docker image is also provided at [DockerHub](https://hub.docker.com/r/optuna/optuna).
 
 ## Integration Modules

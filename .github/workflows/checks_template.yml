@@ -15,7 +15,7 @@ on:
       python_matrix:
         required: false
         type: string
-        default: "['3.9', '3.10', '3.11', '3.12']"
+        default: "['3.9', '3.10', '3.11', '3.12', '3.13']"
   workflow_dispatch:
 
 jobs:
@@ -104,11 +104,6 @@ jobs:
         # Install optuna from optuna master
         pip install git+https://github.com/optuna/optuna@master
         pip install --progress-bar off .[test]
-
-        if [ "${{ matrix.python-version }}" = "3.8" ] ; then
-          # TODO(nabe): Remove this line once Python 3.8 is dropped.
-          pip install --upgrade "fakeredis[lua]<2.30.0"
-        fi
 
     - name: Install Integration Dependencies
       run: |
