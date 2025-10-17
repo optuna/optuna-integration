@@ -1,7 +1,7 @@
 Installation
 ============
 
-Optuna-Integration supports Python 3.8 or newer.
+Optuna-Integration supports Python 3.9 or newer.
 
 We recommend to install Optuna-Integration via pip:
 
