@@ -122,13 +122,16 @@ class TestPyCmaSampler:
 
         # The independent sampler is used for Trial#0 and Trial#1.
         # The CMA-ES is used for Trial#2.
-        with patch.object(
-            independent_sampler,
-            "sample_independent",
-            wraps=independent_sampler.sample_independent,
-        ) as mock_independent, patch.object(
-            sampler, "sample_relative", wraps=sampler.sample_relative
-        ) as mock_relative:
+        with (
+            patch.object(
+                independent_sampler,
+                "sample_independent",
+                wraps=independent_sampler.sample_independent,
+            ) as mock_independent,
+            patch.object(
+                sampler, "sample_relative", wraps=sampler.sample_relative
+            ) as mock_relative,
+        ):
             study.optimize(
                 lambda t: t.suggest_int("x", -1, 1) + t.suggest_int("y", -1, 1),
                 n_trials=3,

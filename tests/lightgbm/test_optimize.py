@@ -512,8 +512,9 @@ class TestLightGBMTuner:
         tuner = LightGBMTuner(params, dataset, valid_sets=valid_sets)
         assert not tuner.higher_is_better()
 
-        with mock.patch("lightgbm.train"), mock.patch.object(
-            _BaseTuner, "_get_booster_best_score", return_value=0.9
+        with (
+            mock.patch("lightgbm.train"),
+            mock.patch.object(_BaseTuner, "_get_booster_best_score", return_value=0.9),
         ):
             tuner.tune_feature_fraction()
 
@@ -521,8 +522,9 @@ class TestLightGBMTuner:
         assert tuner.best_score == 0.9
 
         # Assume that tuning `num_leaves` doesn't improve the `best_score`.
-        with mock.patch("lightgbm.train"), mock.patch.object(
-            _BaseTuner, "_get_booster_best_score", return_value=1.1
+        with (
+            mock.patch("lightgbm.train"),
+            mock.patch.object(_BaseTuner, "_get_booster_best_score", return_value=1.1),
         ):
             tuner.tune_num_leaves()
 
@@ -562,9 +564,10 @@ class TestLightGBMTuner:
             show_progress_bar=show_progress_bar,
         )
 
-        with mock.patch.object(
-            _BaseTuner, "_get_booster_best_score", return_value=1.0
-        ), mock.patch("tqdm.tqdm") as mock_tqdm:
+        with (
+            mock.patch.object(_BaseTuner, "_get_booster_best_score", return_value=1.0),
+            mock.patch("tqdm.tqdm") as mock_tqdm,
+        ):
             tuner.run()
 
         assert mock_tqdm.call_count == expected
@@ -918,9 +921,10 @@ class TestLightGBMTunerCV:
             params, dataset, study=study, time_budget=1, show_progress_bar=show_progress_bar
         )
 
-        with mock.patch.object(
-            _OptunaObjectiveCV, "_get_cv_scores", return_value=[1.0]
-        ), mock.patch("tqdm.tqdm") as mock_tqdm:
+        with (
+            mock.patch.object(_OptunaObjectiveCV, "_get_cv_scores", return_value=[1.0]),
+            mock.patch("tqdm.tqdm") as mock_tqdm,
+        ):
             tuner.run()
 
         assert mock_tqdm.call_count == expected
