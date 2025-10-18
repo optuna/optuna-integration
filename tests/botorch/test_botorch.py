@@ -476,11 +476,12 @@ def test_botorch_n_startup_trials() -> None:
         sampler = BoTorchSampler(n_startup_trials=2, independent_sampler=independent_sampler)
     study = optuna.create_study(directions=["minimize", "maximize"], sampler=sampler)
 
-    with patch.object(
-        independent_sampler, "sample_independent", wraps=independent_sampler.sample_independent
-    ) as mock_independent, patch.object(
-        sampler, "sample_relative", wraps=sampler.sample_relative
-    ) as mock_relative:
+    with (
+        patch.object(
+            independent_sampler, "sample_independent", wraps=independent_sampler.sample_independent
+        ) as mock_independent,
+        patch.object(sampler, "sample_relative", wraps=sampler.sample_relative) as mock_relative,
+    ):
         study.optimize(
             lambda t: [t.suggest_float("x0", 0, 1), t.suggest_float("x1", 0, 1)], n_trials=3
         )
