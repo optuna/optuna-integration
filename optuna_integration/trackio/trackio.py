@@ -9,8 +9,11 @@ from typing import TYPE_CHECKING
 import optuna
 from optuna._experimental import experimental_class
 from optuna._experimental import experimental_func
+from optuna._imports import try_import
 
-import trackio
+
+with try_import() as _imports:
+    import trackio
 
 
 if TYPE_CHECKING:
