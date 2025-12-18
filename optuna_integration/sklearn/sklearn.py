@@ -27,6 +27,7 @@ from optuna.study import StudyDirection
 from optuna.terminator import report_cross_validation_scores
 from optuna.trial import FrozenTrial
 from optuna.trial import Trial
+from packaging import version
 
 
 with try_import() as _imports:
@@ -44,9 +45,11 @@ with try_import() as _imports:
     from sklearn.model_selection import cross_validate
     from sklearn.utils import _safe_indexing as sklearn_safe_indexing
     from sklearn.utils import check_random_state
-    from sklearn.utils import get_tags
     from sklearn.utils.metaestimators import _safe_split
     from sklearn.utils.validation import check_is_fitted
+
+    if version.parse(sklearn.__version__) >= version.parse("1.6.0"):
+        from sklearn.utils import get_tags
 
 
 if not _imports.is_successful():
@@ -550,7 +553,10 @@ class OptunaSearchCV(BaseEstimator):
 
     @property
     def _estimator_type(self) -> str:
-        return get_tags(self.estimator).estimator_type
+        if version.parse(sklearn.__version__) >= version.parse("1.6.0"):
+            return get_tags(self.estimator).estimator_type
+        else:
+            return self.estimator._estimator_type
 
     @property
     def best_index_(self) -> int:
