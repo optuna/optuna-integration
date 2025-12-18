@@ -85,7 +85,7 @@ class TrackioCallback:
                 as_multirun=True,
             )
 
-
+            # Required when logging per-trial runs
             @trackioc.track_in_trackio()
             def objective(trial):
                 x = trial.suggest_float("x", -10, 10)
@@ -103,6 +103,7 @@ class TrackioCallback:
             trackioc = TrackioCallback(
                 project="my-optuna-study",
                 space_id="username/optuna-dashboard",
+                as_multirun=True,
             )
 
 
@@ -164,6 +165,7 @@ class TrackioCallback:
         trackio_kwargs: dict[str, Any] | None = None,
     ) -> None:
         _imports.check()
+
         if not isinstance(metric_name, (str, Sequence)):
             raise TypeError(f"metric_name must be str or sequence[str], got {type(metric_name)}")
 
@@ -175,40 +177,36 @@ class TrackioCallback:
         self._private = private
         self._trackio_kwargs = trackio_kwargs or {}
 
-        self._initialized = False
-        self._active_trial_number: int | None = None
+        # Explicit internal state (DO NOT infer from Trackio)
+        self._objective_wrapped: bool = False
         self._base_run_name: str | None = None
+        self._active_trial_number: int | None = None
 
+    # ------------------------------------------------------------------
+    # Optuna callback (post-trial only, no lifecycle ownership)
+    # ------------------------------------------------------------------
     def __call__(
         self,
-        study: optuna.study.Study,
+        _study: optuna.study.Study,
         trial: optuna.trial.FrozenTrial,
     ) -> None:
+        if self._base_run_name is None:
+            self._base_run_name = _study.study_name
         if trial.values is None:
             return
 
-        # Lazy init for single-run mode
-        if not self._as_multirun and not self._initialized:
-            self._base_run_name = study.study_name
-
-            trackio.init(
-                project=self._project,
-                name=study.study_name,
-                space_id=self._space_id,
-                dataset_id=self._dataset_id,
-                private=self._private,
-                config={
-                    "study_name": study.study_name,
-                    "directions": [d.name for d in study.directions],
-                    "sampler": type(study.sampler).__name__,
-                    "pruner": type(study.pruner).__name__,
-                },
-                **self._trackio_kwargs,
-            )
-            self._initialized = True
+        # If the objective was not wrapped, we cannot safely log
+        if not self._objective_wrapped:
+            if self._as_multirun:
+                print(
+                    "TrackioCallback(as_multirun=True) requires the objective to be "
+                    "wrapped with @trackioc.track_in_trackio(). "
+                )
+            return
 
         metrics = self._build_metrics(trial)
 
+        # Safe: wrapper guarantees a live Trackio run
         trackio.log(
             {
                 **trial.params,
@@ -218,50 +216,69 @@ class TrackioCallback:
             step=trial.number,
         )
 
-        if self._as_multirun:
-            trackio.finish()
-            self._active_trial_number = None
-
+    # ------------------------------------------------------------------
+    # Decorator API (public, backward compatible)
+    # ------------------------------------------------------------------
     @experimental_func("4.7.0")
     def track_in_trackio(self) -> Callable:
         """Decorator enabling logging inside objective functions."""
 
         def decorator(func: ObjectiveFuncType) -> ObjectiveFuncType:
+            self._objective_wrapped = True  # explicit contract
+            wrapped = self._wrap_objective(func)
+
             @functools.wraps(func)
             def wrapper(trial: optuna.trial.Trial):
-                if self._as_multirun:
-                    base_name = self._base_run_name or "optuna-study"
-                    self._active_trial_number = trial.number
-                    trackio.init(
-                        project=self._project,
-                        name=f"trial/{trial.number}/{base_name}",
-                        space_id=self._space_id,
-                        dataset_id=self._dataset_id,
-                        private=self._private,
-                        **self._trackio_kwargs,
-                    )
-                return func(trial)
+                return wrapped(trial)
 
             return wrapper
 
         return decorator
 
-    # ------------------------
-    # Internals
-    # ------------------------
-    def _init_run(self, name: str):
-        return trackio.init(
-            project=self._project,
-            name=name,
-            space_id=self._space_id,
-            dataset_id=self._dataset_id,
-            private=self._private,
-            config={
-                "backend": "optuna",
-            },
-            **self._trackio_kwargs,
-        )
+    # ------------------------------------------------------------------
+    # Internal: single source of truth for Trackio lifecycle
+    # ------------------------------------------------------------------
+    def _wrap_objective(self, func: ObjectiveFuncType) -> ObjectiveFuncType:
+        @functools.wraps(func)
+        def wrapped(trial: optuna.trial.Trial):
+            base_name = self._base_run_name or "optuna-study"
 
+            if self._as_multirun:
+                run_name = f"trial/{trial.number}/{base_name}"
+                self._active_trial_number = trial.number
+            else:
+                run_name = base_name
+
+            trackio.init(
+                project=self._project,
+                name=run_name,
+                space_id=self._space_id,
+                dataset_id=self._dataset_id,
+                private=self._private,
+                **self._trackio_kwargs,
+            )
+
+            try:
+                return func(trial)
+
+            except optuna.exceptions.TrialPruned:
+                trackio.log({"trial_state": "pruned"})
+                raise
+
+            except Exception as exc:
+                trackio.log({"trial_state": "failed", "error": str(exc)})
+                raise
+
+            finally:
+                if self._as_multirun:
+                    trackio.finish()
+                    self._active_trial_number = None
+
+        return wrapped
+
+    # ------------------------------------------------------------------
+    # Helpers
+    # ------------------------------------------------------------------
     def _build_metrics(self, trial: optuna.trial.FrozenTrial) -> dict[str, float]:
         values = trial.values
         assert values is not None
