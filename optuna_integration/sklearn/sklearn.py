@@ -44,6 +44,7 @@ with try_import() as _imports:
     from sklearn.model_selection import cross_validate
     from sklearn.utils import _safe_indexing as sklearn_safe_indexing
     from sklearn.utils import check_random_state
+    from sklearn.utils import get_tags
     from sklearn.utils.metaestimators import _safe_split
     from sklearn.utils.validation import check_is_fitted
 
@@ -549,7 +550,7 @@ class OptunaSearchCV(BaseEstimator):
 
     @property
     def _estimator_type(self) -> str:
-        return self.estimator._estimator_type
+        return get_tags(self.estimator).estimator_type
 
     @property
     def best_index_(self) -> int:
