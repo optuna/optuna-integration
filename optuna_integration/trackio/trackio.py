@@ -149,7 +149,6 @@ class TrackioCallback:
 
     """
 
-
     def __init__(
         self,
         project: str,
@@ -162,9 +161,7 @@ class TrackioCallback:
         trackio_kwargs: dict[str, Any] | None = None,
     ) -> None:
         if not isinstance(metric_name, (str, Sequence)):
-            raise TypeError(
-                f"metric_name must be str or sequence[str], got {type(metric_name)}"
-            )
+            raise TypeError(f"metric_name must be str or sequence[str], got {type(metric_name)}")
 
         self._project = project
         self._metric_name = metric_name
@@ -190,11 +187,10 @@ class TrackioCallback:
         if trial.values is None:
             return  # failed or pruned
 
-        run = self._run
         step = trial.number
 
         if self._as_multirun:
-            run = self._init_run(name=f"trial-{trial.number}")
+            self._init_run(name=f"trial-{trial.number}")
 
         metrics = self._build_metrics(trial)
         params = dict(trial.params)
