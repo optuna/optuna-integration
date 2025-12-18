@@ -20,7 +20,7 @@ if TYPE_CHECKING:
     from optuna.study.study import ObjectiveFuncType
 
 
-@experimental_class("0.1.0")
+@experimental_class("4.7.0")
 class TrackioCallback:
     """
     Callback to track Optuna trials with Trackio.
@@ -163,6 +163,7 @@ class TrackioCallback:
         private: bool | None = None,
         trackio_kwargs: dict[str, Any] | None = None,
     ) -> None:
+        _imports.check()
         if not isinstance(metric_name, (str, Sequence)):
             raise TypeError(f"metric_name must be str or sequence[str], got {type(metric_name)}")
 
@@ -174,54 +175,71 @@ class TrackioCallback:
         self._private = private
         self._trackio_kwargs = trackio_kwargs or {}
 
-        self._run = None
+        self._initialized = False
+        self._active_trial_number: int | None = None
+        self._base_run_name: str | None = None
 
-        if not self._as_multirun:
-            self._run = self._init_run(name="optuna-study")
-
-    # ------------------------
-    # Optuna callback hook
-    # ------------------------
     def __call__(
         self,
         study: optuna.study.Study,
         trial: optuna.trial.FrozenTrial,
     ) -> None:
         if trial.values is None:
-            return  # failed or pruned
+            return
 
-        step = trial.number
+        # Lazy init for single-run mode
+        if not self._as_multirun and not self._initialized:
+            self._base_run_name = study.study_name
 
-        if self._as_multirun:
-            self._init_run(name=f"trial-{trial.number}")
+            trackio.init(
+                project=self._project,
+                name=study.study_name,
+                space_id=self._space_id,
+                dataset_id=self._dataset_id,
+                private=self._private,
+                config={
+                    "study_name": study.study_name,
+                    "directions": [d.name for d in study.directions],
+                    "sampler": type(study.sampler).__name__,
+                    "pruner": type(study.pruner).__name__,
+                },
+                **self._trackio_kwargs,
+            )
+            self._initialized = True
 
         metrics = self._build_metrics(trial)
-        params = dict(trial.params)
 
         trackio.log(
             {
-                **params,
+                **trial.params,
                 **metrics,
                 "trial_number": trial.number,
             },
-            step=step,
+            step=trial.number,
         )
 
         if self._as_multirun:
             trackio.finish()
+            self._active_trial_number = None
 
-    # ------------------------
-    # Decorator support
-    # ------------------------
-    @experimental_func("0.1.0")
+    @experimental_func("4.7.0")
     def track_in_trackio(self) -> Callable:
         """Decorator enabling logging inside objective functions."""
 
         def decorator(func: ObjectiveFuncType) -> ObjectiveFuncType:
             @functools.wraps(func)
             def wrapper(trial: optuna.trial.Trial):
-                if self._as_multirun and self._run is None:
-                    self._run = self._init_run(name=f"trial-{trial.number}")
+                if self._as_multirun:
+                    base_name = self._base_run_name or "optuna-study"
+                    self._active_trial_number = trial.number
+                    trackio.init(
+                        project=self._project,
+                        name=f"trial/{trial.number}/{base_name}",
+                        space_id=self._space_id,
+                        dataset_id=self._dataset_id,
+                        private=self._private,
+                        **self._trackio_kwargs,
+                    )
                 return func(trial)
 
             return wrapper
