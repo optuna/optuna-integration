@@ -70,7 +70,7 @@ class TrackioCallback:
 
             trackioc = TrackioCallback(project="my-optuna-study")
 
-           study.optimize(objective, n_trials=10, callbacks=[trackioc])
+            study.optimize(objective, n_trials=10, callbacks=[trackioc])
 
 
         Trackio logging in multi-run (one run per trial) mode.
@@ -85,6 +85,7 @@ class TrackioCallback:
                 project="my-optuna-study",
                 as_multirun=True,
             )
+
 
             # Required when logging per-trial runs
             @trackioc.track_in_trackio()
@@ -222,7 +223,54 @@ class TrackioCallback:
     # ------------------------------------------------------------------
     @experimental_func("4.7.0")
     def track_in_trackio(self) -> Callable:
-        """Decorator enabling logging inside objective functions."""
+        """
+        Decorator for enabling Trackio logging inside the objective function.
+
+        This decorator wraps an Optuna objective function so that a Trackio run
+        is initialized before the objective executes and finalized afterward.
+        Any calls to :func:`trackio.log` inside the objective will be associated
+        with the correct run.
+
+        The decorator is required when logging from inside the objective
+        function, since Optuna callbacks are invoked *after* a trial finishes
+        and therefore cannot manage per-trial runtime state.
+
+        When ``as_multirun=True``, a separate Trackio run is created for each
+        Optuna trial. When ``as_multirun=False``, all trials are logged into a
+        single run.
+
+        Example:
+
+            Add additional logging inside the objective function.
+
+            .. code-block:: python
+
+                import optuna
+                import trackio
+                from optuna_integration.trackio import TrackioCallback
+
+                trackioc = TrackioCallback(
+                    project="my-optuna-study",
+                    as_multirun=True,
+                )
+
+
+                @trackioc.track_in_trackio()
+                def objective(trial: optuna.trial.Trial) -> float:
+                    x = trial.suggest_float("x", -10, 10)
+
+                    # Log custom metrics inside the objective
+                    trackio.log({"x": x, "loss_squared": (x - 2) ** 2})
+
+                    return (x - 2) ** 2
+
+
+                study = optuna.create_study()
+                study.optimize(objective, n_trials=10, callbacks=[trackioc])
+
+        Returns:
+            A wrapped objective function with Trackio logging enabled.
+        """
 
         def decorator(func: ObjectiveFuncType) -> ObjectiveFuncType:
             self._objective_wrapped = True  # explicit contract
