@@ -40,6 +40,7 @@ jobs:
       tfkeras: ${{ steps.changes.outputs.tfkeras }}
       wandb: ${{ steps.changes.outputs.wandb }}
       xgboost: ${{ steps.changes.outputs.xgboost }}
+      trackio: ${{ steps.changes.outputs.trackio }}
     steps:
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
@@ -226,4 +227,12 @@ jobs:
       integration_name: 'xgboost'
       # TODO: Remove the version constraint once https://github.com/optuna/optuna-integration/issues/216 is resolved.
       extra_cmds: pip install "xgboost<3.0.0"
+      deprecated: false
+
+  wandb:
+    if: needs.changes.outputs.trackio == 'true'
+    needs: changes
+    uses: ./.github/workflows/checks_template.yml
+    with:
+      integration_name: 'trackio'
       deprecated: false
