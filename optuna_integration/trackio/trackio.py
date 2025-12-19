@@ -4,6 +4,7 @@ from collections.abc import Callable
 from collections.abc import Sequence
 import functools
 from typing import Any
+from typing import cast
 from typing import TYPE_CHECKING
 
 import optuna
@@ -271,7 +272,7 @@ class TrackioCallback:
 
             finally:
                 if self._as_multirun:
-                    trackio.finish()
+                    cast(Any, trackio).finish()
                     self._active_trial_number = None
 
         return wrapped
