@@ -159,6 +159,7 @@ xgboost = [
 trackio = [
     "trackio",
 ]
+
 [project.urls]
 repository = "https://github.com/optuna/optuna-integration"
 
