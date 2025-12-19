@@ -228,7 +228,7 @@ class TrackioCallback:
             wrapped = self._wrap_objective(func)
 
             @functools.wraps(func)
-            def wrapper(trial: optuna.trial.Trial):
+            def wrapper(trial: optuna.trial.Trial) -> Any:
                 return wrapped(trial)
 
             return wrapper
@@ -240,7 +240,7 @@ class TrackioCallback:
     # ------------------------------------------------------------------
     def _wrap_objective(self, func: ObjectiveFuncType) -> ObjectiveFuncType:
         @functools.wraps(func)
-        def wrapped(trial: optuna.trial.Trial):
+        def wrapped(trial: optuna.trial.Trial) -> Any:
             base_name = self._base_run_name or "optuna-study"
 
             if self._as_multirun:
