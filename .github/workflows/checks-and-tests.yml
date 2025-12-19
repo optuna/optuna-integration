@@ -229,7 +229,7 @@ jobs:
       extra_cmds: pip install "xgboost<3.0.0"
       deprecated: false
 
-  wandb:
+  trackio:
     if: needs.changes.outputs.trackio == 'true'
     needs: changes
     uses: ./.github/workflows/checks_template.yml
