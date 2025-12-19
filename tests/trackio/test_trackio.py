@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Sequence
+from typing import Any
 from typing import NoReturn
 from unittest import mock
 import warnings
@@ -50,7 +51,7 @@ def test_wrapped_objective_initializes_and_logs_single_run(
         callback = TrackioCallback(project="optuna-test")
 
         @callback.track_in_trackio()
-        def objective(trial):
+        def objective(trial: optuna.trial.Trial) -> Any:
             result = _objective_func(trial)
             trackio.log({"result": result})
             return result
@@ -74,7 +75,7 @@ def test_wrapped_objective_multirun_initializes_and_finishes(
         callback = TrackioCallback(project="optuna-test", as_multirun=True)
 
         @callback.track_in_trackio()
-        def objective(trial):
+        def objective(trial: optuna.trial.Trial) -> Any:
             return _objective_func(trial)
 
     study = optuna.create_study()
@@ -109,7 +110,7 @@ def test_values_registered_on_epoch(
         )
 
         @callback.track_in_trackio()
-        def objective(trial):
+        def objective(trial: optuna.trial.Trial) -> float:
             return _objective_func(trial)
 
     study = optuna.create_study()
@@ -145,7 +146,7 @@ def test_multiobjective_values_registered(
         )
 
         @callback.track_in_trackio()
-        def objective(trial):
+        def objective(trial: optuna.trial.Trial) -> tuple[float, float]:
             return _multiobjective_func(trial)
 
     study = optuna.create_study(directions=["minimize", "maximize"])
@@ -168,7 +169,7 @@ def test_multiobjective_raises_on_name_mismatch(trackio: mock.MagicMock) -> None
     study = optuna.create_study(directions=["minimize", "maximize"])
 
     @callback.track_in_trackio()
-    def objective(trial):
+    def objective(trial: optuna.trial.Trial) -> tuple[float, float]:
         return _multiobjective_func(trial)
 
     with pytest.raises(ValueError):
