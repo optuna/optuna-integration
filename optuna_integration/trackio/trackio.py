@@ -221,8 +221,7 @@ class TrackioCallback:
     # ------------------------------------------------------------------
     @experimental_func("4.7.0")
     def track_in_trackio(self) -> Callable:
-        """Decorator for enabling Trackio logging inside the objective
-        function.
+        """Decorator for enabling Trackio logging inside the objective function.
 
         This decorator wraps an Optuna objective function so that a Trackio run
         is initialized before the objective executes and finalized afterward.
