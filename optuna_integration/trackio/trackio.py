@@ -23,8 +23,7 @@ if TYPE_CHECKING:
 
 @experimental_class("4.7.0")
 class TrackioCallback:
-    """
-    Callback to track Optuna trials with Trackio.
+    """Callback to track Optuna trials with Trackio.
 
     This callback enables tracking of an Optuna study using Trackio.
     By default, the entire study is recorded as a single experiment run,
@@ -152,7 +151,6 @@ class TrackioCallback:
         trackio_kwargs:
             Additional keyword arguments passed to :func:`trackio.init`,
             such as ``resume`` or UI-related configuration options.
-
     """
 
     def __init__(
@@ -223,8 +221,8 @@ class TrackioCallback:
     # ------------------------------------------------------------------
     @experimental_func("4.7.0")
     def track_in_trackio(self) -> Callable:
-        """
-        Decorator for enabling Trackio logging inside the objective function.
+        """Decorator for enabling Trackio logging inside the objective
+        function.
 
         This decorator wraps an Optuna objective function so that a Trackio run
         is initialized before the objective executes and finalized afterward.
