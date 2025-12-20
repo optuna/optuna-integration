@@ -172,19 +172,16 @@ class TrackioCallback:
         self._project = project
         self._metric_name = metric_name
         self._as_multirun = as_multirun
-        self._space_id = space_id
+        self._space_id = space_id  # HF inits for trackio
         self._dataset_id = dataset_id
         self._private = private
         self._trackio_kwargs = trackio_kwargs or {}
 
-        # Explicit internal state (DO NOT infer from Trackio)
+        # Explicit internal state (DO NOT infer from Trackio, will cause errors)
         self._objective_wrapped: bool = False
         self._base_run_name: str | None = None
         self._active_trial_number: int | None = None
 
-    # ------------------------------------------------------------------
-    # Optuna callback (post-trial only, no lifecycle ownership)
-    # ------------------------------------------------------------------
     def __call__(
         self,
         _study: optuna.study.Study,
@@ -206,7 +203,7 @@ class TrackioCallback:
 
         metrics = self._build_metrics(trial)
 
-        # Safe: wrapper guarantees a live Trackio run
+        # Safe wrapper guarantees a live Trackio run
         trackio.log(
             {
                 **trial.params,
@@ -216,9 +213,6 @@ class TrackioCallback:
             step=trial.number,
         )
 
-    # ------------------------------------------------------------------
-    # Decorator API (public, backward compatible)
-    # ------------------------------------------------------------------
     @experimental_func("4.7.0")
     def track_in_trackio(self) -> Callable:
         """Decorator for enabling Trackio logging inside the objective function.
@@ -281,9 +275,6 @@ class TrackioCallback:
 
         return decorator
 
-    # ------------------------------------------------------------------
-    # Internal: single source of truth for Trackio lifecycle
-    # ------------------------------------------------------------------
     def _wrap_objective(self, func: ObjectiveFuncType) -> ObjectiveFuncType:
         @functools.wraps(func)
         def wrapped(trial: optuna.trial.Trial) -> Any:
@@ -322,9 +313,6 @@ class TrackioCallback:
 
         return wrapped
 
-    # ------------------------------------------------------------------
-    # Helpers
-    # ------------------------------------------------------------------
     def _build_metrics(self, trial: optuna.trial.FrozenTrial) -> dict[str, float]:
         values = trial.values
         assert values is not None
