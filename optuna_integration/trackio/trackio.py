@@ -213,7 +213,6 @@ class TrackioCallback:
             step=trial.number,
         )
 
-    @experimental_func("4.7.0")
     def track_in_trackio(self) -> Callable:
         """Decorator for enabling Trackio logging inside the objective function.
 
