@@ -168,7 +168,7 @@ class TrackioCallback:
         space_id: str | None = None,
         dataset_id: str | None = None,
         private: bool | None = None,
-        resume: str | None = "allow",
+        resume: str = "allow",
         trackio_kwargs: dict[str, Any] | None = None,
     ) -> None:
         _imports.check()
@@ -176,14 +176,14 @@ class TrackioCallback:
         if not isinstance(metric_name, (str, Sequence)):
             raise TypeError(f"metric_name must be str or sequence[str], got {type(metric_name)}")
 
-        self._project = project
-        self._metric_name = metric_name
-        self._as_multirun = as_multirun
-        self._space_id = space_id  # HF inits for trackio
-        self._dataset_id = dataset_id
-        self._private = private
-        self._resume = resume
-        self._trackio_kwargs = trackio_kwargs or {}
+        self._project: str = project
+        self._metric_name: str | Sequence[str] = metric_name
+        self._as_multirun: bool = as_multirun
+        self._space_id: str | None = space_id  # HF inits for trackio
+        self._dataset_id: str | None = dataset_id
+        self._private: bool | None = private
+        self._resume: str = resume
+        self._trackio_kwargs: dict[str, Any] = trackio_kwargs or {}
 
         # Explicit internal state (DO NOT infer from Trackio, will cause errors)
         self._objective_wrapped: bool = False
