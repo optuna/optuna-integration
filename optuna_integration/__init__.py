@@ -31,6 +31,7 @@ _import_structure = {
     "version": ["__version__"],
     "wandb": ["WeightsAndBiasesCallback"],
     "xgboost": ["XGBoostPruningCallback"],
+    "trackio": ["TrackioCallback"],
 }
 
 
@@ -64,6 +65,7 @@ __all__ = [
     "TFKerasPruningCallback",
     "WeightsAndBiasesCallback",
     "XGBoostPruningCallback",
+    "TrackioCallback",
 ]
 
 if TYPE_CHECKING:
@@ -93,6 +95,7 @@ if TYPE_CHECKING:
     from optuna_integration.tensorboard import TensorBoardCallback
     from optuna_integration.tensorflow import TensorFlowPruningHook
     from optuna_integration.tfkeras import TFKerasPruningCallback
+    from optuna_integration.trackio import TrackioCallback
     from optuna_integration.wandb import WeightsAndBiasesCallback
     from optuna_integration.xgboost import XGBoostPruningCallback
 else:

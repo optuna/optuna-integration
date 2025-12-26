@@ -189,3 +189,11 @@ xgboost:
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
   - 'pyproject.toml'
+
+trackio:
+  - 'optuna_integration/trackio/**'
+  - 'tests/trackio/**'
+  - '.github/workflows/checks.yml'
+  - '.github/workflows/checks_template.yml'
+  - '.github/file-filters.yml'
+  - 'pyproject.toml'
