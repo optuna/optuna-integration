@@ -9,7 +9,6 @@ from typing import TYPE_CHECKING
 
 import optuna
 from optuna._experimental import experimental_class
-from optuna._experimental import experimental_func
 from optuna._imports import try_import
 
 
@@ -148,6 +147,13 @@ class TrackioCallback:
             Whether the Hugging Face Space or Dataset should be private.
             Defaults to the user or organization’s Hub settings.
 
+        resume:
+            Resume behavior when initializing Trackio runs. This is
+            particularly relevant for Optuna studies that may be restarted
+            or retried. Accepted values are ``"allow"``, ``"must"``and
+            ``"never"``. The default ``"allow"`` enables safe resumption of
+            existing runs while avoiding run name collisions.
+
         trackio_kwargs:
             Additional keyword arguments passed to :func:`trackio.init`,
             such as ``resume`` or UI-related configuration options.
@@ -162,6 +168,7 @@ class TrackioCallback:
         space_id: str | None = None,
         dataset_id: str | None = None,
         private: bool | None = None,
+        resume: str | None = "allow",
         trackio_kwargs: dict[str, Any] | None = None,
     ) -> None:
         _imports.check()
@@ -175,6 +182,7 @@ class TrackioCallback:
         self._space_id = space_id  # HF inits for trackio
         self._dataset_id = dataset_id
         self._private = private
+        self._resume = resume
         self._trackio_kwargs = trackio_kwargs or {}
 
         # Explicit internal state (DO NOT infer from Trackio, will cause errors)
@@ -291,6 +299,7 @@ class TrackioCallback:
                 space_id=self._space_id,
                 dataset_id=self._dataset_id,
                 private=self._private,
+                resume=self._resume,
                 **self._trackio_kwargs,
             )
 
