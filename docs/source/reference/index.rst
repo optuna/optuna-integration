@@ -82,16 +82,6 @@ Dask
 
    optuna_integration.DaskStorage
 
-fast.ai
--------
-
-.. autosummary::
-   :toctree: generated/
-   :nosignatures:
-
-   optuna_integration.FastAIV2PruningCallback
-   optuna_integration.FastAIPruningCallback
-
 Keras
 -----
 
