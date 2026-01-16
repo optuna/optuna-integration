@@ -202,3 +202,12 @@ XGBoost
    :nosignatures:
 
    optuna_integration.XGBoostPruningCallback
+
+Trackio
+-------
+
+.. autosummary::
+   :toctree: generated/
+   :nosignatures:
+
+   optuna_integration.TrackioCallback
