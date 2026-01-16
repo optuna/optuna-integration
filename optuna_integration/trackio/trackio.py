@@ -53,7 +53,7 @@ class TrackioCallback:
 
         Add Trackio callback to Optuna optimization.
 
-        .. code::
+        .. code-block:: python
 
             import optuna
             from optuna_integration.trackio import TrackioCallback
@@ -73,7 +73,7 @@ class TrackioCallback:
 
         Trackio logging in multi-run (one run per trial) mode.
 
-        .. code::
+        .. code-block:: python
 
             import optuna
             from optuna_integration.trackio import TrackioCallback
@@ -98,7 +98,7 @@ class TrackioCallback:
 
         Publishing results to a Hugging Face Space.
 
-        .. code::
+        .. code-block:: python
 
             trackioc = TrackioCallback(
                 project="my-optuna-study",
@@ -150,7 +150,7 @@ class TrackioCallback:
         resume:
             Resume behavior when initializing Trackio runs. This is
             particularly relevant for Optuna studies that may be restarted
-            or retried. Accepted values are ``"allow"``, ``"must"``and
+            or retried. Accepted values are ``"allow"``, ``"must"``, and
             ``"never"``. The default ``"allow"`` enables safe resumption of
             existing runs while avoiding run name collisions.
 
