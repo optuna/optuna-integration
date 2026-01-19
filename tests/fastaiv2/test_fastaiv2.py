@@ -2,22 +2,18 @@ from __future__ import annotations
 
 from typing import Any
 
+from fastai.data.core import DataLoader
+from fastai.data.core import DataLoaders
+from fastai.learner import Learner
+from fastai.metrics import accuracy
 import optuna
 from optuna.testing.pruners import DeterministicPruner
 import pytest
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
 
-from optuna_integration._imports import try_import
 from optuna_integration.fastaiv2 import FastAIV2PruningCallback
-
-
-with try_import():
-    from fastai.data.core import DataLoader
-    from fastai.data.core import DataLoaders
-    from fastai.learner import Learner
-    from fastai.metrics import accuracy
-    import torch
-    import torch.nn as nn
-    import torch.nn.functional as F
 
 
 def _generate_dummy_dataset() -> "torch.utils.data.DataLoader":
