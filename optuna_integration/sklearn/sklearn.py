@@ -219,10 +219,8 @@ class _Objective:
         params = self._get_params(trial)
 
         estimator.set_params(**params)
-        fit_params = self.fit_params
-        if "callbacks" in fit_params:
-            fit_params = fit_params.copy()
-            fit_params["callbacks"] = copy.deepcopy(fit_params["callbacks"])
+        # Prevent objects from being shared when parallelization is enabled with n_jobs.
+        fit_params = copy.deepcopy(self.fit_params)
 
         if self.enable_pruning:
             scores = self._cross_validate_with_pruning(trial, estimator, fit_params)
