@@ -3,6 +3,7 @@ from __future__ import annotations
 from collections.abc import Callable
 from collections.abc import Iterable
 from collections.abc import Mapping
+import copy
 from logging import DEBUG
 from logging import INFO
 from logging import WARNING
@@ -218,9 +219,11 @@ class _Objective:
         params = self._get_params(trial)
 
         estimator.set_params(**params)
+        # Prevent objects from being shared when parallelization is enabled with n_jobs.
+        fit_params = copy.deepcopy(self.fit_params)
 
         if self.enable_pruning:
-            scores = self._cross_validate_with_pruning(trial, estimator)
+            scores = self._cross_validate_with_pruning(trial, estimator, fit_params)
         else:
             sklearn_version = sklearn.__version__.split(".")
             sklearn_major_version = int(sklearn_version[0])
@@ -233,7 +236,7 @@ class _Objective:
                         self.y,
                         cv=self.cv,
                         error_score=self.error_score,
-                        params=self.fit_params,
+                        params=fit_params,
                         groups=self.groups,
                         return_train_score=self.return_train_score,
                         scoring=self.scoring,
@@ -245,7 +248,7 @@ class _Objective:
                         self.y,
                         cv=self.cv,
                         error_score=self.error_score,
-                        fit_params=self.fit_params,
+                        fit_params=fit_params,
                         groups=self.groups,
                         return_train_score=self.return_train_score,
                         scoring=self.scoring,
@@ -279,10 +282,13 @@ class _Objective:
         return trial.user_attrs["mean_test_score"]
 
     def _cross_validate_with_pruning(
-        self, trial: Trial, estimator: "sklearn.base.BaseEstimator"
+        self,
+        trial: Trial,
+        estimator: "sklearn.base.BaseEstimator",
+        fit_params: dict[str, Any],
     ) -> Mapping[str, OneDimArrayLikeType]:
         if is_classifier(estimator):
-            partial_fit_params = self.fit_params.copy()
+            partial_fit_params = fit_params.copy()
             y = self.y.values if isinstance(self.y, pd.Series) else self.y
             if y is not None:
                 classes = np.unique(y)
@@ -292,7 +298,7 @@ class _Objective:
             partial_fit_params.setdefault("classes", classes)
 
         else:
-            partial_fit_params = self.fit_params
+            partial_fit_params = fit_params
 
         n_splits = self.cv.get_n_splits(self.X, self.y, groups=self.groups)
         estimators = [clone(estimator) for _ in range(n_splits)]
