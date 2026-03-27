@@ -119,7 +119,7 @@ jobs:
     with:
       integration_name: 'fastaiv2'
       deprecated: false
-      python_matrix: "['3.9', '3.10', '3.11', '3.12', '3.13']"
+      python_matrix: "['3.10', '3.11', '3.12', '3.13']"
       # TODO(c-bata): Remove the version constraint once fastai fixes the dependency error.
       extra_cmds: pip install "ipython"
 
