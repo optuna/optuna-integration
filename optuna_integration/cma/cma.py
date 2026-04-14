@@ -10,6 +10,7 @@ import numpy
 import optuna
 from optuna import distributions
 from optuna import logging
+from optuna._deprecated import deprecated_class
 from optuna._imports import try_import
 from optuna.distributions import BaseDistribution
 from optuna.distributions import CategoricalDistribution
@@ -31,6 +32,7 @@ _logger = logging.get_logger(__name__)
 _EPS = 1e-10
 
 
+@deprecated_class("4.9.0", "6.0.0")
 class PyCmaSampler(BaseSampler):
     """A Sampler using cma library as the backend.
 
