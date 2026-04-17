@@ -76,6 +76,9 @@ with try_import() as _imports_logei:
     from botorch.acquisition.analytic import LogConstrainedExpectedImprovement
     from botorch.acquisition.analytic import LogExpectedImprovement
 
+with try_import() as _imports_qlogei:
+    from botorch.acquisition.logei import qLogExpectedImprovement
+
 with try_import() as _imports_qhvkg:
     from botorch.acquisition.multi_objective.hypervolume_knowledge_gradient import (
         qHypervolumeKnowledgeGradient,
@@ -93,6 +96,12 @@ def _validate_botorch_version_for_constrained_opt(func_name: str) -> None:
 
 def _get_constraint_funcs(n_constraints: int) -> list[Callable[["torch.Tensor"], "torch.Tensor"]]:
     return [lambda Z: Z[..., -n_constraints + i] for i in range(n_constraints)]
+
+
+def _get_qei_acquisition() -> Any:
+    if _imports_qlogei.is_successful():
+        return qLogExpectedImprovement
+    return qExpectedImprovement
 
 
 @experimental_func("3.3.0")
@@ -215,6 +224,9 @@ def qei_candidates_func(
 ) -> "torch.Tensor":
     """Quasi MC-based batch Expected Improvement (qEI).
 
+    This function uses ``qLogExpectedImprovement`` when available in BoTorch.
+    Otherwise, it falls back to ``qExpectedImprovement``.
+
     Args:
         train_x:
             Previous parameter configurations. A :class:`torch.Tensor` of shape
@@ -284,7 +296,7 @@ def qei_candidates_func(
     mll = ExactMarginalLogLikelihood(model.likelihood, model)
     fit_gpytorch_mll(mll)
 
-    acqf = qExpectedImprovement(
+    acqf = _get_qei_acquisition()(
         model=model,
         best_f=best_f,
         sampler=_get_sobol_qmc_normal_sampler(256),
@@ -661,7 +673,7 @@ def qparego_candidates_func(
     mll = ExactMarginalLogLikelihood(model.likelihood, model)
     fit_gpytorch_mll(mll)
 
-    acqf = qExpectedImprovement(
+    acqf = _get_qei_acquisition()(
         model=model,
         best_f=objective(train_y).max(),
         sampler=_get_sobol_qmc_normal_sampler(256),

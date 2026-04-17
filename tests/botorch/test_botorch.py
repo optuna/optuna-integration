@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 from collections.abc import Sequence
+from contextlib import ExitStack
 from typing import Any
+from unittest.mock import MagicMock
 from unittest.mock import patch
 import warnings
 
@@ -18,6 +20,7 @@ import pytest
 
 import optuna_integration as integration
 from optuna_integration import BoTorchSampler
+from optuna_integration.botorch import botorch as botorch_module
 
 
 with try_import() as _imports:
@@ -26,9 +29,56 @@ with try_import() as _imports:
     import botorch
 
 if not _imports.is_successful():
-    from unittest.mock import MagicMock
-
     torch = MagicMock()  # NOQA
+
+
+def _run_with_mocked_optimization(
+    candidates_func: Any, train_obj: "torch.Tensor", train_con: "torch.Tensor" | None = None
+) -> None:
+    train_x = torch.tensor([[0.0], [1.0]], dtype=torch.double)
+    bounds = torch.tensor([[0.0], [1.0]], dtype=torch.double)
+    model = MagicMock()
+    model.likelihood = MagicMock()
+
+    with ExitStack() as stack:
+        stack.enter_context(
+            patch("optuna_integration.botorch.botorch.normalize", side_effect=lambda x, bounds: x)
+        )
+        stack.enter_context(
+            patch(
+                "optuna_integration.botorch.botorch.unnormalize", side_effect=lambda x, bounds: x
+            )
+        )
+        stack.enter_context(
+            patch("optuna_integration.botorch.botorch.SingleTaskGP", return_value=model)
+        )
+        stack.enter_context(
+            patch(
+                "optuna_integration.botorch.botorch.ExactMarginalLogLikelihood",
+                return_value=MagicMock(),
+            )
+        )
+        stack.enter_context(patch("optuna_integration.botorch.botorch.fit_gpytorch_mll"))
+        stack.enter_context(
+            patch(
+                "optuna_integration.botorch.botorch._get_sobol_qmc_normal_sampler",
+                return_value=MagicMock(),
+            )
+        )
+        stack.enter_context(
+            patch(
+                "optuna_integration.botorch.botorch.optimize_acqf",
+                return_value=(torch.zeros((1, train_x.size(1)), dtype=torch.double), None),
+            )
+        )
+
+        candidates_func(
+            train_x=train_x,
+            train_obj=train_obj,
+            train_con=train_con,
+            bounds=bounds,
+            pending_x=None,
+        )
 
 
 @pytest.mark.parametrize("n_objectives", [1, 2, 4])
@@ -59,6 +109,76 @@ def test_botorch_candidates_func_none(n_objectives: int) -> None:
         assert sampler._candidates_func is integration.botorch.ehvi_candidates_func
     else:
         assert False, "Should not reach."
+
+
+def test_qei_candidates_func_uses_qlogei_when_available() -> None:
+    if not hasattr(botorch_module, "qLogExpectedImprovement"):
+        pytest.skip("qLogExpectedImprovement is unavailable in this botorch version.")
+
+    mocked_acqf = MagicMock()
+    with (
+        patch.object(botorch_module._imports_qlogei, "is_successful", return_value=True),
+        patch.object(
+            botorch_module, "qLogExpectedImprovement", return_value=mocked_acqf
+        ) as mock_qlogei,
+        patch.object(botorch_module, "qExpectedImprovement", return_value=MagicMock()) as mock_qei,
+    ):
+        _run_with_mocked_optimization(
+            candidates_func=integration.botorch.qei_candidates_func,
+            train_obj=torch.tensor([[0.2], [0.4]], dtype=torch.double),
+        )
+
+    mock_qlogei.assert_called_once()
+    mock_qei.assert_not_called()
+
+
+@pytest.mark.parametrize(
+    "candidates_func, train_obj",
+    [
+        (
+            integration.botorch.qei_candidates_func,
+            torch.tensor([[0.2], [0.4]], dtype=torch.double),
+        ),
+        (
+            integration.botorch.qparego_candidates_func,
+            torch.tensor([[0.2, 0.3, 0.4, 0.5], [0.1, 0.2, 0.3, 0.4]], dtype=torch.double),
+        ),
+    ],
+)
+def test_candidates_func_falls_back_to_qei(
+    candidates_func: Any, train_obj: "torch.Tensor"
+) -> None:
+    with (
+        patch.object(botorch_module._imports_qlogei, "is_successful", return_value=False),
+        patch.object(botorch_module, "qExpectedImprovement", return_value=MagicMock()) as mock_qei,
+    ):
+        _run_with_mocked_optimization(candidates_func=candidates_func, train_obj=train_obj)
+
+    mock_qei.assert_called_once()
+
+
+def test_qparego_candidates_func_uses_qlogei_when_available() -> None:
+    if not hasattr(botorch_module, "qLogExpectedImprovement"):
+        pytest.skip("qLogExpectedImprovement is unavailable in this botorch version.")
+
+    mocked_acqf = MagicMock()
+    with (
+        patch.object(botorch_module._imports_qlogei, "is_successful", return_value=True),
+        patch.object(
+            botorch_module, "qLogExpectedImprovement", return_value=mocked_acqf
+        ) as mock_qlogei,
+        patch.object(botorch_module, "qExpectedImprovement", return_value=MagicMock()) as mock_qei,
+    ):
+        _run_with_mocked_optimization(
+            candidates_func=integration.botorch.qparego_candidates_func,
+            train_obj=torch.tensor(
+                [[0.2, 0.3, 0.4, 0.5], [0.1, 0.2, 0.3, 0.4]],
+                dtype=torch.double,
+            ),
+        )
+
+    mock_qlogei.assert_called_once()
+    mock_qei.assert_not_called()
 
 
 def test_botorch_candidates_func() -> None:
