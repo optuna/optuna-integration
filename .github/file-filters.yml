@@ -38,14 +38,6 @@ chainermn:
   - '.github/file-filters.yml'
   - 'pyproject.toml'
 
-cma:
-  - 'optuna_integration/cma/**'
-  - 'tests/cma/**'
-  - '.github/workflows/checks.yml'
-  - '.github/workflows/checks_template.yml'
-  - '.github/file-filters.yml'
-  - 'pyproject.toml'
-
 comet:
   - 'optuna_integration/comet/**'
   - 'tests/comet/**'

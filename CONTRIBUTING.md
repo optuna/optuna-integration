@@ -106,8 +106,8 @@ pip install ".[test]"
 # Install required packages on which each integration module depends.
 pip install ".[${INTEGRATION_MODULE_NAME}]"
 
-# For example, for optuna_integration/cma,
-pip install ".[cma]"
+# For example, for optuna_integration/lightgbm,
+pip install ".[lightgbm]"
 ```
 
 You can run your tests as follows:
