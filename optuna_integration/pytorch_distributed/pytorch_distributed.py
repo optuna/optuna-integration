@@ -4,7 +4,6 @@ from collections.abc import Callable
 from collections.abc import Sequence
 from datetime import datetime
 import functools
-import pickle
 from typing import Any
 from typing import overload
 from typing import TYPE_CHECKING
@@ -322,26 +321,6 @@ class TorchDistributedTrial(optuna.trial.BaseTrial):
         return self._broadcast(result)
 
     def _broadcast(self, value: Any | None) -> Any:
-        buffer = None
-        size_buffer = torch.empty(1, dtype=torch.int)
-        rank = dist.get_rank(self._group)
-        if rank == 0:
-            buffer = _to_tensor(value)
-            size_buffer[0] = buffer.shape[0]
-        dist.broadcast(size_buffer, src=0, group=self._group)
-        buffer_size = int(size_buffer.item())
-        if rank != 0:
-            buffer = torch.empty(buffer_size, dtype=torch.uint8)
-        assert buffer is not None
-        dist.broadcast(buffer, src=0, group=self._group)
-        return _from_tensor(buffer)
-
-
-def _to_tensor(obj: Any) -> "torch.Tensor":
-    b = bytearray(pickle.dumps(obj))
-    return torch.tensor(b, dtype=torch.uint8)
-
-
-def _from_tensor(tensor: "torch.Tensor") -> Any:
-    b = bytearray(tensor.tolist())
-    return pickle.loads(b)
+        obj_list = [value]
+        dist.broadcast_object_list(obj_list, src=0, group=self._group)
+        return obj_list[0]
