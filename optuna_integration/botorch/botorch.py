@@ -76,6 +76,9 @@ with try_import() as _imports_logei:
     from botorch.acquisition.analytic import LogConstrainedExpectedImprovement
     from botorch.acquisition.analytic import LogExpectedImprovement
 
+with try_import() as _imports_qlogei:
+    from botorch.acquisition.logei import qLogExpectedImprovement
+
 with try_import() as _imports_qhvkg:
     from botorch.acquisition.multi_objective.hypervolume_knowledge_gradient import (
         qHypervolumeKnowledgeGradient,
@@ -290,6 +293,95 @@ def qei_candidates_func(
         sampler=_get_sobol_qmc_normal_sampler(256),
         X_pending=pending_x,
         **additonal_qei_kwargs,
+    )
+
+    standard_bounds = torch.zeros_like(bounds)
+    standard_bounds[1] = 1
+
+    candidates, _ = optimize_acqf(
+        acq_function=acqf,
+        bounds=standard_bounds,
+        q=1,
+        num_restarts=10,
+        raw_samples=512,
+        options={"batch_limit": 5, "maxiter": 200},
+        sequential=True,
+    )
+
+    candidates = unnormalize(candidates.detach(), bounds=bounds)
+
+    return candidates
+
+
+@experimental_func("4.9.0")
+def qlogei_candidates_func(
+    train_x: "torch.Tensor",
+    train_obj: "torch.Tensor",
+    train_con: "torch.Tensor" | None,
+    bounds: "torch.Tensor",
+    pending_x: "torch.Tensor" | None,
+) -> "torch.Tensor":
+    """Quasi MC-based batch Log Expected Improvement (qLogEI).
+
+    Numerically stable variant of :func:`qei_candidates_func` that uses BoTorch's
+    ``qLogExpectedImprovement`` in place of ``qExpectedImprovement``. It has the same
+    API as qEI and works as a drop-in replacement. See https://arxiv.org/abs/2310.20708
+    for details.
+
+    .. seealso::
+        :func:`~optuna_integration.botorch.qei_candidates_func` for argument and return value
+        descriptions.
+    """
+
+    if not _imports_qlogei.is_successful():
+        raise ImportError(
+            "qlogei_candidates_func requires botorch>=0.10.0. "
+            "Please upgrade botorch or use qei_candidates_func as candidates_func instead."
+        )
+
+    if train_obj.size(-1) != 1:
+        raise ValueError("Objective may only contain single values with qLogEI.")
+    if train_con is not None:
+        _validate_botorch_version_for_constrained_opt("qlogei_candidates_func")
+        train_y = torch.cat([train_obj, train_con], dim=-1)
+
+        is_feas = (train_con <= 0).all(dim=-1)
+        train_obj_feas = train_obj[is_feas]
+
+        if train_obj_feas.numel() == 0:
+            _logger.warning(
+                "No objective values are feasible. Using 0 as the best objective in qLogEI."
+            )
+            best_f = torch.zeros(())
+        else:
+            best_f = train_obj_feas.max()
+
+        n_constraints = train_con.size(1)
+        additional_qlogei_kwargs = {
+            "objective": GenericMCObjective(lambda Z, X: Z[..., 0]),
+            "constraints": _get_constraint_funcs(n_constraints),
+        }
+    else:
+        train_y = train_obj
+
+        best_f = train_obj.max()
+
+        additional_qlogei_kwargs = {}
+
+    train_x = normalize(train_x, bounds=bounds)
+    if pending_x is not None:
+        pending_x = normalize(pending_x, bounds=bounds)
+
+    model = SingleTaskGP(train_x, train_y, outcome_transform=Standardize(m=train_y.size(-1)))
+    mll = ExactMarginalLogLikelihood(model.likelihood, model)
+    fit_gpytorch_mll(mll)
+
+    acqf = qLogExpectedImprovement(
+        model=model,
+        best_f=best_f,
+        sampler=_get_sobol_qmc_normal_sampler(256),
+        X_pending=pending_x,
+        **additional_qlogei_kwargs,
     )
 
     standard_bounds = torch.zeros_like(bounds)
@@ -668,6 +760,85 @@ def qparego_candidates_func(
         objective=objective,
         X_pending=pending_x,
         **additional_qei_kwargs,
+    )
+
+    standard_bounds = torch.zeros_like(bounds)
+    standard_bounds[1] = 1
+
+    candidates, _ = optimize_acqf(
+        acq_function=acqf,
+        bounds=standard_bounds,
+        q=1,
+        num_restarts=20,
+        raw_samples=1024,
+        options={"batch_limit": 5, "maxiter": 200},
+        sequential=True,
+    )
+
+    candidates = unnormalize(candidates.detach(), bounds=bounds)
+
+    return candidates
+
+
+@experimental_func("4.9.0")
+def qlogei_parego_candidates_func(
+    train_x: "torch.Tensor",
+    train_obj: "torch.Tensor",
+    train_con: "torch.Tensor" | None,
+    bounds: "torch.Tensor",
+    pending_x: "torch.Tensor" | None,
+) -> "torch.Tensor":
+    """Quasi MC-based extended ParEGO (qParEGO) backed by qLogEI.
+
+    Numerically stable variant of :func:`qparego_candidates_func` that swaps
+    ``qExpectedImprovement`` for ``qLogExpectedImprovement`` inside the qParEGO
+    acquisition. See https://arxiv.org/abs/2310.20708 for details.
+
+    .. seealso::
+        :func:`~optuna_integration.botorch.qei_candidates_func` for argument and return value
+        descriptions.
+    """
+
+    if not _imports_qlogei.is_successful():
+        raise ImportError(
+            "qlogei_parego_candidates_func requires botorch>=0.10.0. "
+            "Please upgrade botorch or use qparego_candidates_func as candidates_func instead."
+        )
+
+    n_objectives = train_obj.size(-1)
+
+    weights = sample_simplex(n_objectives).squeeze()
+    scalarization = get_chebyshev_scalarization(weights=weights, Y=train_obj)
+
+    if train_con is not None:
+        _validate_botorch_version_for_constrained_opt("qlogei_parego_candidates_func")
+        train_y = torch.cat([train_obj, train_con], dim=-1)
+        n_constraints = train_con.size(1)
+        objective = GenericMCObjective(lambda Z, X: scalarization(Z[..., :n_objectives]))
+        additional_qlogei_kwargs = {
+            "constraints": _get_constraint_funcs(n_constraints),
+        }
+    else:
+        train_y = train_obj
+
+        objective = GenericMCObjective(scalarization)
+        additional_qlogei_kwargs = {}
+
+    train_x = normalize(train_x, bounds=bounds)
+    if pending_x is not None:
+        pending_x = normalize(pending_x, bounds=bounds)
+
+    model = SingleTaskGP(train_x, train_y, outcome_transform=Standardize(m=train_y.size(-1)))
+    mll = ExactMarginalLogLikelihood(model.likelihood, model)
+    fit_gpytorch_mll(mll)
+
+    acqf = qLogExpectedImprovement(
+        model=model,
+        best_f=objective(train_y).max(),
+        sampler=_get_sobol_qmc_normal_sampler(256),
+        objective=objective,
+        X_pending=pending_x,
+        **additional_qlogei_kwargs,
     )
 
     standard_bounds = torch.zeros_like(bounds)
