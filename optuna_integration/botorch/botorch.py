@@ -92,7 +92,10 @@ def _validate_botorch_version_for_constrained_opt(func_name: str) -> None:
 
 
 def _get_constraint_funcs(n_constraints: int) -> list[Callable[["torch.Tensor"], "torch.Tensor"]]:
-    return [lambda Z: Z[..., -n_constraints + i] for i in range(n_constraints)]
+    # Bind ``i`` and ``n_constraints`` as default arguments to avoid the late-binding
+    # closure pitfall that would otherwise cause every lambda to share the final value
+    # of ``i`` and return the same constraint column for all constraints.
+    return [lambda Z, i=i, n=n_constraints: Z[..., -n + i] for i in range(n_constraints)]
 
 
 @experimental_func("3.3.0")
