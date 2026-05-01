@@ -32,33 +32,6 @@ dependencies = [
 dynamic = ["version"]
 
 [project.optional-dependencies]
-test = [
-  "pytest",
-  "coverage",
-  "fakeredis[lua]",
-  "grpcio",
-  "protobuf>=5.28.1",
-]
-checking = [
-  "black<25.9.0", # TODO(nabe): Remove the version constraint after the fix in black.
-  "blackdoc<0.4.2",  # TODO(y0z): Remove the version constraint after the fix in blackdoc.
-  "hacking",
-  "isort",
-  "mypy",
-  "types-PyYAML",
-  "types-redis",
-  "types-setuptools",
-  "typing_extensions>=3.10.0.0",
-]
-document = [
-    "mlflow",
-    "pandas",
-    "scikit-learn>=0.24.2",
-    "scipy>=1.9.2; python_version>='3.9'",
-    "sphinx",
-    "sphinx-notfound-page",
-    "sphinx_rtd_theme",
-]
 allennlp = [
     "allennlp",
     "jsonnet",
@@ -161,6 +134,35 @@ trackio = [
     "trackio",
 ]
 
+[dependency-groups]
+test = [
+  "pytest",
+  "coverage",
+  "fakeredis[lua]",
+  "grpcio",
+  "protobuf>=5.28.1",
+]
+checking = [
+  "black<25.9.0", # TODO(nabe): Remove the version constraint after the fix in black.
+  "blackdoc<0.4.2",  # TODO(y0z): Remove the version constraint after the fix in blackdoc.
+  "hacking",
+  "isort",
+  "mypy",
+  "types-PyYAML",
+  "types-redis",
+  "types-setuptools",
+  "typing_extensions>=3.10.0.0",
+]
+document = [
+  "mlflow",
+  "pandas",
+  "scikit-learn>=0.24.2",
+  "scipy>=1.9.2; python_version>='3.9'",
+  "sphinx",
+  "sphinx-notfound-page",
+  "sphinx_rtd_theme",
+]
+
 [project.urls]
 repository = "https://github.com/optuna/optuna-integration"
 
@@ -170,6 +172,10 @@ include = ["optuna_integration*"]
 
 [tool.setuptools.dynamic]
 version = {attr = "optuna_integration.version.__version__"}
+
+[tool.uv]
+exclude-newer = "5 days"
+exclude-newer-package = {optuna = false}
 
 [tool.black]
 line-length = 99
