@@ -112,7 +112,7 @@ jobs:
       deprecated: false
       python_matrix: "['3.10', '3.11', '3.12', '3.13']"
       # TODO(c-bata): Remove the version constraint once fastai fixes the dependency error.
-      extra_cmds: pip install "ipython"
+      extra_cmds: uv pip install "ipython"
 
   keras:
     if: needs.changes.outputs.keras == 'true'
@@ -185,7 +185,7 @@ jobs:
     with:
       integration_name: 'skorch'
       # TODO: Remove the version constraint once https://github.com/uber/causalml/issues/808 is resolved.
-      extra_cmds: pip install torch "scikit-learn<1.6.0"
+      extra_cmds: uv pip install torch "scikit-learn<1.6.0"
       deprecated: false
 
   tensorboard:
@@ -219,7 +219,7 @@ jobs:
     with:
       integration_name: 'xgboost'
       # TODO: Remove the version constraint once https://github.com/optuna/optuna-integration/issues/216 is resolved.
-      extra_cmds: pip install "xgboost<3.0.0"
+      extra_cmds: uv pip install "xgboost<3.0.0"
       deprecated: false
 
   trackio:

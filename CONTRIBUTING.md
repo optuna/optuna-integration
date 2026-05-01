@@ -49,7 +49,7 @@ Detailed conventions and policies to write, test, and maintain Optuna code are d
 ```bash
 git clone git@github.com:YOUR_NAME/optuna-integration.git
 cd optuna-integration
-pip install -e .
+uv sync
 ```
 
 ### Checking the Format, Coding Style, and Type Hints
@@ -61,23 +61,23 @@ and additional conventions are described in the [Wiki](https://github.com/optuna
 Type hints, [PEP484](https://www.python.org/dev/peps/pep-0484/), are checked with [mypy](http://mypy-lang.org/).
 
 ```bash
-$ pip install ".[checking]"
+$ uv sync --group checking
 # black and isort format
-$ black .
-$ isort .
+$ uv run black .
+$ uv run isort .
 
 # flake8 type checking
-$ flake8 tests optuna_integration
+$ uv run flake8 tests optuna_integration
 
 # mypy type checking
-$ mypy tests optuna_integration 
+$ uv run mypy tests optuna_integration
 ```
 
 You can use `pre-commit` to automatically check the format, coding style, and type hints before committing. The following commands automatically fix format errors by auto-formatters.
 
 ```bash
 # Install `pre-commit`.
-$ pip install pre-commit
+$ uv tool install pre-commit
 
 $ pre-commit install
 $ pre-commit run --all-files
@@ -101,26 +101,26 @@ unit tests are stored under the [tests directory](./tests).
 Please install some required packages at first.
 ```bash
 # Install required packages to test.
-pip install ".[test]"
+uv sync --group test
 
 # Install required packages on which each integration module depends.
-pip install ".[${INTEGRATION_MODULE_NAME}]"
+uv sync --group test --extra ${INTEGRATION_MODULE_NAME}
 
 # For example, for optuna_integration/lightgbm,
-pip install ".[lightgbm]"
+uv sync --group test --extra lightgbm
 ```
 
 You can run your tests as follows:
 
 ```bash
 # Run all the unit tests.
-pytest
+uv run pytest
 
 # Run all the unit tests defined in the specified test file.
-pytest tests/${TARGET_TEST_FILE_NAME}
+uv run pytest tests/${TARGET_TEST_FILE_NAME}
 
 # Run the unit test function with the specified name defined in the specified test file.
-pytest tests/${TARGET_TEST_FILE_NAME} -k ${TARGET_TEST_FUNCTION_NAME}
+uv run pytest tests/${TARGET_TEST_FILE_NAME} -k ${TARGET_TEST_FUNCTION_NAME}
 ```
 
 See also the [Optuna Test Policy](https://github.com/optuna/optuna/wiki/Test-Policy), which describes the principles to write and maintain Optuna tests to meet certain quality requirements.

@@ -104,3 +104,7 @@ ENV/
 
 # Sphinx
 docs/source/reference/generated/
+
+# uv
+uv.lock
+
