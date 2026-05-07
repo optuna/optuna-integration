@@ -618,3 +618,32 @@ def test_botorch_consider_running_trials(candidates_func: Any, n_objectives: int
     assert len(study.trials) == 8
     assert sum(t.state == TrialState.RUNNING for t in study.trials) == 3
     assert sum(t.state == TrialState.COMPLETE for t in study.trials) == 5
+
+
+@pytest.mark.parametrize("n_constraints", [1, 2, 3, 5])
+def test_get_constraint_funcs_returns_distinct_columns(n_constraints: int) -> None:
+    """Regression test for issue #267.
+
+    Each constraint lambda returned by ``_get_constraint_funcs`` must select its
+    own column. Prior to the fix, the list comprehension captured the loop
+    variable ``i`` by reference, so every lambda returned the same column
+    (``Z[..., -1]``) -- causing ``BoTorchSampler`` to receive identical values
+    for all constraints when ``n_constraints > 1``.
+    """
+    if not _imports.is_successful():
+        pytest.skip("botorch is not installed.")
+
+    from optuna_integration.botorch.botorch import _get_constraint_funcs
+
+    z = torch.arange(1, n_constraints + 1, dtype=torch.float32).reshape(1, -1)
+    funcs = _get_constraint_funcs(n_constraints)
+
+    assert len(funcs) == n_constraints
+    for i, f in enumerate(funcs):
+        # Each lambda should select column ``-n_constraints + i``.
+        expected = float(i + 1)
+        actual = float(f(z).item())
+        assert actual == expected, (
+            f"Constraint function at index {i} returned {actual}, expected "
+            f"{expected}. Late-binding closure regression: see issue #267."
+        )
