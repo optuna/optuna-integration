@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 
 import optuna
-from optuna._experimental import experimental_class
+from optuna._deprecated import deprecated_class
 from optuna.logging import get_logger
 
 from optuna_integration._imports import try_import
@@ -16,7 +16,7 @@ with try_import() as _imports:
 _logger = get_logger(__name__)
 
 
-@experimental_class("2.0.0")
+@deprecated_class("4.9.0", "6.0.0")
 class TensorBoardCallback:
     """Callback to track Optuna trials with TensorBoard.
 

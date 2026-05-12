@@ -34,7 +34,6 @@ jobs:
       shap: ${{ steps.changes.outputs.shap }}
       sklearn: ${{ steps.changes.outputs.sklearn }}
       skorch: ${{ steps.changes.outputs.skorch }}
-      tensorboard: ${{ steps.changes.outputs.tensorboard }}
       tfkeras: ${{ steps.changes.outputs.tfkeras }}
       wandb: ${{ steps.changes.outputs.wandb }}
       xgboost: ${{ steps.changes.outputs.xgboost }}
@@ -177,14 +176,6 @@ jobs:
       integration_name: 'skorch'
       # TODO: Remove the version constraint once https://github.com/uber/causalml/issues/808 is resolved.
       extra_cmds: pip install torch "scikit-learn<1.6.0"
-      deprecated: false
-
-  tensorboard:
-    if: needs.changes.outputs.tensorboard == 'true'
-    needs: changes
-    uses: ./.github/workflows/checks_template.yml
-    with:
-      integration_name: 'tensorboard'
       deprecated: false
 
   tfkeras:
