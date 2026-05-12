@@ -8,7 +8,7 @@ from typing import Any
 from typing import TYPE_CHECKING
 
 import optuna
-from optuna._experimental import experimental_class
+from optuna._deprecated import deprecated_class
 from optuna._experimental import experimental_func
 from optuna._imports import try_import
 
@@ -23,7 +23,7 @@ with try_import() as _imports:
 RUN_ID_ATTRIBUTE_KEY = "mlflow_run_id"
 
 
-@experimental_class("1.4.0")
+@deprecated_class("4.9.0", "6.0.0")
 class MLflowCallback:
     """Callback to track Optuna trials with MLflow.
 

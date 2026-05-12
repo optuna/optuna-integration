@@ -27,7 +27,6 @@ jobs:
       fastaiv2: ${{ steps.changes.outputs.fastaiv2 }}
       keras: ${{ steps.changes.outputs.keras }}
       lightgbm: ${{ steps.changes.outputs.lightgbm }}
-      mlflow: ${{ steps.changes.outputs.mlflow }}
       pytorch_distributed: ${{ steps.changes.outputs.pytorch_distributed }}
       pytorch_ignite: ${{ steps.changes.outputs.pytorch_ignite }}
       pytorch_lightning: ${{ steps.changes.outputs.pytorch_lightning }}
@@ -119,14 +118,6 @@ jobs:
     uses: ./.github/workflows/checks_template.yml
     with:
       integration_name: 'lightgbm'
-      deprecated: false
-
-  mlflow:
-    if: needs.changes.outputs.mlflow == 'true'
-    needs: changes
-    uses: ./.github/workflows/checks_template.yml
-    with:
-      integration_name: 'mlflow'
       deprecated: false
 
   pytorch_distributed:
