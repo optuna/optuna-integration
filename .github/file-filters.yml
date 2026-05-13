@@ -142,14 +142,6 @@ tfkeras:
   - '.github/file-filters.yml'
   - 'pyproject.toml'
 
-wandb:
-  - 'optuna_integration/wandb/**'
-  - 'tests/wandb/**'
-  - '.github/workflows/checks.yml'
-  - '.github/workflows/checks_template.yml'
-  - '.github/file-filters.yml'
-  - 'pyproject.toml'
-
 xgboost:
   - 'optuna_integration/xgboost/**'
   - 'tests/xgboost/**'
