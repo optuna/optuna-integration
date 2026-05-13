@@ -126,14 +126,6 @@ skorch:
   - '.github/file-filters.yml'
   - 'pyproject.toml'
 
-tensorboard:
-  - 'optuna_integration/tensorboard/**'
-  - 'tests/tensorboard/**'
-  - '.github/workflows/checks.yml'
-  - '.github/workflows/checks_template.yml'
-  - '.github/file-filters.yml'
-  - 'pyproject.toml'
-
 tensorflow:
   - 'optuna_integration/tensorflow/**'
   - 'tests/tensorflow/**'
