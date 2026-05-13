@@ -335,14 +335,13 @@ def qlogei_candidates_func(
 
     if not _imports_qlogei.is_successful():
         raise ImportError(
-            "qlogei_candidates_func requires botorch>=0.10.0. "
+            "qlogei_candidates_func requires botorch>=0.9.0. "
             "Please upgrade botorch or use qei_candidates_func as candidates_func instead."
         )
 
     if train_obj.size(-1) != 1:
         raise ValueError("Objective may only contain single values with qLogEI.")
     if train_con is not None:
-        _validate_botorch_version_for_constrained_opt("qlogei_candidates_func")
         train_y = torch.cat([train_obj, train_con], dim=-1)
 
         is_feas = (train_con <= 0).all(dim=-1)
@@ -801,7 +800,7 @@ def qlogei_parego_candidates_func(
 
     if not _imports_qlogei.is_successful():
         raise ImportError(
-            "qlogei_parego_candidates_func requires botorch>=0.10.0. "
+            "qlogei_parego_candidates_func requires botorch>=0.9.0. "
             "Please upgrade botorch or use qparego_candidates_func as candidates_func instead."
         )
 
@@ -811,7 +810,6 @@ def qlogei_parego_candidates_func(
     scalarization = get_chebyshev_scalarization(weights=weights, Y=train_obj)
 
     if train_con is not None:
-        _validate_botorch_version_for_constrained_opt("qlogei_parego_candidates_func")
         train_y = torch.cat([train_obj, train_con], dim=-1)
         n_constraints = train_con.size(1)
         objective = GenericMCObjective(lambda Z, X: scalarization(Z[..., :n_objectives]))

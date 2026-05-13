@@ -124,8 +124,8 @@ def test_botorch_specify_candidates_func(candidates_func: Any, n_objectives: int
     if candidates_func in (
         integration.botorch.qlogei_candidates_func,
         integration.botorch.qlogei_parego_candidates_func,
-    ) and version.parse(botorch.version.version) < version.parse("0.10.0"):
-        pytest.skip("qLogExpectedImprovement is not available in botorch <0.10.0.")
+    ) and version.parse(botorch.version.version) < version.parse("0.9.0"):
+        pytest.skip("qLogExpectedImprovement is not available in botorch <0.9.0.")
 
     if candidates_func == integration.botorch.qhvkg_candidates_func and version.parse(
         botorch.version.version
@@ -183,8 +183,8 @@ def test_botorch_specify_candidates_func_constrained(
     if candidates_func in (
         integration.botorch.qlogei_candidates_func,
         integration.botorch.qlogei_parego_candidates_func,
-    ) and version.parse(botorch.version.version) < version.parse("0.10.0"):
-        pytest.skip("qLogExpectedImprovement is not available in botorch <0.10.0.")
+    ) and version.parse(botorch.version.version) < version.parse("0.9.0"):
+        pytest.skip("qLogExpectedImprovement is not available in botorch <0.9.0.")
 
     n_trials = 4
     n_startup_trials = 2
@@ -597,8 +597,8 @@ def test_botorch_consider_running_trials(candidates_func: Any, n_objectives: int
     if candidates_func in (
         integration.botorch.qlogei_candidates_func,
         integration.botorch.qlogei_parego_candidates_func,
-    ) and version.parse(botorch.version.version) < version.parse("0.10.0"):
-        pytest.skip("qLogExpectedImprovement is not available in botorch <0.10.0.")
+    ) and version.parse(botorch.version.version) < version.parse("0.9.0"):
+        pytest.skip("qLogExpectedImprovement is not available in botorch <0.9.0.")
 
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
