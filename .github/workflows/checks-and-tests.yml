@@ -36,7 +36,6 @@ jobs:
       tfkeras: ${{ steps.changes.outputs.tfkeras }}
       wandb: ${{ steps.changes.outputs.wandb }}
       xgboost: ${{ steps.changes.outputs.xgboost }}
-      trackio: ${{ steps.changes.outputs.trackio }}
     steps:
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
@@ -195,11 +194,3 @@ jobs:
       extra_cmds: pip install "xgboost<3.0.0"
       deprecated: false
 
-  trackio:
-    if: needs.changes.outputs.trackio == 'true'
-    needs: changes
-    uses: ./.github/workflows/checks_template.yml
-    with:
-      integration_name: 'trackio'
-      deprecated: false
-      python_matrix: "['3.10', '3.11', '3.12', '3.13']"
