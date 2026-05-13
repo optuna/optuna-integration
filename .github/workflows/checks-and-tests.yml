@@ -23,7 +23,6 @@ jobs:
       catboost: ${{ steps.changes.outputs.catboost }}
       chainer: ${{ steps.changes.outputs.chainer }}
       chainermn: ${{ steps.changes.outputs.chainermn }}
-      comet: ${{ steps.changes.outputs.comet }}
       dask: ${{ steps.changes.outputs.dask }}
       fastaiv2: ${{ steps.changes.outputs.fastaiv2 }}
       keras: ${{ steps.changes.outputs.keras }}
@@ -86,14 +85,6 @@ jobs:
     with:
       integration_name: 'chainermn'
       deprecated: true
-
-  comet:
-    if: needs.changes.outputs.comet == 'true'
-    needs: changes
-    uses: ./.github/workflows/checks_template.yml
-    with:
-      integration_name: 'comet'
-      deprecated: false
 
   dask:
     if: needs.changes.outputs.dask == 'true'
