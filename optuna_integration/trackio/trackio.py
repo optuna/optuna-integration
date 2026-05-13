@@ -8,7 +8,7 @@ from typing import cast
 from typing import TYPE_CHECKING
 
 import optuna
-from optuna._experimental import experimental_class
+from optuna._deprecated import deprecated_class
 from optuna._imports import try_import
 
 
@@ -20,7 +20,7 @@ if TYPE_CHECKING:
     from optuna.study.study import ObjectiveFuncType
 
 
-@experimental_class("4.7.0")
+@deprecated_class("4.9.0", "6.0.0")
 class TrackioCallback:
     """Callback to track Optuna trials with Trackio.
 
