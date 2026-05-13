@@ -5,6 +5,8 @@ from .botorch import qehvi_candidates_func
 from .botorch import qei_candidates_func
 from .botorch import qhvkg_candidates_func
 from .botorch import qkg_candidates_func
+from .botorch import qlogei_candidates_func
+from .botorch import qlogei_parego_candidates_func
 from .botorch import qnehvi_candidates_func
 from .botorch import qnei_candidates_func
 from .botorch import qparego_candidates_func
@@ -16,6 +18,8 @@ __all__ = [
     "logei_candidates_func",
     "qehvi_candidates_func",
     "qei_candidates_func",
+    "qlogei_candidates_func",
+    "qlogei_parego_candidates_func",
     "qnehvi_candidates_func",
     "qnei_candidates_func",
     "qparego_candidates_func",
