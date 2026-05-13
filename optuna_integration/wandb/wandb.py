@@ -7,7 +7,7 @@ from typing import Any
 from typing import TYPE_CHECKING
 
 import optuna
-from optuna._experimental import experimental_class
+from optuna._deprecated import deprecated_class
 from optuna._experimental import experimental_func
 from optuna._imports import try_import
 
@@ -20,7 +20,7 @@ with try_import() as _imports:
     import wandb
 
 
-@experimental_class("2.9.0")
+@deprecated_class("4.9.0", "6.0.0")
 class WeightsAndBiasesCallback:
     """Callback to track Optuna trials with Weights & Biases.
 

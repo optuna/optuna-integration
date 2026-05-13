@@ -34,7 +34,6 @@ jobs:
       sklearn: ${{ steps.changes.outputs.sklearn }}
       skorch: ${{ steps.changes.outputs.skorch }}
       tfkeras: ${{ steps.changes.outputs.tfkeras }}
-      wandb: ${{ steps.changes.outputs.wandb }}
       xgboost: ${{ steps.changes.outputs.xgboost }}
     steps:
       - uses: actions/checkout@v4
@@ -174,14 +173,6 @@ jobs:
     uses: ./.github/workflows/checks_template.yml
     with:
       integration_name: 'tfkeras'
-      deprecated: false
-
-  wandb:
-    if: needs.changes.outputs.wandb == 'true'
-    needs: changes
-    uses: ./.github/workflows/checks_template.yml
-    with:
-      integration_name: 'wandb'
       deprecated: false
 
   xgboost:
