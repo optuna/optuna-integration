@@ -65,7 +65,6 @@ Here is the table of `optuna-integration` modules:
 |[AllenNLP](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#allennlp)*|[AllenNLPPruningCallback](https://github.com/optuna/optuna-examples/blob/main/allennlp/allennlp_simple.py)|
 |[Chainer](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#chainer)*|[ChainerPruningExtension](https://github.com/optuna/optuna-examples/tree/main/chainer/chainer_integration.py)|
 |[ChainerMN](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#chainermn)* | [ChainerMNStudy](https://github.com/optuna/optuna-examples/tree/main/chainer/chainermn_simple.py) |
-|[MXNet](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#mxnet)*|Unavailable|
 
 > [!WARNING]
 > `*` shows deprecated modules and they might be removed in the future.

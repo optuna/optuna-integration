@@ -107,9 +107,6 @@ lightgbm = [
 mlflow = [
     "mlflow",
 ]
-mxnet = [
-    "mxnet",
-]
 pytorch_distributed = [
     "gpytorch",
 ]

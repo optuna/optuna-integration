@@ -18,7 +18,6 @@ _import_structure = {
     "keras": ["KerasPruningCallback"],
     "lightgbm": ["LightGBMPruningCallback", "LightGBMTuner", "LightGBMTunerCV"],
     "mlflow": ["MLflowCallback"],
-    "mxnet": ["MXNetPruningCallback"],
     "pytorch_distributed": ["TorchDistributedTrial"],
     "pytorch_ignite": ["PyTorchIgnitePruningHandler"],
     "pytorch_lightning": ["PyTorchLightningPruningCallback"],
@@ -52,7 +51,6 @@ __all__ = [
     "LightGBMTuner",
     "LightGBMTunerCV",
     "MLflowCallback",
-    "MXNetPruningCallback",
     "TorchDistributedTrial",
     "PyTorchIgnitePruningHandler",
     "PyTorchLightningPruningCallback",
@@ -85,7 +83,6 @@ if TYPE_CHECKING:
     from optuna_integration.lightgbm import LightGBMTuner
     from optuna_integration.lightgbm import LightGBMTunerCV
     from optuna_integration.mlflow import MLflowCallback
-    from optuna_integration.mxnet import MXNetPruningCallback
     from optuna_integration.pytorch_distributed import TorchDistributedTrial
     from optuna_integration.pytorch_ignite import PyTorchIgnitePruningHandler
     from optuna_integration.pytorch_lightning import PyTorchLightningPruningCallback
