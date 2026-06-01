@@ -16,16 +16,6 @@ For most of the ML frameworks supported by Optuna, the corresponding Optuna inte
 
 For scikit-learn, an integrated :class:`~optuna_integration.OptunaSearchCV` estimator is available that combines scikit-learn BaseEstimator functionality with access to a class-level :class:`~optuna.study.Study` object.
 
-AllenNLP
---------
-
-.. autosummary::
-   :toctree: generated/
-   :nosignatures:
-
-   optuna_integration.AllenNLPExecutor
-   optuna_integration.allennlp.dump_best_config
-   optuna_integration.AllenNLPPruningCallback
 
 BoTorch
 -------
@@ -53,16 +43,6 @@ CatBoost
    :nosignatures:
 
    optuna_integration.CatBoostPruningCallback
-
-Chainer
--------
-
-.. autosummary::
-   :toctree: generated/
-   :nosignatures:
-
-   optuna_integration.ChainerPruningExtension
-   optuna_integration.ChainerMNStudy
 
 Comet
 -----

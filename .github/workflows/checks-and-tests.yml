@@ -18,11 +18,8 @@ jobs:
     if: (github.event_name == 'schedule' && github.repository == 'optuna/optuna-integration') || (github.event_name != 'schedule')
     runs-on: ubuntu-latest
     outputs:
-      allennlp: ${{ steps.changes.outputs.allennlp }}
       botorch: ${{ steps.changes.outputs.botorch }}
       catboost: ${{ steps.changes.outputs.catboost }}
-      chainer: ${{ steps.changes.outputs.chainer }}
-      chainermn: ${{ steps.changes.outputs.chainermn }}
       dask: ${{ steps.changes.outputs.dask }}
       fastaiv2: ${{ steps.changes.outputs.fastaiv2 }}
       keras: ${{ steps.changes.outputs.keras }}
@@ -42,14 +39,6 @@ jobs:
         with:
           filters: .github/file-filters.yml
 
-  allennlp:
-    if: needs.changes.outputs.allennlp == 'true'
-    needs: changes
-    uses: ./.github/workflows/checks_template.yml
-    with:
-      integration_name: 'allennlp'
-      deprecated: true
-
   botorch:
     if: needs.changes.outputs.botorch == 'true'
     needs: changes
@@ -65,22 +54,6 @@ jobs:
     with:
       integration_name: 'catboost'
       deprecated: false
-
-  chainer:
-    if: needs.changes.outputs.chainer == 'true'
-    needs: changes
-    uses: ./.github/workflows/checks_template.yml
-    with:
-      integration_name: 'chainer'
-      deprecated: true
-
-  chainermn:
-    if: needs.changes.outputs.chainermn == 'true'
-    needs: changes
-    uses: ./.github/workflows/checks_template.yml
-    with:
-      integration_name: 'chainermn'
-      deprecated: true
 
   dask:
     if: needs.changes.outputs.dask == 'true'
