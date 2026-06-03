@@ -1,6 +1,6 @@
 # pre-commit package installation is necessary to use pre-commit.
-# $ pip install pre-commit
-# $ pre-commit install
+# $ uv sync --group checking
+# $ uv run pre-commit install
 
 default_language_version:
   python: python3

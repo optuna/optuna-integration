@@ -18,26 +18,25 @@ jobs:
     - uses: actions/setup-python@v5
       with:
         python-version: "3.10"
+    - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b  # v8.1.0
 
     - name: Install
       run: |
-        python -m pip install -U pip
-        pip install --progress-bar off -U .[checking]
+        uv sync --group checking --group pipdeptree
 
     - name: Output installed packages
       run: |
-        pip freeze --all
+        uv pip freeze
     
     - name: Output dependency tree
       run: |
-        pip install pipdeptree
-        pipdeptree
+        uv run pipdeptree
 
     - name: Apply formatters
       run: |
-        black .
-        blackdoc .
-        isort .
+        uv run black .
+        uv run blackdoc .
+        uv run isort .
 
     - name: Reviewdog
       uses: reviewdog/action-suggester@v1

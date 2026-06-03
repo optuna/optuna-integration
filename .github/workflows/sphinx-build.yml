@@ -22,29 +22,23 @@ jobs:
     - uses: actions/setup-python@v5
       with:
         python-version: 3.13
+    - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b  # v8.1.0
 
     - name: Install Dependencies
       run: |
-        python -m pip install -U pip
-        pip install --progress-bar off -U .[document]
-
-        # TODO(gen740): Remove this if scikit-learn 1.7.2 is released
-        pip install torch "scikit-learn<1.7.1"
+        uv sync --extra document --group pipdeptree
 
     - name: Output installed packages
       run: |
-        pip freeze --all
+        uv pip freeze
 
     - name: Output dependency tree
       run: |
-        pip install pipdeptree
-        pipdeptree
+        uv run pipdeptree
 
     - name: Build Document
       run: |
-        cd docs
-        make html
-        cd ../
+        uv run make -C docs html
 
     - uses: actions/upload-artifact@v4
       with:
