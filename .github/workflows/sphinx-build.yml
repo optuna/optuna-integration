@@ -37,6 +37,8 @@ jobs:
         uv run pipdeptree
 
     - name: Build Document
+      env:
+        PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
       run: |
         uv run make -C docs html
 
