@@ -38,6 +38,9 @@ jobs:
 
     - name: Build Document
       env:
+        # NOTE(gen740): Sphinx autodoc imports MLflowCallback, and MLflow pulls
+        # opentelemetry-proto 1.11.1, whose _pb2.py files fail with protobuf 7.x's
+        # default upb runtime. Use the pure-Python protobuf runtime for docs.
         PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
       run: |
         uv run make -C docs html
