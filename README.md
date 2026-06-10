@@ -62,7 +62,6 @@ Here is the table of `optuna-integration` modules:
 |[Weights & Biases](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#wandb)*|[WeightsAndBiasesCallback](https://github.com/optuna/optuna-examples/blob/main/wandb/wandb_integration.py)|
 |[XGBoost](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#xgboost)|[XGBoostPruningCallback](https://github.com/optuna/optuna-examples/tree/main/xgboost/xgboost_integration.py)|
 |[Trackio](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#trackio)*|[TrackioCallback](https://github.com/optuna/optuna-integration/tree/main/optuna_integration/trackio/trackio.py)|
-|[MXNet](https://optuna-integration.readthedocs.io/en/stable/reference/index.html#mxnet)*|Unavailable|
 
 > [!WARNING]
 > `*` shows deprecated modules and they might be removed in the future.

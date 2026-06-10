@@ -92,15 +92,6 @@ MLflow
 
    optuna_integration.MLflowCallback
 
-MXNet
------
-
-.. autosummary::
-   :toctree: generated/
-   :nosignatures:
-
-   optuna_integration.MXNetPruningCallback
-
 pycma
 -----
 .. autosummary::

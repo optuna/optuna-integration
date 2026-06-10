@@ -46,14 +46,6 @@ lightgbm:
   - '.github/file-filters.yml'
   - 'pyproject.toml'
 
-mxnet:
-  - 'optuna_integration/mxnet/**'
-  - 'tests/mxnet/**'
-  - '.github/workflows/checks.yml'
-  - '.github/workflows/checks_template.yml'
-  - '.github/file-filters.yml'
-  - 'pyproject.toml'
-
 pytorch_distributed:
   - 'optuna_integration/pytorch_distributed/**'
   - 'tests/pytorch_distributed/**'
