@@ -32,24 +32,6 @@ dependencies = [
 dynamic = ["version"]
 
 [project.optional-dependencies]
-test = [
-  "pytest",
-  "coverage",
-  "fakeredis[lua]",
-  "grpcio",
-  "protobuf>=5.28.1",
-]
-checking = [
-  "black<25.9.0", # TODO(nabe): Remove the version constraint after the fix in black.
-  "blackdoc<0.4.2",  # TODO(y0z): Remove the version constraint after the fix in blackdoc.
-  "hacking",
-  "isort",
-  "mypy",
-  "types-PyYAML",
-  "types-redis",
-  "types-setuptools",
-  "typing_extensions>=3.10.0.0",
-]
 document = [
     "mlflow",
     "pandas",
@@ -63,11 +45,11 @@ botorch = [
     "botorch<0.10.0",
 ]
 catboost = [
-    "numpy<2.0.0",  # TODO(nabe): Remove this constraint once this issue is resolved. https://github.com/numpy/numpy/issues/26710
+    "numpy",
     "catboost",
 ]
 cma = [
-    "numpy<2.0.0",  # TODO(nabe): Remove this constraint once this issue is resolved. https://github.com/numpy/numpy/issues/26710
+    "numpy",
     "cma",
 ]
 comet = [
@@ -84,7 +66,7 @@ fastaiv2 = [
     "fastcore<1.12.2",  # TODO(not522): Remove this constraint once this issue is resolved. https://github.com/AnswerDotAI/fastcore/issues/751
 ]
 keras = [
-    "tensorflow",
+    "tensorflow>=2.20.0",
 ]
 lightgbm = [
     "lightgbm",
@@ -115,7 +97,8 @@ pytorch-lightning = [
     "lightning",
 ]
 shap = [
-    "numpy<2.0.0",  # TODO(nabe): Remove this constraint once this issue is resolved. https://github.com/numpy/numpy/issues/26710
+    "numba>=0.60.0",
+    "numpy",
     "shap",
 ]
 sklearn = [
@@ -129,13 +112,13 @@ skorch = [
 ]
 tensorboard = [
     "tensorboard",
-    "tensorflow",
+    "tensorflow>=2.20.0",
 ]
 tensorflow = [
-    "tensorflow<=2.15.0",
+    "tensorflow>=2.20.0",
 ]
 tfkeras = [
-    "tensorflow",
+    "tensorflow>=2.20.0",
 ]
 wandb = [
     "wandb",
@@ -144,11 +127,44 @@ xgboost = [
     "xgboost",
 ]
 trackio = [
-    "trackio",
+    "trackio; python_version>='3.10'",
+]
+
+[dependency-groups]
+test = [
+  "pytest",
+  "coverage",
+  "fakeredis[lua]",
+  "grpcio",
+  "protobuf>=5.28.1",
+]
+checking = [
+  "black<25.9.0", # TODO(nabe): Remove the version constraint after the fix in black.
+  "blackdoc<0.4.2",  # TODO(y0z): Remove the version constraint after the fix in blackdoc.
+  "hacking",
+  "isort",
+  "mypy",
+  "pre-commit",
+  "types-PyYAML",
+  "types-redis",
+  "types-setuptools",
+  "typing_extensions>=3.10.0.0",
+]
+pipdeptree = [
+  "pipdeptree",
+]
+publish = [
+  "build",
+  "twine",
 ]
 
 [project.urls]
 repository = "https://github.com/optuna/optuna-integration"
+
+[tool.uv]
+default-groups = []
+exclude-newer = "5 days"
+exclude-newer-package = { torch = false, optuna = false, optuna-integration = false }
 
 [tool.setuptools.packages.find]
 # where = ["."]
