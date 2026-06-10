@@ -59,20 +59,6 @@ document = [
     "sphinx-notfound-page",
     "sphinx_rtd_theme",
 ]
-allennlp = [
-    "allennlp",
-    "jsonnet",
-    "numpy<2.0.0",
-    "psutil",
-]
-chainer = [
-    "chainer",
-    "numpy<2.0.0",
-]
-chainermn = [
-    "chainermn",
-    "numpy<2.0.0",
-]
 botorch = [
     "botorch<0.10.0",
 ]

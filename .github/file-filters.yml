@@ -1,11 +1,3 @@
-allennlp:
-  - 'optuna_integration/allennlp/**'
-  - 'tests/allennlp/**'
-  - '.github/workflows/checks.yml'
-  - '.github/workflows/checks_template.yml'
-  - '.github/file-filters.yml'
-  - 'pyproject.toml'
-
 botorch:
   - 'optuna_integration/botorch/**'
   - 'tests/botorch/**'
@@ -17,22 +9,6 @@ botorch:
 catboost:
   - 'optuna_integration/catboost/**'
   - 'tests/catboost/**'
-  - '.github/workflows/checks.yml'
-  - '.github/workflows/checks_template.yml'
-  - '.github/file-filters.yml'
-  - 'pyproject.toml'
-
-chainer:
-  - 'optuna_integration/chainer/**'
-  - 'tests/chainer/**'
-  - '.github/workflows/checks.yml'
-  - '.github/workflows/checks_template.yml'
-  - '.github/file-filters.yml'
-  - 'pyproject.toml'
-
-chainermn:
-  - 'optuna_integration/chainermn/**'
-  - 'tests/chainermn/**'
   - '.github/workflows/checks.yml'
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
@@ -141,4 +117,3 @@ xgboost:
   - '.github/workflows/checks_template.yml'
   - '.github/file-filters.yml'
   - 'pyproject.toml'
-
