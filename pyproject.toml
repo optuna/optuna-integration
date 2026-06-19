@@ -99,19 +99,10 @@ mxnet = [
 pytorch_distributed = [
     "gpytorch",
 ]
-pytorch-distributed = [
-    "gpytorch",
-]
 pytorch_ignite = [
     "pytorch-ignite",
 ]
-pytorch-ignite = [
-    "pytorch-ignite",
-]
 pytorch_lightning = [
-    "lightning",
-]
-pytorch-lightning = [
     "lightning",
 ]
 shap = [
