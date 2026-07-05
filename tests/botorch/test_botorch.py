@@ -190,6 +190,38 @@ def test_botorch_multi_objective_uses_qlog_hypervolume_improvement(
     assert not any("has known numerical issues" in str(w.message) for w in recorded)
 
 
+def test_qehvi_candidates_func_empty_box_decomposition() -> None:
+    if version.parse(botorch.version.version) < version.parse("0.9.5"):
+        pytest.skip("qLogExpectedHypervolumeImprovement is not available in botorch <0.9.5.")
+
+    from botorch.utils.multi_objective.box_decompositions import NondominatedPartitioning
+
+    # With many objectives and few observations, the approximate box decomposition
+    # (alpha > 0) can prune every cell. qLogExpectedHypervolumeImprovement raises an
+    # IndexError on an empty decomposition, so qehvi_candidates_func must fall back
+    # to qExpectedHypervolumeImprovement in that case.
+    n_objectives = 7
+    torch.manual_seed(87)
+    train_obj = -torch.rand(3, n_objectives, dtype=torch.double)
+    train_x = torch.rand(3, n_objectives, dtype=torch.double)
+    bounds = torch.stack(
+        [
+            torch.zeros(n_objectives, dtype=torch.double),
+            torch.ones(n_objectives, dtype=torch.double),
+        ]
+    )
+
+    ref_point = train_obj.min(dim=0).values - 1e-8
+    partitioning = NondominatedPartitioning(ref_point=ref_point, Y=train_obj, alpha=0.1)
+    if partitioning.get_hypercell_bounds().shape[-2] != 0:
+        pytest.skip("This seed did not produce an empty box decomposition on this platform.")
+
+    candidates = integration.botorch.qehvi_candidates_func(train_x, train_obj, None, bounds, None)
+
+    assert candidates.shape == (1, n_objectives)
+    assert torch.isfinite(candidates).all()
+
+
 @pytest.mark.parametrize(
     "candidates_func, n_objectives",
     [

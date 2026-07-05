@@ -542,7 +542,10 @@ def qehvi_candidates_func(
 
     # qLogEHVI is numerically more stable than qEHVI and is recommended by BoTorch.
     # cf. https://arxiv.org/abs/2310.20708
-    if _imports_qloghvi.is_successful():
+    # qLogEHVI raises an IndexError when every cell of the approximate box
+    # decomposition has been pruned (num_cells == 0), so fall back to qEHVI in
+    # that case, which returns zero improvement.
+    if _imports_qloghvi.is_successful() and partitioning.get_hypercell_bounds().shape[-2] > 0:
         hypervol_improvement_method = qLogExpectedHypervolumeImprovement
     else:
         hypervol_improvement_method = monte_carlo.qExpectedHypervolumeImprovement
