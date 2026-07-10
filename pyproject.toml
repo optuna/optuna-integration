@@ -153,6 +153,9 @@ repository = "https://github.com/optuna/optuna-integration"
 default-groups = []
 exclude-newer = "5 days"
 exclude-newer-package = { torch = false, optuna = false, optuna-integration = false }
+# Workaround for torchvision 0.11.3 wheels missing Linux x86_64 / Python 3.12 support.
+# TODO(y0z): Remove this constraint once the affected wheel is yanked from PyPI.
+constraint-dependencies = ["torchvision!=0.11.3"]
 
 [tool.setuptools.packages.find]
 # where = ["."]
