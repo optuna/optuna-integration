@@ -211,12 +211,15 @@ def test_qehvi_candidates_func_empty_box_decomposition() -> None:
         ]
     )
 
-    ref_point = train_obj.min(dim=0).values - 1e-8
-    partitioning = NondominatedPartitioning(ref_point=ref_point, Y=train_obj, alpha=0.1)
-    if partitioning.get_hypercell_bounds().shape[-2] != 0:
-        pytest.skip("This seed did not produce an empty box decomposition on this platform.")
-
-    candidates = integration.botorch.qehvi_candidates_func(train_x, train_obj, None, bounds, None)
+    # Patching guarantees an empty box decomposition without randomness.
+    with patch.object(
+        NondominatedPartitioning,
+        "get_hypercell_bounds",
+        return_value=torch.zeros(2, 0, n_objectives, dtype=torch.double),
+    ):
+        candidates = integration.botorch.qehvi_candidates_func(
+            train_x, train_obj, None, bounds, None
+        )
 
     assert candidates.shape == (1, n_objectives)
     assert torch.isfinite(candidates).all()
