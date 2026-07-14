@@ -79,6 +79,10 @@ with try_import() as _imports_logei:
 with try_import() as _imports_qlogei:
     from botorch.acquisition.logei import qLogExpectedImprovement
 
+with try_import() as _imports_qloghvi:
+    from botorch.acquisition.multi_objective.logei import qLogExpectedHypervolumeImprovement
+    from botorch.acquisition.multi_objective.logei import qLogNoisyExpectedHypervolumeImprovement
+
 with try_import() as _imports_qhvkg:
     from botorch.acquisition.multi_objective.hypervolume_knowledge_gradient import (
         qHypervolumeKnowledgeGradient,
@@ -536,8 +540,13 @@ def qehvi_candidates_func(
 
     ref_point_list = ref_point.tolist()
 
-    if hasattr(monte_carlo, "qLogExpectedHypervolumeImprovement"):
-        hypervol_improvement_method = monte_carlo.qLogExpectedHypervolumeImprovement
+    # qLogEHVI is numerically more stable than qEHVI and is recommended by BoTorch.
+    # cf. https://arxiv.org/abs/2310.20708
+    # qLogEHVI raises an IndexError when every cell of the approximate box
+    # decomposition has been pruned (num_cells == 0), so fall back to qEHVI in
+    # that case, which returns zero improvement.
+    if _imports_qloghvi.is_successful() and partitioning.get_hypercell_bounds().shape[-2] > 0:
+        hypervol_improvement_method = qLogExpectedHypervolumeImprovement
     else:
         hypervol_improvement_method = monte_carlo.qExpectedHypervolumeImprovement
 
@@ -685,9 +694,16 @@ def qnehvi_candidates_func(
 
     ref_point_list = ref_point.tolist()
 
+    # qLogNEHVI is numerically more stable than qNEHVI and is recommended by BoTorch.
+    # cf. https://arxiv.org/abs/2310.20708
+    if _imports_qloghvi.is_successful():
+        noisy_hypervol_improvement_method = qLogNoisyExpectedHypervolumeImprovement
+    else:
+        noisy_hypervol_improvement_method = monte_carlo.qNoisyExpectedHypervolumeImprovement
+
     # prune_baseline=True is generally recommended by the documentation of BoTorch.
     # cf. https://botorch.org/api/acquisition.html (accessed on 2022/11/18)
-    acqf = monte_carlo.qNoisyExpectedHypervolumeImprovement(
+    acqf = noisy_hypervol_improvement_method(
         model=model,
         ref_point=ref_point_list,
         X_baseline=train_x,
