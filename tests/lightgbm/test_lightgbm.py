@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from functools import partial
+from typing import Any
+from typing import cast
 from unittest.mock import patch
 
 import numpy as np
@@ -31,10 +33,12 @@ def test_lightgbm_pruning_callback_call(cv: bool) -> None:
         iteration=1,
     )
 
-    if cv:
-        env = callback_env(evaluation_result_list=[("valid", "binary_error", 1.0, False, 1.0)])
-    else:
-        env = callback_env(evaluation_result_list=[("validation", "binary_error", 1.0, False)])
+    evaluation_result = (
+        ("valid", "binary_error", 1.0, False, 1.0)
+        if cv
+        else ("validation", "binary_error", 1.0, False)
+    )
+    env = callback_env(evaluation_result_list=cast(Any, [evaluation_result]))
 
     # The pruner is deactivated.
     study = optuna.create_study(pruner=DeterministicPruner(False))
