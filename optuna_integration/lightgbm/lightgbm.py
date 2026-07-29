@@ -7,9 +7,10 @@ from optuna._imports import try_import
 
 
 if TYPE_CHECKING:
-    from lightgbm.basic import _LGBM_BoosterEvalMethodResultType
-    from lightgbm.basic import _LGBM_BoosterEvalMethodResultWithStandardDeviationType
     from lightgbm.callback import CallbackEnv
+
+    # LightGBM's evaluation result type differs between versions.
+    _LGBMEvaluationResult = tuple[str, str, float, bool]
 
 
 with try_import() as _imports:
@@ -66,11 +67,7 @@ class LightGBMPruningCallback:
 
     def _find_evaluation_result(
         self, target_valid_name: str, env: CallbackEnv
-    ) -> (
-        _LGBM_BoosterEvalMethodResultType
-        | _LGBM_BoosterEvalMethodResultWithStandardDeviationType
-        | None
-    ):
+    ) -> _LGBMEvaluationResult | None:
         evaluation_result_list = env.evaluation_result_list
         if evaluation_result_list is None:
             return None
@@ -86,7 +83,7 @@ class LightGBMPruningCallback:
                 metric != "valid " + self._metric and metric != self._metric
             ):
                 continue
-            return evaluation_result
+            return valid_name, metric, current_score, is_higher_better
 
         return None
 
