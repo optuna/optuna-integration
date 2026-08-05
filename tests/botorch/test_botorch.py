@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections.abc import Callable
 from collections.abc import Sequence
 from typing import Any
 from unittest.mock import patch
@@ -7,9 +8,14 @@ import warnings
 
 import optuna
 from optuna._imports import try_import
+from optuna.distributions import BaseDistribution
+from optuna.samplers import BaseSampler
 from optuna.samplers import RandomSampler
 from optuna.samplers._base import _CONSTRAINTS_KEY
 from optuna.storages import RDBStorage
+from optuna.testing.pytest_samplers import BasicSamplerTestCase
+from optuna.testing.pytest_samplers import MultiObjectiveSamplerTestCase
+from optuna.testing.pytest_samplers import RelativeSamplerTestCase
 from optuna.trial import FrozenTrial
 from optuna.trial import Trial
 from optuna.trial import TrialState
@@ -747,3 +753,41 @@ def test_get_constraint_funcs_returns_distinct_columns(n_constraints: int) -> No
             f"Constraint function at index {i} returned {actual}, expected "
             f"{expected}. Late-binding closure regression: see issue #267."
         )
+
+
+class TestBoTorchSampler(
+    BasicSamplerTestCase,
+    RelativeSamplerTestCase,
+    MultiObjectiveSamplerTestCase,
+):
+    @pytest.fixture
+    def sampler(self) -> Callable[[], BaseSampler]:
+        def factory() -> BaseSampler:
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
+                return BoTorchSampler(n_startup_trials=0)
+
+        return factory
+
+    @pytest.mark.skip(
+        "BoTorchSampler can return a value slightly below the lower bound for log-float "
+        "distributions."
+    )
+    def test_sample_relative_numerical(
+        self,
+        sampler: Callable[[], BaseSampler],
+        x_distribution: BaseDistribution,
+        y_distribution: BaseDistribution,
+    ) -> None:
+        pass
+
+    @pytest.mark.skip(
+        "BoTorchSampler can return a value slightly below the lower bound for log-float "
+        "distributions."
+    )
+    def test_sample_relative_mixed(
+        self,
+        sampler: Callable[[], BaseSampler],
+        x_distribution: BaseDistribution,
+    ) -> None:
+        pass
