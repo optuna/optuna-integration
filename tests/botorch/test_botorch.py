@@ -11,8 +11,8 @@ from optuna._imports import try_import
 from optuna.distributions import BaseDistribution
 from optuna.samplers import BaseSampler
 from optuna.samplers import RandomSampler
-from optuna.samplers._base import _CONSTRAINTS_KEY
 from optuna.storages import RDBStorage
+from optuna.study._constrained_optimization import _CONSTRAINTS_KEY
 from optuna.testing.pytest_samplers import BasicSamplerTestCase
 from optuna.testing.pytest_samplers import MultiObjectiveSamplerTestCase
 from optuna.testing.pytest_samplers import RelativeSamplerTestCase

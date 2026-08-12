@@ -16,11 +16,11 @@ from optuna._transform import _SearchSpaceTransform
 from optuna.distributions import BaseDistribution
 from optuna.samplers import BaseSampler
 from optuna.samplers import RandomSampler
-from optuna.samplers._base import _CONSTRAINTS_KEY
 from optuna.samplers._base import _process_constraints_after_trial
 from optuna.search_space import IntersectionSearchSpace
 from optuna.study import Study
 from optuna.study import StudyDirection
+from optuna.study._constrained_optimization import _CONSTRAINTS_KEY
 from optuna.trial import FrozenTrial
 from optuna.trial import TrialState
 from packaging import version
