@@ -175,21 +175,23 @@ def test_get_param_importances_with_target(storage_mode: str, normalize: bool) -
             assert np.isclose(sum(param_importance.values()), 1.0)
 
 
-def test_get_param_importances_invalid_empty_study() -> None:
+def test_get_param_importances_empty_study() -> None:
     study = create_study()
 
-    with pytest.raises(ValueError), warnings.catch_warnings():
+    with warnings.catch_warnings():
         warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
-        get_param_importances(study, evaluator=ShapleyImportanceEvaluator())
+        param_importance = get_param_importances(study, evaluator=ShapleyImportanceEvaluator())
+        assert param_importance == {}
 
     study.optimize(pruned_objective, n_trials=3)
 
-    with pytest.raises(ValueError), warnings.catch_warnings():
+    with warnings.catch_warnings():
         warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
-        get_param_importances(study, evaluator=ShapleyImportanceEvaluator())
+        param_importance = get_param_importances(study, evaluator=ShapleyImportanceEvaluator())
+        assert param_importance == {}
 
 
-def test_get_param_importances_invalid_single_trial() -> None:
+def test_get_param_importances_single_trial() -> None:
     def objective(trial: Trial) -> float:
         x1 = trial.suggest_float("x1", 0.1, 3)
         return x1**2
@@ -197,9 +199,10 @@ def test_get_param_importances_invalid_single_trial() -> None:
     study = create_study()
     study.optimize(objective, n_trials=1)
 
-    with pytest.raises(ValueError), warnings.catch_warnings():
+    with warnings.catch_warnings():
         warnings.simplefilter("ignore", optuna.exceptions.ExperimentalWarning)
-        get_param_importances(study, evaluator=ShapleyImportanceEvaluator())
+        param_importance = get_param_importances(study, evaluator=ShapleyImportanceEvaluator())
+        assert param_importance == {"x1": 1.0}
 
 
 def test_get_param_importances_invalid_no_completed_trials_params() -> None:
