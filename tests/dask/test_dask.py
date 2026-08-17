@@ -3,6 +3,7 @@ from __future__ import annotations
 from contextlib import contextmanager
 import time
 from typing import Iterator
+from typing import Literal
 import warnings
 
 import numpy as np
@@ -113,7 +114,9 @@ def test_get_base_storage(client: "Client", storage_specifier: str) -> None:
 
 
 @pytest.mark.parametrize("direction", ["maximize", "minimize"])
-def test_study_direction_best_value(client: "Client", direction: str) -> None:
+def test_study_direction_best_value(
+    client: "Client", direction: Literal["minimize", "maximize"]
+) -> None:
     # Regression test for https://github.com/jrbourbeau/dask-optuna/issues/15
     pytest.importorskip("pandas")
     with warnings.catch_warnings():

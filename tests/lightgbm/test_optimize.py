@@ -5,6 +5,7 @@ import contextlib
 import pickle
 from tempfile import TemporaryDirectory
 from typing import Any
+from typing import Literal
 from typing import TYPE_CHECKING
 from unittest import mock
 
@@ -308,7 +309,9 @@ class TestLightGBMTuner:
             (None, "maximize"),  # The default metric is binary_logloss.
         ],
     )
-    def test_inconsistent_study_direction(self, metric: str, study_direction: str) -> None:
+    def test_inconsistent_study_direction(
+        self, metric: str, study_direction: Literal["minimize", "maximize"]
+    ) -> None:
         params: dict[str, Any] = {}
         if metric is not None:
             params["metric"] = metric
@@ -356,7 +359,9 @@ class TestLightGBMTuner:
         "metric, study_direction, expected",
         [("auc", "maximize", -np.inf), ("l2", "minimize", np.inf)],
     )
-    def test_best_score(self, metric: str, study_direction: str, expected: float) -> None:
+    def test_best_score(
+        self, metric: str, study_direction: Literal["minimize", "maximize"], expected: float
+    ) -> None:
         with turnoff_train(metric=metric):
             study = optuna.create_study(direction=study_direction)
             runner = self._get_tuner_object(
@@ -637,7 +642,9 @@ class TestLightGBMTuner:
             assert best_booster.params == best_booster2.params
 
     @pytest.mark.parametrize("direction, overall_best", [("minimize", 1), ("maximize", 2)])
-    def test_create_stepwise_study(self, direction: str, overall_best: int) -> None:
+    def test_create_stepwise_study(
+        self, direction: Literal["minimize", "maximize"], overall_best: int
+    ) -> None:
         dataset = mock.MagicMock(spec="lgb.Dataset")
         tuner = LightGBMTuner({}, dataset, valid_sets=lgb.Dataset(np.zeros((10, 10))))
 
@@ -793,7 +800,9 @@ class TestLightGBMTunerCV:
             (None, "maximize"),  # The default metric is binary_logloss.
         ],
     )
-    def test_inconsistent_study_direction(self, metric: str, study_direction: str) -> None:
+    def test_inconsistent_study_direction(
+        self, metric: str, study_direction: Literal["minimize", "maximize"]
+    ) -> None:
         params: dict[str, Any] = {}
         if metric is not None:
             params["metric"] = metric
