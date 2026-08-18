@@ -281,6 +281,10 @@ class TorchDistributedTrial(optuna.trial.BaseTrial):
         if err is not None:
             raise err
 
+    def set_constraint(self, key: str, value: float) -> None:
+        # TODO(not522): Implement this feature.
+        raise NotImplementedError
+
     @property
     def number(self) -> int:
         return self._number
