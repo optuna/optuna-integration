@@ -1243,17 +1243,20 @@ class BoTorchSampler(BaseSampler):
                     values[trial_idx, obj_idx] = value
 
                 constraints = trial.constraints
-                if len(constraints) != 0:
-                    if constraint_keys is None:
-                        constraint_keys = list(constraints.keys())
+                if constraint_keys is None:
+                    constraint_keys = list(constraints.keys())
+                    if len(constraint_keys) != 0:
                         con = numpy.full(
-                            (len(trials), len(constraint_keys)), numpy.nan, dtype=numpy.float64
+                            (n_completed_trials, len(constraint_keys)),
+                            numpy.nan,
+                            dtype=numpy.float64,
                         )
-                    elif constraints.keys() != set(constraint_keys):
-                        raise RuntimeError(
-                            f"Expected the constraints named {constraint_keys} "
-                            f"but received {list(constraints.keys())}."
-                        )
+                elif constraints.keys() != set(constraint_keys):
+                    raise RuntimeError(
+                        f"Expected the constraints named {constraint_keys} "
+                        f"but received {list(constraints.keys())}."
+                    )
+                if con is not None:
                     assert isinstance(con, numpy.ndarray)
                     con[trial_idx] = [constraints[key] for key in constraint_keys]
             elif trial.state == TrialState.RUNNING:
@@ -1264,18 +1267,11 @@ class BoTorchSampler(BaseSampler):
             else:
                 assert False, "trail.state must be TrialState.COMPLETE or TrialState.RUNNING."
 
-        if con is None:
-            if self._constraints_func is not None:
-                warnings.warn(
-                    "`constraints_func` was given but no call to it correctly computed "
-                    "constraints. Constraints passed to `candidates_func` will be `None`."
-                )
-        else:
-            if numpy.isnan(con).any():
-                warnings.warn(
-                    "Some constraints are not set correctly. Constraints passed to "
-                    "`candidates_func` will contain NaN."
-                )
+        if self._constraints_func is not None and con is None:
+            warnings.warn(
+                "`constraints_func` was given but no call to it correctly computed "
+                "constraints. Constraints passed to `candidates_func` will be `None`."
+            )
 
         values = torch.from_numpy(values).to(self._device)
         params = torch.from_numpy(params).to(self._device)
