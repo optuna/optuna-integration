@@ -1242,6 +1242,8 @@ class BoTorchSampler(BaseSampler):
                         value *= -1
                     values[trial_idx, obj_idx] = value
 
+                if not hasattr(trial, "constraints"):
+                    raise RuntimeError("BoTorchSampler requires Optuna v5.0.0 or newer.")
                 constraints = trial.constraints
                 if constraint_keys is None:
                     constraint_keys = list(constraints.keys())
