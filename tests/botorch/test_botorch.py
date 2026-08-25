@@ -408,7 +408,7 @@ def test_botorch_constraints_func_raises() -> None:
         assert sys_con == expected_sys_con
 
 
-def test_botorch_constraints_func_nan_warning() -> None:
+def test_botorch_constraints_func_missing_constraints() -> None:
     def constraints_func(trial: FrozenTrial) -> Sequence[float]:
         if trial.number == 1:
             raise RuntimeError
@@ -429,10 +429,6 @@ def test_botorch_constraints_func_nan_warning() -> None:
 
         if trial_number > 0:
             assert not train_con[0, :].isnan().any()
-        if trial_number > 1:
-            assert train_con[1, :].isnan().all()
-        if trial_number > 2:
-            assert not train_con[2, :].isnan().any()
 
         nonlocal last_trial_number_candidates_func
         last_trial_number_candidates_func = trial_number
@@ -454,13 +450,13 @@ def test_botorch_constraints_func_nan_warning() -> None:
 
     assert len(study.trials) == 2
 
-    # Warns when `train_con` contains NaN.
-    with pytest.warns(UserWarning):
+    # Raises since the trial without constraints is inconsistent with the other trials.
+    with pytest.raises(RuntimeError):
         study.optimize(lambda t: t.suggest_float("x0", 0, 1), n_trials=2)
 
-    assert len(study.trials) == 4
+    assert len(study.trials) == 3
 
-    assert last_trial_number_candidates_func == study.trials[-1].number
+    assert last_trial_number_candidates_func == 1
 
 
 def test_botorch_constraints_func_none_warning() -> None:
@@ -525,10 +521,6 @@ def test_botorch_constraints_func_late() -> None:
 
         if trial_number < 3:
             assert train_con is None
-        if trial_number == 3:
-            assert train_con is not None
-            assert train_con[:2, :].isnan().all()
-            assert not train_con[2, :].isnan().any()
 
         nonlocal last_trial_number_candidates_func
         last_trial_number_candidates_func = trial_number
@@ -557,14 +549,14 @@ def test_botorch_constraints_func_late() -> None:
 
     study.sampler = sampler
 
-    # Warns when `train_con` contains NaN. Should not raise but will with NaN for previous trials
-    # that were not computed with constraints.
-    with pytest.warns(UserWarning):
+    # Warns since the previous trials have no constraints, then raises when a trial with
+    # constraints becomes inconsistent with them.
+    with pytest.warns(UserWarning), pytest.raises(RuntimeError):
         study.optimize(lambda t: t.suggest_float("x0", 0, 1), n_trials=2)
 
     assert len(study.trials) == 4
 
-    assert last_trial_number_candidates_func == study.trials[-1].number
+    assert last_trial_number_candidates_func == 2
 
 
 def test_botorch_n_startup_trials() -> None:

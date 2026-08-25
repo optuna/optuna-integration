@@ -9,6 +9,7 @@ import warnings
 
 import numpy
 from optuna import logging
+from optuna._deprecated import _DEPRECATION_WARNING_TEMPLATE
 from optuna._experimental import experimental_class
 from optuna._experimental import experimental_func
 from optuna._imports import try_import
@@ -1084,9 +1085,8 @@ class BoTorchSampler(BaseSampler):
             An optional function that suggests the next candidates. It must take the training
             data, the objectives, the constraints, the search space bounds and return the next
             candidates. The arguments are of type :class:`torch.Tensor`. The return value must be a
-            :class:`torch.Tensor`. However, if ``constraints_func`` is omitted, constraints will be
-            :obj:`None`. For any constraints that failed to compute, the tensor will contain
-            NaN.
+            :class:`torch.Tensor`. However, if no constraint is set by
+            :meth:`~optuna.trial.Trial.set_constraint`, constraints will be :obj:`None`.
 
             If omitted, it is determined automatically based on the number of objectives and
             whether a constraint is specified. If the
@@ -1109,8 +1109,10 @@ class BoTorchSampler(BaseSampler):
             be a sequence of :obj:`float` s. A value strictly larger than 0 means that a
             constraint is violated. A value equal to or smaller than 0 is considered feasible.
 
-            If omitted, no constraints will be passed to ``candidates_func`` nor taken into
-            account during suggestion.
+            .. warning::
+                Deprecated in v5.0.0. This feature will be removed in the future. The removal of
+                this feature is currently scheduled for v7.0.0, but this schedule is subject to
+                change. Use :meth:`~optuna.trial.Trial.set_constraint` instead.
         n_startup_trials:
             Number of initial trials, that is the number of trials to resort to independent
             sampling.
@@ -1155,6 +1157,12 @@ class BoTorchSampler(BaseSampler):
         device: "torch.device" | None = None,
     ):
         _imports.check()
+
+        if constraints_func is not None:
+            msg = _DEPRECATION_WARNING_TEMPLATE.format(
+                name="`constraints_func`", d_ver="5.0.0", r_ver="7.0.0"
+            )
+            warnings.warn(f"{msg} Use `optuna.trial.Trial.set_constraint` instead.", FutureWarning)
 
         self._candidates_func = candidates_func
         self._constraints_func = constraints_func
@@ -1218,6 +1226,7 @@ class BoTorchSampler(BaseSampler):
             (n_trials, n_objectives), dtype=numpy.float64
         )
         params: numpy.ndarray | torch.Tensor
+        constraint_keys: list[str] | None = None
         con: numpy.ndarray | torch.Tensor | None = None
         bounds: numpy.ndarray | torch.Tensor = trans.bounds
         params = numpy.empty((n_trials, trans.bounds.shape[0]), dtype=numpy.float64)
@@ -1232,23 +1241,26 @@ class BoTorchSampler(BaseSampler):
                     ):  # BoTorch always assumes maximization.
                         value *= -1
                     values[trial_idx, obj_idx] = value
-                if self._constraints_func is not None:
-                    constraints = study._storage.get_trial_system_attrs(trial._trial_id).get(
-                        _CONSTRAINTS_KEY
-                    )
-                    if constraints is not None:
-                        n_constraints = len(constraints)
 
-                        if con is None:
-                            con = numpy.full(
-                                (n_completed_trials, n_constraints), numpy.nan, dtype=numpy.float64
-                            )
-                        elif n_constraints != con.shape[1]:
-                            raise RuntimeError(
-                                f"Expected {con.shape[1]} constraints "
-                                f"but received {n_constraints}."
-                            )
-                        con[trial_idx] = constraints
+                if not hasattr(trial, "constraints"):
+                    raise RuntimeError("BoTorchSampler requires Optuna v5.0.0 or newer.")
+                constraints = trial.constraints
+                if constraint_keys is None:
+                    constraint_keys = list(constraints.keys())
+                    if len(constraint_keys) != 0:
+                        con = numpy.full(
+                            (n_completed_trials, len(constraint_keys)),
+                            numpy.nan,
+                            dtype=numpy.float64,
+                        )
+                elif constraints.keys() != set(constraint_keys):
+                    raise RuntimeError(
+                        f"Expected the constraints named {constraint_keys} "
+                        f"but received {list(constraints.keys())}."
+                    )
+                if con is not None:
+                    assert isinstance(con, numpy.ndarray)
+                    con[trial_idx] = [constraints[key] for key in constraint_keys]
             elif trial.state == TrialState.RUNNING:
                 if all(p in trial.params for p in search_space):
                     params[trial_idx] = trans.transform(trial.params)
@@ -1257,17 +1269,11 @@ class BoTorchSampler(BaseSampler):
             else:
                 assert False, "trail.state must be TrialState.COMPLETE or TrialState.RUNNING."
 
-        if self._constraints_func is not None:
-            if con is None:
-                warnings.warn(
-                    "`constraints_func` was given but no call to it correctly computed "
-                    "constraints. Constraints passed to `candidates_func` will be `None`."
-                )
-            elif numpy.isnan(con).any():
-                warnings.warn(
-                    "`constraints_func` was given but some calls to it did not correctly compute "
-                    "constraints. Constraints passed to `candidates_func` will contain NaN."
-                )
+        if self._constraints_func is not None and con is None:
+            warnings.warn(
+                "`constraints_func` was given but no call to it correctly computed "
+                "constraints. Constraints passed to `candidates_func` will be `None`."
+            )
 
         values = torch.from_numpy(values).to(self._device)
         params = torch.from_numpy(params).to(self._device)
