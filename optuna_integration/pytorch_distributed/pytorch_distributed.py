@@ -261,26 +261,6 @@ class TorchDistributedTrial(optuna.trial.BaseTrial):
         if err is not None:
             raise err
 
-    @broadcast_properties
-    @deprecated_func("3.1.0", "5.0.0")
-    def set_system_attr(self, key: str, value: Any) -> None:
-        err = None
-
-        if dist.get_rank(self._group) == 0:
-            try:
-                assert self._delegate is not None
-                self._delegate.storage.set_trial_system_attr(  # type: ignore[attr-defined]
-                    self._delegate._trial_id, key, value  # type: ignore[attr-defined]
-                )
-            except Exception as e:
-                err = e
-            err = self._broadcast(err)
-        else:
-            err = self._broadcast(err)
-
-        if err is not None:
-            raise err
-
     def set_constraint(self, key: str, value: float) -> None:
         # TODO(not522): Implement this feature.
         raise NotImplementedError
@@ -300,11 +280,6 @@ class TorchDistributedTrial(optuna.trial.BaseTrial):
     @property
     def user_attrs(self) -> dict[str, Any]:
         return self._user_attrs
-
-    @property
-    @deprecated_func("3.1.0", "5.0.0")
-    def system_attrs(self) -> dict[str, Any]:
-        return self._system_attrs
 
     @property
     def datetime_start(self) -> datetime | None:
