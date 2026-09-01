@@ -57,7 +57,6 @@ def broadcast_properties(f: "Callable[_P, _T]") -> "Callable[_P, _T]":
                 self._delegate.params,
                 self._delegate.distributions,
                 self._delegate.user_attrs,
-                self._delegate.system_attrs,
                 self._delegate.constraints,
                 self._delegate.datetime_start,
             )
@@ -70,7 +69,6 @@ def broadcast_properties(f: "Callable[_P, _T]") -> "Callable[_P, _T]":
                 self._params,
                 self._distributions,
                 self._user_attrs,
-                self._system_attrs,
                 self._constraints,
                 self._datetime_start,
             ) = self._call_and_communicate_obj(fetch_properties)
@@ -151,7 +149,6 @@ class TorchDistributedTrial(optuna.trial.BaseTrial):
         self._params = self._broadcast(getattr(self._delegate, "params", None))
         self._distributions = self._broadcast(getattr(self._delegate, "distributions", None))
         self._user_attrs = self._broadcast(getattr(self._delegate, "user_attrs", None))
-        self._system_attrs = self._broadcast(getattr(self._delegate, "system_attrs", None))
         self._constraints = self._broadcast(getattr(self._delegate, "constraints", None))
         self._datetime_start = self._broadcast(getattr(self._delegate, "datetime_start", None))
 
