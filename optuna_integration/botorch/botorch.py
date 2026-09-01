@@ -1,5 +1,3 @@
-# flake8: noqa
-
 from __future__ import annotations
 
 from collections.abc import Callable
@@ -21,7 +19,6 @@ from optuna.samplers._base import _process_constraints_after_trial
 from optuna.search_space import IntersectionSearchSpace
 from optuna.study import Study
 from optuna.study import StudyDirection
-from optuna.study._constrained_optimization import _CONSTRAINTS_KEY
 from optuna.trial import FrozenTrial
 from optuna.trial import TrialState
 from packaging import version
