@@ -248,6 +248,37 @@ def test_user_attrs_with_exception() -> None:
 
 @pytest.mark.filterwarnings("ignore::optuna.exceptions.ExperimentalWarning")
 @pytest.mark.parametrize("storage_mode", STORAGE_MODES)
+def test_constraints(storage_mode: str) -> None:
+    with StorageSupplier(storage_mode) as storage:
+        if dist.get_rank() == 0:
+            study = optuna.create_study(storage=storage)
+            trial = TorchDistributedTrial(study.ask())
+        else:
+            trial = TorchDistributedTrial(None)
+
+        assert trial.constraints == {}
+
+        trial.set_constraint("c0", 1.0)
+        trial.set_constraint("c1", -1.0)
+
+        assert trial.constraints == {"c0": 1.0, "c1": -1.0}
+
+
+@pytest.mark.filterwarnings("ignore::optuna.exceptions.ExperimentalWarning")
+def test_constraints_with_exception() -> None:
+    with StorageSupplier("sqlite") as storage:
+        if dist.get_rank() == 0:
+            study = optuna.create_study(storage=storage)
+            trial = TorchDistributedTrial(study.ask())
+        else:
+            trial = TorchDistributedTrial(None)
+
+        with pytest.raises(ValueError):
+            trial.set_constraint("c", float("nan"))
+
+
+@pytest.mark.filterwarnings("ignore::optuna.exceptions.ExperimentalWarning")
+@pytest.mark.parametrize("storage_mode", STORAGE_MODES)
 def test_number(storage_mode: str) -> None:
     with StorageSupplier(storage_mode) as storage:
         if dist.get_rank() == 0:
