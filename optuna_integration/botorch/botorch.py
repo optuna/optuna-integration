@@ -30,7 +30,9 @@ with try_import() as _imports:
     from botorch.acquisition.monte_carlo import qNoisyExpectedImprovement
     from botorch.acquisition.multi_objective import monte_carlo
     from botorch.acquisition.multi_objective.analytic import ExpectedHypervolumeImprovement
-    from botorch.acquisition.multi_objective.objective import FeasibilityWeightedMCMultiOutputObjective
+    from botorch.acquisition.multi_objective.objective import (  # noqa: H301
+        FeasibilityWeightedMCMultiOutputObjective,
+    )
     from botorch.acquisition.multi_objective.objective import IdentityMCMultiOutputObjective
     from botorch.acquisition.objective import ConstrainedMCObjective
     from botorch.acquisition.objective import GenericMCObjective
@@ -80,9 +82,10 @@ with try_import() as _imports_qloghvi:
     from botorch.acquisition.multi_objective.logei import qLogNoisyExpectedHypervolumeImprovement
 
 with try_import() as _imports_qhvkg:
-    from botorch.acquisition.multi_objective.hypervolume_knowledge_gradient import (
-        qHypervolumeKnowledgeGradient
+    from botorch.acquisition.multi_objective.hypervolume_knowledge_gradient import (  # noqa: H301
+        qHypervolumeKnowledgeGradient,
     )
+
 
 def _validate_botorch_version_for_constrained_opt(func_name: str) -> None:
     if version.parse(botorch.version.version) < version.parse("0.9.0"):
