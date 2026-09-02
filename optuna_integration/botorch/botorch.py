@@ -30,9 +30,7 @@ with try_import() as _imports:
     from botorch.acquisition.monte_carlo import qNoisyExpectedImprovement
     from botorch.acquisition.multi_objective import monte_carlo
     from botorch.acquisition.multi_objective.analytic import ExpectedHypervolumeImprovement
-    from botorch.acquisition.multi_objective.objective import (  # noqa: H301
-        FeasibilityWeightedMCMultiOutputObjective,
-    )
+    from botorch.acquisition.multi_objective import objective as multi_objective_objective
     from botorch.acquisition.multi_objective.objective import IdentityMCMultiOutputObjective
     from botorch.acquisition.objective import ConstrainedMCObjective
     from botorch.acquisition.objective import GenericMCObjective
@@ -82,9 +80,7 @@ with try_import() as _imports_qloghvi:
     from botorch.acquisition.multi_objective.logei import qLogNoisyExpectedHypervolumeImprovement
 
 with try_import() as _imports_qhvkg:
-    from botorch.acquisition.multi_objective.hypervolume_knowledge_gradient import (  # noqa: H301
-        qHypervolumeKnowledgeGradient,
-    )
+    from botorch.acquisition.multi_objective import hypervolume_knowledge_gradient
 
 
 def _validate_botorch_version_for_constrained_opt(func_name: str) -> None:
@@ -990,7 +986,7 @@ def qhvkg_candidates_func(
     fit_gpytorch_mll(mll)
 
     n_constraints = train_con.size(1) if train_con is not None else 0
-    objective = FeasibilityWeightedMCMultiOutputObjective(
+    objective = multi_objective_objective.FeasibilityWeightedMCMultiOutputObjective(
         model,
         X_baseline=train_x,
         constraint_idcs=[-n_constraints + i for i in range(n_constraints)],
@@ -998,7 +994,7 @@ def qhvkg_candidates_func(
 
     ref_point = train_obj.min(dim=0).values - 1e-8
 
-    acqf = qHypervolumeKnowledgeGradient(
+    acqf = hypervolume_knowledge_gradient.qHypervolumeKnowledgeGradient(
         model=model,
         ref_point=ref_point,
         num_fantasies=16,
