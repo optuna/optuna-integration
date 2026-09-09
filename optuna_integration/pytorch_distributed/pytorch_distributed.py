@@ -5,6 +5,7 @@ from collections.abc import Sequence
 from datetime import datetime
 import functools
 from typing import Any
+from typing import cast
 from typing import overload
 from typing import TYPE_CHECKING
 from typing import TypeVar
@@ -125,7 +126,7 @@ class TorchDistributedTrial(optuna.trial.BaseTrial):
                     raise RuntimeError("torch distributed is not initialized.")
                 default_pg: "ProcessGroup" = dist.group.WORLD
                 if dist.get_backend(default_pg) == "nccl":
-                    new_group: "ProcessGroup" = dist.new_group(backend="gloo")
+                    new_group = cast("ProcessGroup", dist.new_group(backend="gloo"))
                     _g_pg = new_group
                 else:
                     _g_pg = default_pg
