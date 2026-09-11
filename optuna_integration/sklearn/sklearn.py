@@ -355,11 +355,19 @@ class _Objective:
     ) -> list[Number]:
         X_train, y_train = _safe_split(estimator, self.X, self.y, train)
         X_test, y_test = _safe_split(estimator, self.X, self.y, test, train_indices=train)
+        fit_params = _check_fit_params(
+            self.X,
+            {key: value for key, value in partial_fit_params.items() if key != "classes"},
+            train,
+        )
+        # Classes describe the full target space, not individual samples.
+        if "classes" in partial_fit_params:
+            fit_params["classes"] = partial_fit_params["classes"]
 
         start_time = time()
 
         try:
-            estimator.partial_fit(X_train, y_train, **partial_fit_params)
+            estimator.partial_fit(X_train, y_train, **fit_params)
 
         except Exception as e:
             if self.error_score == "raise":
