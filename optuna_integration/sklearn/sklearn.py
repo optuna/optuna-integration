@@ -311,8 +311,10 @@ class _Objective:
         if self.return_train_score:
             scores["train_score"] = np.empty(n_splits)
 
+        # Each estimator must keep the same training and validation samples across epochs.
+        splits = list(self.cv.split(self.X, self.y, groups=self.groups))
         for step in range(self.max_iter):
-            for i, (train, test) in enumerate(self.cv.split(self.X, self.y, groups=self.groups)):
+            for i, (train, test) in enumerate(splits):
                 out = list(
                     np.asarray(
                         self._partial_fit_and_score(

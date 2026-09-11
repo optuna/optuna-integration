@@ -26,9 +26,46 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import SGDClassifier
 from sklearn.metrics import make_scorer
 from sklearn.metrics import r2_score
+from sklearn.model_selection import KFold
 from sklearn.model_selection import PredefinedSplit
 from sklearn.neighbors import KernelDensity
 from sklearn.tree import DecisionTreeRegressor
+
+
+def test_pruning_keeps_validation_samples_out_of_training() -> None:
+    class TrackingClassifier(SGDClassifier):
+        def partial_fit(
+            self, X: np.ndarray, y: np.ndarray, classes: np.ndarray | None = None
+        ) -> TrackingClassifier:
+            super().partial_fit(X, y, classes=classes)
+            self.seen_samples_ = getattr(self, "seen_samples_", set()) | set(X[:, 0])
+            return self
+
+    def score(estimator: TrackingClassifier, X: np.ndarray, y: np.ndarray) -> float:
+        assert estimator.seen_samples_.isdisjoint(X[:, 0])
+        return float(estimator.score(X, y))
+
+    X = np.arange(30).reshape(-1, 1)
+    y = np.arange(30) % 2
+    cv = KFold(3, shuffle=True, random_state=np.random.RandomState(0))
+    with pytest.warns(ExperimentalWarning):
+        search = OptunaSearchCV(
+            TrackingClassifier(random_state=0),
+            {},
+            cv=cv,
+            enable_pruning=True,
+            error_score="raise",
+            max_iter=3,
+            n_trials=2,
+            random_state=0,
+            refit=False,
+            scoring=score,
+        )
+
+    search.fit(X, y)
+
+    assert np.isfinite(search.best_score_)
+    assert len(search.trials_) == 2
 
 
 def test_is_arraylike() -> None:
