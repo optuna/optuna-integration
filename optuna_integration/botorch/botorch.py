@@ -746,7 +746,9 @@ def qparego_candidates_func(
 
     n_objectives = train_obj.size(-1)
 
-    weights = sample_simplex(n_objectives).squeeze()
+    weights = sample_simplex(
+        n_objectives, device=train_obj.device, dtype=train_obj.dtype
+    ).squeeze()
     scalarization = get_chebyshev_scalarization(weights=weights, Y=train_obj)
 
     if train_con is not None:
