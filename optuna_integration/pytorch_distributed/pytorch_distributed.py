@@ -305,15 +305,31 @@ class TorchDistributedTrial(optuna.trial.BaseTrial):
     def _call_and_communicate(self, func: Callable, dtype: "torch.dtype") -> Any:
         buffer = torch.empty(1, dtype=dtype)
         rank = dist.get_rank(self._group)
+        err = None
         if rank == 0:
-            result = func()
-            buffer[0] = result
+            try:
+                result = func()
+                buffer[0] = result
+            except Exception as e:
+                err = e
+        err = self._broadcast(err)
+        if err is not None:
+            raise err
         dist.broadcast(buffer, src=0, group=self._group)
         return buffer.item()
 
     def _call_and_communicate_obj(self, func: Callable) -> Any:
         rank = dist.get_rank(self._group)
-        result = func() if rank == 0 else None
+        result = None
+        err = None
+        if rank == 0:
+            try:
+                result = func()
+            except Exception as e:
+                err = e
+        err = self._broadcast(err)
+        if err is not None:
+            raise err
         return self._broadcast(result)
 
     def _broadcast(self, value: Any | None) -> Any:
