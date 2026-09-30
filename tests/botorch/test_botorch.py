@@ -8,7 +8,6 @@ import warnings
 
 import optuna
 from optuna._imports import try_import
-from optuna.distributions import BaseDistribution
 from optuna.samplers import BaseSampler
 from optuna.samplers import RandomSampler
 from optuna.storages import RDBStorage
@@ -760,26 +759,3 @@ class TestBoTorchSampler(
                 return BoTorchSampler(n_startup_trials=0)
 
         return factory
-
-    @pytest.mark.skip(
-        "BoTorchSampler can return a value slightly below the lower bound for log-float "
-        "distributions."
-    )
-    def test_sample_relative_numerical(
-        self,
-        sampler: Callable[[], BaseSampler],
-        x_distribution: BaseDistribution,
-        y_distribution: BaseDistribution,
-    ) -> None:
-        pass
-
-    @pytest.mark.skip(
-        "BoTorchSampler can return a value slightly below the lower bound for log-float "
-        "distributions."
-    )
-    def test_sample_relative_mixed(
-        self,
-        sampler: Callable[[], BaseSampler],
-        x_distribution: BaseDistribution,
-    ) -> None:
-        pass
