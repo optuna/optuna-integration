@@ -8,7 +8,6 @@ import warnings
 
 import optuna
 from optuna._imports import try_import
-from optuna.distributions import BaseDistribution
 from optuna.samplers import BaseSampler
 from optuna.samplers import RandomSampler
 from optuna.storages import RDBStorage
