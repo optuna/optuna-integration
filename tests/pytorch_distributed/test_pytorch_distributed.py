@@ -234,6 +234,32 @@ def test_user_attrs(storage_mode: str) -> None:
 
 
 @pytest.mark.filterwarnings("ignore::optuna.exceptions.ExperimentalWarning")
+def test_suggest_float_with_exception() -> None:
+    with StorageSupplier("sqlite") as storage:
+        if dist.get_rank() == 0:
+            study = optuna.create_study(storage=storage)
+            trial = TorchDistributedTrial(study.ask())
+        else:
+            trial = TorchDistributedTrial(None)
+
+        with pytest.raises(ValueError, match="low <= high"):
+            trial.suggest_float("x", 1.0, 0.0)
+
+
+@pytest.mark.filterwarnings("ignore::optuna.exceptions.ExperimentalWarning")
+def test_suggest_categorical_with_exception() -> None:
+    with StorageSupplier("sqlite") as storage:
+        if dist.get_rank() == 0:
+            study = optuna.create_study(storage=storage)
+            trial = TorchDistributedTrial(study.ask())
+        else:
+            trial = TorchDistributedTrial(None)
+
+        with pytest.raises(ValueError, match="choices"):
+            trial.suggest_categorical("x", [])
+
+
+@pytest.mark.filterwarnings("ignore::optuna.exceptions.ExperimentalWarning")
 def test_user_attrs_with_exception() -> None:
     with StorageSupplier("sqlite") as storage:
         if dist.get_rank() == 0:
