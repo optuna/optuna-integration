@@ -11,6 +11,7 @@ from optuna.exceptions import ExperimentalWarning
 from optuna.samplers import BruteForceSampler
 from optuna.study import create_study
 from optuna.terminator.erroreval import _CROSS_VALIDATION_SCORES_KEY
+from optuna.trial import TrialState
 import pytest
 import scipy as sp
 
@@ -370,6 +371,34 @@ def test_objective_y_None() -> None:
 
     with pytest.raises(ValueError):
         optuna_search.fit(X)
+
+
+@pytest.mark.parametrize("enable_pruning", [True, False])
+@pytest.mark.parametrize("catch", [(ValueError,), ()])
+def test_objective_error_score_raise(
+    enable_pruning: bool, catch: tuple[type[Exception], ...]
+) -> None:
+    X = np.arange(24).reshape(12, 2)
+    y = np.arange(12) % 2
+    with pytest.warns(ExperimentalWarning):
+        optuna_search = OptunaSearchCV(
+            SGDClassifier(alpha=-1.0),
+            {},
+            cv=2,
+            enable_pruning=enable_pruning,
+            error_score="raise",
+            n_trials=2,
+            refit=False,
+            catch=catch,
+        )
+
+    if catch:
+        optuna_search.fit(X, y)
+        assert len(optuna_search.trials_) == 2
+        assert all(trial.state == TrialState.FAIL for trial in optuna_search.trials_)
+    else:
+        with pytest.raises(ValueError, match="alpha"):
+            optuna_search.fit(X, y)
 
 
 @pytest.mark.filterwarnings("ignore::RuntimeWarning")
