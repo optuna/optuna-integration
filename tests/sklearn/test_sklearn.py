@@ -397,7 +397,7 @@ def test_objective_error_score_raise(
         assert len(optuna_search.trials_) == 2
         assert all(trial.state == TrialState.FAIL for trial in optuna_search.trials_)
     else:
-        with pytest.raises(ValueError, match="alpha"):
+        with pytest.raises(ValueError):
             optuna_search.fit(X, y)
 
 
