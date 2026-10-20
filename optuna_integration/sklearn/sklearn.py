@@ -254,6 +254,9 @@ class _Objective:
                         scoring=self.scoring,
                     )
             except ValueError:
+                if self.error_score == "raise":
+                    raise
+
                 n_splits = self.cv.get_n_splits(self.X, self.y, self.groups)
                 fit_time = np.array([np.nan] * n_splits)
                 score_time = np.array([np.nan] * n_splits)
