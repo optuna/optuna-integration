@@ -196,6 +196,55 @@ def test_optuna_search_properties() -> None:
     assert isinstance(optuna_search.predict_proba(X), np.ndarray)
 
 
+@pytest.mark.parametrize("enable_pruning", [False, True])
+@pytest.mark.parametrize("alphas", [[0.01, -1.0], [-1.0, 0.01]])
+def test_cv_results_with_failed_trials(enable_pruning: bool, alphas: list[float]) -> None:
+    X, y = make_blobs(n_samples=20, centers=2, random_state=0)
+    study = create_study(direction="maximize")
+    for alpha in alphas:
+        study.enqueue_trial({"alpha": alpha})
+
+    with pytest.warns(ExperimentalWarning):
+        search = OptunaSearchCV(
+            SGDClassifier(max_iter=2, tol=None, random_state=0),
+            {"alpha": distributions.FloatDistribution(-1.0, 0.01)},
+            study=study,
+            cv=2,
+            enable_pruning=enable_pruning,
+            max_iter=2,
+            n_trials=2,
+            error_score="raise",
+            catch=(ValueError,),
+            refit=False,
+            return_train_score=True,
+        )
+
+    search.fit(X, y)
+
+    trials = search.trials_
+    assert {trial.state for trial in trials} == {TrialState.COMPLETE, TrialState.FAIL}
+    results = search.cv_results_
+    np.testing.assert_allclose(
+        results["mean_test_score"],
+        [trial.value if trial.value is not None else np.nan for trial in trials],
+    )
+    for key in ("mean_train_score", "split0_test_score", "mean_fit_time"):
+        np.testing.assert_allclose(
+            results[key], [trial.user_attrs.get(key, np.nan) for trial in trials]
+        )
+    assert all(len(values) == len(trials) for values in results.values())
+
+
+def test_cv_results_without_trials() -> None:
+    X, y = make_blobs(n_samples=20, centers=2, random_state=0)
+    with pytest.warns(ExperimentalWarning):
+        search = OptunaSearchCV(SGDClassifier(), {}, n_trials=0, refit=False)
+
+    search.fit(X, y)
+
+    assert search.cv_results_ == {}
+
+
 @pytest.mark.filterwarnings("ignore::UserWarning")
 def test_optuna_search_score_samples() -> None:
     X, y = make_blobs(n_samples=10)
@@ -602,6 +651,7 @@ def test_catch(catch: tuple) -> None:
     if catch:
         optuna_search.fit(X, y)
         assert optuna_search.n_trials_ == 3
+        assert optuna_search.cv_results_ == {}
     else:
         with pytest.raises(ValueError):
             optuna_search.fit(X, y)
