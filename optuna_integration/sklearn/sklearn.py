@@ -620,17 +620,14 @@ class OptunaSearchCV(BaseEstimator):
 
     @property
     def cv_results_(self) -> dict[str, Any]:
-        """A dictionary mapping a metric name to a list of Cross-Validation results of all trials."""  # NOQA: E501
+        """A dictionary mapping a metric name to Cross-Validation results in trial order.
+
+        Includes names recorded in any trial. Missing values are filled with ``NaN``.
+        """
 
         cv_results_dict_in_list = [trial_.user_attrs for trial_ in self.trials_]
-        if len(cv_results_dict_in_list) == 0:
-            cv_results_list_in_dict = {}
-        else:
-            cv_results_list_in_dict = {
-                key: [dict_[key] for dict_ in cv_results_dict_in_list]
-                for key in cv_results_dict_in_list[0]
-            }
-        return cv_results_list_in_dict
+        keys = dict.fromkeys(key for dict_ in cv_results_dict_in_list for key in dict_)
+        return {key: [dict_.get(key, np.nan) for dict_ in cv_results_dict_in_list] for key in keys}
 
     @property
     def n_trials_(self) -> int:
