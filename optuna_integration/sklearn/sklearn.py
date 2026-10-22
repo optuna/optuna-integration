@@ -931,6 +931,9 @@ class OptunaSearchCV(BaseEstimator):
 
         if fit_params_res is not None:
             fit_params_res = _check_fit_params(X, fit_params, self.sample_indices_)
+            # Classes describe the full target space, not individual samples.
+            if self.enable_pruning and "classes" in fit_params:
+                fit_params_res["classes"] = fit_params["classes"]
 
         classifier = is_classifier(self.estimator)
         cv = check_cv(self.cv, y_res, classifier=classifier)
