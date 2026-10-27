@@ -10,6 +10,7 @@ from logging import WARNING
 from numbers import Integral
 from numbers import Number
 from time import time
+from traceback import format_exc
 from typing import Any
 from typing import List
 from typing import Union
@@ -157,9 +158,10 @@ class _Objective:
             underlying estimator supports ``partial_fit``.
 
         error_score:
-            Value to assign to the score if an error occurs in fitting. If
+            Value to assign to the score if an error occurs in fitting or scoring. If
             ``"raise"``, the error is raised. If numeric,
-            :class:`sklearn.exceptions.FitFailedWarning` is raised. This does not
+            :class:`sklearn.exceptions.FitFailedWarning` is raised for fitting errors
+            and :class:`UserWarning` for scoring errors. This does not
             affect the refit step, which will always raise the error.
 
         fit_params:
@@ -391,11 +393,11 @@ class _Objective:
 
         else:
             fit_time = time() - start_time
-            test_score = self.scoring(estimator, X_test, y_test)
+            test_score = self._score(estimator, X_test, y_test)
             score_time = time() - fit_time - start_time
 
             if self.return_train_score:
-                train_score = self.scoring(estimator, X_train, y_train)
+                train_score = self._score(estimator, X_train, y_train)
 
         # Required for type checking but is never expected to fail.
         assert isinstance(fit_time, Number)
@@ -407,6 +409,25 @@ class _Objective:
             ret.insert(0, train_score)
 
         return ret
+
+    def _score(
+        self,
+        estimator: "sklearn.base.BaseEstimator",
+        X: TwoDimArrayLikeType,
+        y: OneDimArrayLikeType | TwoDimArrayLikeType | None,
+    ) -> Number:
+        try:
+            return self.scoring(estimator, X, y)
+        except Exception:
+            if self.error_score == "raise":
+                raise
+            if not isinstance(self.error_score, Number):
+                raise ValueError("error_score must be 'raise' or numeric.")
+            warnings.warn(
+                "Scoring failed. The score on this train-test partition will be set to "
+                "{}. Details: \n{}".format(self.error_score, format_exc())
+            )
+            return self.error_score
 
     def _store_scores(self, trial: Trial, scores: Mapping[str, OneDimArrayLikeType]) -> None:
         for name, array in scores.items():
@@ -451,9 +472,10 @@ class OptunaSearchCV(BaseEstimator):
             underlying estimator supports ``partial_fit``.
 
         error_score:
-            Value to assign to the score if an error occurs in fitting. If
+            Value to assign to the score if an error occurs in fitting or scoring. If
             ``"raise"``, the error is raised. If numeric,
-            :class:`sklearn.exceptions.FitFailedWarning` is raised. This does not
+            :class:`sklearn.exceptions.FitFailedWarning` is raised for fitting errors
+            and :class:`UserWarning` for scoring errors. This does not
             affect the refit step, which will always raise the error.
 
         max_iter:
