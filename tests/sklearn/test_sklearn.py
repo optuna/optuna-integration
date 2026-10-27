@@ -167,6 +167,47 @@ def test_optuna_search_pruning_sample_weight(n_classes: int, subsample: float) -
     assert sample_weight == list(range(1, 13))
 
 
+@pytest.mark.parametrize("n_classes", [3, 12])
+@pytest.mark.parametrize("subsample", [1.0, 0.75])
+def test_optuna_search_pruning_explicit_classes(n_classes: int, subsample: float) -> None:
+    class ExplicitClassesClassifier(SGDClassifier):
+        def partial_fit(
+            self,
+            X: np.ndarray,
+            y: np.ndarray,
+            classes: np.ndarray | None = None,
+            sample_weight: Any = None,
+        ) -> ExplicitClassesClassifier:
+            super().partial_fit(X, y, classes=classes, sample_weight=sample_weight)
+            np.testing.assert_array_equal(self.classes_, classes_all)
+            np.testing.assert_array_equal(sample_weight, X[:, 0] + 1)
+            return self
+
+    X = np.arange(12).reshape(-1, 1)
+    y = np.arange(12) % 2
+    classes_all = np.arange(n_classes)
+    sample_weight = list(range(1, 13))
+    with pytest.warns(ExperimentalWarning):
+        search = OptunaSearchCV(
+            ExplicitClassesClassifier(random_state=0),
+            {},
+            cv=KFold(3),
+            enable_pruning=True,
+            error_score="raise",
+            max_iter=2,
+            n_trials=1,
+            random_state=0,
+            refit=False,
+            subsample=subsample,
+        )
+
+    search.fit(X, y, classes=classes_all, sample_weight=sample_weight)
+
+    assert np.isfinite(search.best_score_)
+    np.testing.assert_array_equal(classes_all, np.arange(n_classes))
+    assert sample_weight == list(range(1, 13))
+
+
 @pytest.mark.filterwarnings("ignore::UserWarning")
 def test_optuna_search_properties() -> None:
     X, y = make_blobs(n_samples=10)
