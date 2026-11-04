@@ -8,9 +8,12 @@ import warnings
 import numpy as np
 from optuna import distributions
 from optuna.exceptions import ExperimentalWarning
+from optuna.pruners import ThresholdPruner
 from optuna.samplers import BruteForceSampler
 from optuna.study import create_study
+from optuna.study import Study
 from optuna.terminator.erroreval import _CROSS_VALIDATION_SCORES_KEY
+from optuna.trial import FrozenTrial
 from optuna.trial import TrialState
 import pytest
 import scipy as sp
@@ -448,6 +451,140 @@ def test_objective_error_score_raise(
     else:
         with pytest.raises(ValueError):
             optuna_search.fit(X, y)
+
+
+@pytest.mark.parametrize("enable_pruning", [False, True])
+@pytest.mark.parametrize(
+    "error_score,expected_state", [(-1000.0, TrialState.COMPLETE), (np.nan, TrialState.FAIL)]
+)
+@pytest.mark.filterwarnings("ignore::RuntimeWarning")
+def test_scoring_failure_does_not_stop_search(
+    enable_pruning: bool, error_score: float, expected_state: TrialState
+) -> None:
+    X = np.arange(48).reshape(24, 2) / 48
+    y = np.arange(24) % 2
+    study = create_study(direction="maximize")
+    for loss in ["hinge", "log_loss"]:
+        study.enqueue_trial({"loss": loss})
+    completed_trials: list[FrozenTrial] = []
+
+    def callback(study: Study, trial: FrozenTrial) -> None:
+        completed_trials.append(trial)
+
+    with pytest.warns(ExperimentalWarning):
+        search = OptunaSearchCV(
+            SGDClassifier(max_iter=2, tol=None, random_state=0),
+            {"loss": distributions.CategoricalDistribution(["hinge", "log_loss"])},
+            cv=2,
+            enable_pruning=enable_pruning,
+            error_score=error_score,
+            max_iter=2,
+            n_trials=2,
+            refit=False,
+            return_train_score=True,
+            scoring="neg_log_loss",
+            study=study,
+            callbacks=[callback],
+        )
+
+    with pytest.warns(UserWarning, match="Scoring failed"):
+        search.fit(X, y)
+
+    assert [trial.state for trial in completed_trials] == [expected_state, TrialState.COMPLETE]
+    assert len(search.trials_) == 2
+    first, second = search.trials_
+    np.testing.assert_equal(first.user_attrs["mean_test_score"], error_score)
+    np.testing.assert_equal(first.user_attrs["mean_train_score"], error_score)
+    assert second.value is not None
+    assert np.isfinite(second.value)
+    if enable_pruning:
+        np.testing.assert_equal(list(first.intermediate_values.values()), [error_score] * 2)
+        assert len(second.intermediate_values) == 2
+
+
+@pytest.mark.parametrize("enable_pruning", [False, True])
+def test_scoring_failure_error_score_raise(enable_pruning: bool) -> None:
+    X = np.arange(48).reshape(24, 2) / 48
+    y = np.arange(24) % 2
+    with pytest.warns(ExperimentalWarning):
+        search = OptunaSearchCV(
+            SGDClassifier(random_state=0),
+            {},
+            cv=2,
+            enable_pruning=enable_pruning,
+            error_score="raise",
+            max_iter=2,
+            n_trials=1,
+            refit=False,
+            scoring="neg_log_loss",
+        )
+
+    with pytest.raises(AttributeError, match="predict_proba"):
+        search.fit(X, y)
+    assert search.trials_[0].state == TrialState.FAIL
+
+
+def test_scoring_failure_can_be_pruned() -> None:
+    X = np.arange(48).reshape(24, 2) / 48
+    y = np.arange(24) % 2
+    study = create_study(direction="maximize", pruner=ThresholdPruner(lower=-100.0))
+    for loss in ["hinge", "log_loss"]:
+        study.enqueue_trial({"loss": loss})
+    with pytest.warns(ExperimentalWarning):
+        search = OptunaSearchCV(
+            SGDClassifier(random_state=0),
+            {"loss": distributions.CategoricalDistribution(["hinge", "log_loss"])},
+            cv=2,
+            enable_pruning=True,
+            error_score=-1000.0,
+            max_iter=2,
+            n_trials=2,
+            refit=False,
+            scoring="neg_log_loss",
+            study=study,
+        )
+
+    with pytest.warns(UserWarning, match="Scoring failed"):
+        search.fit(X, y)
+
+    assert [trial.state for trial in search.trials_] == [TrialState.PRUNED, TrialState.COMPLETE]
+    assert search.trials_[0].intermediate_values == {0: -1000.0}
+    assert search.trials_[0].user_attrs["mean_test_score"] == -1000.0
+
+
+@pytest.mark.parametrize("failing_size", [8, 16])
+def test_scoring_failure_preserves_other_partition_score(failing_size: int) -> None:
+    X = np.arange(48).reshape(24, 2) / 48
+    y = np.arange(24) % 2
+
+    def score(estimator: SGDClassifier, X: np.ndarray, y: np.ndarray) -> float:
+        if len(X) == failing_size:
+            raise ValueError("Cannot score this partition.")
+        return float(estimator.score(X, y))
+
+    with pytest.warns(ExperimentalWarning):
+        search = OptunaSearchCV(
+            SGDClassifier(random_state=0),
+            {},
+            cv=PredefinedSplit([-1] * 16 + [0] * 8),
+            enable_pruning=True,
+            error_score=-1000.0,
+            max_iter=2,
+            n_trials=1,
+            refit=False,
+            return_train_score=True,
+            scoring=score,
+        )
+
+    with pytest.warns(UserWarning, match="Scoring failed"):
+        search.fit(X, y)
+
+    trial = search.trials_[0]
+    assert trial.state == TrialState.COMPLETE
+    failed_score = "mean_test_score" if failing_size == 8 else "mean_train_score"
+    successful_score = "mean_train_score" if failing_size == 8 else "mean_test_score"
+    assert trial.user_attrs[failed_score] == -1000.0
+    assert 0 <= trial.user_attrs[successful_score] <= 1
 
 
 @pytest.mark.filterwarnings("ignore::RuntimeWarning")
