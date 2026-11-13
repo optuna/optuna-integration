@@ -156,6 +156,26 @@ def test_lightgbm_pruning_callback_errors(cv: bool) -> None:
         )
 
 
+@pytest.mark.parametrize("cv", CV_FLAGS)
+@pytest.mark.parametrize("metric", ["mae", "mean_absolute_error", "regression_l1"])
+def test_lightgbm_pruning_callback_with_alias_metric(cv: bool, metric: str) -> None:
+    # LightGBM reports these aliases under their canonical name `l1`.
+    def _objective(trial: optuna.trial.Trial) -> float:
+        dtrain = lgb.Dataset(np.asarray([[1.0], [2.0], [3.0], [4.0]]), label=[1.0, 0.0, 1.0, 0.0])
+        params = {"objective": "regression", "metric": metric}
+        pruning_callback = LightGBMPruningCallback(trial, metric)
+        if cv:
+            lgb.cv(params, dtrain, 1, nfold=2, stratified=False, callbacks=[pruning_callback])
+        else:
+            dtest = lgb.Dataset(np.asarray([[1.0]]), label=[1.0])
+            lgb.train(params, dtrain, 1, valid_sets=[dtest], callbacks=[pruning_callback])
+        return 1.0
+
+    study = optuna.create_study(pruner=DeterministicPruner(True))
+    study.optimize(_objective, n_trials=1, catch=())
+    assert study.trials[0].state == optuna.trial.TrialState.PRUNED
+
+
 def objective(
     trial: optuna.trial.Trial,
     metric: str = "binary_error",
