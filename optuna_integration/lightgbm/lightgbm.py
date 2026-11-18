@@ -5,6 +5,8 @@ from typing import TYPE_CHECKING
 import optuna
 from optuna._imports import try_import
 
+from optuna_integration.lightgbm._lightgbm_tuner.alias import _ALIAS_METRIC_MAP
+
 
 if TYPE_CHECKING:
     from lightgbm.callback import CallbackEnv
@@ -31,7 +33,8 @@ class LightGBMPruningCallback:
             the objective function.
         metric:
             An evaluation metric for pruning, e.g., ``binary_error`` and ``multi_error``.
-            Please refer to
+            An alias such as ``mae`` is matched with the canonical name that LightGBM
+            reports, here ``l1``. Please refer to
             `LightGBM reference
             <https://lightgbm.readthedocs.io/en/latest/Parameters.html#metric>`_
             for further details.
@@ -62,7 +65,8 @@ class LightGBMPruningCallback:
 
         self._trial = trial
         self._valid_name = valid_name
-        self._metric = metric
+        # LightGBM reports an alias metric under its canonical name, e.g., `mae` as `l1`.
+        self._metric = _ALIAS_METRIC_MAP.get(metric, metric)
         self._report_interval = report_interval
 
     def _find_evaluation_result(
