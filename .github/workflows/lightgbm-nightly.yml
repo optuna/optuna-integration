@@ -1,0 +1,51 @@
+name: LightGBM Nightly
+
+on:
+  schedule:
+    - cron: '0 23 * * SUN-THU'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    if: github.event_name != 'schedule' || github.repository == 'optuna/optuna-integration'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v6
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2  # v10.3.3
+        with:
+          python-version: '3.12'
+          enable-cache: true
+
+      - name: Install dependencies
+        run: |
+          uv sync --group test --extra lightgbm
+          uv pip install git+https://github.com/optuna/optuna@master
+
+      - name: Install LightGBM nightly
+        # Ignore the project's five-day package age cutoff for this nightly wheel only.
+        # Other dependencies were installed from the regular sources above.
+        run: >-
+          uv --no-config pip install --python .venv/bin/python
+          --no-deps --reinstall --only-binary :all: --prerelease allow
+          --index-url https://pypi.anaconda.org/lightgbm-packages/simple
+          'lightgbm>=4.6.0a0'
+
+      - name: Show dependency versions
+        run: |
+          uv run --no-sync python - <<'PY'
+          from importlib.metadata import version
+          for name in ('optuna', 'optuna-integration', 'lightgbm', 'numpy', 'scikit-learn'):
+              print(f'{name}=={version(name)}')
+          PY
+
+      - name: Test LightGBM integration
+        # A sync here would replace the nightly with the resolved stable release.
+        run: uv run --no-sync pytest tests/lightgbm
