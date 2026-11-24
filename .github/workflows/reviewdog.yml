@@ -42,6 +42,6 @@ jobs:
         uv run isort .
 
     - name: Reviewdog
-      uses: reviewdog/action-suggester@199f7941b9beea9a956289aafafd3b2084e76050  # v1
+      uses: reviewdog/action-suggester@0062216e37f92249779612b51ee0a4118e3bd13a  # v1
       with:
         tool_name: formatters
